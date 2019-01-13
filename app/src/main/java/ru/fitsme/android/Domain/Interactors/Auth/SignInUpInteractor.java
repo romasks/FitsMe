@@ -2,15 +2,20 @@ package ru.fitsme.android.Domain.Interactors.Auth;
 
 import android.support.annotation.NonNull;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Completable;
 import ru.fitsme.android.Domain.Entities.AuthInfo;
 import ru.fitsme.android.Domain.Entities.SignInInfo;
 import timber.log.Timber;
 
+@Singleton
 public class SignInUpInteractor implements ISignInUpInteractor {
     private ISignInRepository signInRepository;
     private IUserInfoRepository userInfoRepository;
 
+    @Inject
     public SignInUpInteractor(ISignInRepository signInRepository, IUserInfoRepository userInfoRepository) {
         this.signInRepository = signInRepository;
         this.userInfoRepository = userInfoRepository;
