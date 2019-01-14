@@ -1,9 +1,9 @@
-package ru.fitsme.android.Domain.Interactors.Auth;
+package ru.fitsme.android.domain.interactors.auth;
 
 import android.support.annotation.NonNull;
 
 import io.reactivex.Completable;
-import ru.fitsme.android.Domain.Entities.SignInInfo;
+import ru.fitsme.android.domain.entities.SignInInfo;
 
 public interface ISignInUpInteractor {
     @NonNull

@@ -1,13 +1,13 @@
-package ru.fitsme.android.Data.Repositories;
+package ru.fitsme.android.data.repositories;
 
 import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.fitsme.android.Domain.Entities.AuthInfo;
-import ru.fitsme.android.Domain.Entities.SignInInfo;
-import ru.fitsme.android.Domain.Interactors.Auth.ISignInRepository;
+import ru.fitsme.android.domain.entities.AuthInfo;
+import ru.fitsme.android.domain.entities.SignInInfo;
+import ru.fitsme.android.domain.interactors.auth.ISignInRepository;
 
 @Singleton
 public class SignInRepositoryDebug implements ISignInRepository {
