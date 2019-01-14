@@ -2,20 +2,23 @@ package ru.fitsme.android.app;
 
 import android.app.Application;
 
+import ru.terrakok.cicerone.Cicerone;
+import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.Router;
 import timber.log.Timber;
 
 public class App extends Application {
 
-    private static App app;
-
+    private static App instance;
     private DI di;
+    private Cicerone<Router> cicerone;
 
     public App() {
-        app = this;
+        instance = this;
     }
 
-    public static App getApp() {
-        return app;
+    public static App getInstance() {
+        return instance;
     }
 
     @Override
@@ -25,6 +28,16 @@ public class App extends Application {
         Timber.plant(new Timber.DebugTree());
 
         di = new DI();
+
+        cicerone = Cicerone.create();
+    }
+
+    public NavigatorHolder getNavigatorHolder() {
+        return cicerone.getNavigatorHolder();
+    }
+
+    public Router getRouter() {
+        return cicerone.getRouter();
     }
 
     public DI getDi() {
