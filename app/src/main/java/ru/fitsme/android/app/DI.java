@@ -6,10 +6,10 @@ import android.content.Context;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.fitsme.android.data.repositories.ResourceRepositoryDebug;
+import ru.fitsme.android.data.repositories.ResourceRepository;
 import ru.fitsme.android.data.repositories.SignInUpRepositoryDebug;
-import ru.fitsme.android.data.repositories.TextValidatorDebug;
-import ru.fitsme.android.data.repositories.UserInfoRepositoryDebug;
+import ru.fitsme.android.data.repositories.TextValidator;
+import ru.fitsme.android.data.repositories.UserInfoRepository;
 import ru.fitsme.android.domain.boundaries.IResourceRepository;
 import ru.fitsme.android.domain.boundaries.ISignInUpRepository;
 import ru.fitsme.android.domain.boundaries.ITextValidator;
@@ -30,9 +30,9 @@ public class DI {
         appScope.installModules(new Module() {{
             bind(ISignInUpInteractor.class).to(SignInUpInteractor.class);
             bind(ISignInUpRepository.class).to(SignInUpRepositoryDebug.class);
-            bind(IUserInfoRepository.class).to(UserInfoRepositoryDebug.class);
-            bind(ITextValidator.class).to(TextValidatorDebug.class);
-            bind(IResourceRepository.class).to(ResourceRepositoryDebug.class);
+            bind(IUserInfoRepository.class).to(UserInfoRepository.class);
+            bind(ITextValidator.class).to(TextValidator.class);
+            bind(IResourceRepository.class).to(ResourceRepository.class);
             bind(Context.class).toInstance(application);
         }});
     }

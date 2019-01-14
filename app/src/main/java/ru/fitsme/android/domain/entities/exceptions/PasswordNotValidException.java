@@ -1,6 +1,6 @@
 package ru.fitsme.android.domain.entities.exceptions;
 
-public class PasswordNotValidException extends AppException {
+public class PasswordNotValidException extends AppException implements UserError {
     public PasswordNotValidException(String message) {
         super(message);
     }

@@ -10,10 +10,10 @@ import ru.fitsme.android.domain.entities.exceptions.LoginIncorrectException;
 import ru.fitsme.android.domain.entities.exceptions.PasswordIncorrectException;
 
 @Singleton
-public class TextValidatorDebug implements ITextValidator {
+public class TextValidator implements ITextValidator {
 
     @Inject
-    public TextValidatorDebug() {
+    public TextValidator() {
     }
 
     @Override

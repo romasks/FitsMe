@@ -10,9 +10,19 @@ public class SignInInfo {
     private String login;
     private String passwordHash;
 
+    private SignInInfo(String login) {
+        this.login = login;
+    }
+
     public SignInInfo(String login, String password) throws ConvertHashException {
         this.login = login;
         this.passwordHash = convertToSha256(password);
+    }
+
+    public static SignInInfo create(String login, String passwordHash) {
+        SignInInfo signInInfo = new SignInInfo(login);
+        signInInfo.passwordHash = passwordHash;
+        return signInInfo;
     }
 
     private static String convertToSha256(String data) throws ConvertHashException {

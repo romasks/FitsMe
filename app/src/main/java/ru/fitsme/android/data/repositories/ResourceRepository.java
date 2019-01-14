@@ -18,12 +18,12 @@ import ru.fitsme.android.domain.entities.exceptions.PasswordNotValidException;
 import ru.fitsme.android.domain.entities.exceptions.ServerInternalException;
 
 @Singleton
-public class ResourceRepositoryDebug implements IResourceRepository {
+public class ResourceRepository implements IResourceRepository {
 
     private Context context;
 
     @Inject
-    public ResourceRepositoryDebug(Context appContext) {
+    public ResourceRepository(Context appContext) {
         this.context = appContext;
     }
 
