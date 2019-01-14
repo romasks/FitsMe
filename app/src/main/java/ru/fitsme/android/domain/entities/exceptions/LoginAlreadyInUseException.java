@@ -4,4 +4,8 @@ public class LoginAlreadyInUseException extends AppException implements UserErro
     public LoginAlreadyInUseException(String message) {
         super(message);
     }
+
+    public LoginAlreadyInUseException() {
+
+    }
 }

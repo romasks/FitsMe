@@ -4,4 +4,8 @@ public class InternetConnectionException extends AppException implements UserErr
     public InternetConnectionException(String message) {
         super(message);
     }
+
+    public InternetConnectionException() {
+
+    }
 }

@@ -2,6 +2,7 @@ package ru.fitsme.android.app;
 
 import android.app.Application;
 
+import ru.fitsme.android.app.di.DI;
 import timber.log.Timber;
 
 public class App extends Application {
