@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.presentation.fragments.signin.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.SignInUpFragment;
+import ru.fitsme.android.presentation.fragments.signup.SignUpFragment;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
@@ -31,10 +33,12 @@ public class MainActivity extends AppCompatActivity {
                     case NAV_SIGN_IN_UP:
                         return SignInUpFragment.newInstance();
                     case NAV_SIGN_UP:
-                        break;
+                        return SignUpFragment.newInstance();
                     case NAV_SIGN_IN:
-                        break;
+                        return SignInFragment.newInstance();
                     case NAV_DEBUG:
+                        Toast.makeText(MainActivity.this, "Auth success",
+                                Toast.LENGTH_LONG).show();
                         break;
                 }
                 throw new RuntimeException("Unknown screen key");
