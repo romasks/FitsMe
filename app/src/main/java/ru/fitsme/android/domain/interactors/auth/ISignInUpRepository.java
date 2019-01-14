@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import ru.fitsme.android.domain.entities.AuthInfo;
 import ru.fitsme.android.domain.entities.SignInInfo;
 
-public interface ISignInRepository {
+public interface ISignInUpRepository {
     @NonNull
     AuthInfo register(@NonNull SignInInfo signInInfo);
 

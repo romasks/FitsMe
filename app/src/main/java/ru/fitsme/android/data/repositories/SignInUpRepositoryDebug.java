@@ -7,13 +7,13 @@ import javax.inject.Singleton;
 
 import ru.fitsme.android.domain.entities.AuthInfo;
 import ru.fitsme.android.domain.entities.SignInInfo;
-import ru.fitsme.android.domain.interactors.auth.ISignInRepository;
+import ru.fitsme.android.domain.interactors.auth.ISignInUpRepository;
 
 @Singleton
-public class SignInRepositoryDebug implements ISignInRepository {
+public class SignInUpRepositoryDebug implements ISignInUpRepository {
 
     @Inject
-    public SignInRepositoryDebug() {
+    public SignInUpRepositoryDebug() {
     }
 
     @NonNull

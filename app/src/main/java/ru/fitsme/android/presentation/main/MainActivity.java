@@ -12,9 +12,9 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
-import ru.fitsme.android.presentation.fragments.signin.SignInFragment;
-import ru.fitsme.android.presentation.fragments.signinup.SignInUpFragment;
-import ru.fitsme.android.presentation.fragments.signup.SignUpFragment;
+import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
+import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
+import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 

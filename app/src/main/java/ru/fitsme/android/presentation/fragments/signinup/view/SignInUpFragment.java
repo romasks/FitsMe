@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.signinup;
+package ru.fitsme.android.presentation.fragments.signinup.view;
 
 
 import android.arch.lifecycle.ViewModelProviders;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSignInUpBinding;
+import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewModel;
 
 public class SignInUpFragment extends Fragment {
 

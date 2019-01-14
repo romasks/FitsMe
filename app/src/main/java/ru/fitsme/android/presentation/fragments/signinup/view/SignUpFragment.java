@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.signup;
+package ru.fitsme.android.presentation.fragments.signinup.view;
 
 
 import android.arch.lifecycle.ViewModelProviders;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSignUpBinding;
+import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignUpViewModel;
 
 public class SignUpFragment extends Fragment {
 
@@ -30,6 +31,12 @@ public class SignUpFragment extends Fragment {
         SignUpViewModel signUpViewModel = ViewModelProviders.of(this)
                 .get(SignUpViewModel.class);
 
+        binding.btnSignUp.setOnClickListener(v -> {
+            signUpViewModel.onSignUp(binding.getLogin(), binding.getPassword());
+        });
+
+        signUpViewModel.getFieldsStateLiveData()
+                .observe(this, binding::setFieldsState);
 
         return binding.getRoot();
     }

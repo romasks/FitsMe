@@ -12,14 +12,19 @@ import timber.log.Timber;
 
 @Singleton
 public class SignInUpInteractor implements ISignInUpInteractor {
-    private ISignInRepository signInRepository;
+    private ISignInUpRepository signInRepository;
     private IUserInfoRepository userInfoRepository;
+    private ITextValidator textValidator;
 
     @Inject
-    public SignInUpInteractor(ISignInRepository signInRepository, IUserInfoRepository userInfoRepository) {
+    public SignInUpInteractor(ISignInUpRepository signInRepository,
+                              IUserInfoRepository userInfoRepository,
+                              ITextValidator textValidator) {
         this.signInRepository = signInRepository;
         this.userInfoRepository = userInfoRepository;
+        this.textValidator = textValidator;
     }
+
 
     @Override
     @NonNull
@@ -67,5 +72,15 @@ public class SignInUpInteractor implements ISignInUpInteractor {
                 emitter.onError(e);
             }
         });
+    }
+
+    @Override
+    public boolean checkLogin(String login) {
+        return textValidator.checkLogin(login);
+    }
+
+    @Override
+    public boolean checkPassword(String password) {
+        return textValidator.checkPassword(password);
     }
 }

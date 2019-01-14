@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.signinup;
+package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 

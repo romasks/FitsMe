@@ -14,4 +14,8 @@ public interface ISignInUpInteractor {
 
     @NonNull
     Completable authorizeAuto();
+
+    boolean checkLogin(String login);
+
+    boolean checkPassword(String password);
 }
