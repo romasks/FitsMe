@@ -1,10 +1,6 @@
 package ru.fitsme.android.domain.entities.signinup;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-
-import ru.fitsme.android.domain.entities.exceptions.ConvertHashException;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class SignInInfo {
     private String login;
@@ -14,7 +10,7 @@ public class SignInInfo {
         this.login = login;
     }
 
-    public SignInInfo(String login, String password) throws ConvertHashException {
+    public SignInInfo(String login, String password) {
         this.login = login;
         this.passwordHash = convertToSha256(password);
     }
@@ -25,12 +21,8 @@ public class SignInInfo {
         return signInInfo;
     }
 
-    private static String convertToSha256(String data) throws ConvertHashException {
-        try {
-            return Arrays.toString(MessageDigest.getInstance("SHA-512").digest(data.getBytes()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new ConvertHashException();
-        }
+    private static String convertToSha256(String data) {
+        return DigestUtils.sha256Hex(data);
     }
 
     public String getLogin() {

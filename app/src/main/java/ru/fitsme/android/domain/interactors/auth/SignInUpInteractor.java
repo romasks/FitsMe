@@ -7,11 +7,11 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import ru.fitsme.android.domain.boundaries.IResourceRepository;
 import ru.fitsme.android.domain.boundaries.ISignInUpRepository;
 import ru.fitsme.android.domain.boundaries.ITextValidator;
 import ru.fitsme.android.domain.boundaries.IUserInfoRepository;
-import ru.fitsme.android.domain.entities.exceptions.ConvertHashException;
 import ru.fitsme.android.domain.entities.exceptions.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.LoginAlreadyInUseException;
 import ru.fitsme.android.domain.entities.exceptions.LoginIncorrectException;
@@ -50,7 +50,7 @@ public class SignInUpInteractor implements ISignInUpInteractor {
             SignInInfo signInInfo = new SignInInfo(login, password);
             AuthInfo authInfo = signInRepository.register(signInInfo);
             userInfoRepository.setAuthInfo(authInfo);
-        });
+        }).subscribeOn(Schedulers.io());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SignInUpInteractor implements ISignInUpInteractor {
             SignInInfo signInInfo = new SignInInfo(login, password);
             AuthInfo authInfo = signInRepository.authorize(signInInfo);
             userInfoRepository.setAuthInfo(authInfo);
-        });
+        }).subscribeOn(Schedulers.io());
     }
 
     @Override
@@ -81,7 +81,7 @@ public class SignInUpInteractor implements ISignInUpInteractor {
             SignInUpResult signInUpResult = SignInUpResult.build();
             try {
                 signInUpOperation.operation();
-            } catch (InternetConnectionException | ServerInternalException | ConvertHashException e) {
+            } catch (InternetConnectionException | ServerInternalException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setCommonError(error);
             } catch (LoginIncorrectException | LoginNotFoundException |
@@ -99,6 +99,6 @@ public class SignInUpInteractor implements ISignInUpInteractor {
     private interface SignInUpOperation {
         void operation() throws InternetConnectionException, ServerInternalException,
                 LoginAlreadyInUseException, LoginIncorrectException, LoginNotFoundException,
-                PasswordIncorrectException, PasswordNotValidException, ConvertHashException;
+                PasswordIncorrectException, PasswordNotValidException;
     }
 }
