@@ -1,5 +1,7 @@
 package ru.fitsme.android.app;
 
+import android.app.Application;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -15,17 +17,19 @@ import toothpick.config.Module;
 
 @Singleton
 public class DI {
-    @Inject
-    public DI() {
-    }
+    private Scope appScope;
 
-    public <T> void inject(T object) {
-        Scope appScope = Toothpick.openScope(object);
+    @Inject
+    public DI(Application application) {
+        appScope = Toothpick.openScope(application);
         appScope.installModules(new Module() {{
             bind(ISignInUpInteractor.class).to(SignInUpInteractor.class);
             bind(ISignInRepository.class).to(SignInRepositoryDebug.class);
             bind(IUserInfoRepository.class).to(UserInfoRepositoryDebug.class);
         }});
+    }
+
+    public <T> void inject(T object) {
         Toothpick.inject(object, appScope);
     }
 }

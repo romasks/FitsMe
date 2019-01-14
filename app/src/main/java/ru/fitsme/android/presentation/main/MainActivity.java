@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.app.Navigation;
 import ru.fitsme.android.presentation.fragments.signin.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signup.SignUpFragment;
@@ -22,7 +25,36 @@ import static ru.fitsme.android.presentation.main.MainViewModel.NAV_SIGN_UP;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Inject
+    Navigation navigation;
     private Navigator navigator = getFragmentNavigator();
+
+    public MainActivity() {
+        App.getInstance().getDi().inject(this);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        MainViewModel mainViewModel = ViewModelProviders.of(this)
+                .get(MainViewModel.class);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        navigation.getNavigatorHolder().setNavigator(navigator);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        navigation.getNavigatorHolder().removeNavigator();
+    }
 
     @NonNull
     private SupportFragmentNavigator getFragmentNavigator() {
@@ -54,28 +86,5 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         };
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        MainViewModel mainViewModel = ViewModelProviders.of(this)
-                .get(MainViewModel.class);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        App.getInstance().getNavigatorHolder().setNavigator(navigator);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        App.getInstance().getNavigatorHolder().removeNavigator();
     }
 }
