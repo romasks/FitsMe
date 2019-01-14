@@ -7,14 +7,10 @@ import javax.inject.Inject;
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
-import ru.fitsme.android.domain.entities.SignInInfo;
 import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
 import ru.fitsme.android.presentation.common.livedata.NonNullLiveData;
 import ru.fitsme.android.presentation.common.livedata.NonNullMutableLiveData;
-import ru.fitsme.android.presentation.fragments.signinup.entities.FieldsState;
-import ru.fitsme.android.presentation.fragments.signinup.entities.FieldsStateBuilder;
-
-import static ru.fitsme.android.presentation.main.MainViewModel.NAV_DEBUG;
+import ru.fitsme.android.presentation.fragments.signinup.entities.SignInUpState;
 
 public class SignInViewModel extends ViewModel {
 
@@ -25,37 +21,21 @@ public class SignInViewModel extends ViewModel {
     Navigation navigation;
 
     private Disposable disposable;
-    private NonNullMutableLiveData<FieldsState> fieldsStateLiveData = new NonNullMutableLiveData<>();
+    private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
     public SignInViewModel() {
         App.getInstance().getDi().inject(this);
     }
 
     public void onSignIn(String login, String password) {
-        FieldsStateBuilder builder = new FieldsStateBuilder();
-        if (!signInUpInteractor.checkLogin(login)) {
-            builder.setLoginError("Login incorrect");
-        }
-        if (!signInUpInteractor.checkPassword(password)) {
-            builder.setPasswordError("Password incorrect");
-        }
-        if (builder.isClear()) {
-            builder.setLoading(true);
-            disposable = signInUpInteractor.authorize(new SignInInfo(login, password))
-                    .subscribe(() -> {
-                        fieldsStateLiveData.setValue(new FieldsStateBuilder().setLoading(false)
-                                .complete());
-                        navigation.getRouter().newRootScreen(NAV_DEBUG);
-                    }, throwable -> {
-                        fieldsStateLiveData.setValue(new FieldsStateBuilder().setLoading(false)
-                                .setCommonError(throwable.getMessage())
-                                .complete());
-                    });
-        }
-        fieldsStateLiveData.setValue(builder.complete());
+        disposable = signInUpInteractor.authorize(login, password)
+                .subscribe(signInUpResult -> {
+                    SignInUpState signInUpState = new SignInUpState(signInUpResult, false);
+                    fieldsStateLiveData.setValue(signInUpState);
+                });
     }
 
-    public NonNullLiveData<FieldsState> getFieldsStateLiveData() {
+    public NonNullLiveData<SignInUpState> getFieldsStateLiveData() {
         return fieldsStateLiveData;
     }
 

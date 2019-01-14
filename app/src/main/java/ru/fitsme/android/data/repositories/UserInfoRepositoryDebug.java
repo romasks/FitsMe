@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.fitsme.android.domain.entities.AuthInfo;
-import ru.fitsme.android.domain.entities.SignInInfo;
-import ru.fitsme.android.domain.interactors.auth.IUserInfoRepository;
+import ru.fitsme.android.domain.boundaries.IUserInfoRepository;
+import ru.fitsme.android.domain.entities.signinup.AuthInfo;
+import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 
 @Singleton
 public class UserInfoRepositoryDebug implements IUserInfoRepository {

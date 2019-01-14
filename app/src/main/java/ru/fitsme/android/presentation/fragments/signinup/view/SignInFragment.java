@@ -34,7 +34,7 @@ public class SignInFragment extends Fragment {
         });
 
         signInViewModel.getFieldsStateLiveData()
-                .observe(this, binding::setFieldsState);
+                .observe(this, binding::setSignInUpState);
 
 
         return binding.getRoot();

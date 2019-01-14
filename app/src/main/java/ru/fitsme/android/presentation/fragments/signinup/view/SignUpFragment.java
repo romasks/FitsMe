@@ -36,7 +36,7 @@ public class SignUpFragment extends Fragment {
         });
 
         signUpViewModel.getFieldsStateLiveData()
-                .observe(this, binding::setFieldsState);
+                .observe(this, binding::setSignInUpState);
 
         return binding.getRoot();
     }

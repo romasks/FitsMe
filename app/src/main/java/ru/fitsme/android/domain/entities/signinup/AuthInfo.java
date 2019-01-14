@@ -1,4 +1,4 @@
-package ru.fitsme.android.domain.entities;
+package ru.fitsme.android.domain.entities.signinup;
 
 public class AuthInfo {
     private String login;

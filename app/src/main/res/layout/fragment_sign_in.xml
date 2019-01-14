@@ -15,8 +15,8 @@
             type="String" />
 
         <variable
-            name="fieldsState"
-            type="ru.fitsme.android.presentation.fragments.signinup.entities.FieldsState" />
+            name="signInUpState"
+            type="ru.fitsme.android.presentation.fragments.signinup.entities.SignInUpState" />
 
         <import type="android.view.View" />
     </data>
@@ -49,8 +49,8 @@
                 android:id="@+id/tv_login_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{fieldsState.getLoginError()}"
-                android:visibility="@{fieldsState.getLoginError() != null ? View.VISIBLE : View.GONE}" />
+                android:text="@{signInUpState.getSignInUpResult().getLoginError()}"
+                android:visibility="@{signInUpState.getSignInUpResult().getLoginError() != null ? View.VISIBLE : View.GONE}" />
 
             <EditText
                 android:id="@+id/et_password"
@@ -66,8 +66,8 @@
                 android:id="@+id/tv_password_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{fieldsState.getPasswordError()}"
-                android:visibility="@{fieldsState.getPasswordError() != null ? View.VISIBLE : View.GONE}" />
+                android:text="@{signInUpState.getSignInUpResult().getPasswordError()}"
+                android:visibility="@{signInUpState.getSignInUpResult().getPasswordError() != null ? View.VISIBLE : View.GONE}" />
 
             <Button
                 android:id="@+id/btn_sign_in"
@@ -80,15 +80,15 @@
                 android:id="@+id/tv_common_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{fieldsState.getCommonError()}"
-                android:visibility="@{fieldsState.getCommonError() != null ? View.VISIBLE : View.GONE}" />
+                android:text="@{signInUpState.getSignInUpResult().getCommonError()}"
+                android:visibility="@{signInUpState.getSignInUpResult().getCommonError() != null ? View.VISIBLE : View.GONE}" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{fieldsState.isLoading() ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{signInUpState.isLoading() ? View.VISIBLE : View.GONE}" />
 
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
