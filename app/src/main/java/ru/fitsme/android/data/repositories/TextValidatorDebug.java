@@ -18,14 +18,13 @@ public class TextValidatorDebug implements ITextValidator {
 
     @Override
     public void checkLogin(@Nullable String login) throws LoginIncorrectException {
-
         if (login == null || login.length() < 3)
             throw new LoginIncorrectException();
     }
 
     @Override
     public void checkPassword(@Nullable String password) throws PasswordIncorrectException {
-        if (password == null || password.length() < 3)
+        if (password == null || password.length() < 6)
             throw new PasswordIncorrectException();
     }
 }

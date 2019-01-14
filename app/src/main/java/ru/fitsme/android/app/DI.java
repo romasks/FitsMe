@@ -1,6 +1,7 @@
 package ru.fitsme.android.app;
 
 import android.app.Application;
+import android.content.Context;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,6 +33,7 @@ public class DI {
             bind(IUserInfoRepository.class).to(UserInfoRepositoryDebug.class);
             bind(ITextValidator.class).to(TextValidatorDebug.class);
             bind(IResourceRepository.class).to(ResourceRepositoryDebug.class);
+            bind(Context.class).toInstance(application);
         }});
     }
 

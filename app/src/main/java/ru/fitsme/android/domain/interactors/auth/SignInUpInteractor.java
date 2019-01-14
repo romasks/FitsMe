@@ -12,12 +12,12 @@ import ru.fitsme.android.domain.boundaries.ISignInUpRepository;
 import ru.fitsme.android.domain.boundaries.ITextValidator;
 import ru.fitsme.android.domain.boundaries.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.ConvertHashException;
-import ru.fitsme.android.domain.entities.exceptions.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.LoginAlreadyInUseException;
 import ru.fitsme.android.domain.entities.exceptions.LoginIncorrectException;
 import ru.fitsme.android.domain.entities.exceptions.LoginNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.PasswordIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.PasswordNotValidException;
 import ru.fitsme.android.domain.entities.exceptions.ServerInternalException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
@@ -84,11 +84,11 @@ public class SignInUpInteractor implements ISignInUpInteractor {
             } catch (InternetConnectionException | ServerInternalException | ConvertHashException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setCommonError(error);
-            } catch (DataNotFoundException | LoginIncorrectException | LoginNotFoundException |
+            } catch (LoginIncorrectException | LoginNotFoundException |
                     LoginAlreadyInUseException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setLoginError(error);
-            } catch (PasswordIncorrectException e) {
+            } catch (PasswordIncorrectException | PasswordNotValidException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setPasswordError(error);
             }
@@ -97,8 +97,8 @@ public class SignInUpInteractor implements ISignInUpInteractor {
     }
 
     private interface SignInUpOperation {
-        void operation() throws DataNotFoundException, InternetConnectionException,
+        void operation() throws InternetConnectionException, ServerInternalException,
                 LoginAlreadyInUseException, LoginIncorrectException, LoginNotFoundException,
-                PasswordIncorrectException, ServerInternalException, ConvertHashException;
+                PasswordIncorrectException, PasswordNotValidException, ConvertHashException;
     }
 }
