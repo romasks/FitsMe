@@ -28,10 +28,11 @@ public class SignInViewModel extends ViewModel {
     }
 
     public void onSignIn(String login, String password) {
+        fieldsStateLiveData.postValue(new SignInUpState(null, true));
         disposable = signInUpInteractor.authorize(login, password)
                 .subscribe(signInUpResult -> {
                     SignInUpState signInUpState = new SignInUpState(signInUpResult, false);
-                    fieldsStateLiveData.setValue(signInUpState);
+                    fieldsStateLiveData.postValue(signInUpState);
                 });
     }
 

@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSignUpBinding;
+import ru.fitsme.android.presentation.fragments.signinup.entities.SignInUpState;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignUpViewModel;
 
 public class SignUpFragment extends Fragment {
 
+    private FragmentSignUpBinding binding;
+    private LoadingDialog loadingDialog;
 
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
@@ -24,8 +27,9 @@ public class SignUpFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        loadingDialog = new LoadingDialog();
 
-        FragmentSignUpBinding binding = DataBindingUtil.inflate(inflater,
+        binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_sign_up, container, false);
 
         SignUpViewModel signUpViewModel = ViewModelProviders.of(this)
@@ -36,8 +40,25 @@ public class SignUpFragment extends Fragment {
         });
 
         signUpViewModel.getFieldsStateLiveData()
-                .observe(this, binding::setSignInUpState);
+                .observe(this, this::onStateChanged);
 
         return binding.getRoot();
+    }
+
+    private void onStateChanged(SignInUpState signInUpState) {
+        binding.setSignInUpState(signInUpState);
+
+        if (signInUpState.isLoading()) {
+            loadingDialog.show(getContext());
+        } else {
+            loadingDialog.hide();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        loadingDialog.hide();
     }
 }

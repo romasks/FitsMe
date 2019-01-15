@@ -6,10 +6,10 @@ import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 
 public interface ApiService {
-    @POST("auth/signup")
+    @POST("signup")
     Call<AuthToken> signUp(@Query("login") String login, @Query("password") String password);
 
-    @POST("auth/signin")
+    @POST("signin")
     Call<AuthToken> signIn(@Query("login") String login, @Query("password") String password);
 
 
