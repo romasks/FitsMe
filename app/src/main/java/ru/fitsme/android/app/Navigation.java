@@ -7,7 +7,7 @@ import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
-import static ru.fitsme.android.presentation.main.MainViewModel.NAV_SIGN_IN_UP;
+import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_IN_UP;
 
 @Singleton
 public class Navigation {

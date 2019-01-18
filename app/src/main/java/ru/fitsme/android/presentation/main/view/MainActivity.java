@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.main;
+package ru.fitsme.android.presentation.main.view;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.PixelFormat;
@@ -16,13 +16,14 @@ import ru.fitsme.android.app.Navigation;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
+import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
-import static ru.fitsme.android.presentation.main.MainViewModel.NAV_DEBUG;
-import static ru.fitsme.android.presentation.main.MainViewModel.NAV_SIGN_IN;
-import static ru.fitsme.android.presentation.main.MainViewModel.NAV_SIGN_IN_UP;
-import static ru.fitsme.android.presentation.main.MainViewModel.NAV_SIGN_UP;
+import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_DEBUG;
+import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_IN;
+import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_IN_UP;
+import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_UP;
 
 public class MainActivity extends AppCompatActivity {
 
