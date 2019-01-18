@@ -25,64 +25,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
+        <android.support.v7.widget.CardView
+            android:layout_width="280dp"
+            android:layout_height="284dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/et_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:ems="10"
-                android:hint="Login"
-                android:inputType="textPersonName"
-                android:text="@={login}" />
-
-            <TextView
-                android:id="@+id/tv_login_error"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{signInUpState.getSignInUpResult().getLoginError()}"
-                android:visibility="@{signInUpState.getSignInUpResult().getLoginError() != null ? View.VISIBLE : View.GONE}" />
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="45dp">
 
-            <EditText
-                android:id="@+id/et_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:text="@={password}" />
+                <android.support.design.widget.TextInputLayout
+                    style="@style/SignInUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login"
+                    app:errorEnabled="true"
+                    app:errorText="@{signInUpState.signInUpResult.loginError}">
 
-            <TextView
-                android:id="@+id/tv_password_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{signInUpState.getSignInUpResult().getPasswordError()}"
-                android:visibility="@{signInUpState.getSignInUpResult().getPasswordError() != null ? View.VISIBLE : View.GONE}" />
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_login"
+                        style="@style/SignInUp.EditText.Login"
+                        android:text="@={login}" />
+                </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_sign_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="Sign Up" />
+                <android.support.design.widget.TextInputLayout
+                    style="@style/SignInUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    app:errorEnabled="true"
+                    app:errorText="@{signInUpState.signInUpResult.passwordError}">
 
-            <TextView
-                android:id="@+id/tv_common_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{signInUpState.getSignInUpResult().getCommonError()}"
-                android:visibility="@{signInUpState.getSignInUpResult().getCommonError() != null ? View.VISIBLE : View.GONE}" />
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_password"
+                        style="@style/SignInUp.EditText.Password"
+                        android:text="@={password}" />
+                </android.support.design.widget.TextInputLayout>
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_common_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{signInUpState.getSignInUpResult().getCommonError()}"
+                    android:textColor="@color/colorRed"
+                    android:visibility="@{signInUpState.getSignInUpResult().getCommonError() != null ? View.VISIBLE : View.GONE}" />
+
+                <Button
+                    android:id="@+id/btn_sign_up"
+                    style="@style/SignInUp.Button.Red"
+                    android:layout_width="190dp"
+                    android:layout_margin="8dp"
+                    android:text="@string/sign_up" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </android.support.constraint.ConstraintLayout>
 </layout>
