@@ -66,11 +66,13 @@ public class SignInUpInteractor implements ISignInUpInteractor {
     }
 
     @Override
+    @NonNull
     public Single<SignInUpResult> checkLogin(@Nullable String login) {
         return doOperation(() -> textValidator.checkLogin(login));
     }
 
     @Override
+    @NonNull
     public Single<SignInUpResult> checkPassword(@Nullable String password) {
         return doOperation(() -> textValidator.checkPassword(password));
     }

@@ -27,6 +27,7 @@ public class AuthInfoStorage extends SharedPreferencesStorage<AuthInfo> {
     }
 
     @Override
+    @NonNull
     protected AuthInfo getValues() throws DataNotFoundException {
         String login = getStringValue(LOGIN_KEY);
         String token = getStringValue(TOKEN_KEY);

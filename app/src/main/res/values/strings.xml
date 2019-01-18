@@ -9,5 +9,7 @@
     <string name="password_incorrect_error">Мин. длина 6 символов</string>
     <string name="password_not_valid_error">Пароль введён неверно</string>
     <string name="server_internal_error">Внутреняя ошибка сервера. Попробуйте позже.</string>
-    <string name="loading">Загрузка...</string>
+    <string name="loading">Загрузка&#8230;</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="sign_in">Войти</string>
 </resources>

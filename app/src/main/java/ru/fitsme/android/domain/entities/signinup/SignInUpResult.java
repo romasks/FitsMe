@@ -18,30 +18,27 @@ public class SignInUpResult {
         return loginError;
     }
 
-    public SignInUpResult setLoginError(String loginError) {
+    public void setLoginError(String loginError) {
         this.loginError = loginError;
         success = false;
-        return this;
     }
 
     public String getPasswordError() {
         return passwordError;
     }
 
-    public SignInUpResult setPasswordError(String passwordError) {
+    public void setPasswordError(String passwordError) {
         this.passwordError = passwordError;
         success = false;
-        return this;
     }
 
     public String getCommonError() {
         return commonError;
     }
 
-    public SignInUpResult setCommonError(String commonError) {
+    public void setCommonError(String commonError) {
         this.commonError = commonError;
         success = false;
-        return this;
     }
 
     public boolean isSuccess() {

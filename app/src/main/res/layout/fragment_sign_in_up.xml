@@ -8,10 +8,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/iv_logo_icon"
+            android:layout_width="54.2dp"
+            android:layout_height="48.4dp"
+            android:layout_marginStart="153dp"
+            android:layout_marginTop="81dp"
+            android:layout_marginEnd="153dp"
+            android:layout_marginBottom="510dp"
+            android:background="#333333"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_logo_title"
+            android:layout_width="192dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="84dp"
+            android:layout_marginTop="116dp"
+            android:layout_marginEnd="84dp"
+            android:layout_marginBottom="444dp"
+            android:background="#555555"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="464dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginBottom="136dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -20,19 +51,17 @@
 
             <Button
                 android:id="@+id/btn_sign_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:width="200dp"
-                android:text="Sign Up" />
+                style="@style/SignInUpButton"
+                android:layout_marginBottom="32dp"
+                android:background="#993333"
+                android:text="@string/sign_up" />
 
             <Button
                 android:id="@+id/btn_sign_in"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:width="200dp"
-                android:text="Sign In" />
+                style="@style/SignInUpButton"
+                android:background="#555555"
+                android:text="@string/sign_in" />
         </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 </layout>
