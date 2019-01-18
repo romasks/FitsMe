@@ -35,9 +35,8 @@ public class SignUpFragment extends Fragment {
         SignUpViewModel signUpViewModel = ViewModelProviders.of(this)
                 .get(SignUpViewModel.class);
 
-        binding.btnSignUp.setOnClickListener(v -> {
-            signUpViewModel.onSignUp(binding.getLogin(), binding.getPassword());
-        });
+        binding.btnSignUp.setOnClickListener(v ->
+                signUpViewModel.onSignUp(binding.getLogin(), binding.getPassword()));
 
         signUpViewModel.getFieldsStateLiveData()
                 .observe(this, this::onStateChanged);
