@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSignUpBinding;
+import ru.fitsme.android.presentation.common.keyboard.KeyboardUtils;
 import ru.fitsme.android.presentation.fragments.signinup.entities.SignInUpState;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignUpViewModel;
 
@@ -36,7 +37,11 @@ public class SignUpFragment extends Fragment {
                 .get(SignUpViewModel.class);
 
         binding.btnSignUp.setOnClickListener(v ->
-                signUpViewModel.onSignUp(binding.getLogin(), binding.getPassword()));
+        {
+
+            KeyboardUtils.hide(getActivity(), binding.getRoot());
+            signUpViewModel.onSignUp(binding.getLogin(), binding.getPassword());
+        });
 
         signUpViewModel.getFieldsStateLiveData()
                 .observe(this, this::onStateChanged);

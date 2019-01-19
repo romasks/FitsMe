@@ -1,9 +1,9 @@
-package ru.fitsme.android.presentation.main.view;
+package ru.fitsme.android.presentation.common.binding;
 
 import android.databinding.BindingAdapter;
 import android.support.design.widget.TextInputLayout;
 
-public class BindingCustomAdapter {
+public class BindingAdapterUtils {
 
     //TextInputLayout.setError
     @BindingAdapter("errorText")
