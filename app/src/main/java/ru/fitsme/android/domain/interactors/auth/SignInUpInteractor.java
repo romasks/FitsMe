@@ -14,14 +14,13 @@ import ru.fitsme.android.domain.boundaries.IResourceRepository;
 import ru.fitsme.android.domain.boundaries.ISignInUpRepository;
 import ru.fitsme.android.domain.boundaries.ITextValidator;
 import ru.fitsme.android.domain.boundaries.IUserInfoRepository;
-import ru.fitsme.android.domain.entities.exceptions.InternetConnectionException;
-import ru.fitsme.android.domain.entities.exceptions.LoginAlreadyInUseException;
-import ru.fitsme.android.domain.entities.exceptions.LoginIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.LoginNotFoundException;
-import ru.fitsme.android.domain.entities.exceptions.PasswordIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.PasswordNotValidException;
-import ru.fitsme.android.domain.entities.exceptions.ServerInternalException;
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
+import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginOrPasswordNotValidException;
+import ru.fitsme.android.domain.entities.exceptions.user.PasswordIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.AutoSignInInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
@@ -76,9 +75,7 @@ public class SignInUpInteractor implements ISignInUpInteractor {
         });
     }
 
-    private void doAuthorize(SignInInfo signInInfo) throws LoginIncorrectException,
-            LoginNotFoundException, PasswordIncorrectException,
-            ServerInternalException, InternetConnectionException {
+    private void doAuthorize(SignInInfo signInInfo) throws UserException {
         AuthInfo authInfo = signInRepository.authorize(signInInfo);
         saveUserInfo(signInInfo, authInfo);
     }
@@ -110,18 +107,20 @@ public class SignInUpInteractor implements ISignInUpInteractor {
     private Single<SignInUpResult> doOperation(@NonNull SignInUpOperation signInUpOperation) {
         return Single.create((SingleOnSubscribe<SignInUpResult>) emitter -> {
             SignInUpResult signInUpResult = SignInUpResult.build();
-            try {
+            try {//TODO: переписать обработчики исключений
                 signInUpOperation.operation();
-            } catch (InternetConnectionException | ServerInternalException e) {
+            } catch (InternetConnectionException | LoginOrPasswordNotValidException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setCommonError(error);
-            } catch (LoginIncorrectException | LoginNotFoundException |
+            } catch (LoginIncorrectException |
                     LoginAlreadyInUseException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setLoginError(error);
-            } catch (PasswordIncorrectException | PasswordNotValidException e) {
+            } catch (PasswordIncorrectException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setPasswordError(error);
+            } catch (UserException e) {
+                //unhandled user exception
             }
             emitter.onSuccess(signInUpResult);
         }).subscribeOn(workThread)
@@ -144,8 +143,6 @@ public class SignInUpInteractor implements ISignInUpInteractor {
     }
 
     private interface SignInUpOperation {
-        void operation() throws InternetConnectionException, ServerInternalException,
-                LoginAlreadyInUseException, LoginIncorrectException, LoginNotFoundException,
-                PasswordIncorrectException, PasswordNotValidException;
+        void operation() throws UserException;
     }
 }

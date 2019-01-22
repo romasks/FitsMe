@@ -1,6 +1,6 @@
-package ru.fitsme.android.domain.entities.exceptions;
+package ru.fitsme.android.domain.entities.exceptions.user;
 
-public class InternetConnectionException extends AppException implements UserError {
+public class InternetConnectionException extends UserException {
     public InternetConnectionException(String message) {
         super(message);
     }

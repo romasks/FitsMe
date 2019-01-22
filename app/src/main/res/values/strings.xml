@@ -3,9 +3,9 @@
 
     <string name="app_common_error">Неизвестная ошибка</string>
     <string name="internet_connection_error">Ошибка интернет соединения</string>
-    <string name="login_already_in_use_error">Такой логин уже используется</string>
+    <string name="login_already_in_use_error">Логин занят, попробуйте другой</string>
     <string name="login_incorrect_error">Мин. длина 3 символа</string>
-    <string name="login_not_found_error">Такого логина не существует</string>
+    <string name="login_or_password_error">Неверный логин или пароль</string>
     <string name="password_incorrect_error">Мин. длина 6 символов</string>
     <string name="password_not_valid_error">Пароль введён неверно</string>
     <string name="server_internal_error">Внутреняя ошибка сервера</string>
@@ -15,6 +15,5 @@
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

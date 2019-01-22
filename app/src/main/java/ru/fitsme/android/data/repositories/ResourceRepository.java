@@ -9,13 +9,12 @@ import javax.inject.Singleton;
 import ru.fitsme.android.R;
 import ru.fitsme.android.domain.boundaries.IResourceRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.exceptions.InternetConnectionException;
-import ru.fitsme.android.domain.entities.exceptions.LoginAlreadyInUseException;
-import ru.fitsme.android.domain.entities.exceptions.LoginIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.LoginNotFoundException;
-import ru.fitsme.android.domain.entities.exceptions.PasswordIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.PasswordNotValidException;
-import ru.fitsme.android.domain.entities.exceptions.ServerInternalException;
+import ru.fitsme.android.domain.entities.exceptions.internal.ServerInternalException;
+import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginOrPasswordNotValidException;
+import ru.fitsme.android.domain.entities.exceptions.user.PasswordIncorrectException;
 
 @Singleton
 public class ResourceRepository implements IResourceRepository {
@@ -37,12 +36,10 @@ public class ResourceRepository implements IResourceRepository {
             id = R.string.login_already_in_use_error;
         } else if (appException instanceof LoginIncorrectException) {
             id = R.string.login_incorrect_error;
-        } else if (appException instanceof LoginNotFoundException) {
-            id = R.string.login_not_found_error;
+        } else if (appException instanceof LoginOrPasswordNotValidException) {
+            id = R.string.login_or_password_error;
         } else if (appException instanceof PasswordIncorrectException) {
             id = R.string.password_incorrect_error;
-        } else if (appException instanceof PasswordNotValidException) {
-            id = R.string.password_not_valid_error;
         } else if (appException instanceof ServerInternalException) {
             id = R.string.server_internal_error;
         }

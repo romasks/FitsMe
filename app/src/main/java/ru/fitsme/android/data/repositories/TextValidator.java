@@ -6,8 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import ru.fitsme.android.domain.boundaries.ITextValidator;
-import ru.fitsme.android.domain.entities.exceptions.LoginIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.PasswordIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.PasswordIncorrectException;
 
 @Singleton
 public class TextValidator implements ITextValidator {

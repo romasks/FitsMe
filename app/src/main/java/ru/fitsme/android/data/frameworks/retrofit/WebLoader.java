@@ -9,12 +9,17 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
-import ru.fitsme.android.domain.entities.exceptions.InternetConnectionException;
-import ru.fitsme.android.domain.entities.exceptions.LoginAlreadyInUseException;
-import ru.fitsme.android.domain.entities.exceptions.LoginIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.ServerInternalException;
+import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
+import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
+import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginOrPasswordNotValidException;
+import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
+import timber.log.Timber;
 
 public class WebLoader {
 
@@ -25,49 +30,58 @@ public class WebLoader {
         this.apiService = apiService;
     }
 
-    public AuthInfo signIn(@NonNull SignInInfo signInInfo) throws LoginIncorrectException,
-            ServerInternalException, InternetConnectionException {
-        Call<AuthToken> responseCall = apiService.signIn(signInInfo.getLogin(),
-                signInInfo.getPasswordHash());
-
-        try {
-            Response<AuthToken> authTokenResponse = responseCall.execute();
-
-            if (authTokenResponse.isSuccessful() && authTokenResponse.body() != null) {
-                return new AuthInfo(signInInfo.getLogin(), authTokenResponse.body().getToken());
-            }
-            switch (authTokenResponse.code()) {
-                case 401:
-                    throw new LoginIncorrectException();
-                default:
-                    throw new ServerInternalException();
-            }
-        } catch (IOException e) {
-            throw new InternetConnectionException();
+    private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
+        if (okResponse.getResponse() != null) {
+            return okResponse.getResponse();
         }
+        throw makeException(okResponse.getError());
     }
 
-    public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws LoginIncorrectException,
-            LoginAlreadyInUseException, ServerInternalException, InternetConnectionException {
-        Call<AuthToken> responseCall = apiService.signUp(signInInfo.getLogin(),
-                signInInfo.getPasswordHash());
-
-        try {
-            Response<AuthToken> authTokenResponse = responseCall.execute();
-
-            if (authTokenResponse.isSuccessful() && authTokenResponse.body() != null) {
-                return new AuthInfo(signInInfo.getLogin(), authTokenResponse.body().getToken());
-            }
-            switch (authTokenResponse.code()) {
-                case 401:
-                    throw new LoginIncorrectException();
-                case 409:
-                    throw new LoginAlreadyInUseException();
-                default:
-                    throw new ServerInternalException();
-            }
-        } catch (IOException e) {
-            throw new InternetConnectionException();
+    @NonNull
+    private UserException makeException(Error error) throws InternalException {
+        switch (error.getCode()) {
+            case 100001:
+                return new LoginOrPasswordNotValidException();
+            case 100002:
+                return new LoginAlreadyInUseException();
+            case 100003:
+                return new LoginIncorrectException();
+            case 900001:
+                throw new InternalException(error.getMessage());
         }
+        throw new InternalException("Unknown error (" + error.getCode() + "):" + error.getMessage());
+    }
+
+    public AuthInfo signIn(@NonNull SignInInfo signInInfo) throws UserException {
+        AuthToken authToken = executeRequest(signInInfo, param ->
+                apiService.signIn(signInInfo.getLogin(), signInInfo.getPasswordHash()));
+        return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
+    }
+
+    public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {
+        AuthToken authToken = executeRequest(signInInfo, param ->
+                apiService.signUp(signInInfo.getLogin(), signInInfo.getPasswordHash()));
+        return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
+    }
+
+
+    @NonNull
+    private <T, P> T executeRequest(@NonNull P param, @NonNull ExecutableRequest<T, P> executableRequest)
+            throws UserException {
+        try {
+            Response<OkResponse<T>> response = executableRequest.request(param).execute();
+
+            if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
+                return getResponse(response.body());
+            }
+        } catch (IOException | InternalException e) {
+            Timber.e(e);
+        }
+        throw new InternetConnectionException();
+    }
+
+    public interface ExecutableRequest<T, P> {
+        @NonNull
+        Call<OkResponse<T>> request(@NonNull P param);
     }
 }
