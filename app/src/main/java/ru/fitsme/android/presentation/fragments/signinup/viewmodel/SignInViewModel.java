@@ -3,7 +3,9 @@ package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
@@ -20,6 +22,10 @@ public class SignInViewModel extends ViewModel {
     @Inject
     Navigation navigation;
 
+    @Inject
+    @Named("main")
+    Scheduler mainThread;
+
     private Disposable disposable;
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
@@ -28,11 +34,15 @@ public class SignInViewModel extends ViewModel {
     }
 
     public void onSignIn(String login, String password) {
-        fieldsStateLiveData.postValue(new SignInUpState(null, true));
+        fieldsStateLiveData.setValue(new SignInUpState(null, true));
         disposable = signInUpInteractor.authorize(login, password)
+                .observeOn(mainThread)
                 .subscribe(signInUpResult -> {
                     SignInUpState signInUpState = new SignInUpState(signInUpResult, false);
-                    fieldsStateLiveData.postValue(signInUpState);
+                    fieldsStateLiveData.setValue(signInUpState);
+                    if (signInUpResult.isSuccess()) {
+                        navigation.goRateItem();
+                    }
                 });
     }
 

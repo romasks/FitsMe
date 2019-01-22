@@ -38,7 +38,6 @@ public class SignUpFragment extends Fragment {
 
         binding.btnSignUp.setOnClickListener(v ->
         {
-
             KeyboardUtils.hide(getActivity(), binding.getRoot());
             signUpViewModel.onSignUp(binding.getLogin(), binding.getPassword());
         });

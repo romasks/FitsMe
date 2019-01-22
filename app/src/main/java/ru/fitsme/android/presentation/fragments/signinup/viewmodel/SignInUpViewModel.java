@@ -7,9 +7,6 @@ import javax.inject.Inject;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
 
-import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_IN;
-import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_UP;
-
 public class SignInUpViewModel extends ViewModel {
 
     @Inject
@@ -20,10 +17,10 @@ public class SignInUpViewModel extends ViewModel {
     }
 
     public void onSignUp() {
-        navigation.getRouter().navigateTo(NAV_SIGN_UP);
+        navigation.goSignUp();
     }
 
     public void onSignIn() {
-        navigation.getRouter().navigateTo(NAV_SIGN_IN);
+        navigation.goSignIn();
     }
 }

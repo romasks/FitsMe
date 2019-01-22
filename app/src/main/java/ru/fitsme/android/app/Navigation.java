@@ -4,13 +4,17 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import ru.terrakok.cicerone.Cicerone;
+import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
-import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_IN_UP;
-
 @Singleton
 public class Navigation {
+    public static final String NAV_SIGN_IN_UP = "SignInUp";
+    public static final String NAV_SIGN_UP = "SignUp";
+    public static final String NAV_SIGN_IN = "SignIn";
+    public static final String NAV_RATE_ITEM = "RateItem";
+
     private Cicerone<Router> cicerone;
 
     @Inject
@@ -19,11 +23,39 @@ public class Navigation {
         getRouter().newRootScreen(NAV_SIGN_IN_UP);
     }
 
-    public NavigatorHolder getNavigatorHolder() {
+    private NavigatorHolder getNavigatorHolder() {
         return cicerone.getNavigatorHolder();
     }
 
-    public Router getRouter() {
+    private Router getRouter() {
         return cicerone.getRouter();
+    }
+
+    private void goNavigate(String navigationKey) {
+        getRouter().navigateTo(navigationKey);
+    }
+
+    public void setNavigator(Navigator navigator) {
+        getNavigatorHolder().setNavigator(navigator);
+    }
+
+    public void removeNavigator() {
+        getNavigatorHolder().removeNavigator();
+    }
+
+    public void goSignInUp() {
+        goNavigate(NAV_SIGN_IN_UP);
+    }
+
+    public void goSignIn() {
+        goNavigate(NAV_SIGN_IN);
+    }
+
+    public void goSignUp() {
+        goNavigate(NAV_SIGN_UP);
+    }
+
+    public void goRateItem() {
+        goNavigate(NAV_RATE_ITEM);
     }
 }

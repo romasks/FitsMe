@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
+import ru.fitsme.android.presentation.fragments.rateitem.view.RateItemFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
@@ -20,10 +21,10 @@ import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
-import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_DEBUG;
-import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_IN;
-import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_IN_UP;
-import static ru.fitsme.android.presentation.main.viewmodel.MainViewModel.NAV_SIGN_UP;
+import static ru.fitsme.android.app.Navigation.NAV_RATE_ITEM;
+import static ru.fitsme.android.app.Navigation.NAV_SIGN_IN;
+import static ru.fitsme.android.app.Navigation.NAV_SIGN_IN_UP;
+import static ru.fitsme.android.app.Navigation.NAV_SIGN_UP;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,14 +50,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        navigation.getNavigatorHolder().setNavigator(navigator);
+        navigation.setNavigator(navigator);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        navigation.getNavigatorHolder().removeNavigator();
+        navigation.removeNavigator();
     }
 
     @NonNull
@@ -71,10 +72,8 @@ public class MainActivity extends AppCompatActivity {
                         return SignUpFragment.newInstance();
                     case NAV_SIGN_IN:
                         return SignInFragment.newInstance();
-                    case NAV_DEBUG:
-                        Toast.makeText(MainActivity.this, "Auth success",
-                                Toast.LENGTH_LONG).show();
-                        break;
+                    case NAV_RATE_ITEM:
+                        return RateItemFragment.newInstance();
                 }
                 throw new RuntimeException("Unknown screen key");
             }

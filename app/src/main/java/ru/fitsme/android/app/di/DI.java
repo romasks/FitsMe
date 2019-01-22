@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -51,6 +53,7 @@ public class DI {
             bind(Retrofit.class).toInstance(retrofit());
             bind(ApiService.class).toInstance(apiService(retrofit()));
             bind(AuthInfoStorage.class).to(AuthInfoStorage.class);
+            bind(Scheduler.class).withName("main").toInstance(AndroidSchedulers.mainThread());
         }});
     }
 
