@@ -1,5 +1,6 @@
 package ru.fitsme.android.domain.entities.signinup;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class SignInInfo {
@@ -22,7 +23,7 @@ public class SignInInfo {
     }
 
     private static String convertToSha256(String data) {
-        return DigestUtils.sha256Hex(data);
+        return new String(Hex.encodeHex(DigestUtils.md5(data)));
     }
 
     public String getLogin() {
