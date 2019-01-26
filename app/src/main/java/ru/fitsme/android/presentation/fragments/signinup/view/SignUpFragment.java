@@ -51,11 +51,11 @@ public class SignUpFragment extends Fragment {
     private void onStateChanged(SignInUpState signInUpState) {
         binding.setSignInUpState(signInUpState);
 
-        if (signInUpState.isLoading()) {
+        /*if (signInUpState.isLoading()) {
             loadingDialog.show(getContext());
         } else {
             loadingDialog.hide();
-        }
+        }*/
     }
 
     @Override
