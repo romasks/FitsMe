@@ -25,12 +25,14 @@ import ru.fitsme.android.data.repositories.ResourceRepository;
 import ru.fitsme.android.data.repositories.SignInUpRepository;
 import ru.fitsme.android.data.repositories.TextValidator;
 import ru.fitsme.android.data.repositories.UserInfoRepository;
-import ru.fitsme.android.domain.boundaries.IResourceRepository;
-import ru.fitsme.android.domain.boundaries.ISignInUpRepository;
-import ru.fitsme.android.domain.boundaries.ITextValidator;
-import ru.fitsme.android.domain.boundaries.IUserInfoRepository;
+import ru.fitsme.android.domain.boundaries.clothes.IResourceRepository;
+import ru.fitsme.android.domain.boundaries.clothes.ISignInUpRepository;
+import ru.fitsme.android.domain.boundaries.clothes.ITextValidator;
+import ru.fitsme.android.domain.boundaries.clothes.IUserInfoRepository;
 import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
 import ru.fitsme.android.domain.interactors.auth.SignInUpInteractor;
+import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
+import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import toothpick.Scope;
 import toothpick.Toothpick;
 import toothpick.config.Module;
@@ -56,6 +58,8 @@ public class DI {
             bind(AuthInfoStorage.class).to(AuthInfoStorage.class);
             bind(Scheduler.class).withName("main").toInstance(AndroidSchedulers.mainThread());
             bind(Scheduler.class).withName("work").toInstance(Schedulers.io());
+
+            bind(IClothesInteractor.class).to(ClothesInteractor.class);
         }});
     }
 
