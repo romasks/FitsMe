@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.SignInUpInfoStorage;
-import ru.fitsme.android.domain.boundaries.IUserInfoRepository;
+import ru.fitsme.android.domain.boundaries.clothes.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;

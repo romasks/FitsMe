@@ -1,4 +1,4 @@
-package ru.fitsme.android.domain.boundaries;
+package ru.fitsme.android.domain.boundaries.clothes;
 
 import android.support.annotation.NonNull;
 
