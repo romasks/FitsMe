@@ -52,7 +52,7 @@ public class SignInViewModel extends ViewModel {
     private void onSignInResult(SignInUpResult signInUpResult) {
         stopLoading(signInUpResult);
         if (signInUpResult.isSuccess()) {
-            navigation.goRateItem();
+            navigation.goToMainItem();
         }
     }
 
