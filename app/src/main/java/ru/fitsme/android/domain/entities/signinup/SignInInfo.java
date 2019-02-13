@@ -1,10 +1,13 @@
 package ru.fitsme.android.domain.entities.signinup;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class SignInInfo {
     private String login;
+    @SerializedName("password")
     private String passwordHash;
 
     private SignInInfo(String login) {

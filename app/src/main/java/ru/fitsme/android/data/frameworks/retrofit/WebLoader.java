@@ -2,6 +2,8 @@ package ru.fitsme.android.data.frameworks.retrofit;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.JsonSyntaxException;
+
 import java.io.IOException;
 
 import javax.inject.Inject;
@@ -53,14 +55,12 @@ public class WebLoader {
     }
 
     public AuthInfo signIn(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(signInInfo, param ->
-                apiService.signIn(signInInfo.getLogin(), signInInfo.getPasswordHash()));
+        AuthToken authToken = executeRequest(signInInfo, param -> apiService.signIn(signInInfo));
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
     public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(signInInfo, param ->
-                apiService.signUp(signInInfo.getLogin(), signInInfo.getPasswordHash()));
+        AuthToken authToken = executeRequest(signInInfo, param -> apiService.signUp(signInInfo));
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
@@ -74,7 +74,7 @@ public class WebLoader {
             if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
                 return getResponse(response.body());
             }
-        } catch (IOException | InternalException e) {
+        } catch (IOException | InternalException | JsonSyntaxException e) {
             Timber.e(e);
         }
         throw new InternetConnectionException();
