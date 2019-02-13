@@ -23,7 +23,7 @@ public class SignInInfo {
     }
 
     private static String convertToSha256(String data) {
-        return new String(Hex.encodeHex(DigestUtils.md5(data)));
+        return new String(Hex.encodeHex(DigestUtils.sha256(data)));
     }
 
     public String getLogin() {
