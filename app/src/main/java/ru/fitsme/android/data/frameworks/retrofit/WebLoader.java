@@ -13,6 +13,7 @@ import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
+import ru.fitsme.android.domain.entities.clothes.ClothesPage;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
@@ -62,6 +63,10 @@ public class WebLoader {
     public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {
         AuthToken authToken = executeRequest(signInInfo, param -> apiService.signUp(signInInfo));
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
+    }
+
+    public ClothesPage getClothesPage(int page) throws UserException {
+        return executeRequest(page, param -> apiService.getClothes(param));
     }
 
 
