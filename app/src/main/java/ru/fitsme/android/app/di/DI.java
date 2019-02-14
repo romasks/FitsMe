@@ -66,7 +66,7 @@ public class DI {
     @NonNull
     @Named("serverBaseUrl")
     private String serverBaseUrl() {
-        return "http://81.90.181.10:8080/customers/";
+        return "https://fitsme.ru/customers/";
     }
 
     @NonNull
