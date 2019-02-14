@@ -56,25 +56,25 @@ public class WebLoader {
     }
 
     public AuthInfo signIn(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(signInInfo, param -> apiService.signIn(signInInfo));
+        AuthToken authToken = executeRequest(() -> apiService.signIn(signInInfo));
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
     public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(signInInfo, param -> apiService.signUp(signInInfo));
+        AuthToken authToken = executeRequest(() -> apiService.signUp(signInInfo));
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
     public ClothesPage getClothesPage(int page) throws UserException {
-        return executeRequest(page, param -> apiService.getClothes(param));
+        return executeRequest(() -> apiService.getClothes(page));
     }
 
 
     @NonNull
-    private <T, P> T executeRequest(@NonNull P param, @NonNull ExecutableRequest<T, P> executableRequest)
+    private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
             throws UserException {
         try {
-            Response<OkResponse<T>> response = executableRequest.request(param).execute();
+            Response<OkResponse<T>> response = executableRequest.request().execute();
 
             if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
                 return getResponse(response.body());
@@ -85,8 +85,8 @@ public class WebLoader {
         throw new InternetConnectionException();
     }
 
-    public interface ExecutableRequest<T, P> {
+    public interface ExecutableRequest<T> {
         @NonNull
-        Call<OkResponse<T>> request(@NonNull P param);
+        Call<OkResponse<T>> request();
     }
 }
