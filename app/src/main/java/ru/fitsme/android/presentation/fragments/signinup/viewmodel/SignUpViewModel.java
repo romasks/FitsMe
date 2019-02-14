@@ -34,7 +34,7 @@ public class SignUpViewModel extends ViewModel {
                     SignInUpState signInUpState = new SignInUpState(signInUpResult, false);
                     fieldsStateLiveData.setValue(signInUpState);
                     if (signInUpResult.isSuccess()) {
-                        navigation.goRateItem();
+                        navigation.goToMainItem();
                     }
                 });
     }
