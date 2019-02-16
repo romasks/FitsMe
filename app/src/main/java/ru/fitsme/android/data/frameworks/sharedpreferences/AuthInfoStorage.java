@@ -16,7 +16,7 @@ public class AuthInfoStorage extends SharedPreferencesStorage<AuthInfo> {
     private static final String TOKEN_KEY = "tokenKey";
 
     @Inject
-    public AuthInfoStorage(Context appContext) {
+    AuthInfoStorage(Context appContext) {
         super(appContext, PREF_NAME);
     }
 

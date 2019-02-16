@@ -69,7 +69,6 @@ public class WebLoader {
         return executeRequest(() -> apiService.getClothes(page));
     }
 
-
     @NonNull
     private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
             throws UserException {

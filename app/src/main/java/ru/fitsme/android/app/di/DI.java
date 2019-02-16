@@ -21,6 +21,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
+import ru.fitsme.android.data.repositories.ClothesRepository;
 import ru.fitsme.android.data.repositories.ResourceRepository;
 import ru.fitsme.android.data.repositories.SignInUpRepository;
 import ru.fitsme.android.data.repositories.TextValidator;
@@ -29,6 +30,7 @@ import ru.fitsme.android.domain.boundaries.clothes.IResourceRepository;
 import ru.fitsme.android.domain.boundaries.clothes.ISignInUpRepository;
 import ru.fitsme.android.domain.boundaries.clothes.ITextValidator;
 import ru.fitsme.android.domain.boundaries.clothes.IUserInfoRepository;
+import ru.fitsme.android.domain.boundaries.signinup.IClothesRepository;
 import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
 import ru.fitsme.android.domain.interactors.auth.SignInUpInteractor;
 import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
@@ -60,6 +62,7 @@ public class DI {
             bind(Scheduler.class).withName("work").toInstance(Schedulers.io());
 
             bind(IClothesInteractor.class).to(ClothesInteractor.class);
+            bind(IClothesRepository.class).to(ClothesRepository.class);
         }});
     }
 
