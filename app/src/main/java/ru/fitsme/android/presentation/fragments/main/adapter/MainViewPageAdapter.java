@@ -9,9 +9,9 @@ import java.util.List;
 public class MainViewPageAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragments;
 
-    public MainViewPageAdapter(FragmentManager fragmentManger) {
+    public MainViewPageAdapter(FragmentManager fragmentManger, List<Fragment> fragments) {
         super(fragmentManger);
-
+        this.fragments = fragments;
     }
 
     @Override
