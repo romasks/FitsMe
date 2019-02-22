@@ -70,6 +70,7 @@ public class MainFragment extends Fragment {
                             return true;
                         case R.id.action_likes:
                             Timber.d("actionProfileClick()");
+                            viewPager.setCurrentItem(MainViewPageAdapter.POSITION_CLOTHES);
                             return true;
                         case R.id.action_basket:
                             Timber.d("actionProfileClick()");

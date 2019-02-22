@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".presentation.fragments.rateitems.view.RateItemsFragment">
 
-    <TextView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_fr_rate_items_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>

@@ -14,7 +14,6 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
 import ru.fitsme.android.presentation.fragments.main.view.MainFragment;
-import ru.fitsme.android.presentation.fragments.rateitem.view.RateItemFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
@@ -23,7 +22,6 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
 import static ru.fitsme.android.app.Navigation.NAV_MAIN_ITEM;
-import static ru.fitsme.android.app.Navigation.NAV_RATE_ITEM;
 import static ru.fitsme.android.app.Navigation.NAV_SIGN_IN;
 import static ru.fitsme.android.app.Navigation.NAV_SIGN_IN_UP;
 import static ru.fitsme.android.app.Navigation.NAV_SIGN_UP;
@@ -74,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
                         return SignUpFragment.newInstance();
                     case NAV_SIGN_IN:
                         return SignInFragment.newInstance();
-                    case NAV_RATE_ITEM:
+             /*       case NAV_RATE_ITEM:
                         return RateItemFragment.newInstance();
+             */
                     case NAV_MAIN_ITEM:
                         return MainFragment.newInstance();
                 }

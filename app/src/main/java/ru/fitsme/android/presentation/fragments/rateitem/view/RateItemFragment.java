@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.domain.entities.clothes.ClothesPage;
 
 public class RateItemFragment extends Fragment {
 
@@ -16,7 +17,7 @@ public class RateItemFragment extends Fragment {
     public RateItemFragment() {
     }
 
-    public static RateItemFragment newInstance() {
+    public static RateItemFragment newInstance(ClothesPage clothesPage) {
         return new RateItemFragment();
     }
 
