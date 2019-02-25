@@ -62,6 +62,7 @@ public class DI {
             bind(Scheduler.class).withName("work").toInstance(Schedulers.io());
 
             bind(IClothesInteractor.class).to(ClothesInteractor.class);
+            bind(IClothesRepository.class).to(ClothesRepository.class);
             bind(IClothesIndexRepository.class).to(ClothesIndexRepository.class);
 
         }});

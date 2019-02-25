@@ -1,12 +1,17 @@
 package ru.fitsme.android.domain.entities.clothes;
 
 public class LastItem {
+
     private int page;
     private int index;
 
     public LastItem(int page, int index) {
         this.page = page;
         this.index = index;
+    }
+
+    public LastItem() {
+        this(1, 0);
     }
 
     public int getPage() {
