@@ -9,8 +9,11 @@ import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 public interface IClothesInteractor {
 
     @NonNull
-    Single<ClothesItem> getNextClothesItem();
+    Single<Integer> getLastIndexSingle();
 
     @NonNull
-    Completable rateClothesItem(@NonNull ClothesItem clothesItem, boolean like);
+    Single<ClothesItem> getSingleClothesItem(int index);
+
+    @NonNull
+    Completable setLikeToClothesItem(int index, boolean liked);
 }

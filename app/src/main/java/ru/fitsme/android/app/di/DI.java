@@ -25,10 +25,12 @@ import ru.fitsme.android.data.repositories.ResourceRepository;
 import ru.fitsme.android.data.repositories.SignInUpRepository;
 import ru.fitsme.android.data.repositories.TextValidator;
 import ru.fitsme.android.data.repositories.UserInfoRepository;
-import ru.fitsme.android.domain.boundaries.clothes.IResourceRepository;
-import ru.fitsme.android.domain.boundaries.clothes.ISignInUpRepository;
-import ru.fitsme.android.domain.boundaries.clothes.ITextValidator;
-import ru.fitsme.android.domain.boundaries.clothes.IUserInfoRepository;
+import ru.fitsme.android.data.repositories.clothes.ClothesIndexRepository;
+import ru.fitsme.android.domain.boundaries.clothes.IClothesIndexRepository;
+import ru.fitsme.android.domain.boundaries.signinup.IResourceRepository;
+import ru.fitsme.android.domain.boundaries.signinup.ISignInUpRepository;
+import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
+import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
 import ru.fitsme.android.domain.interactors.auth.SignInUpInteractor;
 import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
@@ -60,6 +62,8 @@ public class DI {
             bind(Scheduler.class).withName("work").toInstance(Schedulers.io());
 
             bind(IClothesInteractor.class).to(ClothesInteractor.class);
+            bind(IClothesIndexRepository.class).to(ClothesIndexRepository.class);
+
         }});
     }
 

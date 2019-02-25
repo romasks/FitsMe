@@ -42,6 +42,13 @@ public abstract class SharedPreferencesStorage<T> {
         return value;
     }
 
+    protected int getIntegerValue(String key) throws DataNotFoundException {
+        if (getSharedPreferences().contains(key)) {
+            return getSharedPreferences().getInt(key, 0);
+        }
+        throw new DataNotFoundException("Can't find " + key);
+    }
+
     private SharedPreferences getSharedPreferences() {
         return appContext.getSharedPreferences(prefName, Context.MODE_PRIVATE);
     }
