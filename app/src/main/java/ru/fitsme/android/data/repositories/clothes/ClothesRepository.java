@@ -6,9 +6,9 @@ import android.util.SparseArray;
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.clothes.ClothesPage;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 
 public class ClothesRepository implements IClothesRepository {
@@ -25,13 +25,19 @@ public class ClothesRepository implements IClothesRepository {
 
     @NonNull
     @Override
-    public ClothesItem getClothesItem(int index) throws AppException {
+    public ClothesItem getClothesItem(@NonNull String token, int index) throws AppException {
         int pageIndex = calculatePageIndex(index);
         ClothesPage clothesPage = clothesPageSparseArray.get(pageIndex);
         if (clothesPage == null) {
-            //clothesPage = webLoader.
+            clothesPage = webLoader.getClothesPage(token, pageIndex + 1);
+            clothesPageSparseArray.put(pageIndex, clothesPage);
         }
-        return null;
+        int itemIndex = calculateItemIndex(index);
+        return clothesPage.getItems().get(itemIndex);
+    }
+
+    private int calculateItemIndex(int index) {
+        return index % PAGE_SIZE;
     }
 
     private int calculatePageIndex(int index) {

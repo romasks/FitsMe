@@ -15,7 +15,7 @@ public class ClothesIndexStorage extends SharedPreferencesStorage<Integer> {
     private static final String INDEX_KEY = "indexKey";
 
     @Inject
-    public ClothesIndexStorage(Context appContext) {
+    ClothesIndexStorage(Context appContext) {
         super(appContext, PREF_NAME);
     }
 

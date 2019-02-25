@@ -13,7 +13,7 @@ import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
-import ru.fitsme.android.domain.entities.clothes.ClothesPage;
+import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
@@ -29,7 +29,7 @@ public class WebLoader {
     private ApiService apiService;
 
     @Inject
-    public WebLoader(ApiService apiService) {
+    WebLoader(ApiService apiService) {
         this.apiService = apiService;
     }
 
@@ -65,8 +65,9 @@ public class WebLoader {
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
-    public ClothesPage getClothesPage(int page) throws UserException {
-        return executeRequest(() -> apiService.getClothes(page));
+    public ClothesPage getClothesPage(@NonNull String token, int page) throws UserException {
+        String headerToken = "Token " + token;
+        return executeRequest(() -> apiService.getClothes(headerToken, page));
     }
 
     @NonNull
@@ -82,6 +83,10 @@ public class WebLoader {
             Timber.e(e);
         }
         throw new InternetConnectionException();
+    }
+
+    public void likeItem(int id, boolean liked) {
+        //TODO: реализовать обращение к серверу для проставления лайка
     }
 
     public interface ExecutableRequest<T> {

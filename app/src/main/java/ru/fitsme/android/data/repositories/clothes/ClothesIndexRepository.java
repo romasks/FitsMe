@@ -11,7 +11,7 @@ public class ClothesIndexRepository implements IClothesIndexRepository {
     private final ClothesIndexStorage clothesIndexStorage;
 
     @Inject
-    public ClothesIndexRepository(ClothesIndexStorage clothesIndexStorage) {
+    ClothesIndexRepository(ClothesIndexStorage clothesIndexStorage) {
         this.clothesIndexStorage = clothesIndexStorage;
     }
 

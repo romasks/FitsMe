@@ -4,20 +4,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.presentation.fragments.rateitems.adapter.ClothesPageAdapter;
+import ru.fitsme.android.app.App;
+import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 
 public class RateItemsFragment extends Fragment {
-    private ViewPager clothesViewPager;
+    @Inject
+    IClothesInteractor clothesInteractor;
 
     public RateItemsFragment() {
+        App.getInstance().getDi().inject(this);
     }
 
     public static RateItemsFragment newInstance() {
@@ -26,7 +28,6 @@ public class RateItemsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -38,7 +39,6 @@ public class RateItemsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        clothesViewPager = view.findViewById(R.id.vp_fr_rate_items_frame);
-        clothesViewPager.setAdapter(new ClothesPageAdapter(getChildFragmentManager(), new ArrayList<>()));
+
     }
 }

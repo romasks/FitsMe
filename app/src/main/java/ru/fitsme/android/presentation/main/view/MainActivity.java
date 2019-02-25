@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     Navigation navigation;
+
     private Navigator navigator = getFragmentNavigator();
 
     public MainActivity() {

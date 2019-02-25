@@ -47,7 +47,7 @@ public abstract class SharedPreferencesStorage<T> {
     }
 
     private void checkContains(String key) throws DataNotFoundException {
-        if (getSharedPreferences().contains(key)) {
+        if (!getSharedPreferences().contains(key)) {
             throw new DataNotFoundException();
         }
     }
