@@ -8,11 +8,12 @@ import android.support.annotation.NonNull;
 
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
+import ru.fitsme.android.presentation.fragments.iteminfo.IOnSwipeListener;
 
 public class RateItemsViewModel extends ViewModel {
     private final IClothesInteractor clothesInteractor;
 
-    private final MutableLiveData<Integer> indexLiveData = new MutableLiveData<>();
+    private final MutableLiveData<RateItemsState> indexLiveData = new MutableLiveData<>();
     private Disposable disposable;
 
     private int firstIndex;
@@ -21,20 +22,24 @@ public class RateItemsViewModel extends ViewModel {
         this.clothesInteractor = clothesInteractor;
 
         disposable = clothesInteractor.getLastIndexSingle()
-                .subscribe(indexLiveData::setValue);
+                .subscribe(index -> {
+                    RateItemsState rateItemsState = new RateItemsState(++firstIndex,
+                            IOnSwipeListener.AnimationType.NONE);
+                    indexLiveData.setValue(rateItemsState);
+                });
     }
 
-    public void likeClothesItem(boolean liked) {
+    public void likeClothesItem(boolean liked, IOnSwipeListener.AnimationType animationType) {
         //TODO: доделать
         clothesInteractor.setLikeToClothesItem(firstIndex, liked)
                 .subscribe(() -> {
                 }, throwable -> {
                 });
 
-        indexLiveData.setValue(++firstIndex);
+        indexLiveData.setValue(new RateItemsState(++firstIndex, animationType));
     }
 
-    public LiveData<Integer> getIndexLiveData() {
+    public LiveData<RateItemsState> getIndexLiveData() {
         return indexLiveData;
     }
 

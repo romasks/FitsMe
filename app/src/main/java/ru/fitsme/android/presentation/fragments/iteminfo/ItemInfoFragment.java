@@ -2,6 +2,7 @@ package ru.fitsme.android.presentation.fragments.iteminfo;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,12 +54,12 @@ public class ItemInfoFragment extends Fragment {
         view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
             @Override
             public void onSwipeRight() {
-                onSwipe();
+                onSwipe(IOnSwipeListener.AnimationType.RIGHT);
             }
 
             @Override
             public void onSwipeLeft() {
-                onSwipe();
+                onSwipe(IOnSwipeListener.AnimationType.LEFT);
             }
         });
 
@@ -88,6 +89,11 @@ public class ItemInfoFragment extends Fragment {
                 textViewIndex.setText("loading");
                 break;
             case OK:
+                if (index % 2 == 0) {
+                    getView().setBackgroundColor(Color.DKGRAY);
+                } else {
+                    getView().setBackgroundColor(Color.LTGRAY);
+                }
                 textViewIndex.setText(index + " index");
                 onSwipeListener = ((IOnSwipeListener) getParentFragment());
                 break;
@@ -95,9 +101,9 @@ public class ItemInfoFragment extends Fragment {
         //TODO: реализовать отображение
     }
 
-    private void onSwipe() {
+    private void onSwipe(IOnSwipeListener.AnimationType animationType) {
         if (onSwipeListener != null) {
-            onSwipeListener.onSwipe();
+            onSwipeListener.onSwipe(animationType);
         }
     }
 }

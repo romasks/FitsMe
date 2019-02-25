@@ -1,33 +1,21 @@
 package ru.fitsme.android.presentation.fragments.rateitems.view;
 
+import ru.fitsme.android.presentation.fragments.iteminfo.IOnSwipeListener;
+
 public class RateItemsState {
     private int index;
-    private int count;
-    private State state;
+    private IOnSwipeListener.AnimationType animationType;
 
-    public RateItemsState(int index, int count) {
+    public RateItemsState(int index, IOnSwipeListener.AnimationType animationType) {
         this.index = index;
-        this.count = count;
-        this.state = State.OK;
-    }
-
-    public RateItemsState(State state) {
-        this.state = state;
+        this.animationType = animationType;
     }
 
     public int getIndex() {
         return index;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    enum State {
-        LOADING, ERROR, OK
+    public IOnSwipeListener.AnimationType getAnimationType() {
+        return animationType;
     }
 }

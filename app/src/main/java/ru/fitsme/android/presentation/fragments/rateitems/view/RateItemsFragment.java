@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,17 +59,29 @@ public class RateItemsFragment extends Fragment implements IOnSwipeListener {
     }
 
     @Override
-    public void onSwipe() {
-        viewModel.likeClothesItem(false);
+    public void onSwipe(AnimationType animationType) {
+        viewModel.likeClothesItem(false, animationType);
     }
 
-    private void onIndex(Integer index) {
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.container, ItemInfoFragment.newInstance(index))
+    private void onIndex(RateItemsState rateItemsState) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+
+        switch (rateItemsState.getAnimationType()) {
+            case RIGHT:
+                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_right);
+                break;
+            case LEFT:
+                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_left);
+                break;
+            case SIMPLE:
+                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_simple);
+                break;
+        }
+        transaction.replace(R.id.container, ItemInfoFragment.newInstance(rateItemsState.getIndex()))
                 .commit();//TODO: animation
     }
 
     private void likeItem(boolean liked) {
-        viewModel.likeClothesItem(liked);
+        viewModel.likeClothesItem(liked, AnimationType.SIMPLE);
     }
 }

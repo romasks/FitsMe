@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import ru.fitsme.android.presentation.fragments.rateitems.view.RateItemsFragment
 
 public class MainFragment extends Fragment {
     private BottomNavigationView bottomNavigationView;
-    private ViewPager viewPager;
 
     public MainFragment() {
     }
