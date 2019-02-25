@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 public class MainViewPageAdapter extends FragmentPagerAdapter {
+    public static final int POSITION_CLOTHES = 1;
     private List<Fragment> fragments;
 
     public MainViewPageAdapter(FragmentManager fragmentManger, List<Fragment> fragments) {
