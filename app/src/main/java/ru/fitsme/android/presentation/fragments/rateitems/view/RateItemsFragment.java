@@ -78,7 +78,7 @@ public class RateItemsFragment extends Fragment implements IOnSwipeListener {
                 break;
         }
         transaction.replace(R.id.container, ItemInfoFragment.newInstance(rateItemsState.getIndex()))
-                .commit();//TODO: animation
+                .commit();
     }
 
     private void likeItem(boolean liked) {

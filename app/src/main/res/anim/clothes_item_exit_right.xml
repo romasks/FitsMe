@@ -3,15 +3,15 @@
     <translate
         android:duration="500"
         android:fromXDelta="0%"
-        android:toXDelta="75%" />
+        android:toXDelta="100%" />
     <rotate
         android:duration="500"
         android:fromDegrees="0"
-        android:pivotX="0%"
+        android:pivotX="100%"
         android:pivotY="100%"
         android:toDegrees="15" />
     <alpha
         android:duration="500"
         android:fromAlpha="1.0"
-        android:toAlpha="0.0" />
+        android:toAlpha="1.0" />
 </set>

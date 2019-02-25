@@ -2,7 +2,6 @@ package ru.fitsme.android.presentation.fragments.iteminfo;
 
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -90,9 +89,9 @@ public class ItemInfoFragment extends Fragment {
                 break;
             case OK:
                 if (index % 2 == 0) {
-                    getView().setBackgroundColor(Color.DKGRAY);
+                    //getView().setBackgroundColor(Color.DKGRAY);
                 } else {
-                    getView().setBackgroundColor(Color.LTGRAY);
+                    //getView().setBackgroundColor(Color.LTGRAY);
                 }
                 textViewIndex.setText(index + " index");
                 onSwipeListener = ((IOnSwipeListener) getParentFragment());
