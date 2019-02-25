@@ -2,6 +2,9 @@ package ru.fitsme.android.domain.interactors.clothes;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -56,6 +59,24 @@ public class ClothesInteractor implements IClothesInteractor {
                 emitter.onSuccess(getClothesItem(index)))
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
+    }
+
+    @NonNull
+    @Override
+    public Single<List<ClothesItem>> getSingleClothesItems(int firstIndex, int count) {
+        return Single.create((SingleOnSubscribe<List<ClothesItem>>) emitter ->
+                emitter.onSuccess(getClothesItems(firstIndex, count)))
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
+    }
+
+    @NonNull
+    private List<ClothesItem> getClothesItems(int firstIndex, int count) throws AppException {
+        List<ClothesItem> items = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            items.add(getClothesItem(firstIndex + i));
+        }
+        return items;
     }
 
     private ClothesItem getClothesItem(int index) throws AppException {

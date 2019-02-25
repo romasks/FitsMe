@@ -7,22 +7,11 @@
     tools:context=".presentation.fragments.rateitems.view.RateItemsFragment">
 
     <FrameLayout
-        android:id="@+id/container1"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:background="#00ff00"
-        app:layout_constraintBottom_toTopOf="@+id/btn_like"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <FrameLayout
-        android:id="@+id/container2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:background="#ff0000"
         app:layout_constraintBottom_toTopOf="@+id/btn_like"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
