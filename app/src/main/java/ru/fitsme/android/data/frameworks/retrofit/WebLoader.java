@@ -13,6 +13,7 @@ import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
+import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
@@ -28,7 +29,7 @@ public class WebLoader {
     private ApiService apiService;
 
     @Inject
-    public WebLoader(ApiService apiService) {
+    WebLoader(ApiService apiService) {
         this.apiService = apiService;
     }
 
@@ -55,21 +56,25 @@ public class WebLoader {
     }
 
     public AuthInfo signIn(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(signInInfo, param -> apiService.signIn(signInInfo));
+        AuthToken authToken = executeRequest(() -> apiService.signIn(signInInfo));
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
     public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(signInInfo, param -> apiService.signUp(signInInfo));
+        AuthToken authToken = executeRequest(() -> apiService.signUp(signInInfo));
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
+    public ClothesPage getClothesPage(@NonNull String token, int page) throws UserException {
+        String headerToken = "Token " + token;
+        return executeRequest(() -> apiService.getClothes(headerToken, page));
+    }
 
     @NonNull
-    private <T, P> T executeRequest(@NonNull P param, @NonNull ExecutableRequest<T, P> executableRequest)
+    private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
             throws UserException {
         try {
-            Response<OkResponse<T>> response = executableRequest.request(param).execute();
+            Response<OkResponse<T>> response = executableRequest.request().execute();
 
             if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
                 return getResponse(response.body());
@@ -80,8 +85,12 @@ public class WebLoader {
         throw new InternetConnectionException();
     }
 
-    public interface ExecutableRequest<T, P> {
+    public void likeItem(int id, boolean liked) {
+        //TODO: реализовать обращение к серверу для проставления лайка
+    }
+
+    public interface ExecutableRequest<T> {
         @NonNull
-        Call<OkResponse<T>> request(@NonNull P param);
+        Call<OkResponse<T>> request();
     }
 }

@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
-import ru.fitsme.android.domain.boundaries.clothes.ISignInUpRepository;
+import ru.fitsme.android.domain.boundaries.signinup.ISignInUpRepository;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;

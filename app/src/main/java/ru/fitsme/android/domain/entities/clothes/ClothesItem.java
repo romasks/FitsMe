@@ -10,6 +10,7 @@ public class ClothesItem {
     private List<String> material;
     private List<Picture> pics;
 
+
     public int getId() {
         return id;
     }

@@ -1,6 +1,8 @@
-package ru.fitsme.android.domain.entities.clothes;
+package ru.fitsme.android.data.repositories.clothes.entity;
 
 import java.util.List;
+
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
 public class ClothesPage {
     private long count;

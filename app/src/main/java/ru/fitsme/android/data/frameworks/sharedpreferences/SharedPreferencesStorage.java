@@ -35,11 +35,28 @@ public abstract class SharedPreferencesStorage<T> {
     }
 
     protected String getStringValue(String key) throws DataNotFoundException {
-        String value = getSharedPreferences().getString(key, null);
-        if (value == null) {
+        checkContains(key);
+
+        return getSharedPreferences().getString(key, null);
+    }
+
+    protected int getIntValue(String key) throws DataNotFoundException {
+        checkContains(key);
+
+        return getSharedPreferences().getInt(key, 0);
+    }
+
+    private void checkContains(String key) throws DataNotFoundException {
+        if (!getSharedPreferences().contains(key)) {
             throw new DataNotFoundException();
         }
-        return value;
+    }
+
+    protected int getIntegerValue(String key) throws DataNotFoundException {
+        if (getSharedPreferences().contains(key)) {
+            return getSharedPreferences().getInt(key, 0);
+        }
+        throw new DataNotFoundException("Can't find " + key);
     }
 
     private SharedPreferences getSharedPreferences() {

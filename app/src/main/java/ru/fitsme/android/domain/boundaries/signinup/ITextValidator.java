@@ -1,4 +1,4 @@
-package ru.fitsme.android.domain.boundaries.clothes;
+package ru.fitsme.android.domain.boundaries.signinup;
 
 import android.support.annotation.Nullable;
 

@@ -6,25 +6,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.presentation.fragments.basket.BasketFragment;
-import ru.fitsme.android.presentation.fragments.main.adapter.MainViewPageAdapter;
 import ru.fitsme.android.presentation.fragments.profile.view.ProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.view.RateItemsFragment;
-import timber.log.Timber;
 
 
 public class MainFragment extends Fragment {
     private BottomNavigationView bottomNavigationView;
-    private ViewPager viewPager;
 
     public MainFragment() {
     }
@@ -43,21 +36,6 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initBottomNavigation(view);
-        initViewPager(view);
-    }
-
-    private void initViewPager(View view) {
-        viewPager = view.findViewById(R.id.vp_main_fr_container);
-        viewPager.setAdapter(new MainViewPageAdapter(getChildFragmentManager(), createFragments()));
-    }
-
-
-    private List<Fragment> createFragments() {
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(ProfileFragment.newInstance());
-        fragments.add(RateItemsFragment.newInstance());
-        fragments.add(BasketFragment.newInstance());
-        return fragments;
     }
 
     private void initBottomNavigation(View view) {
@@ -66,17 +44,23 @@ public class MainFragment extends Fragment {
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.action_profile:
-                            Timber.d("actionProfileClick()");
+                            switchFragment(ProfileFragment.newInstance());
                             return true;
                         case R.id.action_likes:
-                            Timber.d("actionProfileClick()");
-                            viewPager.setCurrentItem(MainViewPageAdapter.POSITION_CLOTHES);
+                            switchFragment(RateItemsFragment.newInstance());
                             return true;
                         case R.id.action_basket:
-                            Timber.d("actionProfileClick()");
+                            switchFragment(BasketFragment.newInstance());
                             return true;
                     }
                     return false;
                 });
+        bottomNavigationView.setSelectedItemId(R.id.action_likes);
+    }
+
+    private void switchFragment(Fragment fragment) {
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
     }
 }
