@@ -1,7 +1,5 @@
 package ru.fitsme.android.presentation.fragments.rateitems.view;
 
-import ru.fitsme.android.presentation.fragments.iteminfo.IOnSwipeListener;
-
 public class RateItemsState {
     private int index;
     private IOnSwipeListener.AnimationType animationType;

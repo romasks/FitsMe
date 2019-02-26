@@ -1,6 +1,4 @@
-package ru.fitsme.android.presentation.fragments.iteminfo;
-
-import ru.fitsme.android.presentation.fragments.rateitems.view.RateItemsFragment;
+package ru.fitsme.android.presentation.fragments.rateitems.view;
 
 public interface IOnSwipeListener {
     void onSwipe(RateItemsFragment.AnimationType animationType);

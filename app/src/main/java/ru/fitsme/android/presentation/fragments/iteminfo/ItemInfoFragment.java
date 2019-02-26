@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
+import ru.fitsme.android.presentation.fragments.rateitems.view.IOnSwipeListener;
 
 public class ItemInfoFragment extends Fragment {
 
@@ -28,6 +29,7 @@ public class ItemInfoFragment extends Fragment {
 
     private IOnSwipeListener onSwipeListener = null;
     private int index;
+    private ItemInfoState.State state;
 
     public ItemInfoFragment() {
         App.getInstance().getDi().inject(this);
@@ -50,18 +52,6 @@ public class ItemInfoFragment extends Fragment {
 
         textViewIndex = view.findViewById(R.id.tv_index);
 
-        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
-            @Override
-            public void onSwipeRight() {
-                onSwipe(IOnSwipeListener.AnimationType.RIGHT);
-            }
-
-            @Override
-            public void onSwipeLeft() {
-                onSwipe(IOnSwipeListener.AnimationType.LEFT);
-            }
-        });
-
         return view;
     }
 
@@ -80,6 +70,7 @@ public class ItemInfoFragment extends Fragment {
     }
 
     private void onItem(ItemInfoState itemInfoState) {
+        state = itemInfoState.getState();
         switch (itemInfoState.getState()) {
             case ERROR:
                 textViewIndex.setText("error");
@@ -88,21 +79,13 @@ public class ItemInfoFragment extends Fragment {
                 textViewIndex.setText("loading");
                 break;
             case OK:
-                if (index % 2 == 0) {
-                    //getView().setBackgroundColor(Color.DKGRAY);
-                } else {
-                    //getView().setBackgroundColor(Color.LTGRAY);
-                }
                 textViewIndex.setText(index + " index");
-                onSwipeListener = ((IOnSwipeListener) getParentFragment());
                 break;
         }
         //TODO: реализовать отображение
     }
 
-    private void onSwipe(IOnSwipeListener.AnimationType animationType) {
-        if (onSwipeListener != null) {
-            onSwipeListener.onSwipe(animationType);
-        }
+    public boolean isActive() {
+        return state == ItemInfoState.State.OK;
     }
 }

@@ -16,14 +16,15 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
-import ru.fitsme.android.presentation.fragments.iteminfo.IOnSwipeListener;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
+import ru.fitsme.android.presentation.fragments.iteminfo.OnSwipeTouchListener;
 
 public class RateItemsFragment extends Fragment implements IOnSwipeListener {
     @Inject
     IClothesInteractor clothesInteractor;
 
     private RateItemsViewModel viewModel;
+    private ItemInfoFragment curFragment;
 
     public RateItemsFragment() {
         App.getInstance().getDi().inject(this);
@@ -51,6 +52,20 @@ public class RateItemsFragment extends Fragment implements IOnSwipeListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+            @Override
+            public void onSwipeRight() {
+                onSwipe(IOnSwipeListener.AnimationType.RIGHT);
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                onSwipe(IOnSwipeListener.AnimationType.LEFT);
+            }
+
+        });
+
         viewModel = ViewModelProviders.of(this,
                 new RateItemsViewModel.Factory(clothesInteractor)).get(RateItemsViewModel.class);
 
@@ -60,10 +75,14 @@ public class RateItemsFragment extends Fragment implements IOnSwipeListener {
 
     @Override
     public void onSwipe(AnimationType animationType) {
-        viewModel.likeClothesItem(false, animationType);
+        if (curFragment != null && curFragment.isActive()) {
+            viewModel.likeClothesItem(false, animationType);
+        }
     }
 
     private void onIndex(RateItemsState rateItemsState) {
+        curFragment = ItemInfoFragment.newInstance(rateItemsState.getIndex());
+
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 
         switch (rateItemsState.getAnimationType()) {
@@ -77,11 +96,13 @@ public class RateItemsFragment extends Fragment implements IOnSwipeListener {
                 transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_simple);
                 break;
         }
-        transaction.replace(R.id.container, ItemInfoFragment.newInstance(rateItemsState.getIndex()))
+        transaction.replace(R.id.container, curFragment)
                 .commit();
     }
 
     private void likeItem(boolean liked) {
-        viewModel.likeClothesItem(liked, AnimationType.SIMPLE);
+        if (curFragment != null && curFragment.isActive()) {
+            viewModel.likeClothesItem(liked, AnimationType.SIMPLE);
+        }
     }
 }

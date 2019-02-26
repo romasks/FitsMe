@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
-import ru.fitsme.android.presentation.fragments.iteminfo.IOnSwipeListener;
 
 public class RateItemsViewModel extends ViewModel {
     private final IClothesInteractor clothesInteractor;
@@ -23,7 +22,8 @@ public class RateItemsViewModel extends ViewModel {
 
         disposable = clothesInteractor.getLastIndexSingle()
                 .subscribe(index -> {
-                    RateItemsState rateItemsState = new RateItemsState(++firstIndex,
+                    firstIndex = index;
+                    RateItemsState rateItemsState = new RateItemsState(firstIndex,
                             IOnSwipeListener.AnimationType.NONE);
                     indexLiveData.setValue(rateItemsState);
                 });
