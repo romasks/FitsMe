@@ -12,6 +12,12 @@
         android:layout_margin="16dp"
         app:cardBackgroundColor="#555555">
 
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <TextView
             android:id="@+id/tv_index"
             android:layout_width="match_parent"

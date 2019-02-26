@@ -75,7 +75,7 @@ public class DI {
     @NonNull
     @Named("serverBaseUrl")
     private String serverBaseUrl() {
-        return "https://fitsme.ru/customers/";
+        return "https://fitsme.ru/";
     }
 
     @NonNull

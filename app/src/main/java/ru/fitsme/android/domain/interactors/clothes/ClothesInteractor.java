@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Scheduler;
@@ -19,6 +20,7 @@ import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 
+@Singleton
 public class ClothesInteractor implements IClothesInteractor {
 
     private final IClothesIndexRepository clothesIndexRepository;

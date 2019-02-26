@@ -12,10 +12,10 @@ import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 
 public interface ApiService {
-    @POST("signup/")
+    @POST("customers/signup/")
     Call<OkResponse<AuthToken>> signUp(@Body SignInInfo signInInfo);
 
-    @POST("signin/")
+    @POST("customers/signin/")
     Call<OkResponse<AuthToken>> signIn(@Body SignInInfo signInInfo);
 
     @GET("clothes/")

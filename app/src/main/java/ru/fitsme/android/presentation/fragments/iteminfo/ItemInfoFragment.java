@@ -9,7 +9,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import javax.inject.Inject;
 
@@ -26,6 +29,7 @@ public class ItemInfoFragment extends Fragment {
     IClothesInteractor clothesInteractor;
 
     private TextView textViewIndex;
+    private ImageView imageViewPhoto;
 
     private IOnSwipeListener onSwipeListener = null;
     private int index;
@@ -51,6 +55,7 @@ public class ItemInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_item_info, container, false);
 
         textViewIndex = view.findViewById(R.id.tv_index);
+        imageViewPhoto = view.findViewById(R.id.iv_photo);
 
         return view;
     }
@@ -79,6 +84,15 @@ public class ItemInfoFragment extends Fragment {
                 textViewIndex.setText("loading");
                 break;
             case OK:
+                String url = itemInfoState.getClothesItem()
+                        .getPics()
+                        .get(0)
+                        .getUrl()
+                        .replace("random", "image=");
+                url += itemInfoState.getClothesItem().getId() % 400;
+                Glide.with(imageViewPhoto)
+                        .load(url)//TODO:debug
+                        .into(imageViewPhoto);
                 textViewIndex.setText(index + " index");
                 break;
         }
