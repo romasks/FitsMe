@@ -23,7 +23,7 @@ public interface IFavouritesInteractor {
     Completable removeItemFromFavourites(int index);
 
     @NonNull
-    Completable revertItemToFavourites(int index);
+    Completable restoreItemToFavourites(int index);
 
     @NonNull
     Completable moveFavouritesItemToBasket(int index);

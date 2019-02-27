@@ -2,6 +2,7 @@ package ru.fitsme.android.domain.interactors.favourites;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
@@ -9,11 +10,13 @@ import javax.inject.Named;
 import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.SingleOnSubscribe;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesIndexRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.exceptions.AppException;
 
 public class FavouritesInteractor implements IFavouritesInteractor {
 
@@ -41,36 +44,87 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     @NonNull
     @Override
     public Single<Integer> getLastIndexSingle() {
-        return null;
+        return Single.create((SingleOnSubscribe<Integer>) emitter ->
+                emitter.onSuccess(favouritesIndexRepository.getLastFavouritesItemIndex()))
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 
     @NonNull
     @Override
     public Single<ClothesItem> getSingleFavouritesItem(int index) {
-        return null;
+        return Single.create((SingleOnSubscribe<ClothesItem>) emitter ->
+                emitter.onSuccess(getFavouritesItem(index)))
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 
     @NonNull
     @Override
     public Single<List<ClothesItem>> getSingleFavouritesItems(int firstIndex, int count) {
-        return null;
+        return Single.create((SingleOnSubscribe<List<ClothesItem>>) emitter ->
+                emitter.onSuccess(getFavouritesItems(firstIndex, count)))
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
+    }
+
+    @NonNull
+    private List<ClothesItem> getFavouritesItems(int firstIndex, int count) throws AppException {
+        List<ClothesItem> items = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            items.add(getFavouritesItem(firstIndex + i));
+        }
+        return items;
+    }
+
+    private ClothesItem getFavouritesItem(int index) throws AppException {
+        String token = userInfoRepository.getAuthInfo().getToken();
+        return getFavouritesItem(token, index);
+    }
+
+    private ClothesItem getFavouritesItem(String token, int index) throws AppException {
+        return favouritesRepository.getFavouritesItem(token, index);
     }
 
     @NonNull
     @Override
     public Completable removeItemFromFavourites(int index) {
-        return null;
+        return Completable.create(emitter -> {
+            String token = userInfoRepository.getAuthInfo().getToken();
+            ClothesItem clothesItem = getFavouritesItem(token, index);
+            favouritesActionRepository.removeItem(token, clothesItem.getId());
+//            favouritesIndexRepository.setLastFavouritesItemIndex(index);
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 
     @NonNull
     @Override
-    public Completable revertItemToFavourites(int index) {
-        return null;
+    public Completable restoreItemToFavourites(int index) {
+        return Completable.create(emitter -> {
+            String token = userInfoRepository.getAuthInfo().getToken();
+            ClothesItem clothesItem = getFavouritesItem(token, index);
+            favouritesActionRepository.restoreItem(token, clothesItem.getId());
+//            favouritesIndexRepository.setLastFavouritesItemIndex(index + 1);
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 
     @NonNull
     @Override
     public Completable moveFavouritesItemToBasket(int index) {
-        return null;
+        return Completable.create(emitter -> {
+            String token = userInfoRepository.getAuthInfo().getToken();
+            ClothesItem clothesItem = getFavouritesItem(token, index);
+            favouritesActionRepository.orderItem(token, clothesItem.getId());
+//            favouritesIndexRepository.setLastFavouritesItemIndex(index + 1);
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 }
