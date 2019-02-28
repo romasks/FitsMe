@@ -93,7 +93,6 @@ public class FavouritesInteractor implements IFavouritesInteractor {
             String token = userInfoRepository.getAuthInfo().getToken();
             ClothesItem clothesItem = getFavouritesItem(token, index);
             favouritesActionRepository.removeItem(token, clothesItem.getId());
-//            favouritesIndexRepository.setLastFavouritesItemIndex(index);
             emitter.onComplete();
         })
                 .subscribeOn(workThread)
@@ -107,7 +106,6 @@ public class FavouritesInteractor implements IFavouritesInteractor {
             String token = userInfoRepository.getAuthInfo().getToken();
             ClothesItem clothesItem = getFavouritesItem(token, index);
             favouritesActionRepository.restoreItem(token, clothesItem.getId());
-//            favouritesIndexRepository.setLastFavouritesItemIndex(index + 1);
             emitter.onComplete();
         })
                 .subscribeOn(workThread)
@@ -121,7 +119,6 @@ public class FavouritesInteractor implements IFavouritesInteractor {
             String token = userInfoRepository.getAuthInfo().getToken();
             ClothesItem clothesItem = getFavouritesItem(token, index);
             favouritesActionRepository.orderItem(token, clothesItem.getId());
-//            favouritesIndexRepository.setLastFavouritesItemIndex(index + 1);
             emitter.onComplete();
         })
                 .subscribeOn(workThread)
