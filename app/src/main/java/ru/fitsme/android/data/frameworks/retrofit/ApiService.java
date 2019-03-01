@@ -21,4 +21,9 @@ public interface ApiService {
     @GET("clothes/")
     Call<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,
                                              @Query("page") int page);
+
+    @POST("viewed/")
+    Call<OkResponse<String>> likeItem(@Header("Authorization") String token,
+                                      @Query("clothe_id") int clothe_id,
+                                      @Query("liked") boolean liked);
 }

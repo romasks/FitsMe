@@ -85,8 +85,12 @@ public class WebLoader {
         throw new InternetConnectionException();
     }
 
-    public void likeItem(int id, boolean liked) {
+    public void likeItem(@NonNull String token, int id, boolean liked) throws UserException {
+        Timber.d("WebLoader.likeItem");
         //TODO: реализовать обращение к серверу для проставления лайка
+        String headerToken = "Token " + token;
+        String response = executeRequest(() -> apiService.likeItem(headerToken, id, liked));
+        Timber.d("response: %s", response);
     }
 
     public interface ExecutableRequest<T> {

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesLikeRepository;
+import ru.fitsme.android.domain.entities.exceptions.AppException;
 
 public class ClothesLikeRepository implements IClothesLikeRepository {
 
@@ -17,7 +18,7 @@ public class ClothesLikeRepository implements IClothesLikeRepository {
     }
 
     @Override
-    public void likeItem(@NonNull String token, int id, boolean liked) {
-        webLoader.likeItem(id, liked);
+    public void likeItem(@NonNull String token, int id, boolean liked) throws AppException {
+        webLoader.likeItem(token, id, liked);
     }
 }
