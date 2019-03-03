@@ -12,8 +12,10 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
+import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
@@ -76,7 +78,7 @@ public class WebLoader {
         try {
             Response<OkResponse<T>> response = executableRequest.request().execute();
 
-            if (response.isSuccessful() && response.code() == 200 && response.body() != null) {
+            if (response.isSuccessful() && response.body() != null) {
                 return getResponse(response.body());
             }
         } catch (IOException | InternalException | JsonSyntaxException e) {
@@ -86,11 +88,9 @@ public class WebLoader {
     }
 
     public void likeItem(@NonNull String token, int id, boolean liked) throws UserException {
-        Timber.d("WebLoader.likeItem");
         //TODO: реализовать обращение к серверу для проставления лайка
         String headerToken = "Token " + token;
-        String response = executeRequest(() -> apiService.likeItem(headerToken, id, liked));
-        Timber.d("response: %s", response);
+        LikedClothesItem item = executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
     }
 
     public interface ExecutableRequest<T> {
