@@ -15,7 +15,6 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
-import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
@@ -88,9 +87,8 @@ public class WebLoader {
     }
 
     public void likeItem(@NonNull String token, int id, boolean liked) throws UserException {
-        //TODO: реализовать обращение к серверу для проставления лайка
         String headerToken = "Token " + token;
-        LikedClothesItem item = executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
+        executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
     }
 
     public interface ExecutableRequest<T> {
