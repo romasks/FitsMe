@@ -7,8 +7,10 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
+import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 
 public interface ApiService {
@@ -21,4 +23,8 @@ public interface ApiService {
     @GET("clothes/")
     Call<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,
                                              @Query("page") int page);
+
+    @POST("viewed/")
+    Call<OkResponse<LikedClothesItem>> likeItem(@Header("Authorization") String token,
+                                                @Body LikedItem likedItem);
 }
