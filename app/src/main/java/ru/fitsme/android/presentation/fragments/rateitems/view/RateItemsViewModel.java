@@ -30,7 +30,7 @@ public class RateItemsViewModel extends ViewModel {
     }
 
     public void likeClothesItem(boolean liked, IOnSwipeListener.AnimationType animationType) {
-        //TODO: доделать
+        //TODO: можно вставить уведомление об лайке/дизлайке
         clothesInteractor.setLikeToClothesItem(firstIndex, liked)
                 .subscribe(() -> {
                 }, throwable -> {

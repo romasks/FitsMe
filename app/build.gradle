@@ -27,21 +27,20 @@ android {
 }
 
 dependencies {
-    String androidSupportVersion = '28.0.0'
     String archLifecycleVersion = '1.1.1'
     String glideVersion = '4.2.0'
     String retrofitVersion = '2.3.0'
     String stephanenicolasVersion = '1.1.3'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:appcompat-v7:$androidSupportVersion"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation "com.android.support:cardview-v7:$androidSupportVersion"
-    implementation "com.android.support:design:$androidSupportVersion"
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
 
     implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
     implementation "android.arch.lifecycle:reactivestreams:$archLifecycleVersion"
-    implementation "com.android.support:support-v4:$androidSupportVersion"
+    implementation 'com.android.support:support-v4:28.0.0'
     annotationProcessor "android.arch.lifecycle:compiler:$archLifecycleVersion"
 
     implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
