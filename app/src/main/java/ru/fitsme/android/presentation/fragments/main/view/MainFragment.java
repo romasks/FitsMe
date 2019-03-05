@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.presentation.fragments.basket.BasketFragment;
+import ru.fitsme.android.presentation.fragments.favourites.view.FavouritesFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.ProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.view.RateItemsFragment;
 
@@ -43,8 +44,11 @@ public class MainFragment extends Fragment {
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 item -> {
                     switch (item.getItemId()) {
-                        case R.id.action_profile:
+                        /*case R.id.action_profile:
                             switchFragment(ProfileFragment.newInstance());
+                            return true;*/
+                        case R.id.action_favourites:
+                            switchFragment(FavouritesFragment.newInstance());
                             return true;
                         case R.id.action_likes:
                             switchFragment(RateItemsFragment.newInstance());
