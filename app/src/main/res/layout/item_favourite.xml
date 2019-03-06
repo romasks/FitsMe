@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="172dp"
+    android:padding="@dimen/default_margin">
+
+    <ImageView
+        android:id="@+id/favourite_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/clother_example" />
+
+    <TextView
+        android:id="@+id/favourites_brand_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/favourite_image"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:paddingBottom="4dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        tools:text="@string/brand_name_hint_in_two_lines" />
+
+    <TextView
+        android:id="@+id/favourites_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/favourites_brand_name"
+        android:layout_toRightOf="@id/favourite_image"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:paddingBottom="4dp"
+        tools:text="@string/clothe_name_hint" />
+
+    <TextView
+        android:id="@+id/favourites_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/favourites_name"
+        android:layout_toRightOf="@id/favourite_image"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:paddingBottom="4dp"
+        android:textStyle="bold"
+        tools:text="@string/clothe_price_hint" />
+
+    <Button
+        android:id="@+id/favourites_btn_to_basket"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_toRightOf="@id/favourite_image"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:background="#940235"
+        android:text="@string/to_basket"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>

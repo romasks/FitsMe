@@ -16,4 +16,8 @@
     <string name="password">Пароль</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="brand_name_hint_in_two_lines">Название бренда \nв две строки</string>
+    <string name="clothe_name_hint">Название товара</string>
+    <string name="clothe_price_hint">7000 P</string>
+    <string name="to_basket">В корзину</string>
 </resources>
