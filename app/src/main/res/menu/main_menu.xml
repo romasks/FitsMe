@@ -18,4 +18,11 @@
         android:icon="@drawable/ic_app_logo"
         android:title=""
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_4_item"
+        android:icon="@drawable/ic_app_logo"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
 </menu>
