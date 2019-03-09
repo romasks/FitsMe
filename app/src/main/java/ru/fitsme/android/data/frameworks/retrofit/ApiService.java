@@ -30,6 +30,6 @@ public interface ApiService {
                                                 @Body LikedItem likedItem);
 
     @GET("/viewed/?page={pageNumber}")
-    Call<OkResponse<ClothesPage>> getLikedClothes(@Header("Authorization") String token,
+    Call<OkResponse<ClothesPage>> getFavouritesClothes(@Header("Authorization") String token,
                                                   @Path("pageNumber") int pageNumber);
 }
