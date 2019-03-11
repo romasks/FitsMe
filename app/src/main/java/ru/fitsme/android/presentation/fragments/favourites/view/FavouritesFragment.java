@@ -1,6 +1,5 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
-
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +19,7 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+
 
 public class FavouritesFragment extends Fragment {
     @Inject

@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,6 +42,8 @@ public class FavouritesViewModel extends ViewModel {
 
     void init() {
         adapter = new FavouritesAdapter(R.layout.item_favourite, this);
+        loading = new ObservableInt(View.GONE);
+        showEmpty = new ObservableInt(View.GONE);
     }
 
     FavouritesAdapter getAdapter() {
