@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Scheduler;
@@ -18,6 +20,7 @@ import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 
+@Singleton
 public class FavouritesInteractor implements IFavouritesInteractor {
 
     private final IFavouritesIndexRepository favouritesIndexRepository;
@@ -27,6 +30,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     private final Scheduler workThread;
     private final Scheduler mainThread;
 
+    @Inject
     public FavouritesInteractor(IFavouritesIndexRepository favouritesIndexRepository,
                                 IFavouritesRepository favouritesRepository,
                                 IFavouritesActionRepository favouritesActionRepository,
@@ -61,7 +65,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @NonNull
     @Override
-    public Single<List<ClothesItem>> getSingleFavouritesItems(int firstIndex, int count) {
+    public Single<List<ClothesItem>> getSingleFavouritesPage(int firstIndex, int count) {
         return Single.create((SingleOnSubscribe<List<ClothesItem>>) emitter ->
                 emitter.onSuccess(getFavouritesItems(firstIndex, count)))
                 .subscribeOn(workThread)

@@ -17,7 +17,7 @@ public interface IFavouritesInteractor {
     Single<ClothesItem> getSingleFavouritesItem(int index);
 
     @NonNull
-    Single<List<ClothesItem>> getSingleFavouritesItems(int firstIndex, int count);
+    Single<List<ClothesItem>> getSingleFavouritesPage(int firstIndex, int count);
 
     @NonNull
     Completable removeItemFromFavourites(int index);
