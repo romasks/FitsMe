@@ -1,6 +1,7 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hendraanggrian.widget.PaginatedRecyclerView;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 
@@ -26,7 +28,7 @@ public class FavouritesFragment extends Fragment {
     IFavouritesInteractor favouritesInteractor;
 
     private FavouritesViewModel viewModel;
-    private View fragmentView;
+    private FragmentFavouritesBinding binding;
 
     public FavouritesFragment() {
         App.getInstance().getDi().inject(this);
@@ -37,9 +39,10 @@ public class FavouritesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.fragment_favourites, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favourites, container, false);
+        View fragmentView = binding.getRoot();
         return fragmentView;
     }
 
@@ -54,7 +57,7 @@ public class FavouritesFragment extends Fragment {
             viewModel.init();
         }
 
-        ((PaginatedRecyclerView)fragmentView.findViewById(R.id.favourites_list_rv)).setAdapter(viewModel.getAdapter());
+        binding.favouritesListRv.setAdapter(viewModel.getAdapter());
 
         viewModel.loading.set(View.VISIBLE);
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
