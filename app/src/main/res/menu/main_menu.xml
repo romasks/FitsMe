@@ -9,12 +9,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_profile"
-        android:icon="@drawable/ic_app_logo"
-        android:title=""
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_likes"
         android:icon="@drawable/ic_app_logo"
         android:title=""
@@ -25,4 +19,11 @@
         android:icon="@drawable/ic_app_logo"
         android:title=""
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_app_logo"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
 </menu>
