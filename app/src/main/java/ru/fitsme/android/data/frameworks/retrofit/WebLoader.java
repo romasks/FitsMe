@@ -16,11 +16,19 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
+import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
+import ru.fitsme.android.domain.entities.exceptions.user.InvalidTokenException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginIncorrectException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginOrPasswordNotValidException;
+import ru.fitsme.android.domain.entities.exceptions.user.PasswordIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.ProductInListOfViewedException;
+import ru.fitsme.android.domain.entities.exceptions.user.TokenNotSearchUser;
+import ru.fitsme.android.domain.entities.exceptions.user.TokenOutOfDateException;
+import ru.fitsme.android.domain.entities.exceptions.user.TokenUserNotActiveException;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 import timber.log.Timber;
@@ -45,11 +53,27 @@ public class WebLoader {
     private UserException makeException(Error error) throws InternalException {
         switch (error.getCode()) {
             case 100001:
-                return new LoginOrPasswordNotValidException();
+                return new LoginOrPasswordNotValidException(error.getMessage());
             case 100002:
-                return new LoginAlreadyInUseException();
+                return new LoginAlreadyInUseException(error.getMessage());
             case 100003:
-                return new LoginIncorrectException();
+                return new LoginIncorrectException(error.getMessage());
+            case 100004:
+                return new PasswordIncorrectException(error.getMessage());
+            case 100005:
+                return new WrongTokenException(error.getMessage());
+            case 100006:
+                return new InvalidTokenException(error.getMessage());
+            case 100007:
+                return new TokenOutOfDateException(error.getMessage());
+            case 100010:
+                return new TokenNotSearchUser(error.getMessage());
+            case 100011:
+                return new TokenUserNotActiveException(error.getMessage());
+            case 100012:
+                return new ProductInListOfViewedException(error.getMessage());
+            case 100013:
+                return new ClotheNotFoundException(error.getMessage());
             case 900001:
                 throw new InternalException(error.getMessage());
         }
