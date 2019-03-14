@@ -1,16 +1,17 @@
 package ru.fitsme.android.presentation.fragments.main.view;
 
-
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
+import ru.fitsme.android.databinding.FragmentMainBinding;
 import ru.fitsme.android.presentation.fragments.basket.BasketFragment;
 import ru.fitsme.android.presentation.fragments.favourites.view.FavouritesFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.ProfileFragment;
@@ -18,9 +19,11 @@ import ru.fitsme.android.presentation.fragments.rateitems.view.RateItemsFragment
 
 
 public class MainFragment extends Fragment {
-    private BottomNavigationView bottomNavigationView;
+
+    private FragmentMainBinding binding;
 
     public MainFragment() {
+        App.getInstance().getDi().inject(this);
     }
 
     public static MainFragment newInstance() {
@@ -30,7 +33,8 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -40,8 +44,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initBottomNavigation(View view) {
-        bottomNavigationView = view.findViewById(R.id.bnv_main_fr_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
+        binding.bnvMainFrNavigation.setOnNavigationItemSelectedListener(
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.action_items:
@@ -59,7 +62,7 @@ public class MainFragment extends Fragment {
                     }
                     return false;
                 });
-        bottomNavigationView.setSelectedItemId(R.id.action_likes);
+        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
     }
 
     private void switchFragment(Fragment fragment) {
