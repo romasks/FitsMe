@@ -52,29 +52,29 @@ public class WebLoader {
     @NonNull
     private UserException makeException(Error error) throws InternalException {
         switch (error.getCode()) {
-            case 100001:
+            case LoginOrPasswordNotValidException.CODE:
                 return new LoginOrPasswordNotValidException(error.getMessage());
-            case 100002:
+            case LoginAlreadyInUseException.CODE:
                 return new LoginAlreadyInUseException(error.getMessage());
-            case 100003:
+            case LoginIncorrectException.CODE:
                 return new LoginIncorrectException(error.getMessage());
-            case 100004:
+            case PasswordIncorrectException.CODE:
                 return new PasswordIncorrectException(error.getMessage());
-            case 100005:
+            case WrongTokenException.CODE:
                 return new WrongTokenException(error.getMessage());
-            case 100006:
+            case InvalidTokenException.CODE:
                 return new InvalidTokenException(error.getMessage());
-            case 100007:
+            case TokenOutOfDateException.CODE:
                 return new TokenOutOfDateException(error.getMessage());
-            case 100010:
+            case TokenNotSearchUser.CODE:
                 return new TokenNotSearchUser(error.getMessage());
-            case 100011:
+            case TokenUserNotActiveException.CODE:
                 return new TokenUserNotActiveException(error.getMessage());
-            case 100012:
+            case ProductInListOfViewedException.CODE:
                 return new ProductInListOfViewedException(error.getMessage());
-            case 100013:
+            case ClotheNotFoundException.CODE:
                 return new ClotheNotFoundException(error.getMessage());
-            case 900001:
+            case InternalException.CODE:
                 throw new InternalException(error.getMessage());
         }
         throw new InternalException("Unknown error (" + error.getCode() + "):" + error.getMessage());
