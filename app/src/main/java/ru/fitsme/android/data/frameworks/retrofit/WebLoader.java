@@ -19,10 +19,10 @@ import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.InvalidTokenException;
-import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
-import ru.fitsme.android.domain.entities.exceptions.user.LoginIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.user.LoginOrPasswordNotValidException;
-import ru.fitsme.android.domain.entities.exceptions.user.PasswordIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyExistException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.ProductInListOfViewedException;
 import ru.fitsme.android.domain.entities.exceptions.user.TokenNotSearchUser;
 import ru.fitsme.android.domain.entities.exceptions.user.TokenOutOfDateException;
@@ -52,14 +52,14 @@ public class WebLoader {
     @NonNull
     private UserException makeException(Error error) throws InternalException {
         switch (error.getCode()) {
-            case LoginOrPasswordNotValidException.CODE:
-                return new LoginOrPasswordNotValidException(error.getMessage());
-            case LoginAlreadyInUseException.CODE:
-                return new LoginAlreadyInUseException(error.getMessage());
-            case LoginIncorrectException.CODE:
-                return new LoginIncorrectException(error.getMessage());
-            case PasswordIncorrectException.CODE:
-                return new PasswordIncorrectException(error.getMessage());
+            case WrongLoginOrPasswordException.CODE:
+                return new WrongLoginOrPasswordException(error.getMessage());
+            case LoginAlreadyExistException.CODE:
+                return new LoginAlreadyExistException(error.getMessage());
+            case WrongLoginException.CODE:
+                return new WrongLoginException(error.getMessage());
+            case WrongPasswordException.CODE:
+                return new WrongPasswordException(error.getMessage());
             case WrongTokenException.CODE:
                 return new WrongTokenException(error.getMessage());
             case InvalidTokenException.CODE:
