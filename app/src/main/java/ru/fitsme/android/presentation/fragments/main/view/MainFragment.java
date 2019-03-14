@@ -44,14 +44,14 @@ public class MainFragment extends Fragment {
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 item -> {
                     switch (item.getItemId()) {
-                        /*case R.id.action_profile:
-                            switchFragment(ProfileFragment.newInstance());
-                            return true;*/
-                        case R.id.action_favourites:
-                            switchFragment(FavouritesFragment.newInstance());
+                        case R.id.action_items:
+                            switchFragment(RateItemsFragment.newInstance());
                             return true;
                         case R.id.action_likes:
-                            switchFragment(RateItemsFragment.newInstance());
+                            switchFragment(FavouritesFragment.newInstance());
+                            return true;
+                        case R.id.action_profile:
+                            switchFragment(ProfileFragment.newInstance());
                             return true;
                         case R.id.action_basket:
                             switchFragment(BasketFragment.newInstance());
