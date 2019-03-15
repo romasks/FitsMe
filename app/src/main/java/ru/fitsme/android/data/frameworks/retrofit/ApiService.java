@@ -31,5 +31,5 @@ public interface ApiService {
 
     @GET("/viewed/?page={pageNumber}")
     Call<OkResponse<ClothesPage>> getFavouritesClothes(@Header("Authorization") String token,
-                                                  @Path("pageNumber") int pageNumber);
+                                                       @Path("pageNumber") int pageNumber);
 }

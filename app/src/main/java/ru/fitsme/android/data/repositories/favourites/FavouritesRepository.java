@@ -13,21 +13,21 @@ import ru.fitsme.android.domain.entities.exceptions.AppException;
 public class FavouritesRepository implements IFavouritesRepository {
     private final WebLoader webLoader;
 
-    //ToDo @Inject
+    @Inject
     public FavouritesRepository(WebLoader webLoader) {
         this.webLoader = webLoader;
     }
 
     @NonNull
     @Override
-    public ClothesItem getFavouritesItem(@NonNull String token, int index) throws AppException {
-        return null;
+    public ClothesItem getFavouritesItem(@NonNull String token, int index) {
+        return new ClothesItem();
     }
 
     @NonNull
     @Override
     public ClothesPage getFavouritesPage(@NonNull String token, int page) throws AppException {
-        ClothesPage favouritesPage = webLoader.getFavouritesClothesPage(token,page);
+        ClothesPage favouritesPage = webLoader.getFavouritesClothesPage(token, page);
 
         return favouritesPage;
     }
