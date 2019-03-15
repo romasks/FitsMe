@@ -13,6 +13,10 @@ import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
+import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
+import ru.fitsme.android.domain.boundaries.favourites.IFavouritesIndexRepository;
+import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.TmpClothesItem;
@@ -72,6 +76,24 @@ public class FavouritesInteractor implements IFavouritesInteractor {
                 emitter.onSuccess(getFavouritesPage(page)))
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
+    }
+
+    @NonNull
+    private List<ClothesItem> getFavouritesItems(int page) throws AppException {
+        List<ClothesItem> items;
+        String token = userInfoRepository.getAuthInfo().getToken();
+        ClothesPage favouritesPage = favouritesRepository.getFavouritesItems(token, page);
+        items = favouritesPage.getItems();
+        return items;
+    }
+
+    private ClothesItem getFavouritesItem(int index) throws AppException {
+        String token = userInfoRepository.getAuthInfo().getToken();
+        return getFavouritesItem(token, index);
+    }
+
+    private ClothesItem getFavouritesItem(String token, int index) throws AppException {
+        return favouritesRepository.getFavouritesItem(token, index);
     }
 
     @NonNull

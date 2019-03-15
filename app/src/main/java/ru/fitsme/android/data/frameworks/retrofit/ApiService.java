@@ -5,6 +5,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
@@ -27,4 +28,8 @@ public interface ApiService {
     @POST("viewed/")
     Call<OkResponse<LikedClothesItem>> likeItem(@Header("Authorization") String token,
                                                 @Body LikedItem likedItem);
+
+    @GET("/viewed/?page={pageNumber}")
+    Call<OkResponse<ClothesPage>> getFavouritesClothes(@Header("Authorization") String token,
+                                                  @Path("pageNumber") int pageNumber);
 }
