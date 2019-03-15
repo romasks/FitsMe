@@ -91,6 +91,11 @@ public class WebLoader {
         executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
     }
 
+    public ClothesPage getFavouritesClothesPage(@NonNull String token, int page) throws UserException {
+        String headerToken = "Token " + token;
+        return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
+    }
+
     public interface ExecutableRequest<T> {
         @NonNull
         Call<OkResponse<T>> request();
