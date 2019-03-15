@@ -34,7 +34,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_toRightOf="@id/favourite_image"
             android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouritesItemAt(position).brand}"
+            android:text="@{viewModel.getFavouriteItemAt(position).brand}"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="@string/brand_name_hint_in_two_lines" />
@@ -47,7 +47,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_toRightOf="@id/favourite_image"
             android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouritesItemAt(position).name}"
+            android:text="@{viewModel.getFavouriteItemAt(position).name}"
             tools:text="@string/clothe_name_hint" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_toRightOf="@id/favourite_image"
             android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouritesItemAt(position).description}"
+            android:text="@{viewModel.getFavouriteItemAt(position).description}"
             android:textStyle="bold"
             tools:text="@string/clothe_price_hint" />
 

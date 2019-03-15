@@ -20,4 +20,5 @@
     <string name="clothe_name_hint">Название товара</string>
     <string name="clothe_price_hint">7000 P</string>
     <string name="to_basket">В корзину</string>
+    <string name="no_items_in_favourites">Нету товаров в избранном</string>
 </resources>

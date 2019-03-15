@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Нету товаров в избранном"
+            android:text="@string/no_items_in_favourites"
             android:visibility="@{model.showEmpty}" />
 
     </FrameLayout>

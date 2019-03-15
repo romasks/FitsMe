@@ -1,10 +1,8 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
-import android.databinding.ObservableArrayList;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -21,26 +19,28 @@ import timber.log.Timber;
 
 public class FavouritesViewModel extends ViewModel {
 
+    private static final String TAG = "FavouritesViewModel";
+
     private final IFavouritesInteractor favouritesInteractor;
 
-    public ObservableArrayList<ClothesItem> favourites;
-
-    private final MutableLiveData<List<ClothesItem>> pageLiveData = new MutableLiveData<>();
-    private Disposable disposable;
+    private MutableLiveData<List<ClothesItem>> pageLiveData;
     private FavouritesAdapter adapter;
+    private Disposable disposable;
+
     public ObservableInt loading;
     public ObservableInt showEmpty;
 
     private FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
 
-        disposable = favouritesInteractor.getSingleFavouritesPage(0, 5)
-                .subscribe(favouritesList -> {
-                    pageLiveData.setValue(favouritesList);
+        disposable = favouritesInteractor.getSingleFavouritesPage(0)
+                .subscribe(favouritesPage -> {
+                    pageLiveData.setValue(favouritesPage);
                 });
     }
 
     void init() {
+        pageLiveData = new MutableLiveData<>();
         adapter = new FavouritesAdapter(R.layout.item_favourite, this);
         loading = new ObservableInt(View.GONE);
         showEmpty = new ObservableInt(View.GONE);
@@ -55,7 +55,7 @@ public class FavouritesViewModel extends ViewModel {
         this.adapter.notifyDataSetChanged();
     }
 
-    LiveData<List<ClothesItem>> getPageLiveData() {
+    MutableLiveData<List<ClothesItem>> getPageLiveData() {
         return pageLiveData;
     }
 
@@ -66,7 +66,7 @@ public class FavouritesViewModel extends ViewModel {
         disposable.dispose();
     }
 
-    public ClothesItem getFavouritesItemAt(Integer index) {
+    public ClothesItem getFavouriteItemAt(Integer index) {
         if (pageLiveData.getValue() != null &&
                 index != null &&
                 pageLiveData.getValue().size() > index) {
