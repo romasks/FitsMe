@@ -26,7 +26,7 @@ public class FavouritesRepository implements IFavouritesRepository {
 
     @NonNull
     @Override
-    public ClothesPage getFavouritesItems(@NonNull String token, int page) throws AppException {
+    public ClothesPage getFavouritesPage(@NonNull String token, int page) throws AppException {
         ClothesPage favouritesPage = webLoader.getFavouritesClothesPage(token,page);
 
         return favouritesPage;

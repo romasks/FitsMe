@@ -2,7 +2,6 @@ package ru.fitsme.android.domain.interactors.favourites;
 
 import android.support.annotation.NonNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,34 +13,27 @@ import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
-import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
-import ru.fitsme.android.domain.boundaries.favourites.IFavouritesIndexRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.clothes.TmpClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
-import timber.log.Timber;
 
 @Singleton
 public class FavouritesInteractor implements IFavouritesInteractor {
 
     private static final String TAG = "FavouritesInteractor";
 
-    //    private final IFavouritesRepository favouritesRepository;
+    private final IFavouritesRepository favouritesRepository;
     private final IUserInfoRepository userInfoRepository;
     private final Scheduler workThread;
     private final Scheduler mainThread;
 
     @Inject
-    FavouritesInteractor(
-//            IFavouritesRepository favouritesRepository,
-            IUserInfoRepository userInfoRepository,
-            @Named("work") Scheduler workThread,
-            @Named("main") Scheduler mainThread) {
-//        this.favouritesIndexRepository = favouritesIndexRepository;
-//        this.favouritesActionRepository = favouritesActionRepository;
-//        this.favouritesRepository = favouritesRepository;
+    FavouritesInteractor(IFavouritesRepository favouritesRepository,
+                         IUserInfoRepository userInfoRepository,
+                         @Named("work") Scheduler workThread,
+                         @Named("main") Scheduler mainThread) {
+        this.favouritesRepository = favouritesRepository;
         this.userInfoRepository = userInfoRepository;
         this.workThread = workThread;
         this.mainThread = mainThread;
@@ -70,8 +62,6 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     @NonNull
     @Override
     public Single<List<ClothesItem>> getSingleFavouritesPage(int page) {
-        Timber.tag(TAG).d("getSingleFavouritesPage");
-        Timber.tag(TAG).d("page: %s", page);
         return Single.create((SingleOnSubscribe<List<ClothesItem>>) emitter ->
                 emitter.onSuccess(getFavouritesPage(page)))
                 .subscribeOn(workThread)
@@ -79,10 +69,10 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     }
 
     @NonNull
-    private List<ClothesItem> getFavouritesItems(int page) throws AppException {
+    private List<ClothesItem> getFavouritesPage(int page) throws AppException {
         List<ClothesItem> items;
         String token = userInfoRepository.getAuthInfo().getToken();
-        ClothesPage favouritesPage = favouritesRepository.getFavouritesItems(token, page);
+        ClothesPage favouritesPage = favouritesRepository.getFavouritesPage(token, page);
         items = favouritesPage.getItems();
         return items;
     }
@@ -135,26 +125,4 @@ public class FavouritesInteractor implements IFavouritesInteractor {
                 .observeOn(mainThread);
     }
 
-    private List<ClothesItem> getFavouritesPage(int page) throws AppException {
-        String token = userInfoRepository.getAuthInfo().getToken();
-        Timber.tag(TAG).d("token: %s", token);
-        List<ClothesItem> items = Arrays.asList(
-                new TmpClothesItem(), new TmpClothesItem(), new TmpClothesItem(), new TmpClothesItem(), new TmpClothesItem()
-        );
-        Timber.tag(TAG).d("items: %s", items);
-        Timber.tag(TAG).d("items size: %s", items.size());
-        Timber.tag(TAG).d("items item: %s", items.get(0).getClass().getName());
-        return items;
-//        return favouritesRepository.getFavouritesPage(token, firstIndex, count);
-    }
-
-    private ClothesItem getFavouritesItem(int index) throws AppException {
-        String token = userInfoRepository.getAuthInfo().getToken();
-        return getFavouritesItem(token, index);
-    }
-
-    private ClothesItem getFavouritesItem(String token, int index) throws AppException {
-        return null;
-//        return favouritesRepository.getFavouritesItem(token, index);
-    }
 }
