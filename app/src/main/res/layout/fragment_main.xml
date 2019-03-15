@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bnv_main_fr_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        android:foreground="?attr/selectableItemBackground"
-        app:elevation="6dp"
-        app:itemBackground="@color/white"
-        app:itemIconTint="#8a000000"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/main_menu" />
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bnv_main_fr_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?android:attr/windowBackground"
+            android:foreground="?attr/selectableItemBackground"
+            app:elevation="6dp"
+            app:itemBackground="@color/white"
+            app:itemIconTint="#8a000000"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/main_menu" />
 
-</LinearLayout>
+    </LinearLayout>
+
+</layout>

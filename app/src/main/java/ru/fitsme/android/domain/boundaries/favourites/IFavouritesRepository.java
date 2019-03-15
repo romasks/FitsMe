@@ -12,5 +12,5 @@ public interface IFavouritesRepository {
     ClothesItem getFavouritesItem(@NonNull String token, int index) throws AppException;
 
     @NonNull
-    ClothesPage getFavouritesItems(@NonNull String token, int index) throws AppException;
+    ClothesPage getFavouritesPage(@NonNull String token, int page) throws AppException;
 }

@@ -9,7 +9,7 @@ public class ClothesItem {
     private String description;
     private List<String> material;
     private List<Picture> pics;
-
+// TODO: price ?
 
     public int getId() {
         return id;
