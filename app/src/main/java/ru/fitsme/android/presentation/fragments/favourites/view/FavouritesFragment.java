@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 
 
@@ -63,7 +63,7 @@ public class FavouritesFragment extends Fragment {
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
     }
 
-    private void onLoadPage(List<ClothesItem> favouritesPage) {
+    private void onLoadPage(List<FavouritesItem> favouritesPage) {
         viewModel.loading.set(View.GONE);
         if (favouritesPage.size() == 0) {
             viewModel.showEmpty.set(View.VISIBLE);

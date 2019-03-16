@@ -5,15 +5,11 @@
     <data>
         <variable
             name="position"
-            type="Integer"/>
+            type="Integer" />
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel"/>
-
-        <variable
-            name="favourite"
-            type="ru.fitsme.android.domain.entities.clothes.ClothesItem" />
+            type="ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel" />
     </data>
 
     <RelativeLayout
@@ -24,8 +20,7 @@
         <ImageView
             android:id="@+id/favourite_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/clother_example" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/favourites_brand_name"
@@ -34,7 +29,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_toRightOf="@id/favourite_image"
             android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouriteItemAt(position).brand}"
+            android:text="@{viewModel.getFavouriteItemAt(position).item.brand}"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="@string/brand_name_hint_in_two_lines" />
@@ -47,7 +42,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_toRightOf="@id/favourite_image"
             android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouriteItemAt(position).name}"
+            android:text="@{viewModel.getFavouriteItemAt(position).item.name}"
             tools:text="@string/clothe_name_hint" />
 
         <TextView
@@ -58,7 +53,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_toRightOf="@id/favourite_image"
             android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouriteItemAt(position).description}"
+            android:text="@{viewModel.getFavouriteItemAt(position).item.description}"
             android:textStyle="bold"
             tools:text="@string/clothe_price_hint" />
 

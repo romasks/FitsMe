@@ -12,11 +12,11 @@ import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
-import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 @Singleton
 public class FavouritesInteractor implements IFavouritesInteractor {
@@ -52,8 +52,8 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @NonNull
     @Override
-    public Single<ClothesItem> getSingleFavouritesItem(int index) {
-        return Single.create((SingleOnSubscribe<ClothesItem>) emitter ->
+    public Single<FavouritesItem> getSingleFavouritesItem(int index) {
+        return Single.create((SingleOnSubscribe<FavouritesItem>) emitter ->
                 emitter.onSuccess(getFavouritesItem(index)))
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
@@ -61,28 +61,28 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @NonNull
     @Override
-    public Single<List<ClothesItem>> getSingleFavouritesPage(int page) {
-        return Single.create((SingleOnSubscribe<List<ClothesItem>>) emitter ->
+    public Single<List<FavouritesItem>> getSingleFavouritesPage(int page) {
+        return Single.create((SingleOnSubscribe<List<FavouritesItem>>) emitter ->
                 emitter.onSuccess(getFavouritesPage(page)))
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }
 
     @NonNull
-    private List<ClothesItem> getFavouritesPage(int page) throws AppException {
-        List<ClothesItem> items;
+    private List<FavouritesItem> getFavouritesPage(int page) throws AppException {
+        List<FavouritesItem> items;
         String token = userInfoRepository.getAuthInfo().getToken();
-        ClothesPage favouritesPage = favouritesRepository.getFavouritesPage(token, page);
+        FavouritesPage favouritesPage = favouritesRepository.getFavouritesPage(token, page);
         items = favouritesPage.getItems();
         return items;
     }
 
-    private ClothesItem getFavouritesItem(int index) throws AppException {
+    private FavouritesItem getFavouritesItem(int index) throws AppException {
         String token = userInfoRepository.getAuthInfo().getToken();
         return getFavouritesItem(token, index);
     }
 
-    private ClothesItem getFavouritesItem(String token, int index) throws AppException {
+    private FavouritesItem getFavouritesItem(String token, int index) throws AppException {
         return favouritesRepository.getFavouritesItem(token, index);
     }
 
@@ -91,7 +91,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     public Completable removeItemFromFavourites(int index) {
         return Completable.create(emitter -> {
             String token = userInfoRepository.getAuthInfo().getToken();
-            ClothesItem clothesItem = getFavouritesItem(token, index);
+            FavouritesItem favouritesItem = getFavouritesItem(token, index);
 //            favouritesActionRepository.removeItem(token, clothesItem.getId());
             emitter.onComplete();
         })
@@ -104,7 +104,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     public Completable restoreItemToFavourites(int index) {
         return Completable.create(emitter -> {
             String token = userInfoRepository.getAuthInfo().getToken();
-            ClothesItem clothesItem = getFavouritesItem(token, index);
+            FavouritesItem clothesItem = getFavouritesItem(token, index);
 //            favouritesActionRepository.restoreItem(token, clothesItem.getId());
             emitter.onComplete();
         })
@@ -117,7 +117,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     public Completable moveFavouritesItemToBasket(int index) {
         return Completable.create(emitter -> {
             String token = userInfoRepository.getAuthInfo().getToken();
-            ClothesItem clothesItem = getFavouritesItem(token, index);
+            FavouritesItem clothesItem = getFavouritesItem(token, index);
 //            favouritesActionRepository.orderItem(token, clothesItem.getId());
             emitter.onComplete();
         })

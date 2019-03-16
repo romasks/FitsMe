@@ -7,18 +7,22 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import java.util.List;
 
 import ru.fitsme.android.BR;
+import ru.fitsme.android.R;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesAdapter.GenericViewHolder> {
 
     private int layoutId;
-    private List<ClothesItem> items;
+    private List<FavouritesItem> items;
     private FavouritesViewModel viewModel;
 
     FavouritesAdapter(@LayoutRes int layoutId, FavouritesViewModel viewModel) {
@@ -54,7 +58,7 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         return layoutId;
     }
 
-    public void setFavouritesItems(List<ClothesItem> items) {
+    public void setFavouritesItems(List<FavouritesItem> items) {
         this.items = items;
     }
 
@@ -67,6 +71,19 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         }
 
         void bind(FavouritesViewModel viewModel, Integer position) {
+            ClothesItem item = viewModel.getFavouriteItemAt(position).getItem();
+            String imageUrl = item.getPics()
+                    .get(0)
+                    .getUrl()
+                    .replace("random", "image=");
+            imageUrl += item.getId() % 400;
+
+            ImageView imageView = binding.getRoot().findViewById(R.id.favourite_image);
+            Glide.with(imageView)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.clother_example)
+                    .into(imageView);
+
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();

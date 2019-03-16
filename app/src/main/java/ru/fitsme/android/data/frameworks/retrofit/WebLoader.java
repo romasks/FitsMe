@@ -15,6 +15,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
@@ -91,7 +92,7 @@ public class WebLoader {
         executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
     }
 
-    public ClothesPage getFavouritesClothesPage(@NonNull String token, int page) throws UserException {
+    public FavouritesPage getFavouritesClothesPage(@NonNull String token, int page) throws UserException {
         String headerToken = "Token " + token;
         return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
     }

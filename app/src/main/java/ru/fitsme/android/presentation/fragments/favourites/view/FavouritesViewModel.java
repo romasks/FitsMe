@@ -13,7 +13,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.R;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import timber.log.Timber;
 
@@ -23,7 +23,7 @@ public class FavouritesViewModel extends ViewModel {
 
     private final IFavouritesInteractor favouritesInteractor;
 
-    private MutableLiveData<List<ClothesItem>> pageLiveData;
+    private MutableLiveData<List<FavouritesItem>> pageLiveData;
     private FavouritesAdapter adapter;
     private Disposable disposable;
 
@@ -50,12 +50,12 @@ public class FavouritesViewModel extends ViewModel {
         return adapter;
     }
 
-    void setFavouritesInAdapter(List<ClothesItem> favouritesPage) {
+    void setFavouritesInAdapter(List<FavouritesItem> favouritesPage) {
         this.adapter.setFavouritesItems(favouritesPage);
         this.adapter.notifyDataSetChanged();
     }
 
-    MutableLiveData<List<ClothesItem>> getPageLiveData() {
+    MutableLiveData<List<FavouritesItem>> getPageLiveData() {
         return pageLiveData;
     }
 
@@ -66,7 +66,7 @@ public class FavouritesViewModel extends ViewModel {
         disposable.dispose();
     }
 
-    public ClothesItem getFavouriteItemAt(Integer index) {
+    public FavouritesItem getFavouriteItemAt(Integer index) {
         if (pageLiveData.getValue() != null &&
                 index != null &&
                 pageLiveData.getValue().size() > index) {

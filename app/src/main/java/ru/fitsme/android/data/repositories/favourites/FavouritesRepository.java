@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
-import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public class FavouritesRepository implements IFavouritesRepository {
     private final WebLoader webLoader;
@@ -20,15 +20,13 @@ public class FavouritesRepository implements IFavouritesRepository {
 
     @NonNull
     @Override
-    public ClothesItem getFavouritesItem(@NonNull String token, int index) {
-        return new ClothesItem();
+    public FavouritesItem getFavouritesItem(@NonNull String token, int index) {
+        return new FavouritesItem();
     }
 
     @NonNull
     @Override
-    public ClothesPage getFavouritesPage(@NonNull String token, int page) throws AppException {
-        ClothesPage favouritesPage = webLoader.getFavouritesClothesPage(token, page);
-
-        return favouritesPage;
+    public FavouritesPage getFavouritesPage(@NonNull String token, int page) throws AppException {
+        return webLoader.getFavouritesClothesPage(token, page);
     }
 }
