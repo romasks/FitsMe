@@ -15,13 +15,13 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_basket"
+        android:id="@+id/action_profile"
         android:icon="@drawable/ic_app_logo"
         android:title=""
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_profile"
+        android:id="@+id/action_basket"
         android:icon="@drawable/ic_app_logo"
         android:title=""
         app:showAsAction="ifRoom" />

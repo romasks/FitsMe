@@ -6,7 +6,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public interface IFavouritesInteractor {
 
@@ -14,10 +14,10 @@ public interface IFavouritesInteractor {
     Single<Integer> getLastIndexSingle();
 
     @NonNull
-    Single<ClothesItem> getSingleFavouritesItem(int index);
+    Single<FavouritesItem> getSingleFavouritesItem(int index);
 
     @NonNull
-    Single<List<ClothesItem>> getSingleFavouritesItems(int firstIndex, int count);
+    Single<List<FavouritesItem>> getSingleFavouritesPage(int page);
 
     @NonNull
     Completable removeItemFromFavourites(int index);
