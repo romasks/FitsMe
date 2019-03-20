@@ -2,6 +2,8 @@ package ru.fitsme.android.app;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import ru.fitsme.android.app.di.DI;
 import timber.log.Timber;
 
@@ -21,6 +23,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         Timber.plant(new Timber.DebugTree());
 
