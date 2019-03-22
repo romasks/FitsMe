@@ -16,10 +16,10 @@ import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
-import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyInUseException;
-import ru.fitsme.android.domain.entities.exceptions.user.LoginIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.user.LoginOrPasswordNotValidException;
-import ru.fitsme.android.domain.entities.exceptions.user.PasswordIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyExistException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.AutoSignInInfo;
@@ -109,14 +109,14 @@ public class SignInUpInteractor implements ISignInUpInteractor {
             SignInUpResult signInUpResult = SignInUpResult.build();
             try {//TODO: переписать обработчики исключений
                 signInUpOperation.operation();
-            } catch (InternetConnectionException | LoginOrPasswordNotValidException e) {
+            } catch (InternetConnectionException | WrongLoginOrPasswordException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setCommonError(error);
-            } catch (LoginIncorrectException |
-                    LoginAlreadyInUseException e) {
+            } catch (WrongLoginException |
+                    LoginAlreadyExistException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setLoginError(error);
-            } catch (PasswordIncorrectException e) {
+            } catch (WrongPasswordException e) {
                 String error = resourceRepository.getUserErrorMessage(e);
                 signInUpResult.setPasswordError(error);
             } catch (UserException e) {

@@ -2,12 +2,12 @@ package ru.fitsme.android.domain.boundaries.signinup;
 
 import android.support.annotation.Nullable;
 
-import ru.fitsme.android.domain.entities.exceptions.user.LoginIncorrectException;
-import ru.fitsme.android.domain.entities.exceptions.user.PasswordIncorrectException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 
 public interface ITextValidator {
 
-    void checkLogin(@Nullable String login) throws LoginIncorrectException;
+    void checkLogin(@Nullable String login) throws WrongLoginException;
 
-    void checkPassword(@Nullable String password) throws PasswordIncorrectException;
+    void checkPassword(@Nullable String password) throws WrongPasswordException;
 }
