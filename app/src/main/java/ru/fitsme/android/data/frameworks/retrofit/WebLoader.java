@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
+import ru.fitsme.android.data.frameworks.retrofit.entities.CartItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
@@ -87,7 +88,13 @@ public class WebLoader {
     }
 
     public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(() -> apiService.signUp(signInInfo));
+        AuthToken authToken = executeRequest(new ExecutableRequest<AuthToken>() {
+            @NonNull
+            @Override
+            public Call<OkResponse<AuthToken>> request() {
+                return apiService.signUp(signInInfo);
+            }
+        });
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
@@ -119,6 +126,11 @@ public class WebLoader {
     public FavouritesPage getFavouritesClothesPage(@NonNull String token, int page) throws UserException {
         String headerToken = "Token " + token;
         return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
+    }
+
+    public void addItemToCart(@NonNull String token, int id, int quantity) throws UserException {
+        String headerToken = "Token " + token;
+        executeRequest(() -> apiService.addItemToCart(headerToken, new CartItem(id, quantity)));
     }
 
     public interface ExecutableRequest<T> {

@@ -1,19 +1,19 @@
 package ru.fitsme.android.data.frameworks.retrofit.entities;
 
-public class BasketItem {
-    private int clothe_id;
+public class CartItem {
+    private int clotheId;
     private int quantity;
 
-    public BasketItem(int clothe_id, int quantity) {
-        this.clothe_id = clothe_id;
+    public CartItem(int clotheId, int quantity) {
+        this.clotheId = clotheId;
         this.quantity = quantity;
     }
 
     public int getClotheId() {
-        return clothe_id;
+        return clotheId;
     }
 
-    public int isLiked() {
+    public int getQuantity() {
         return quantity;
     }
 }
