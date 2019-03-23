@@ -26,5 +26,5 @@ public interface IFavouritesInteractor {
     Completable restoreItemToFavourites(int index);
 
     @NonNull
-    Completable addFavouritesItemToCart(int index);
+    Completable addFavouritesItemToCart(int index, int quantity);
 }

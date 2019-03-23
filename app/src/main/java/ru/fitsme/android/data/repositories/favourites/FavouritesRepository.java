@@ -1,6 +1,7 @@
 package ru.fitsme.android.data.repositories.favourites;
 
 import android.support.annotation.NonNull;
+import android.util.SparseArray;
 
 import javax.inject.Inject;
 
@@ -11,6 +12,9 @@ import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public class FavouritesRepository implements IFavouritesRepository {
+    private static final int PAGE_SIZE = 10;
+
+    private final SparseArray<FavouritesPage> favouritesPageSparseArray = new SparseArray<>();
     private final WebLoader webLoader;
 
     @Inject
@@ -20,8 +24,16 @@ public class FavouritesRepository implements IFavouritesRepository {
 
     @NonNull
     @Override
-    public FavouritesItem getFavouritesItem(@NonNull String token, int index) {
-        return new FavouritesItem();
+    public FavouritesItem getFavouritesItem(@NonNull String token, int index) throws AppException {
+        //ToDo wrong way, need to rework
+        int pageIndex = index / PAGE_SIZE;
+        int itemIndex = index % PAGE_SIZE;
+        FavouritesPage favouritesPage = favouritesPageSparseArray.get(pageIndex);
+        if (favouritesPage == null) {
+            favouritesPage = getFavouritesPage(token, pageIndex);
+            favouritesPageSparseArray.put(pageIndex, favouritesPage);
+        }
+        return favouritesPage.getItems().get(itemIndex);
     }
 
     @NonNull

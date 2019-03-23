@@ -94,8 +94,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     @Override
     public Completable removeItemFromFavourites(int index) {
         return Completable.create(emitter -> {
-            String token = userInfoRepository.getAuthInfo().getToken();
-            FavouritesItem favouritesItem = getFavouritesItem(token, index);
+            FavouritesItem favouritesItem = getFavouritesItem(index);
 //            favouritesActionRepository.removeItem(token, clothesItem.getId());
             emitter.onComplete();
         })
@@ -107,8 +106,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     @Override
     public Completable restoreItemToFavourites(int index) {
         return Completable.create(emitter -> {
-            String token = userInfoRepository.getAuthInfo().getToken();
-            FavouritesItem clothesItem = getFavouritesItem(token, index);
+            FavouritesItem clothesItem = getFavouritesItem(index);
 //            favouritesActionRepository.restoreItem(token, clothesItem.getId());
             emitter.onComplete();
         })
@@ -118,11 +116,11 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @NonNull
     @Override
-    public Completable addFavouritesItemToCart(int index) {
+    public Completable addFavouritesItemToCart(int index, int quantity) {
         return Completable.create(emitter -> {
             String token = userInfoRepository.getAuthInfo().getToken();
-            FavouritesItem favouritesItem = getFavouritesItem(token, index);
-            favouritesActionRepository.addItemToCart(token, favouritesItem.getId(),1);
+            FavouritesItem favouritesItem = getFavouritesItem(index);
+            favouritesActionRepository.addItemToCart(token, favouritesItem.getId(), quantity);
             emitter.onComplete();
         })
                 .subscribeOn(workThread)
