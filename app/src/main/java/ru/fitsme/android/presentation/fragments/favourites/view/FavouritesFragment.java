@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,11 +23,17 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import timber.log.Timber;
+
+import static ru.fitsme.android.utils.Constants.GONE;
+import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 
 public class FavouritesFragment extends Fragment {
     @Inject
     IFavouritesInteractor favouritesInteractor;
+
+    private final String TAG = getClass().getName();
 
     private FavouritesViewModel viewModel;
     private FragmentFavouritesBinding binding;
@@ -42,8 +50,8 @@ public class FavouritesFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favourites, container, false);
-        View fragmentView = binding.getRoot();
-        return fragmentView;
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
@@ -59,17 +67,17 @@ public class FavouritesFragment extends Fragment {
 
         binding.favouritesListRv.setAdapter(viewModel.getAdapter());
 
-        viewModel.loading.set(View.VISIBLE);
+        viewModel.loading.set(VISIBLE);
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
     }
 
-    private void onLoadPage(List<FavouritesItem> favouritesPage) {
-        viewModel.loading.set(View.GONE);
-        if (favouritesPage.size() == 0) {
-            viewModel.showEmpty.set(View.VISIBLE);
+    private void onLoadPage(List<FavouritesItem> favouritesItems) {
+        viewModel.loading.set(GONE);
+        if (favouritesItems == null || favouritesItems.size() == 0) {
+            viewModel.showEmpty.set(VISIBLE);
         } else {
-            viewModel.showEmpty.set(View.GONE);
-            viewModel.setFavouritesInAdapter(favouritesPage);
+            viewModel.showEmpty.set(GONE);
+            viewModel.setFavouritesInAdapter(favouritesItems);
         }
     }
 

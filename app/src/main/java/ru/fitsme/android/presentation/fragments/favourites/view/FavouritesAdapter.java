@@ -58,11 +58,11 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         return layoutId;
     }
 
-    public void setFavouritesItems(List<FavouritesItem> items) {
+    void setFavouritesItems(List<FavouritesItem> items) {
         this.items = items;
     }
 
-    public class GenericViewHolder extends RecyclerView.ViewHolder {
+    class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
 
         GenericViewHolder(ViewDataBinding binding) {

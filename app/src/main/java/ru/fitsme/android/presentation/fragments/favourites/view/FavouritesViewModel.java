@@ -1,8 +1,11 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.databinding.Observable;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -17,9 +20,11 @@ import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import timber.log.Timber;
 
+import static ru.fitsme.android.utils.Constants.GONE;
+
 public class FavouritesViewModel extends ViewModel {
 
-    private static final String TAG = "FavouritesViewModel";
+    private final String TAG = getClass().getName();
 
     private final IFavouritesInteractor favouritesInteractor;
 
@@ -27,27 +32,32 @@ public class FavouritesViewModel extends ViewModel {
     private FavouritesAdapter adapter;
     private Disposable disposable;
 
-    public ObservableInt loading;
-    public ObservableInt showEmpty;
+    public ObservableBoolean loading;
+    public ObservableBoolean showEmpty;
 
     private FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
-
-        disposable = favouritesInteractor.getSingleFavouritesPage(0)
-                .subscribe(favouritesPage -> {
-                    pageLiveData.setValue(favouritesPage);
-                });
+        Timber.tag(TAG).d("constructor");
+        loadData();
     }
 
     void init() {
+        Timber.tag(TAG).d("init");
         pageLiveData = new MutableLiveData<>();
         adapter = new FavouritesAdapter(R.layout.item_favourite, this);
-        loading = new ObservableInt(View.GONE);
-        showEmpty = new ObservableInt(View.GONE);
+        loading = new ObservableBoolean(GONE);
+        showEmpty = new ObservableBoolean(GONE);
     }
 
     FavouritesAdapter getAdapter() {
         return adapter;
+    }
+
+    private void loadData() {
+        disposable = favouritesInteractor.getSingleFavouritesPage(0)
+                .subscribe(favouritesPage -> {
+                    pageLiveData.setValue(favouritesPage);
+                });
     }
 
     void setFavouritesInAdapter(List<FavouritesItem> favouritesPage) {
@@ -55,7 +65,7 @@ public class FavouritesViewModel extends ViewModel {
         this.adapter.notifyDataSetChanged();
     }
 
-    MutableLiveData<List<FavouritesItem>> getPageLiveData() {
+    LiveData<List<FavouritesItem>> getPageLiveData() {
         return pageLiveData;
     }
 
