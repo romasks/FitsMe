@@ -17,6 +17,7 @@ import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import timber.log.Timber;
 
 @Singleton
 public class FavouritesInteractor implements IFavouritesInteractor {
@@ -61,20 +62,17 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @NonNull
     @Override
-    public Single<List<FavouritesItem>> getSingleFavouritesPage(int page) {
-        return Single.create((SingleOnSubscribe<List<FavouritesItem>>) emitter ->
+    public Single<FavouritesPage> getSingleFavouritesPage(int page) {
+        return Single.create((SingleOnSubscribe<FavouritesPage>) emitter ->
                 emitter.onSuccess(getFavouritesPage(page)))
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }
 
     @NonNull
-    private List<FavouritesItem> getFavouritesPage(int page) throws AppException {
-        List<FavouritesItem> items;
+    private FavouritesPage getFavouritesPage(int page) throws AppException {
         String token = userInfoRepository.getAuthInfo().getToken();
-        FavouritesPage favouritesPage = favouritesRepository.getFavouritesPage(token, page);
-        items = favouritesPage.getItems();
-        return items;
+        return favouritesRepository.getFavouritesPage(token, page);
     }
 
     private FavouritesItem getFavouritesItem(int index) throws AppException {

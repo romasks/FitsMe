@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hendraanggrian.widget.PaginatedRecyclerView;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -50,8 +52,7 @@ public class FavouritesFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favourites, container, false);
-        View view = binding.getRoot();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -60,18 +61,21 @@ public class FavouritesFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this,
                 new FavouritesViewModel.Factory(favouritesInteractor)).get(FavouritesViewModel.class);
-
         if (savedInstanceState == null) {
             viewModel.init();
         }
 
+        binding.favouritesListRv.setHasFixedSize(true);
         binding.favouritesListRv.setAdapter(viewModel.getAdapter());
+        binding.favouritesListRv.setPagination(viewModel.getPagination());
 
         viewModel.loading.set(VISIBLE);
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
     }
 
     private void onLoadPage(List<FavouritesItem> favouritesItems) {
+        Timber.tag(TAG).d("onLoadPage");
+        Timber.tag(TAG).d(String.valueOf(favouritesItems.size()));
         viewModel.loading.set(GONE);
         if (favouritesItems == null || favouritesItems.size() == 0) {
             viewModel.showEmpty.set(VISIBLE);
@@ -80,6 +84,5 @@ public class FavouritesFragment extends Fragment {
             viewModel.setFavouritesInAdapter(favouritesItems);
         }
     }
-
 
 }

@@ -4,11 +4,10 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
-import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
-import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
-import android.view.View;
+
+import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +30,8 @@ public class FavouritesViewModel extends ViewModel {
     private MutableLiveData<List<FavouritesItem>> pageLiveData;
     private FavouritesAdapter adapter;
     private Disposable disposable;
+    private PostPagination postPagination;
+    private Integer nextPage;
 
     public ObservableBoolean loading;
     public ObservableBoolean showEmpty;
@@ -38,13 +39,14 @@ public class FavouritesViewModel extends ViewModel {
     private FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
         Timber.tag(TAG).d("constructor");
-        loadData();
+//        loadPage(0);
     }
 
     void init() {
         Timber.tag(TAG).d("init");
         pageLiveData = new MutableLiveData<>();
         adapter = new FavouritesAdapter(R.layout.item_favourite, this);
+        postPagination = new PostPagination();
         loading = new ObservableBoolean(GONE);
         showEmpty = new ObservableBoolean(GONE);
     }
@@ -53,16 +55,32 @@ public class FavouritesViewModel extends ViewModel {
         return adapter;
     }
 
-    private void loadData() {
-        disposable = favouritesInteractor.getSingleFavouritesPage(0)
+    PostPagination getPagination() {
+        return postPagination;
+    }
+
+    private void loadPage(int index) {
+        Timber.tag(TAG).d("loadPage");
+        Timber.tag(TAG).d("index: %s", index);
+        disposable = favouritesInteractor.getSingleFavouritesPage(index)
                 .subscribe(favouritesPage -> {
-                    pageLiveData.setValue(favouritesPage);
+                    pageLiveData.setValue(favouritesPage.getItems());
+                    nextPage = favouritesPage.getNext();
+                    Timber.tag(TAG).d("next page: %s", nextPage);
+                    Timber.tag(TAG).d("previous page: %s", favouritesPage.getPrevious());
+                    Timber.tag(TAG).d("count: %s", favouritesPage.getCount() );
+                    postPagination.pageReceived();
                 });
     }
 
     void setFavouritesInAdapter(List<FavouritesItem> favouritesPage) {
-        this.adapter.setFavouritesItems(favouritesPage);
-        this.adapter.notifyDataSetChanged();
+        Timber.tag(TAG).d("setFavouritesInAdapter");
+        if (adapter.getItemCount() == 0) {
+            adapter.setFavouritesItems(favouritesPage);
+        } else {
+            adapter.addFavouritesItems(favouritesPage);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     LiveData<List<FavouritesItem>> getPageLiveData() {
@@ -101,6 +119,29 @@ public class FavouritesViewModel extends ViewModel {
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             return (T) new FavouritesViewModel(favouritesInteractor);
+        }
+    }
+
+    class PostPagination extends PaginatedRecyclerView.Pagination implements PageReceivedListener {
+
+        @Override
+        public int getPageStart() {
+            return 0;
+        }
+
+        @Override
+        public void onPaginate(int index) {
+            Timber.tag(TAG).d("onPaginate");
+            Timber.tag(TAG).d("index: %s", index);
+//            loadPage(index);
+            loadPage(nextPage == null ? 0 : nextPage);
+        }
+
+        @Override
+        public void pageReceived() {
+            Timber.tag(TAG).d("pageReceived");
+            if (nextPage == null) notifyPaginationFinished();
+            else notifyLoadingCompleted();
         }
     }
 }

@@ -118,6 +118,7 @@ public class WebLoader {
 
     public FavouritesPage getFavouritesClothesPage(@NonNull String token, int page) throws UserException {
         String headerToken = "Token " + token;
+        Timber.tag("WebLoader").d("page: %s", page);
         return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
     }
 

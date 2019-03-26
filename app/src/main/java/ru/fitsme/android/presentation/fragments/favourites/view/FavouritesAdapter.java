@@ -62,6 +62,10 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         this.items = items;
     }
 
+    void addFavouritesItems(List<FavouritesItem> items) {
+        this.items.addAll(items);
+    }
+
     class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
 
