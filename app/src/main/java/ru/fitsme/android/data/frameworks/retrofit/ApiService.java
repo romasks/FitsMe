@@ -31,5 +31,5 @@ public interface ApiService {
 
     @GET("/viewed/")
     Call<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
-                                                          @Query("pageNumber") int pageNumber);
+                                                          @Query("page") int page);
 }

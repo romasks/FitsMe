@@ -11,6 +11,7 @@ import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -28,6 +29,7 @@ public class FavouritesViewModel extends ViewModel {
     private final IFavouritesInteractor favouritesInteractor;
 
     private MutableLiveData<List<FavouritesItem>> pageLiveData;
+    private List<FavouritesItem> pagesData;
     private FavouritesAdapter adapter;
     private Disposable disposable;
     private PostPagination postPagination;
@@ -38,13 +40,11 @@ public class FavouritesViewModel extends ViewModel {
 
     private FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
-        Timber.tag(TAG).d("constructor");
-//        loadPage(0);
     }
 
     void init() {
-        Timber.tag(TAG).d("init");
         pageLiveData = new MutableLiveData<>();
+        pagesData = new ArrayList<>();
         adapter = new FavouritesAdapter(R.layout.item_favourite, this);
         postPagination = new PostPagination();
         loading = new ObservableBoolean(GONE);
@@ -60,21 +60,16 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     private void loadPage(int index) {
-        Timber.tag(TAG).d("loadPage");
-        Timber.tag(TAG).d("index: %s", index);
         disposable = favouritesInteractor.getSingleFavouritesPage(index)
                 .subscribe(favouritesPage -> {
-                    pageLiveData.setValue(favouritesPage.getItems());
                     nextPage = favouritesPage.getNext();
-                    Timber.tag(TAG).d("next page: %s", nextPage);
-                    Timber.tag(TAG).d("previous page: %s", favouritesPage.getPrevious());
-                    Timber.tag(TAG).d("count: %s", favouritesPage.getCount() );
+                    pagesData.addAll(favouritesPage.getItems());
+                    pageLiveData.setValue(favouritesPage.getItems());
                     postPagination.pageReceived();
                 });
     }
 
     void setFavouritesInAdapter(List<FavouritesItem> favouritesPage) {
-        Timber.tag(TAG).d("setFavouritesInAdapter");
         if (adapter.getItemCount() == 0) {
             adapter.setFavouritesItems(favouritesPage);
         } else {
@@ -95,10 +90,8 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     public FavouritesItem getFavouriteItemAt(Integer index) {
-        if (pageLiveData.getValue() != null &&
-                index != null &&
-                pageLiveData.getValue().size() > index) {
-            return pageLiveData.getValue().get(index);
+        if (!pagesData.isEmpty() && index != null && pagesData.size() > index) {
+            return pagesData.get(index);
         }
         return null;
     }
@@ -126,20 +119,16 @@ public class FavouritesViewModel extends ViewModel {
 
         @Override
         public int getPageStart() {
-            return 0;
+            return 1;
         }
 
         @Override
         public void onPaginate(int index) {
-            Timber.tag(TAG).d("onPaginate");
-            Timber.tag(TAG).d("index: %s", index);
-//            loadPage(index);
-            loadPage(nextPage == null ? 0 : nextPage);
+            loadPage(index);
         }
 
         @Override
         public void pageReceived() {
-            Timber.tag(TAG).d("pageReceived");
             if (nextPage == null) notifyPaginationFinished();
             else notifyLoadingCompleted();
         }

@@ -21,14 +21,14 @@ import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.InvalidTokenException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyExistException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.ProductInListOfViewedException;
 import ru.fitsme.android.domain.entities.exceptions.user.TokenNotSearchUser;
 import ru.fitsme.android.domain.entities.exceptions.user.TokenOutOfDateException;
 import ru.fitsme.android.domain.entities.exceptions.user.TokenUserNotActiveException;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
@@ -100,6 +100,7 @@ public class WebLoader {
     private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
             throws UserException {
         try {
+            Timber.tag("WebLoader request URL").d(executableRequest.request().request().url().toString());
             Response<OkResponse<T>> response = executableRequest.request().execute();
 
             if (response.isSuccessful() && response.body() != null) {
@@ -118,7 +119,6 @@ public class WebLoader {
 
     public FavouritesPage getFavouritesClothesPage(@NonNull String token, int page) throws UserException {
         String headerToken = "Token " + token;
-        Timber.tag("WebLoader").d("page: %s", page);
         return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
     }
 

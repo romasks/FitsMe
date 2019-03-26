@@ -1,6 +1,5 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -11,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hendraanggrian.widget.PaginatedRecyclerView;
-
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,7 +21,6 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
-import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
@@ -74,8 +69,6 @@ public class FavouritesFragment extends Fragment {
     }
 
     private void onLoadPage(List<FavouritesItem> favouritesItems) {
-        Timber.tag(TAG).d("onLoadPage");
-        Timber.tag(TAG).d(String.valueOf(favouritesItems.size()));
         viewModel.loading.set(GONE);
         if (favouritesItems == null || favouritesItems.size() == 0) {
             viewModel.showEmpty.set(VISIBLE);
