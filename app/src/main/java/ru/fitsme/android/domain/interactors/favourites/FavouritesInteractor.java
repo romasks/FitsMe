@@ -65,20 +65,17 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @NonNull
     @Override
-    public Single<List<FavouritesItem>> getSingleFavouritesPage(int page) {
-        return Single.create((SingleOnSubscribe<List<FavouritesItem>>) emitter ->
+    public Single<FavouritesPage> getSingleFavouritesPage(int page) {
+        return Single.create((SingleOnSubscribe<FavouritesPage>) emitter ->
                 emitter.onSuccess(getFavouritesPage(page)))
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }
 
     @NonNull
-    private List<FavouritesItem> getFavouritesPage(int page) throws AppException {
-        List<FavouritesItem> items;
+    private FavouritesPage getFavouritesPage(int page) throws AppException {
         String token = userInfoRepository.getAuthInfo().getToken();
-        FavouritesPage favouritesPage = favouritesRepository.getFavouritesPage(token, page);
-        items = favouritesPage.getItems();
-        return items;
+        return favouritesRepository.getFavouritesPage(token, page);
     }
 
     private FavouritesItem getFavouritesItem(int index) throws AppException {
@@ -120,7 +117,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         return Completable.create(emitter -> {
             String token = userInfoRepository.getAuthInfo().getToken();
             FavouritesItem favouritesItem = getFavouritesItem(index);
-            favouritesActionRepository.addItemToCart(token, favouritesItem.getId(), quantity);
+            favouritesActionRepository.addItemToCart(token, favouritesItem.getItem().getId(), 0);
             emitter.onComplete();
         })
                 .subscribeOn(workThread)

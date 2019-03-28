@@ -30,12 +30,11 @@ public interface ApiService {
     @POST("viewed/")
     Call<OkResponse<LikedClothesItem>> likeItem(@Header("Authorization") String token,
                                                 @Body LikedItem likedItem);
-
     @GET("viewed/")
     Call<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
                                                           @Query("pageNumber") int pageNumber);
 
-    @POST("orders/items")
+    @POST("orders/items/")
     Call<OkResponse<CartClothesItem>> addItemToCart(@Header("Authorization") String token,
                                                     @Body CartItem cartItem);
 }
