@@ -16,6 +16,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -28,10 +29,12 @@ import ru.fitsme.android.data.repositories.UserInfoRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesIndexRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesLikeRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
+import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesIndexRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesLikeRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
+import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IResourceRepository;
 import ru.fitsme.android.domain.boundaries.signinup.ISignInUpRepository;
@@ -39,10 +42,14 @@ import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
 import ru.fitsme.android.domain.interactors.auth.SignInUpInteractor;
+import ru.fitsme.android.domain.interactors.cart.CartInteractor;
+import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import ru.fitsme.android.domain.interactors.order.IOrderInteractor;
+import ru.fitsme.android.domain.interactors.order.OrderInteractor;
 import toothpick.Scope;
 import toothpick.Toothpick;
 import toothpick.config.Module;
@@ -76,6 +83,10 @@ public class DI {
 
             bind(IFavouritesInteractor.class).to(FavouritesInteractor.class);
             bind(IFavouritesRepository.class).to(FavouritesRepository.class);
+            bind(IFavouritesActionRepository.class).to(FavouritesActionRepository.class);
+
+            bind(ICartInteractor.class).to(CartInteractor.class);
+            bind(IOrderInteractor.class).to(OrderInteractor.class);
         }});
     }
 
@@ -113,7 +124,11 @@ public class DI {
 
     @NonNull
     private OkHttpClient okHttpClient() {
-        return new OkHttpClient.Builder().build();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
     }
 
     public <T> void inject(T object) {
