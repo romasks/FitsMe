@@ -1,14 +1,17 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
-import android.databinding.ObservableInt;
+import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
-import android.view.View;
+
+import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -17,45 +20,65 @@ import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import timber.log.Timber;
 
+import static ru.fitsme.android.utils.Constants.GONE;
+
 public class FavouritesViewModel extends ViewModel {
 
-    private static final String TAG = "FavouritesViewModel";
+    private final String TAG = getClass().getName();
 
     private final IFavouritesInteractor favouritesInteractor;
 
     private MutableLiveData<List<FavouritesItem>> pageLiveData;
+    private List<FavouritesItem> pagesData;
     private FavouritesAdapter adapter;
     private Disposable disposable;
+    private PostPagination postPagination;
+    private Integer nextPage;
 
-    public ObservableInt loading;
-    public ObservableInt showEmpty;
+    public ObservableBoolean loading;
+    public ObservableBoolean showEmpty;
 
     private FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
-
-        disposable = favouritesInteractor.getSingleFavouritesPage(0)
-                .subscribe(favouritesPage -> {
-                    pageLiveData.setValue(favouritesPage);
-                });
     }
 
     void init() {
         pageLiveData = new MutableLiveData<>();
+        pagesData = new ArrayList<>();
         adapter = new FavouritesAdapter(R.layout.item_favourite, this);
-        loading = new ObservableInt(View.GONE);
-        showEmpty = new ObservableInt(View.GONE);
+        postPagination = new PostPagination();
+        loading = new ObservableBoolean(GONE);
+        showEmpty = new ObservableBoolean(GONE);
     }
 
     FavouritesAdapter getAdapter() {
         return adapter;
     }
 
-    void setFavouritesInAdapter(List<FavouritesItem> favouritesPage) {
-        this.adapter.setFavouritesItems(favouritesPage);
-        this.adapter.notifyDataSetChanged();
+    PostPagination getPagination() {
+        return postPagination;
     }
 
-    MutableLiveData<List<FavouritesItem>> getPageLiveData() {
+    private void loadPage(int index) {
+        disposable = favouritesInteractor.getSingleFavouritesPage(index)
+                .subscribe(favouritesPage -> {
+                    nextPage = favouritesPage.getNext();
+                    pagesData.addAll(favouritesPage.getItems());
+                    pageLiveData.setValue(favouritesPage.getItems());
+                    postPagination.pageReceived();
+                });
+    }
+
+    void setFavouritesInAdapter(List<FavouritesItem> favouritesPage) {
+        if (adapter.getItemCount() == 0) {
+            adapter.setFavouritesItems(favouritesPage);
+        } else {
+            adapter.addFavouritesItems(favouritesPage);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    LiveData<List<FavouritesItem>> getPageLiveData() {
         return pageLiveData;
     }
 
@@ -67,17 +90,21 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     public FavouritesItem getFavouriteItemAt(Integer index) {
-        if (pageLiveData.getValue() != null &&
-                index != null &&
-                pageLiveData.getValue().size() > index) {
-            return pageLiveData.getValue().get(index);
+        if (!pagesData.isEmpty() && index != null && pagesData.size() > index) {
+            return pagesData.get(index);
         }
         return null;
     }
 
-    public void putItemToBasket(Integer index) {
-        Timber.tag("FavouritesViewModel").d("putItemToBasket clicked on position: %d", index);
+    public void addItemToCart(int index) {
+        Timber.tag(TAG).d("addItemToCart clicked on position: %d", index);
         // TODO: next sprint
+        if (!pagesData.isEmpty() && pagesData.size() > index) {
+            favouritesInteractor.addFavouritesItemToCart(index, 0)
+                    .subscribe(() -> {
+            }, throwable -> {
+            });
+        }
     }
 
     static public class Factory implements ViewModelProvider.Factory {
@@ -91,6 +118,25 @@ public class FavouritesViewModel extends ViewModel {
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             return (T) new FavouritesViewModel(favouritesInteractor);
+        }
+    }
+
+    class PostPagination extends PaginatedRecyclerView.Pagination implements PageReceivedListener {
+
+        @Override
+        public int getPageStart() {
+            return 1;
+        }
+
+        @Override
+        public void onPaginate(int index) {
+            loadPage(index);
+        }
+
+        @Override
+        public void pageReceived() {
+            if (nextPage == null) notifyPaginationFinished();
+            else notifyLoadingCompleted();
         }
     }
 }

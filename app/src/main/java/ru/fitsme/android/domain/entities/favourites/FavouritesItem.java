@@ -9,7 +9,7 @@ public class FavouritesItem {
     private ClothesItem clothe;
     private Date add_datetime;
     private boolean liked;
-    private boolean in_cart;
+    private boolean inCart;
 
     public int getId() {
         return id;
@@ -28,6 +28,6 @@ public class FavouritesItem {
     }
 
     public boolean isInCart() {
-        return in_cart;
+        return inCart;
     }
 }
