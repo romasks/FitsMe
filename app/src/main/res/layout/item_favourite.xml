@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="position"
             type="Integer" />
@@ -15,22 +17,32 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="172dp"
-        android:padding="@dimen/default_margin">
+        android:padding="@dimen/padding_medium">
 
-        <ImageView
-            android:id="@+id/favourite_image"
+        <android.support.v7.widget.CardView
+            android:id="@+id/favourite_image_field"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_corners"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/favourite_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                tools:src="@drawable/clother_example" />
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/favourites_brand_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_toRightOf="@id/favourite_image"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_toRightOf="@id/favourite_image_field"
             android:paddingBottom="4dp"
             android:text="@{viewModel.getFavouriteItemAt(position).item.brand}"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             tools:text="@string/brand_name_hint_in_two_lines" />
 
@@ -39,8 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourites_brand_name"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_toRightOf="@id/favourite_image"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_toRightOf="@id/favourite_image_field"
             android:paddingBottom="4dp"
             android:text="@{viewModel.getFavouriteItemAt(position).item.name}"
             tools:text="@string/clothe_name_hint" />
@@ -50,8 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourites_name"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_toRightOf="@id/favourite_image"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_toRightOf="@id/favourite_image_field"
             android:paddingBottom="4dp"
             android:text="@{viewModel.getFavouriteItemAt(position).item.description}"
             android:textStyle="bold"
@@ -62,10 +74,10 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_toRightOf="@id/favourite_image"
-            android:background="#940235"
-            android:onClick="@{() -> viewModel.putItemToBasket(position)}"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_toRightOf="@id/favourite_image_field"
+            android:background="@drawable/bg_rounded_corners_to_cart_btn"
+            android:onClick="@{() -> viewModel.addItemToCart(position)}"
             android:text="@string/to_basket"
             android:textColor="@color/white" />
 

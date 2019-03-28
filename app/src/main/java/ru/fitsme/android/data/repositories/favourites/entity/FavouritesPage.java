@@ -5,20 +5,25 @@ import java.util.List;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public class FavouritesPage {
-    private long count;
-    private int next;
-    private int previous;
+    private int count;
+    private int current;
+    private Integer next;
+    private Integer previous;
     private List<FavouritesItem> items;
 
-    public long getCount() {
+    public int getCount() {
         return count;
     }
 
-    public int getNext() {
+    public int getCurrent() {
+        return current;
+    }
+
+    public Integer getNext() {
         return next;
     }
 
-    public int getPrevious() {
+    public Integer getPrevious() {
         return previous;
     }
 
