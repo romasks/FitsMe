@@ -1,6 +1,8 @@
-package ru.fitsme.android.domain.entities.clothes;
+package ru.fitsme.android.domain.entities.order;
 
-public class CartClothesItem {
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+
+public class OrderItem {
     private int id;
     private int order;
     private int price;

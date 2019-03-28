@@ -88,13 +88,7 @@ public class WebLoader {
     }
 
     public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(new ExecutableRequest<AuthToken>() {
-            @NonNull
-            @Override
-            public Call<OkResponse<AuthToken>> request() {
-                return apiService.signUp(signInInfo);
-            }
-        });
+        AuthToken authToken = executeRequest(() -> apiService.signUp(signInInfo));
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
