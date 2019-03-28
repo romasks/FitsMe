@@ -7,7 +7,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
-import ru.fitsme.android.data.frameworks.retrofit.entities.CartItem;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
@@ -36,5 +36,5 @@ public interface ApiService {
 
     @POST("orders/items/")
     Call<OkResponse<CartClothesItem>> addItemToCart(@Header("Authorization") String token,
-                                                    @Body CartItem cartItem);
+                                                    @Body OrderItem orderItem);
 }
