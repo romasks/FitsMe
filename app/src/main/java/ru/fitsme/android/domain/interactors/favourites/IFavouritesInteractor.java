@@ -2,7 +2,6 @@ package ru.fitsme.android.domain.interactors.favourites;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -27,5 +26,5 @@ public interface IFavouritesInteractor {
     Completable restoreItemToFavourites(int index);
 
     @NonNull
-    Completable moveFavouritesItemToBasket(int index);
+    Completable addFavouritesItemToCart(int index, int quantity);
 }
