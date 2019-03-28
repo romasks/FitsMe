@@ -32,7 +32,7 @@ public interface ApiService {
                                                 @Body LikedItem likedItem);
     @GET("viewed/")
     Call<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
-                                                          @Query("pageNumber") int pageNumber);
+                                                          @Query("page") int page);
 
     @POST("orders/items/")
     Call<OkResponse<CartClothesItem>> addItemToCart(@Header("Authorization") String token,
