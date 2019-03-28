@@ -42,14 +42,12 @@ import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
 import ru.fitsme.android.domain.interactors.auth.SignInUpInteractor;
-import ru.fitsme.android.domain.interactors.cart.CartInteractor;
-import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
-import ru.fitsme.android.domain.interactors.order.IOrderInteractor;
-import ru.fitsme.android.domain.interactors.order.OrderInteractor;
+import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
+import ru.fitsme.android.domain.interactors.orders.OrdersInteractor;
 import toothpick.Scope;
 import toothpick.Toothpick;
 import toothpick.config.Module;
@@ -85,8 +83,7 @@ public class DI {
             bind(IFavouritesRepository.class).to(FavouritesRepository.class);
             bind(IFavouritesActionRepository.class).to(FavouritesActionRepository.class);
 
-            bind(ICartInteractor.class).to(CartInteractor.class);
-            bind(IOrderInteractor.class).to(OrderInteractor.class);
+            bind(IOrdersInteractor.class).to(OrdersInteractor.class);
         }});
     }
 

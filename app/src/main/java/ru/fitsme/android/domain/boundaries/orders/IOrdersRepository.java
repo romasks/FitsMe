@@ -1,11 +1,11 @@
-package ru.fitsme.android.domain.boundaries.order;
+package ru.fitsme.android.domain.boundaries.orders;
 
 import android.support.annotation.NonNull;
 
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 
-public interface IOrderRepository {
+public interface IOrdersRepository {
 
     @NonNull
     OrderItem getOrderItem(@NonNull String token, int index) throws AppException;

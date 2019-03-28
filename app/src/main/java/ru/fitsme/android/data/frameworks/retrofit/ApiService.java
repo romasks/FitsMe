@@ -12,8 +12,8 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
-import ru.fitsme.android.domain.entities.clothes.CartClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 
 public interface ApiService {
@@ -30,11 +30,12 @@ public interface ApiService {
     @POST("viewed/")
     Call<OkResponse<LikedClothesItem>> likeItem(@Header("Authorization") String token,
                                                 @Body LikedItem likedItem);
+
     @GET("viewed/")
     Call<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
                                                           @Query("page") int page);
 
     @POST("orders/items/")
-    Call<OkResponse<CartClothesItem>> addItemToCart(@Header("Authorization") String token,
-                                                    @Body CartItem cartItem);
+    Call<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,
+                                              @Body CartItem cartItem);
 }
