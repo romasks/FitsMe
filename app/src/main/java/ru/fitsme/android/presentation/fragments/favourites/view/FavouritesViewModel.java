@@ -96,9 +96,15 @@ public class FavouritesViewModel extends ViewModel {
         return null;
     }
 
-    public void putItemToBasket(Integer index) {
-        Timber.tag("FavouritesViewModel").d("putItemToBasket clicked on position: %d", index);
+    public void putItemToBasket(int index) {
+        Timber.tag(TAG).d("putItemToBasket clicked on position: %d", index);
         // TODO: next sprint
+        if (!pagesData.isEmpty() && pagesData.size() > index) {
+            favouritesInteractor.addFavouritesItemToCart(index, 0)
+                    .subscribe(() -> {
+            }, throwable -> {
+            });
+        }
     }
 
     static public class Factory implements ViewModelProvider.Factory {
