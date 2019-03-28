@@ -96,8 +96,8 @@ public class FavouritesViewModel extends ViewModel {
         return null;
     }
 
-    public void putItemToBasket(int index) {
-        Timber.tag(TAG).d("putItemToBasket clicked on position: %d", index);
+    public void addItemToCart(int index) {
+        Timber.tag(TAG).d("addItemToCart clicked on position: %d", index);
         // TODO: next sprint
         if (!pagesData.isEmpty() && pagesData.size() > index) {
             favouritesInteractor.addFavouritesItemToCart(index, 0)
