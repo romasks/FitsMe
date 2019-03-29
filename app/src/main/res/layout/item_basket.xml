@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="model"
+            type="ru.fitsme.android.presentation.fragments.basket.view.BasketViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="172dp"
+        android:padding="@dimen/padding_medium">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/basket_image_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_corners"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/basket_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                tools:src="@drawable/clother_example" />
+        </android.support.v7.widget.CardView>
+
+        <!-- todo Проверить работоспособность getBasketItemAt-->
+        <TextView
+            android:id="@+id/basket_brand_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_toRightOf="@id/basket_image_field"
+            android:paddingBottom="4dp"
+            android:text="@{model.getBasketItemAt(position).item.brand}"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            tools:text="@string/brand_name_hint_in_two_lines" />
+
+        <TextView
+            android:id="@+id/basket_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/basket_brand_name"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_toRightOf="@id/basket_image_field"
+            android:paddingBottom="4dp"
+            android:text="@{model.getBasketItemAt(position).item.name}"
+            tools:text="@string/clothe_name_hint" />
+
+        <TextView
+            android:id="@+id/basket_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/basket_name"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_toRightOf="@id/basket_image_field"
+            android:paddingBottom="4dp"
+            android:text="@{model.getBasketItemAt(position).item.description}"
+            android:textStyle="bold"
+            tools:text="@string/clothe_price_hint" />
+
+    </RelativeLayout>
+
+</layout>
