@@ -5,6 +5,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
@@ -38,4 +39,7 @@ public interface ApiService {
     @POST("orders/items/")
     Call<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,
                                               @Body OrderedItem orderedItem);
+
+    /*@PUT("orders/{id}")
+    Call<OkResponse<>>*/
 }
