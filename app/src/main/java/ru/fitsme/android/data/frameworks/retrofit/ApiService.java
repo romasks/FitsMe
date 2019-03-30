@@ -9,12 +9,14 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 
@@ -42,7 +44,7 @@ public interface ApiService {
                                               @Body OrderedItem orderedItem);
 
     @PUT("orders/{id}/")
-    Call<OkResponse<UpdatedOrder>> updateOrderById(@Header("Authorization") String token,
-                                       @Path("id") long orderId,
-                                       @Body OrderUpdate order);
+    Call<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
+                                            @Path("id") long orderId,
+                                            @Body OrderUpdate order);
 }

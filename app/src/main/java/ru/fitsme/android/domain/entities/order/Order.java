@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import ru.fitsme.android.utils.OrderStatus;
+
 public class Order {
     @SerializedName("id")
     private long orderId;
@@ -21,7 +23,7 @@ public class Order {
     private String orderUpdatedDate;
 
     @SerializedName("status")
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
     @SerializedName("orderitems")
     private List<OrderItem> orderItemList;
@@ -46,7 +48,7 @@ public class Order {
         return orderUpdatedDate;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 

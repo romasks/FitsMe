@@ -17,6 +17,7 @@ import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 
 @Singleton
@@ -43,7 +44,7 @@ public class OrdersInteractor implements IOrdersInteractor {
         this.mainThread = mainThread;
     }
 
-    @NonNull
+/*    @NonNull
     @Override
     public Single<FavouritesItem> getSingleCartItem(int index) {
         return Single.create((SingleOnSubscribe<FavouritesItem>) emitter ->
@@ -88,6 +89,24 @@ public class OrdersInteractor implements IOrdersInteractor {
     private OrderItem getOrderItem(int index) throws AppException {
         String token = userInfoRepository.getAuthInfo().getToken();
         return orderRepository.getOrderItem(token, index);
+    }*/
+
+    @NonNull
+    @Override
+    public Single<Order> getSingleOrder(int page) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable removeItemFromOrder(int index) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable restoreItemToOrder(int index) {
+        return null;
     }
 
     @NonNull
