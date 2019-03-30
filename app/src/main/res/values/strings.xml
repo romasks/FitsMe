@@ -19,6 +19,7 @@
     <string name="brand_name_hint_in_two_lines">Название бренда \nв две строки</string>
     <string name="clothe_name_hint">Название товара</string>
     <string name="clothe_price_hint">7000 P</string>
-    <string name="to_basket">В корзину</string>
+    <string name="to_cart">В корзину</string>
+    <string name="clothe_in_cart">Товар в корзине</string>
     <string name="no_items_in_favourites">Нету товаров в избранном</string>
 </resources>

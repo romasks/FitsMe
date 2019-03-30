@@ -18,7 +18,7 @@ public class FavouritesRepository implements IFavouritesRepository {
     private final WebLoader webLoader;
 
     @Inject
-    public FavouritesRepository(WebLoader webLoader) {
+    FavouritesRepository(WebLoader webLoader) {
         this.webLoader = webLoader;
     }
 
@@ -39,6 +39,8 @@ public class FavouritesRepository implements IFavouritesRepository {
     @NonNull
     @Override
     public FavouritesPage getFavouritesPage(@NonNull String token, int page) throws AppException {
-        return webLoader.getFavouritesClothesPage(token, page);
+        FavouritesPage favouritesPage = webLoader.getFavouritesClothesPage(token, page);
+        favouritesPageSparseArray.put(page - 1, favouritesPage);
+        return favouritesPage;
     }
 }
