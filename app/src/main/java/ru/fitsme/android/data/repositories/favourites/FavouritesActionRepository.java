@@ -12,7 +12,7 @@ public class FavouritesActionRepository implements IFavouritesActionRepository {
     private final WebLoader webLoader;
 
     @Inject
-    public FavouritesActionRepository(WebLoader webLoader) {
+    FavouritesActionRepository(WebLoader webLoader) {
         this.webLoader = webLoader;
     }
 
