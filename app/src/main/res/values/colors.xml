@@ -7,4 +7,5 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="toCartButton">#940235</color>
+    <color name="inCartButton">#554f4f4f</color>
 </resources>

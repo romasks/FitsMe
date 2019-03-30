@@ -66,6 +66,11 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         this.items.addAll(items);
     }
 
+    void changeStatus(int index, boolean inCart) {
+        items.get(index).setInCart(inCart);
+        notifyItemChanged(index);
+    }
+
     class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
 
