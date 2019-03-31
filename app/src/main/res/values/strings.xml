@@ -19,11 +19,13 @@
     <string name="brand_name_hint_in_two_lines">Название бренда \nв две строки</string>
     <string name="clothe_name_hint">Название товара</string>
     <string name="clothe_price_hint">7000 P</string>
-    <string name="to_basket">В корзину</string>
+    <string name="to_cart">В корзину</string>
     <string name="no_items_in_favourites">Нету товаров в избранном</string>
-    <string name="no_items_in_basket">В корзине нет товаров</string>
-    <string name="basket_no_item_go_to_favourite_btn_text">Перейти в избранное</string>
-    <string name="basket_proceed_to_checkout_btn_text">Перейти к оформлению</string>
-    <string name="basket_total_tv">Итого:</string>
-    <string name="basket_user_agreement">Нажимая кнопку \"Перейти к оформлению\", вы соглашаетесь с \n <font color='#940235'> <u>условиями обработки персональных данных</u></font></string>
+    <string name="no_items_in_cart">В корзине нет товаров</string>
+    <string name="cart_no_item_go_to_favourite_btn_text">Перейти в избранное</string>
+    <string name="cart_proceed_to_checkout_btn_text">Перейти к оформлению</string>
+    <string name="cart_total_tv">Итого:</string>
+    <string name="cart_user_agreement_1">Нажимая кнопку \"Перейти к оформлению\", вы соглашаетесь с</string>
+    <string name="cart_user_agreement_2"><u>условиями обработки персональных данных</u></string>
+
 </resources>

@@ -42,7 +42,7 @@
             android:layout_toRightOf="@id/favourite_image_field"
             android:paddingBottom="4dp"
             android:text="@{viewModel.getFavouriteItemAt(position).item.brand}"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_extra_medium"
             android:textStyle="bold"
             tools:text="@string/brand_name_hint_in_two_lines" />
 
@@ -78,7 +78,7 @@
             android:layout_toRightOf="@id/favourite_image_field"
             android:background="@drawable/bg_rounded_corners_to_cart_btn"
             android:onClick="@{() -> viewModel.addItemToCart(position)}"
-            android:text="@string/to_basket"
+            android:text="@string/to_cart"
             android:textColor="@color/white" />
 
     </RelativeLayout>
