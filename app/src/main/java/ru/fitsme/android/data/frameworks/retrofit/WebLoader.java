@@ -11,12 +11,15 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
+import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
+import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
@@ -33,15 +36,18 @@ import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
+import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
 public class WebLoader {
 
     private ApiService apiService;
+    private IUserInfoRepository userInfoRepository;
 
     @Inject
-    WebLoader(ApiService apiService) {
+    WebLoader(ApiService apiService, IUserInfoRepository userInfoRepository) {
         this.apiService = apiService;
+        this.userInfoRepository = userInfoRepository;
     }
 
     private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
@@ -126,6 +132,15 @@ public class WebLoader {
     public void addItemToCart(@NonNull String token, int id, int quantity) throws UserException {
         String headerToken = "Token " + token;
         executeRequest(() -> apiService.addItemToCart(headerToken, new OrderedItem(id, quantity)));
+    }
+
+    public void makeOrder(int orderId,
+                          String phoneNumber,
+                          String destinationAddress,
+                          OrderStatus orderStatus) throws DataNotFoundException, UserException {
+        String headerToken = "Token" + userInfoRepository.getAuthInfo().getToken();
+        executeRequest(() -> apiService.updateOrderById(headerToken, orderId,
+                new OrderUpdate(phoneNumber, destinationAddress, orderStatus)));
     }
 
     public interface ExecutableRequest<T> {

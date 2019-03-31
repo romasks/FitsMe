@@ -9,9 +9,10 @@ import ru.fitsme.android.utils.OrderStatus;
 public interface IOrdersRepository {
 
     @NonNull
-    Order getOrder(@NonNull String token, int page) throws AppException;
+    Order getOrder() throws AppException;
 
-    void makeOrder(@NonNull String token, String phoneNumber,
+    void makeOrder(int orderId,
+                   String phoneNumber,
                    String destinationAddress,
                    OrderStatus orderStatus) throws AppException;
 }

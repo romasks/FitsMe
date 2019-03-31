@@ -7,6 +7,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.utils.OrderStatus;
 
 public interface IOrdersInteractor {
 
@@ -20,5 +21,7 @@ public interface IOrdersInteractor {
     Completable restoreItemToOrder(int index);
 
     @NonNull
-    Completable makeOrder(OrderItem order);
+    Completable makeOrder(String phoneNumber,
+                          String destinationAddress,
+                          OrderStatus orderStatus);
 }
