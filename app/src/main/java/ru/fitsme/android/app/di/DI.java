@@ -31,11 +31,13 @@ import ru.fitsme.android.data.repositories.clothes.ClothesLikeRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
+import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesIndexRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesLikeRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
+import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IResourceRepository;
 import ru.fitsme.android.domain.boundaries.signinup.ISignInUpRepository;
 import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
@@ -84,6 +86,7 @@ public class DI {
             bind(IFavouritesActionRepository.class).to(FavouritesActionRepository.class);
 
             bind(IOrdersInteractor.class).to(OrdersInteractor.class);
+            bind(IOrdersRepository.class).to(OrdersRepository.class);
         }});
     }
 

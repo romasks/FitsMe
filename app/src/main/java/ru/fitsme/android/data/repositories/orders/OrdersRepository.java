@@ -2,6 +2,8 @@ package ru.fitsme.android.data.repositories.orders;
 
 import android.support.annotation.NonNull;
 
+import javax.inject.Inject;
+
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
@@ -12,6 +14,7 @@ public class OrdersRepository implements IOrdersRepository {
 
     private final WebLoader webLoader;
 
+    @Inject
     public OrdersRepository(WebLoader webLoader) {
         this.webLoader = webLoader;
     }
