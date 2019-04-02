@@ -76,10 +76,14 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/padding_medium"
             android:layout_toRightOf="@id/favourite_image_field"
-            android:background="@drawable/bg_rounded_corners_to_cart_btn"
+            android:background="@{viewModel.inCart(position) ? @drawable/bg_in_cart_btn : @drawable/bg_to_cart_btn}"
+            android:enabled="@{!viewModel.inCart(position)}"
             android:onClick="@{() -> viewModel.addItemToCart(position)}"
-            android:text="@string/to_basket"
-            android:textColor="@color/white" />
+            android:paddingTop="@dimen/padding_small"
+            android:paddingBottom="@dimen/padding_small"
+            android:text="@{viewModel.inCart(position) ? @string/clothe_in_cart : @string/to_cart}"
+            android:textColor="@{viewModel.inCart(position) ? @color/black : @color/white}"
+            tools:text="В корзину" />
 
     </RelativeLayout>
 

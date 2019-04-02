@@ -2,8 +2,6 @@ package ru.fitsme.android.domain.interactors.favourites;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -18,12 +16,9 @@ import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
-import timber.log.Timber;
 
 @Singleton
 public class FavouritesInteractor implements IFavouritesInteractor {
-
-    private static final String TAG = "FavouritesInteractor";
 
     private final IFavouritesRepository favouritesRepository;
     private final IFavouritesActionRepository favouritesActionRepository;

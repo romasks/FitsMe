@@ -6,6 +6,8 @@ import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 
 public interface IFavouritesActionRepository {
 
+    String TAG = "FavouritesActionRepo";
+
     void removeItem(@NonNull String token, int id);
 
     void restoreItem(@NonNull String token, int id);
