@@ -85,7 +85,7 @@ dependencies {
 
     implementation "com.hendraanggrian:recyclerview-paginated:$paginatedRVVersion"
 
-    implementation ('com.crashlytics.sdk.android:crashlytics:2.9.9@aar'){
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }
 
