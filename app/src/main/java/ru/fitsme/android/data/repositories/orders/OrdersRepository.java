@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.utils.OrderStatus;
 
 public class OrdersRepository implements IOrdersRepository {
@@ -21,8 +21,8 @@ public class OrdersRepository implements IOrdersRepository {
 
     @NonNull
     @Override
-    public Order getOrder() throws AppException {
-        return null;
+    public OrdersPage getOrders(int page) throws AppException {
+        return webLoader.getOrders(page);
     }
 
     @Override

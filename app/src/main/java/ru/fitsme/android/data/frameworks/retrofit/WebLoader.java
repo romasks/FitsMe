@@ -18,6 +18,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
+import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
@@ -141,6 +142,11 @@ public class WebLoader {
         String headerToken = "Token" + userInfoRepository.getAuthInfo().getToken();
         executeRequest(() -> apiService.updateOrderById(headerToken, orderId,
                 new OrderUpdate(phoneNumber, destinationAddress, orderStatus)));
+    }
+
+    public OrdersPage getOrders(int page) throws DataNotFoundException, UserException {
+        String headerToken = "Token" + userInfoRepository.getAuthInfo().getToken();
+        return executeRequest(() -> apiService.getOrders(headerToken, page));
     }
 
     public interface ExecutableRequest<T> {
