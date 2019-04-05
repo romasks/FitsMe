@@ -2,24 +2,27 @@ package ru.fitsme.android.domain.interactors.orders;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.utils.OrderStatus;
 
 public interface IOrdersInteractor {
 
     @NonNull
-    Single<FavouritesItem> getSingleCartItem(int index);
+    Single<Order> getSingleOrder(int page);
 
     @NonNull
-    Single<List<FavouritesItem>> getSingleCartItems(int page);
+    Completable removeItemFromOrder(int index);
 
     @NonNull
-    Single<OrderItem> getSingleOrderItem(int index);
+    Completable restoreItemToOrder(int index);
 
     @NonNull
-    Completable makeOrder(OrderItem order);
+    Completable makeOrder(String phoneNumber,
+                          String destinationAddress,
+                          OrderStatus orderStatus);
 }

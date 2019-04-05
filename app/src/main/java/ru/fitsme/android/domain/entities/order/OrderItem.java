@@ -1,20 +1,31 @@
 package ru.fitsme.android.domain.entities.order;
 
+import com.google.gson.annotations.SerializedName;
+
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
 public class OrderItem {
+    @SerializedName("id")
     private int id;
-    private int order;
+
+    @SerializedName("order")
+    private int orderId;
+
+    @SerializedName("price")
     private int price;
+
+    @SerializedName("quantity")
     private int quantity;
+
+    @SerializedName("clothe")
     private ClothesItem clothe;
 
     public int getId() {
         return id;
     }
 
-    public int getOrder() {
-        return order;
+    public int getOrderId() {
+        return orderId;
     }
 
     public int getPrice() {

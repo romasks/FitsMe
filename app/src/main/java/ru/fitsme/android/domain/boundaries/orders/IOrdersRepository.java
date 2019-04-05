@@ -2,13 +2,17 @@ package ru.fitsme.android.domain.boundaries.orders;
 
 import android.support.annotation.NonNull;
 
+import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.utils.OrderStatus;
 
 public interface IOrdersRepository {
 
     @NonNull
-    OrderItem getOrderItem(@NonNull String token, int index) throws AppException;
+    OrdersPage getOrders(int page) throws AppException;
 
-    void makeOrder(@NonNull String token, OrderItem order) throws AppException;
+    void makeOrder(int orderId,
+                   String phoneNumber,
+                   String destinationAddress,
+                   OrderStatus orderStatus) throws AppException;
 }
