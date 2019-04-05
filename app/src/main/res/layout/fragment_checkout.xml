@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/backArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/padding_medium"
+                    android:gravity="center"
+                    android:text="{--"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/padding_extra_medium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Оформление заказа"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/padding_extra_medium"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/black" />
+
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_medium"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_small"
+                        android:text="@string/checlout_mobile_phone_number"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/delivery_address_field_height"
+                        android:hint="+7"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_small"
+                        android:layout_marginBottom="@dimen/padding_small"
+                        android:text="@string/checkout_delivery_address"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/address_city"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/delivery_address_field_height"
+                            android:layout_marginRight="@dimen/padding_medium"
+                            android:layout_weight="1"
+                            android:hint="Москва"
+                            android:textSize="@dimen/delivery_address_edit_field_text" />
+
+                        <EditText
+                            android:id="@+id/address_street"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/delivery_address_field_height"
+                            android:layout_marginLeft="@dimen/padding_medium"
+                            android:layout_weight="1"
+                            android:hint="Укажите улицу"
+                            android:textSize="@dimen/delivery_address_edit_field_text" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/address_house"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/delivery_address_field_height"
+                            android:layout_marginRight="@dimen/padding_medium"
+                            android:layout_weight="1"
+                            android:hint="Укажите дом"
+                            android:textSize="@dimen/delivery_address_edit_field_text" />
+
+                        <EditText
+                            android:id="@+id/address_flat"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/delivery_address_field_height"
+                            android:layout_marginLeft="@dimen/padding_medium"
+                            android:layout_weight="1"
+                            android:hint="Укажите квартиру"
+                            android:textSize="@dimen/delivery_address_edit_field_text" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_medium"
+                        android:layout_marginBottom="@dimen/padding_small"
+                        android:text="@string/checkout_first_warning_message"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/delivery_address_warning_text" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_small"
+                        android:layout_marginBottom="@dimen/padding_medium"
+                        android:text="@string/checkout_second_warning_message"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/delivery_address_warning_text" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_small"
+                        android:layout_marginBottom="@dimen/padding_small"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Товаров на сумму"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text" />
+
+                        <TextView
+                            android:id="@+id/price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14000P"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_small"
+                        android:layout_marginBottom="@dimen/padding_small"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Стоимость доставки"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text" />
+
+                        <TextView
+                            android:id="@+id/deliveryPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="300P"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_small"
+                        android:layout_marginBottom="@dimen/padding_small"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Итого"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/totalPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14300P"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/padding_large"
+                        android:background="@drawable/bg_to_cart_btn"
+                        android:text="Оформить заказ"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/padding_extra_medium" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</layout>

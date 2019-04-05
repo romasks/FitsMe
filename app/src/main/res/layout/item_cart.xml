@@ -43,7 +43,7 @@
             android:layout_toEndOf="@id/item_cart_image_field"
             android:paddingBottom="4dp"
             android:text="@{model.getCartItemAt(position).item.brand}"
-            android:textSize="@dimen/text_size_extra_medium"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:lines="2"
             tools:text="@string/brand_name_hint_in_two_lines" />

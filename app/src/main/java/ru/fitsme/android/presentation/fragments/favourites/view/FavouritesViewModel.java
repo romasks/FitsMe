@@ -96,14 +96,19 @@ public class FavouritesViewModel extends ViewModel {
         return null;
     }
 
+    public boolean inCart(Integer index) {
+        return getFavouriteItemAt(index).isInCart();
+    }
+
     public void addItemToCart(int index) {
         Timber.tag(TAG).d("addItemToCart clicked on position: %d", index);
         // TODO: next sprint
         if (!pagesData.isEmpty() && pagesData.size() > index) {
             favouritesInteractor.addFavouritesItemToCart(index, 0)
                     .subscribe(() -> {
-            }, throwable -> {
-            });
+                        adapter.changeStatus(index, true);
+                    }, throwable -> {
+                    });
         }
     }
 

@@ -12,16 +12,12 @@ import ru.fitsme.android.R;
 
 public class CartFragment extends Fragment {
 
-
     public CartFragment() {
-
     }
 
     public static CartFragment newInstance() {
         return new CartFragment();
-
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -29,5 +25,4 @@ public class CartFragment extends Fragment {
 
         return inflater.inflate(R.layout.fragment_cart, container, false);
     }
-
 }

@@ -5,15 +5,20 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
-import ru.fitsme.android.data.frameworks.retrofit.entities.CartItem;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
-import ru.fitsme.android.domain.entities.clothes.CartClothesItem;
+import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
+import ru.fitsme.android.domain.entities.order.Order;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 
 public interface ApiService {
@@ -30,11 +35,21 @@ public interface ApiService {
     @POST("viewed/")
     Call<OkResponse<LikedClothesItem>> likeItem(@Header("Authorization") String token,
                                                 @Body LikedItem likedItem);
+
     @GET("viewed/")
     Call<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
                                                           @Query("page") int page);
 
     @POST("orders/items/")
-    Call<OkResponse<CartClothesItem>> addItemToCart(@Header("Authorization") String token,
-                                                    @Body CartItem cartItem);
+    Call<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,
+                                              @Body OrderedItem orderedItem);
+
+    @GET("orders/")
+    Call<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
+                                           @Query("page") int page);
+
+    @PUT("orders/{id}/")
+    Call<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
+                                            @Path("id") long orderId,
+                                            @Body OrderUpdate order);
 }

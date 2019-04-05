@@ -1,10 +1,10 @@
 package ru.fitsme.android.data.frameworks.retrofit.entities;
 
-public class CartItem {
+public class OrderedItem {
     private int clothe_id;
     private int quantity;
 
-    public CartItem(int clothe_id, int quantity) {
+    public OrderedItem(int clothe_id, int quantity) {
         this.clothe_id = clothe_id;
         this.quantity = quantity;
     }

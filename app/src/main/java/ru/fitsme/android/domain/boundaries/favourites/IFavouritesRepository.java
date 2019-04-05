@@ -8,6 +8,8 @@ import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public interface IFavouritesRepository {
 
+    String TAG = "FavouritesRepository";
+
     @NonNull
     FavouritesItem getFavouritesItem(@NonNull String token, int index) throws AppException;
 

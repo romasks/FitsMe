@@ -20,6 +20,7 @@
     <string name="clothe_name_hint">Название товара</string>
     <string name="clothe_price_hint">7000 P</string>
     <string name="to_cart">В корзину</string>
+    <string name="clothe_in_cart">Товар в корзине</string>
     <string name="no_items_in_favourites">Нету товаров в избранном</string>
     <string name="no_items_in_cart">В корзине нет товаров</string>
     <string name="cart_no_item_go_to_favourite_btn_text">Перейти в избранное</string>
@@ -27,5 +28,8 @@
     <string name="cart_total_tv">Итого:</string>
     <string name="cart_user_agreement_1">Нажимая кнопку \"Перейти к оформлению\", вы соглашаетесь с</string>
     <string name="cart_user_agreement_2"><u>условиями обработки персональных данных</u></string>
-
+    <string name="checlout_mobile_phone_number">Мобильный телефон</string>
+    <string name="checkout_delivery_address">Адрес доставки</string>
+    <string name="checkout_first_warning_message">Доставка осуществляется только в пределах МКАД в течение 3-5 дней</string>
+    <string name="checkout_second_warning_message">Оплата производится курьеру наличными или по карте</string>
 </resources>
