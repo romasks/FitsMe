@@ -5,25 +5,25 @@
     <item
         android:id="@+id/action_items"
         android:icon="@drawable/ic_app_logo"
-        android:title=""
-        app:showAsAction="ifRoom" />
+        android:title="Главный"
+        app:showAsAction="withText" />
 
     <item
         android:id="@+id/action_likes"
         android:icon="@drawable/ic_app_logo"
-        android:title=""
-        app:showAsAction="ifRoom" />
+        android:title="Избранное"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/action_cart"
+        android:icon="@drawable/ic_app_logo"
+        android:title="Корзина"
+        app:showAsAction="withText" />
 
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_app_logo"
-        android:title=""
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_basket"
-        android:icon="@drawable/ic_app_logo"
-        android:title=""
-        app:showAsAction="ifRoom" />
+        android:title="Профиль"
+        app:showAsAction="withText" />
 
 </menu>

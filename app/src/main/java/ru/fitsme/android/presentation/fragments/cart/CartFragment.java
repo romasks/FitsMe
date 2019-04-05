@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.basket;
+package ru.fitsme.android.presentation.fragments.cart;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,18 +10,16 @@ import android.view.ViewGroup;
 import ru.fitsme.android.R;
 
 
-public class BasketFragment extends Fragment {
+public class CartFragment extends Fragment {
 
 
-    public BasketFragment() {
-
-    }
-
-    public static BasketFragment newInstance() {
-        return new BasketFragment();
+    public CartFragment() {
 
     }
 
+    public static CartFragment newInstance() {
+        return new CartFragment();
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
