@@ -30,4 +30,8 @@ public class FavouritesItem {
     public boolean isInCart() {
         return inCart;
     }
+
+    public void setInCart(boolean inCart) {
+        this.inCart = inCart;
+    }
 }

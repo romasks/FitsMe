@@ -10,6 +10,8 @@ import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public interface IFavouritesInteractor {
 
+    String TAG = "FavouritesInteractor";
+
     @NonNull
     Single<Integer> getLastIndexSingle();
 
