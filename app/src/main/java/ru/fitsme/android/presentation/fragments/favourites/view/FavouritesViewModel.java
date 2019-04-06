@@ -112,6 +112,15 @@ public class FavouritesViewModel extends ViewModel {
         }
     }
 
+    void deleteItem(Integer index) {
+        if (!pagesData.isEmpty() && pagesData.size() > index){
+            favouritesInteractor.deleteFavouriteItem(index)
+                    .subscribe(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+        }
+    }
+
     static public class Factory implements ViewModelProvider.Factory {
         private final IFavouritesInteractor favouritesInteractor;
 

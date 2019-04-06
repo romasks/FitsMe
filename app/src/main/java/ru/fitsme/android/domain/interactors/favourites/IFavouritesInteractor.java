@@ -29,4 +29,6 @@ public interface IFavouritesInteractor {
 
     @NonNull
     Completable addFavouritesItemToCart(int index, int quantity);
+
+    Completable deleteFavouriteItem(Integer index);
 }

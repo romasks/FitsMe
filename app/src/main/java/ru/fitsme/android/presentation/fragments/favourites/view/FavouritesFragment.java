@@ -6,9 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,6 +26,7 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
@@ -66,6 +72,9 @@ public class FavouritesFragment extends Fragment {
 
         viewModel.loading.set(VISIBLE);
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
+
+        ItemTouchHelper.SimpleCallback simpleCallback = getSimpleCallback();
+        new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.favouritesListRv);
     }
 
     private void onLoadPage(List<FavouritesItem> favouritesItems) {
@@ -78,4 +87,21 @@ public class FavouritesFragment extends Fragment {
         }
     }
 
+    private ItemTouchHelper.SimpleCallback getSimpleCallback(){
+        return new ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                if (position != PaginatedRecyclerView.NO_POSITION){
+                    viewModel.deleteItem(position);
+                }
+            }
+        };
+    }
 }

@@ -120,4 +120,14 @@ public class FavouritesInteractor implements IFavouritesInteractor {
                 .observeOn(mainThread);
     }
 
+    @Override
+    public Completable deleteFavouriteItem(Integer index) {
+        return Completable.create(emitter -> {
+            String token = userInfoRepository.getAuthInfo().getToken();
+            FavouritesItem favouritesItem = getFavouritesItem(index);
+            favouritesActionRepository.removeItem(token, favouritesItem.getItem().getId());
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread);
+    }
 }
