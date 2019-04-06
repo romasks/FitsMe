@@ -32,7 +32,8 @@ import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 
-public class FavouritesFragment extends Fragment {
+public class FavouritesFragment extends Fragment
+    implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener{
     @Inject
     IFavouritesInteractor favouritesInteractor;
 
@@ -73,7 +74,8 @@ public class FavouritesFragment extends Fragment {
         viewModel.loading.set(VISIBLE);
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
 
-        ItemTouchHelper.SimpleCallback simpleCallback = getSimpleCallback();
+        ItemTouchHelper.SimpleCallback simpleCallback =
+                new FavouritesRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.favouritesListRv);
     }
 
@@ -87,21 +89,10 @@ public class FavouritesFragment extends Fragment {
         }
     }
 
-    private ItemTouchHelper.SimpleCallback getSimpleCallback(){
-        return new ItemTouchHelper.SimpleCallback(
-                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                if (position != PaginatedRecyclerView.NO_POSITION){
-                    viewModel.deleteItem(position);
-                }
-            }
-        };
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (position != RecyclerView.NO_POSITION){
+            viewModel.deleteItem(position);
+        }
     }
 }

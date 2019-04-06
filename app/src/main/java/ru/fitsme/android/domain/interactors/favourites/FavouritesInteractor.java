@@ -128,6 +128,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
             favouritesActionRepository.removeItem(token, favouritesItem.getItem().getId());
             emitter.onComplete();
         })
-                .subscribeOn(workThread);
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 }
