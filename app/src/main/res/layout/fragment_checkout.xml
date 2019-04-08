@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel" />
     </data>
 
     <FrameLayout
@@ -12,37 +15,42 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/spinnerLoading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="@{viewModel.loading ? View.GONE : View.VISIBLE}">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@color/white">
 
-                <TextView
+                <ImageView
                     android:id="@+id/backArrow"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/padding_medium"
-                    android:gravity="center"
-                    android:text="{--"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/padding_extra_medium"
-                    android:textStyle="bold" />
+                    android:src="@drawable/ic_back_arrow_black_24dp"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Оформление заказа"
+                    android:text="@string/screen_title_checkout_order"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/padding_extra_medium"
+                    android:textSize="@dimen/text_size_header"
                     android:textStyle="bold" />
 
                 <View
@@ -75,7 +83,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/delivery_address_field_height"
-                        android:hint="+7"
+                        android:hint="@string/checkout_hint_phone_number"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
@@ -99,7 +107,7 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginRight="@dimen/padding_medium"
                             android:layout_weight="1"
-                            android:hint="Москва"
+                            android:hint="@string/checkout_hint_enter_city"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
                         <EditText
@@ -108,7 +116,7 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginLeft="@dimen/padding_medium"
                             android:layout_weight="1"
-                            android:hint="Укажите улицу"
+                            android:hint="@string/checkout_hint_enter_street"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
                     </LinearLayout>
@@ -124,7 +132,7 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginRight="@dimen/padding_medium"
                             android:layout_weight="1"
-                            android:hint="Укажите дом"
+                            android:hint="@string/checkout_hint_enter_house_number"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
                         <EditText
@@ -133,7 +141,7 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginLeft="@dimen/padding_medium"
                             android:layout_weight="1"
-                            android:hint="Укажите квартиру"
+                            android:hint="@string/checkout_hint_enter_flat_number"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
                     </LinearLayout>
@@ -167,7 +175,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Товаров на сумму"
+                            android:text="@string/checkout_text_price"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text" />
 
@@ -193,7 +201,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Стоимость доставки"
+                            android:text="@string/checlout_text_delivery_cost"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text" />
 
@@ -219,7 +227,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Итого"
+                            android:text="@string/checkout_text_total_price"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text"
                             android:textStyle="bold" />
@@ -245,10 +253,11 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/padding_large"
                         android:background="@drawable/bg_to_cart_btn"
-                        android:text="Оформить заказ"
+                        android:onClick="@{() -> viewModel.makeOrder()}"
+                        android:text="@string/btn_checkout_order"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/padding_extra_medium" />
+                        android:textSize="@dimen/text_size_lower_medium" />
 
                 </LinearLayout>
 
