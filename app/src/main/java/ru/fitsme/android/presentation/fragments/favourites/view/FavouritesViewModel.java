@@ -11,7 +11,6 @@ import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -29,7 +28,6 @@ public class FavouritesViewModel extends ViewModel {
     private final IFavouritesInteractor favouritesInteractor;
 
     private MutableLiveData<List<FavouritesItem>> pageLiveData;
-    private List<FavouritesItem> pagesData;
     private FavouritesAdapter adapter;
     private Disposable disposable;
     private PostPagination postPagination;
@@ -44,7 +42,6 @@ public class FavouritesViewModel extends ViewModel {
 
     void init() {
         pageLiveData = new MutableLiveData<>();
-        pagesData = new ArrayList<>();
         adapter = new FavouritesAdapter(R.layout.item_favourite, this);
         postPagination = new PostPagination();
         loading = new ObservableBoolean(GONE);
@@ -63,8 +60,8 @@ public class FavouritesViewModel extends ViewModel {
         disposable = favouritesInteractor.getSingleFavouritesPage(index)
                 .subscribe(favouritesPage -> {
                     nextPage = favouritesPage.getNext();
-                    pagesData.addAll(favouritesPage.getItems());
-                    pageLiveData.setValue(favouritesPage.getItems());
+                    List list = favouritesPage.getItems();
+                    pageLiveData.setValue(list);
                     postPagination.pageReceived();
                 });
     }
@@ -90,10 +87,7 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     public FavouritesItem getFavouriteItemAt(Integer index) {
-        if (!pagesData.isEmpty() && index != null && pagesData.size() > index) {
-            return pagesData.get(index);
-        }
-        return null;
+        return pageLiveData.getValue().get(index);
     }
 
     public boolean inCart(Integer index) {
@@ -103,22 +97,23 @@ public class FavouritesViewModel extends ViewModel {
     public void addItemToCart(int index) {
         Timber.tag(TAG).d("addItemToCart clicked on position: %d", index);
         // TODO: next sprint
-        if (!pagesData.isEmpty() && pagesData.size() > index) {
-            favouritesInteractor.addFavouritesItemToCart(index, 0)
-                    .subscribe(() -> {
-                        adapter.changeStatus(index, true);
-                    }, throwable -> {
-                    });
-        }
+        favouritesInteractor.addFavouritesItemToCart(index, 0)
+                .subscribe(() -> {
+                    adapter.changeStatus(index, true);
+                }, throwable -> {
+                });
     }
 
     void deleteItem(Integer index) {
-        if (!pagesData.isEmpty() && pagesData.size() > index){
-            favouritesInteractor.deleteFavouriteItem(index)
-                    .subscribe(() -> {
-                        adapter.notifyDataSetChanged();
-                    });
-        }
+         favouritesInteractor.deleteFavouriteItem(index)
+                 .subscribe(() -> {
+                     adapter.clearFavouriteList();
+                     if (nextPage == null){
+                         loadPage(1);
+                     } else {
+                         loadPage(nextPage - 1);
+                     }
+                 });
     }
 
     static public class Factory implements ViewModelProvider.Factory {

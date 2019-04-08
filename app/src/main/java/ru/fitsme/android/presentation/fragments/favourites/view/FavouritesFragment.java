@@ -17,6 +17,7 @@ import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -83,6 +84,7 @@ public class FavouritesFragment extends Fragment
         viewModel.loading.set(GONE);
         if (favouritesItems == null || favouritesItems.size() == 0) {
             viewModel.showEmpty.set(VISIBLE);
+            viewModel.setFavouritesInAdapter(new ArrayList<>());
         } else {
             viewModel.showEmpty.set(GONE);
             viewModel.setFavouritesInAdapter(favouritesItems);

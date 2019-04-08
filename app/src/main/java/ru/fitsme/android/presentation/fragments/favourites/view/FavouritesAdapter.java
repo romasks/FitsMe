@@ -72,6 +72,10 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         notifyItemChanged(index);
     }
 
+    void clearFavouriteList() {
+        items.clear();
+    }
+
     class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
         RelativeLayout viewBackground;
