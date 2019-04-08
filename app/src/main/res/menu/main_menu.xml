@@ -4,26 +4,26 @@
 
     <item
         android:id="@+id/action_items"
-        android:icon="@drawable/ic_app_logo"
-        android:title="Главный"
-        app:showAsAction="withText" />
+        android:icon="@drawable/ic_items"
+        android:title="@string/menu_items"
+        app:showAsAction="always|withText" />
 
     <item
         android:id="@+id/action_likes"
-        android:icon="@drawable/ic_app_logo"
-        android:title="Избранное"
-        app:showAsAction="withText" />
+        android:icon="@drawable/ic_favourites"
+        android:title="@string/menu_favourites"
+        app:showAsAction="always|withText" />
 
     <item
         android:id="@+id/action_cart"
-        android:icon="@drawable/ic_app_logo"
-        android:title="Корзина"
-        app:showAsAction="withText" />
+        android:icon="@drawable/ic_cart"
+        android:title="@string/menu_cart"
+        app:showAsAction="always|withText" />
 
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/ic_app_logo"
-        android:title="Профиль"
-        app:showAsAction="withText" />
+        android:icon="@drawable/ic_profile"
+        android:title="@string/menu_profile"
+        app:showAsAction="always|withText" />
 
 </menu>
