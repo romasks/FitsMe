@@ -7,7 +7,10 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel" />
+            type="ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel"/>
+        <variable
+            name="bindingEvents"
+            type="ru.fitsme.android.presentation.fragments.checkout.CheckoutBindingEvents"/>
     </data>
 
     <FrameLayout
@@ -41,6 +44,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/padding_medium"
                     android:src="@drawable/ic_back_arrow_black_24dp"
+                    android:onClick="@{() -> bindingEvents.goBack()}"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -81,9 +85,11 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/phone_field"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/delivery_address_field_height"
                         android:hint="@string/checkout_hint_phone_number"
+                        android:inputType="phone"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
@@ -107,6 +113,8 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginRight="@dimen/padding_medium"
                             android:layout_weight="1"
+                            android:lines="1"
+                            android:maxLength="12"
                             android:hint="@string/checkout_hint_enter_city"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
@@ -116,6 +124,8 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginLeft="@dimen/padding_medium"
                             android:layout_weight="1"
+                            android:lines="1"
+                            android:maxLength="12"
                             android:hint="@string/checkout_hint_enter_street"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
@@ -132,6 +142,9 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginRight="@dimen/padding_medium"
                             android:layout_weight="1"
+                            android:lines="1"
+                            android:inputType="number"
+                            android:maxLength="3"
                             android:hint="@string/checkout_hint_enter_house_number"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
@@ -141,6 +154,9 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginLeft="@dimen/padding_medium"
                             android:layout_weight="1"
+                            android:lines="1"
+                            android:inputType="number"
+                            android:maxLength="3"
                             android:hint="@string/checkout_hint_enter_flat_number"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
@@ -253,7 +269,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/padding_large"
                         android:background="@drawable/bg_to_cart_btn"
-                        android:onClick="@{() -> viewModel.makeOrder()}"
+                        android:onClick="@{() -> bindingEvents.clickOrder()}"
                         android:text="@string/btn_checkout_order"
                         android:textAllCaps="false"
                         android:textColor="@color/white"

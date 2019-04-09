@@ -11,7 +11,7 @@ public class Order {
     private long orderId;
 
     @SerializedName("address")
-    private String destinationAdderss;
+    private String destinationAddress;
 
     @SerializedName("tel")
     private String phoneNumber;
@@ -32,8 +32,8 @@ public class Order {
         return orderId;
     }
 
-    public String getDestinationAdderss() {
-        return destinationAdderss;
+    public String getDestinationAddress() {
+        return destinationAddress;
     }
 
     public String getPhoneNumber() {

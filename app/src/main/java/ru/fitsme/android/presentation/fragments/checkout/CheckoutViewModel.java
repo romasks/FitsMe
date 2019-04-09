@@ -31,13 +31,14 @@ public class CheckoutViewModel extends ViewModel {
     }
 
     void init() {
+        orderLiveData = new MutableLiveData<>();
         loading = new ObservableBoolean(GONE);
         loadOrder();
     }
 
     private void loadOrder() {
         disposable = ordersInteractor.getSingleOrder(1)
-                .subscribe((order) -> {
+                .subscribe(order -> {
                     orderLiveData.setValue(order);
                 }, throwable -> {
                 });
@@ -47,8 +48,8 @@ public class CheckoutViewModel extends ViewModel {
         return orderLiveData;
     }
 
-    public void makeOrder() {
-        disposable = ordersInteractor.makeOrder("", "", OrderStatus.FM)
+    public void makeOrder(String phone, String address) {
+        disposable = ordersInteractor.makeOrder(phone, address, OrderStatus.FM)
                 .subscribe(() -> {
                 }, throwable -> {
                 });

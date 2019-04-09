@@ -103,4 +103,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     testImplementation "com.github.stephanenicolas.toothpick:toothpick-testing:$stephanenicolasVersion"
+
+    // Masked text
+    implementation 'com.redmadrobot:inputmask:4.0.0'
 }
