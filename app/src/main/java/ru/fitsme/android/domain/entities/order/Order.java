@@ -10,8 +10,17 @@ public class Order {
     @SerializedName("id")
     private long orderId;
 
-    @SerializedName("address")
-    private String destinationAddress;
+    @SerializedName("city")
+    private String city;
+
+    @SerializedName("street")
+    private String street;
+
+    @SerializedName("house_number")
+    private String houseNumber;
+
+    @SerializedName("apartment")
+    private String apartment;
 
     @SerializedName("tel")
     private String phoneNumber;
@@ -32,8 +41,20 @@ public class Order {
         return orderId;
     }
 
-    public String getDestinationAddress() {
-        return destinationAddress;
+    public String getCity() {
+        return city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public String getApartment() {
+        return apartment;
     }
 
     public String getPhoneNumber() {

@@ -11,8 +11,6 @@ public interface IOrdersRepository {
     @NonNull
     OrdersPage getOrders(int page) throws AppException;
 
-    void makeOrder(int orderId,
-                   String phoneNumber,
-                   String destinationAddress,
-                   OrderStatus orderStatus) throws AppException;
+    void makeOrder(int orderId, String phoneNumber, String street, String houseNumber,
+                   String apartment, OrderStatus orderStatus) throws AppException;
 }

@@ -11,11 +11,11 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
-import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
-import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
@@ -135,17 +135,17 @@ public class WebLoader {
         executeRequest(() -> apiService.addItemToCart(headerToken, new OrderedItem(id, quantity)));
     }
 
-    public void makeOrder(int orderId,
-                          String phoneNumber,
-                          String destinationAddress,
-                          OrderStatus orderStatus) throws DataNotFoundException, UserException {
-        String headerToken = "Token" + userInfoRepository.getAuthInfo().getToken();
+    public void makeOrder(
+            int orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
+    ) throws DataNotFoundException, UserException {
+
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         executeRequest(() -> apiService.updateOrderById(headerToken, orderId,
-                new OrderUpdate(phoneNumber, destinationAddress, orderStatus)));
+                new OrderUpdate(phoneNumber, street, houseNumber, apartment, orderStatus)));
     }
 
     public OrdersPage getOrders(int page) throws DataNotFoundException, UserException {
-        String headerToken = "Token" + userInfoRepository.getAuthInfo().getToken();
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         return executeRequest(() -> apiService.getOrders(headerToken, page));
     }
 

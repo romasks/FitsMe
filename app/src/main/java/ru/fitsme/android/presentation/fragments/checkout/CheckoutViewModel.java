@@ -48,8 +48,8 @@ public class CheckoutViewModel extends ViewModel {
         return orderLiveData;
     }
 
-    public void makeOrder(String phone, String address) {
-        disposable = ordersInteractor.makeOrder(phone, address, OrderStatus.FM)
+    void onClickMakeOrder(String phone, String street, String house, String apartment) {
+        disposable = ordersInteractor.makeOrder(phone, street, house, apartment, OrderStatus.FM)
                 .subscribe(() -> {
                 }, throwable -> {
                 });

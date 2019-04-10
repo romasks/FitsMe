@@ -15,7 +15,7 @@ public class OrdersRepository implements IOrdersRepository {
     private final WebLoader webLoader;
 
     @Inject
-    public OrdersRepository(WebLoader webLoader) {
+    OrdersRepository(WebLoader webLoader) {
         this.webLoader = webLoader;
     }
 
@@ -26,10 +26,11 @@ public class OrdersRepository implements IOrdersRepository {
     }
 
     @Override
-    public void makeOrder(int orderId,
-                          String phoneNumber,
-                          String destinationAddress,
-                          OrderStatus orderStatus) throws AppException {
-        webLoader.makeOrder(orderId, phoneNumber, destinationAddress, orderStatus);
+    public void makeOrder(
+            int orderId, String phoneNumber, String street, String houseNumber,
+            String apartment, OrderStatus orderStatus
+    ) throws AppException {
+
+        webLoader.makeOrder(orderId, phoneNumber, street, houseNumber, apartment, orderStatus);
     }
 }

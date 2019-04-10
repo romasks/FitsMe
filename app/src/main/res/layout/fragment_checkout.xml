@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel"/>
+            type="ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel" />
+
         <variable
             name="bindingEvents"
-            type="ru.fitsme.android.presentation.fragments.checkout.CheckoutBindingEvents"/>
+            type="ru.fitsme.android.presentation.fragments.checkout.CheckoutBindingEvents" />
     </data>
 
     <FrameLayout
@@ -22,8 +24,8 @@
             android:id="@+id/spinnerLoading"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:indeterminate="true"
             android:layout_gravity="center"
+            android:indeterminate="true"
             android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}" />
 
         <LinearLayout
@@ -43,8 +45,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/padding_medium"
-                    android:src="@drawable/ic_back_arrow_black_24dp"
                     android:onClick="@{() -> bindingEvents.goBack()}"
+                    android:src="@drawable/ic_back_arrow_black_24dp"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -71,7 +73,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="@dimen/padding_medium"
                     android:orientation="vertical">
 
@@ -85,7 +87,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/phone_field"
+                        android:id="@+id/phone_number"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/delivery_address_field_height"
                         android:hint="@string/checkout_hint_phone_number"
@@ -113,9 +115,9 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginRight="@dimen/padding_medium"
                             android:layout_weight="1"
+                            android:hint="@string/checkout_hint_enter_city"
                             android:lines="1"
                             android:maxLength="12"
-                            android:hint="@string/checkout_hint_enter_city"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
                         <EditText
@@ -124,9 +126,9 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginLeft="@dimen/padding_medium"
                             android:layout_weight="1"
+                            android:hint="@string/checkout_hint_enter_street"
                             android:lines="1"
                             android:maxLength="12"
-                            android:hint="@string/checkout_hint_enter_street"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
                     </LinearLayout>
@@ -142,22 +144,22 @@
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginRight="@dimen/padding_medium"
                             android:layout_weight="1"
-                            android:lines="1"
-                            android:inputType="number"
-                            android:maxLength="3"
                             android:hint="@string/checkout_hint_enter_house_number"
+                            android:inputType="number"
+                            android:lines="1"
+                            android:maxLength="3"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
                         <EditText
-                            android:id="@+id/address_flat"
+                            android:id="@+id/address_appartment"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/delivery_address_field_height"
                             android:layout_marginLeft="@dimen/padding_medium"
                             android:layout_weight="1"
-                            android:lines="1"
-                            android:inputType="number"
-                            android:maxLength="3"
                             android:hint="@string/checkout_hint_enter_flat_number"
+                            android:inputType="number"
+                            android:lines="1"
+                            android:maxLength="3"
                             android:textSize="@dimen/delivery_address_edit_field_text" />
 
                     </LinearLayout>
@@ -199,7 +201,16 @@
                             android:id="@+id/price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="14000P"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text"
+                            android:textStyle="bold"
+                            tools:text="14000" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:text="@string/currency_sign"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text"
                             android:textStyle="bold" />
@@ -225,7 +236,16 @@
                             android:id="@+id/deliveryPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="300P"
+                            android:text="300"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:text="@string/currency_sign"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text"
                             android:textStyle="bold" />
@@ -252,7 +272,16 @@
                             android:id="@+id/totalPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="14300P"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/delivery_address_amount_text"
+                            android:textStyle="bold"
+                            tools:text="14300" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:text="@string/currency_sign"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text"
                             android:textStyle="bold" />
@@ -269,7 +298,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/padding_large"
                         android:background="@drawable/bg_to_cart_btn"
-                        android:onClick="@{() -> bindingEvents.clickOrder()}"
+                        android:onClick="@{() -> bindingEvents.onClickMakeOrder()}"
                         android:text="@string/btn_checkout_order"
                         android:textAllCaps="false"
                         android:textColor="@color/white"

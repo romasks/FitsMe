@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
@@ -22,10 +23,13 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
 import ru.fitsme.android.domain.entities.order.Order;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.cart.view.CartFragment;
 
 import static ru.fitsme.android.utils.Constants.GONE;
+import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
+import static ru.fitsme.android.utils.Constants.RU_PHONE_PREFIX;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 public class CheckoutFragment extends Fragment implements CheckoutBindingEvents {
@@ -35,9 +39,6 @@ public class CheckoutFragment extends Fragment implements CheckoutBindingEvents 
     private FragmentCheckoutBinding binding;
     private CheckoutViewModel viewModel;
     private boolean isMaskFilled = false;
-
-    String RU_PHONE_PREFIX = "+7";
-    String RU_PHONE_MASK = "+7 ([000]) [000]-[00]-[00]";
 
     public CheckoutFragment() {
         App.getInstance().getDi().inject(this);
@@ -71,6 +72,20 @@ public class CheckoutFragment extends Fragment implements CheckoutBindingEvents 
 
     private void onLoadOrder(Order order) {
         viewModel.loading.set(GONE);
+        if (order.getPhoneNumber() != null) binding.phoneNumber.setText(order.getPhoneNumber());
+        if (order.getCity() != null) binding.addressCity.setText(order.getCity());
+        if (order.getStreet() != null) binding.addressStreet.setText(order.getStreet());
+        if (order.getHouseNumber() != null) binding.addressHouse.setText(order.getHouseNumber());
+        if (order.getApartment() != null) binding.addressAppartment.setText(order.getApartment());
+
+        int price = 0;
+        for (OrderItem item : order.getOrderItemList()) {
+            price += item.getPrice();
+        }
+        binding.price.setText(String.valueOf(price));
+
+        int totalPrice = price + Integer.parseInt(binding.deliveryPrice.getText().toString());
+        binding.totalPrice.setText(String.valueOf(totalPrice));
     }
 
     @Override
@@ -81,18 +96,18 @@ public class CheckoutFragment extends Fragment implements CheckoutBindingEvents 
     }
 
     @Override
-    public void clickOrder() {
-        String address = String.valueOf(binding.addressCity.getText()) + ", " +
-                binding.addressStreet.getText() + ", " +
-                binding.addressHouse.getText() + ", " +
-                binding.addressFlat.getText();
-        viewModel.makeOrder(binding.phoneField.getText().toString(), address);
+    public void onClickMakeOrder() {
+        String street = binding.addressStreet.getText().toString();
+        String house = binding.addressHouse.getText().toString();
+        String apartment = binding.addressAppartment.getText().toString();
+        String phone = binding.phoneNumber.getText().toString().replaceAll("[^\\d]", "");
+        viewModel.onClickMakeOrder(phone, street, house, apartment);
     }
 
 
     private void initPhoneFieldListener() {
         final MaskedTextChangedListener phoneListener = new MaskedTextChangedListener(
-                RU_PHONE_MASK, binding.phoneField,
+                RU_PHONE_MASK, binding.phoneNumber,
                 (maskFilled, extractedValue) -> isMaskFilled = maskFilled
         ) {
             @Override
@@ -100,33 +115,33 @@ public class CheckoutFragment extends Fragment implements CheckoutBindingEvents 
                 super.afterTextChanged(edit);
 
                 if (edit != null && !edit.toString().startsWith(RU_PHONE_PREFIX + " (")) {
-                    binding.phoneField.setText(RU_PHONE_PREFIX + " (");
-                    binding.phoneField.setSelection(binding.phoneField.getText().length());
+                    binding.phoneNumber.setText(RU_PHONE_PREFIX + " (");
+                    binding.phoneNumber.setSelection(binding.phoneNumber.getText().length());
                 }
             }
         };
 
-        binding.phoneField.setOnFocusChangeListener((v, hasFocus) -> {
+        binding.phoneNumber.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                binding.phoneField.addTextChangedListener(phoneListener);
+                binding.phoneNumber.addTextChangedListener(phoneListener);
 
-                if (TextUtils.isEmpty(binding.phoneField.getText()))
-                    binding.phoneField.setText(RU_PHONE_PREFIX);
+                if (TextUtils.isEmpty(binding.phoneNumber.getText()))
+                    binding.phoneNumber.setText(RU_PHONE_PREFIX);
 
-                binding.phoneField.setCursorVisible(false);
-                binding.phoneField.post(() -> {
-                    binding.phoneField.setSelection(binding.phoneField.getText().length());
-                    binding.phoneField.setCursorVisible(true);
+                binding.phoneNumber.setCursorVisible(false);
+                binding.phoneNumber.post(() -> {
+                    binding.phoneNumber.setSelection(binding.phoneNumber.getText().length());
+                    binding.phoneNumber.setCursorVisible(true);
                 });
             } else {
-                if (binding.phoneField == null) return;
-                binding.phoneField.removeTextChangedListener(phoneListener);
+                if (binding.phoneNumber == null) return;
+                binding.phoneNumber.removeTextChangedListener(phoneListener);
 
                 if (!isMaskFilled)
-                    binding.phoneField.getText().clear();
+                    Toast.makeText(getContext(), R.string.warning_phone_number_is_not_filled, Toast.LENGTH_SHORT).show();
             }
         });
-        binding.phoneField.setText(RU_PHONE_PREFIX);
-        binding.phoneField.requestFocus();
+        binding.phoneNumber.setText(RU_PHONE_PREFIX);
+        binding.phoneNumber.requestFocus();
     }
 }
