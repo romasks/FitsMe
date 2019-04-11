@@ -17,8 +17,8 @@ public class FavouritesActionRepository implements IFavouritesActionRepository {
     }
 
     @Override
-    public void removeItem(@NonNull String token, int id) {
-
+    public void removeItem(@NonNull String token, int id) throws UserException {
+        webLoader.deleteFavouriteItem(token, id);
     }
 
     @Override

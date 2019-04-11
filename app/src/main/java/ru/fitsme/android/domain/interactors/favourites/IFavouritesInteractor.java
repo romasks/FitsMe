@@ -22,11 +22,11 @@ public interface IFavouritesInteractor {
     Single<FavouritesPage> getSingleFavouritesPage(int page);
 
     @NonNull
-    Completable removeItemFromFavourites(int index);
-
-    @NonNull
     Completable restoreItemToFavourites(int index);
 
     @NonNull
     Completable addFavouritesItemToCart(int index, int quantity);
+
+    @NonNull
+    Completable deleteFavouriteItem(Integer index);
 }

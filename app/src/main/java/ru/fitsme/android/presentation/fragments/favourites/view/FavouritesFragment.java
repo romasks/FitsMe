@@ -6,12 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hendraanggrian.widget.PaginatedRecyclerView;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,12 +27,14 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 
-public class FavouritesFragment extends Fragment {
+public class FavouritesFragment extends Fragment
+    implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener{
     @Inject
     IFavouritesInteractor favouritesInteractor;
 
@@ -66,16 +74,27 @@ public class FavouritesFragment extends Fragment {
 
         viewModel.loading.set(VISIBLE);
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
+
+        ItemTouchHelper.SimpleCallback simpleCallback =
+                new FavouritesRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+        new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.favouritesListRv);
     }
 
     private void onLoadPage(List<FavouritesItem> favouritesItems) {
         viewModel.loading.set(GONE);
         if (favouritesItems == null || favouritesItems.size() == 0) {
             viewModel.showEmpty.set(VISIBLE);
+            viewModel.setFavouritesInAdapter(new ArrayList<>());
         } else {
             viewModel.showEmpty.set(GONE);
             viewModel.setFavouritesInAdapter(favouritesItems);
         }
     }
 
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (position != RecyclerView.NO_POSITION){
+            viewModel.deleteItem(position);
+        }
+    }
 }
