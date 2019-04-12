@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.utils.OrderStatus;
@@ -22,7 +22,7 @@ public class CheckoutViewModel extends ViewModel {
     private final IOrdersInteractor ordersInteractor;
 
     private MutableLiveData<Order> orderLiveData;
-    private Disposable disposable;
+    private CompositeDisposable disposable;
 
     public ObservableBoolean loading;
 
@@ -32,16 +32,19 @@ public class CheckoutViewModel extends ViewModel {
 
     void init() {
         orderLiveData = new MutableLiveData<>();
+        disposable = new CompositeDisposable();
         loading = new ObservableBoolean(GONE);
         loadOrder();
     }
 
     private void loadOrder() {
-        disposable = ordersInteractor.getSingleOrder(1)
-                .subscribe(order -> {
-                    orderLiveData.setValue(order);
-                }, throwable -> {
-                });
+        disposable.add(
+                ordersInteractor.getSingleOrder(1)
+                        .subscribe(order -> {
+                            orderLiveData.setValue(order);
+                        }, throwable -> {
+                        })
+        );
     }
 
     LiveData<Order> getOrderLiveData() {
@@ -49,10 +52,18 @@ public class CheckoutViewModel extends ViewModel {
     }
 
     void onClickMakeOrder(String phone, String street, String house, String apartment) {
-        disposable = ordersInteractor.makeOrder(phone, street, house, apartment, OrderStatus.FM)
-                .subscribe(() -> {
-                }, throwable -> {
-                });
+        disposable.add(
+                ordersInteractor.makeOrder(phone, street, house, apartment, OrderStatus.FM)
+                        .subscribe(() -> {
+                        }, throwable -> {
+                        })
+        );
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        disposable.dispose();
     }
 
     static public class Factory implements ViewModelProvider.Factory {
