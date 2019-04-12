@@ -85,18 +85,6 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @NonNull
     @Override
-    public Completable removeItemFromFavourites(int index) {
-        return Completable.create(emitter -> {
-            FavouritesItem favouritesItem = getFavouritesItem(index);
-//            favouritesActionRepository.removeItem(token, clothesItem.getId());
-            emitter.onComplete();
-        })
-                .subscribeOn(workThread)
-                .observeOn(mainThread);
-    }
-
-    @NonNull
-    @Override
     public Completable restoreItemToFavourites(int index) {
         return Completable.create(emitter -> {
             FavouritesItem clothesItem = getFavouritesItem(index);
@@ -120,4 +108,15 @@ public class FavouritesInteractor implements IFavouritesInteractor {
                 .observeOn(mainThread);
     }
 
+    @Override
+    public Completable deleteFavouriteItem(Integer index) {
+        return Completable.create(emitter -> {
+            String token = userInfoRepository.getAuthInfo().getToken();
+            FavouritesItem favouritesItem = getFavouritesItem(index);
+            favouritesActionRepository.removeItem(token, favouritesItem.getId());
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
+    }
 }

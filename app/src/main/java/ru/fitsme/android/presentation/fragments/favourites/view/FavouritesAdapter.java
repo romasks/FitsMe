@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.hendraanggrian.widget.PaginatedRecyclerView;
@@ -71,16 +72,28 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         notifyItemChanged(index);
     }
 
+    FavouritesItem getFavouriteItemAt(Integer index) {
+        return items.get(index);
+    }
+
+    void removeItemAt(Integer index) {
+        items.remove(getFavouriteItemAt(index));
+    }
+
     class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
+        RelativeLayout viewBackground;
+        RelativeLayout viewForeground;
 
         GenericViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            viewBackground = binding.getRoot().findViewById(R.id.item_favourite_view_background);
+            viewForeground = binding.getRoot().findViewById(R.id.item_favourite_view_foreground);
         }
 
         void bind(FavouritesViewModel viewModel, Integer position) {
-            ClothesItem item = viewModel.getFavouriteItemAt(position).getItem();
+            ClothesItem item = getFavouriteItemAt(position).getItem();
             String imageUrl = item.getPics()
                     .get(0)
                     .getUrl()

@@ -8,7 +8,7 @@ public interface IFavouritesActionRepository {
 
     String TAG = "FavouritesActionRepo";
 
-    void removeItem(@NonNull String token, int id);
+    void removeItem(@NonNull String token, int id) throws UserException;
 
     void restoreItem(@NonNull String token, int id);
 

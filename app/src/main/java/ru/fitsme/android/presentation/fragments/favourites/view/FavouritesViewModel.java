@@ -11,14 +11,12 @@ import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.R;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
-import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 
@@ -29,9 +27,8 @@ public class FavouritesViewModel extends ViewModel {
     private final IFavouritesInteractor favouritesInteractor;
 
     private MutableLiveData<List<FavouritesItem>> pageLiveData;
-    private List<FavouritesItem> pagesData;
     private FavouritesAdapter adapter;
-    private Disposable disposable;
+    private CompositeDisposable disposable;
     private PostPagination postPagination;
     private Integer nextPage;
 
@@ -44,8 +41,8 @@ public class FavouritesViewModel extends ViewModel {
 
     void init() {
         pageLiveData = new MutableLiveData<>();
-        pagesData = new ArrayList<>();
         adapter = new FavouritesAdapter(R.layout.item_favourite, this);
+        disposable = new CompositeDisposable();
         postPagination = new PostPagination();
         loading = new ObservableBoolean(GONE);
         showEmpty = new ObservableBoolean(GONE);
@@ -60,20 +57,21 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     private void loadPage(int index) {
-        disposable = favouritesInteractor.getSingleFavouritesPage(index)
-                .subscribe(favouritesPage -> {
-                    nextPage = favouritesPage.getNext();
-                    pagesData.addAll(favouritesPage.getItems());
-                    pageLiveData.setValue(favouritesPage.getItems());
-                    postPagination.pageReceived();
-                });
+        disposable.add(
+                favouritesInteractor.getSingleFavouritesPage(index)
+                        .subscribe(favouritesPage -> {
+                            nextPage = favouritesPage.getNext();
+                            pageLiveData.setValue(favouritesPage.getItems());
+                            postPagination.pageReceived();
+                        })
+        );
     }
 
-    void setFavouritesInAdapter(List<FavouritesItem> favouritesPage) {
+    void setFavouritesInAdapter(List<FavouritesItem> favouritesItems) {
         if (adapter.getItemCount() == 0) {
-            adapter.setFavouritesItems(favouritesPage);
+            adapter.setFavouritesItems(favouritesItems);
         } else {
-            adapter.addFavouritesItems(favouritesPage);
+            adapter.addFavouritesItems(favouritesItems);
         }
         adapter.notifyDataSetChanged();
     }
@@ -90,10 +88,7 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     public FavouritesItem getFavouriteItemAt(Integer index) {
-        if (!pagesData.isEmpty() && index != null && pagesData.size() > index) {
-            return pagesData.get(index);
-        }
-        return null;
+        return adapter.getFavouriteItemAt(index);
     }
 
     public boolean inCart(Integer index) {
@@ -101,15 +96,24 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     public void addItemToCart(int index) {
-        Timber.tag(TAG).d("addItemToCart clicked on position: %d", index);
-        // TODO: next sprint
-        if (!pagesData.isEmpty() && pagesData.size() > index) {
-            favouritesInteractor.addFavouritesItemToCart(index, 0)
-                    .subscribe(() -> {
-                        adapter.changeStatus(index, true);
-                    }, throwable -> {
-                    });
-        }
+        disposable.add(
+                favouritesInteractor.addFavouritesItemToCart(index, 0)
+                        .subscribe(() -> {
+                            adapter.changeStatus(index, true);
+                        }, throwable -> {
+                        })
+        );
+    }
+
+    void deleteItem(Integer index) {
+        disposable.add(
+                favouritesInteractor.deleteFavouriteItem(index)
+                        .subscribe(() -> {
+                            pageLiveData.getValue().remove(getFavouriteItemAt(index));
+                            adapter.removeItemAt(index);
+                            adapter.notifyItemRemoved(index);
+                        })
+        );
     }
 
     static public class Factory implements ViewModelProvider.Factory {

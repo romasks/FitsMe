@@ -103,7 +103,6 @@ public class WebLoader {
         return executeRequest(() -> apiService.getClothes(headerToken, page));
     }
 
-    @NonNull
     private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
             throws UserException {
         try {
@@ -112,6 +111,10 @@ public class WebLoader {
 
             if (response.isSuccessful() && response.body() != null) {
                 return getResponse(response.body());
+            }
+
+            if (response.isSuccessful() && response.body() == null){
+                return null;
             }
         } catch (IOException | InternalException | JsonSyntaxException e) {
             Timber.e(e);
@@ -127,6 +130,15 @@ public class WebLoader {
     public FavouritesPage getFavouritesClothesPage(@NonNull String token, int page) throws UserException {
         String headerToken = "Token " + token;
         return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
+    }
+
+    public void deleteFavouriteItem(@NonNull String token, int itemId) throws UserException {
+        String headerToken = "Token " + token;
+        try {
+            apiService.deleteFavouritesItem(headerToken, itemId).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addItemToCart(@NonNull String token, int id, int quantity) throws UserException {
