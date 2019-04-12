@@ -2,6 +2,7 @@ package ru.fitsme.android.data.frameworks.retrofit;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -39,6 +40,10 @@ public interface ApiService {
     @GET("viewed/")
     Call<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
                                                           @Query("page") int page);
+
+    @DELETE("viewed/{itemId}/")
+    Call<Void> deleteFavouritesItem(@Header("Authorization") String token,
+                                            @Path("itemId") int itemId);
 
     @POST("orders/items/")
     Call<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,

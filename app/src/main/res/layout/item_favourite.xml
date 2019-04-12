@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -14,77 +15,104 @@
             type="ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel" />
     </data>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="172dp"
-        android:padding="@dimen/padding_medium">
+        android:layout_height="172dp">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/favourite_image_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_corners"
-            app:cardCornerRadius="10dp">
+        <RelativeLayout
+            android:id="@+id/item_favourite_view_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_medium">
 
             <ImageView
-                android:id="@+id/favourite_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete_24dp"
                 android:contentDescription="@null"
-                tools:src="@drawable/clother_example" />
-        </android.support.v7.widget.CardView>
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/padding_extra_medium"
+                />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/favourites_brand_name"
+        <RelativeLayout
+            android:id="@+id/item_favourite_view_foreground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_toRightOf="@id/favourite_image_field"
-            android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouriteItemAt(position).item.brand}"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold"
-            tools:text="@string/brand_name_hint_in_two_lines" />
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            android:padding="@dimen/padding_medium"
+            >
 
-        <TextView
-            android:id="@+id/favourites_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/favourites_brand_name"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_toRightOf="@id/favourite_image_field"
-            android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouriteItemAt(position).item.name}"
-            tools:text="@string/clothe_name_hint" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/favourite_image_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_corners"
+                app:cardCornerRadius="10dp">
 
-        <TextView
-            android:id="@+id/favourites_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/favourites_name"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_toRightOf="@id/favourite_image_field"
-            android:paddingBottom="4dp"
-            android:text="@{viewModel.getFavouriteItemAt(position).item.description}"
-            android:textStyle="bold"
-            tools:text="@string/clothe_price_hint" />
+                <ImageView
+                    android:id="@+id/favourite_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    tools:src="@drawable/clother_example" />
+            </android.support.v7.widget.CardView>
 
-        <Button
-            android:id="@+id/favourites_btn_to_basket"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_toRightOf="@id/favourite_image_field"
-            android:background="@{viewModel.inCart(position) ? @drawable/bg_in_cart_btn : @drawable/bg_to_cart_btn}"
-            android:enabled="@{!viewModel.inCart(position)}"
-            android:onClick="@{() -> viewModel.addItemToCart(position)}"
-            android:paddingTop="@dimen/padding_small"
-            android:paddingBottom="@dimen/padding_small"
-            android:text="@{viewModel.inCart(position) ? @string/clothe_in_cart : @string/to_cart}"
-            android:textColor="@{viewModel.inCart(position) ? @color/black : @color/white}"
-            tools:text="@string/to_cart" />
+            <TextView
+                android:id="@+id/favourites_brand_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_toRightOf="@id/favourite_image_field"
+                android:paddingBottom="4dp"
+                android:text="@{viewModel.getFavouriteItemAt(position).item.brand}"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                tools:text="@string/brand_name_hint_in_two_lines" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/favourites_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/favourites_brand_name"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_toRightOf="@id/favourite_image_field"
+                android:paddingBottom="4dp"
+                android:text="@{viewModel.getFavouriteItemAt(position).item.name}"
+                tools:text="@string/clothe_name_hint" />
+
+            <TextView
+                android:id="@+id/favourites_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/favourites_name"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_toRightOf="@id/favourite_image_field"
+                android:paddingBottom="4dp"
+                android:text="@{viewModel.getFavouriteItemAt(position).item.description}"
+                android:textStyle="bold"
+                tools:text="@string/clothe_price_hint" />
+
+            <Button
+                android:id="@+id/favourites_btn_to_basket"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/padding_medium"
+                android:layout_toRightOf="@id/favourite_image_field"
+                android:background="@{viewModel.inCart(position) ? @drawable/bg_in_cart_btn : @drawable/bg_to_cart_btn}"
+                android:enabled="@{!viewModel.inCart(position)}"
+                android:onClick="@{() -> viewModel.addItemToCart(position)}"
+                android:paddingTop="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_small"
+                android:text="@{viewModel.inCart(position) ? @string/clothe_in_cart : @string/to_cart}"
+                android:textColor="@{viewModel.inCart(position) ? @color/black : @color/white}"
+                tools:text="@string/to_cart" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
 
 </layout>
