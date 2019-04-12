@@ -4,9 +4,12 @@
     <color name="colorPrimaryDark">#940235</color>
     <color name="colorAccent">#000000</color>
     <color name="colorRed">#ff0000</color>
+    <color name="colorGreyButton">#EFEFEF</color>
     <color name="colorBackground">#ffffff</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="toCartButton">#940235</color>
     <color name="inCartButton">#554f4f4f</color>
+    <color name="navbarItemActive">#940235</color>
+    <color name="navbarItemInactive">#88000000</color>
 </resources>

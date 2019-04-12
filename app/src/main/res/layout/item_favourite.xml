@@ -109,7 +109,7 @@
                 android:paddingBottom="@dimen/padding_small"
                 android:text="@{viewModel.inCart(position) ? @string/clothe_in_cart : @string/to_cart}"
                 android:textColor="@{viewModel.inCart(position) ? @color/black : @color/white}"
-                tools:text="В корзину" />
+                tools:text="@string/to_cart" />
 
         </RelativeLayout>
 

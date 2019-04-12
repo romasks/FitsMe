@@ -22,4 +22,32 @@
     <string name="to_cart">В корзину</string>
     <string name="clothe_in_cart">Товар в корзине</string>
     <string name="no_items_in_favourites">Нету товаров в избранном</string>
+    <string name="no_items_in_cart">В корзине нет товаров</string>
+    <string name="cart_no_item_go_to_favourite_btn_text">Перейти в избранное</string>
+    <string name="cart_proceed_to_checkout_btn_text">Перейти к оформлению</string>
+    <string name="cart_total_tv">Итого:</string>
+    <string name="cart_user_agreement_1">Нажимая кнопку \"Перейти к оформлению\", вы соглашаетесь с</string>
+    <string name="cart_user_agreement_2"><u>условиями обработки персональных данных</u></string>
+
+    <string name="screen_title_checkout_order">Оформление заказа</string>
+    <string name="checkout_mobile_phone_number">Мобильный телефон</string>
+    <string name="checkout_delivery_address">Адрес доставки</string>
+    <string name="checkout_first_warning_message">Доставка осуществляется только в пределах МКАД в течение 3-5 дней</string>
+    <string name="checkout_second_warning_message">Оплата производится курьеру наличными или по карте</string>
+    <string name="checkout_hint_phone_number">+7</string>
+    <string name="checkout_hint_enter_city">Укажите город</string>
+    <string name="checkout_hint_enter_street">Укажите улицу</string>
+    <string name="checkout_hint_enter_house_number">Укажите дом</string>
+    <string name="checkout_hint_enter_flat_number">Укажите квартиру</string>
+    <string name="checkout_text_delivery_cost">Стоимость доставки</string>
+    <string name="checkout_text_total_price">Итого</string>
+    <string name="checkout_text_price">Товаров на сумму</string>
+    <string name="btn_checkout_order">Оформить заказ</string>
+    <string name="warning_phone_number_is_not_filled">Номер телефона не заполнен</string>
+
+    <string name="menu_items">Главный</string>
+    <string name="menu_favourites">Избранное</string>
+    <string name="menu_cart">Корзина</string>
+    <string name="menu_profile">Профиль</string>
+    <string name="currency_sign">P</string>
 </resources>

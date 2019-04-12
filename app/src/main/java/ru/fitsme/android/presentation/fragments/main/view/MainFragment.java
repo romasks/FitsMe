@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
-import ru.fitsme.android.presentation.fragments.basket.BasketFragment;
+import ru.fitsme.android.presentation.fragments.cart.view.CartFragment;
+import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.favourites.view.FavouritesFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.ProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.view.RateItemsFragment;
@@ -53,11 +54,12 @@ public class MainFragment extends Fragment {
                         case R.id.action_likes:
                             switchFragment(FavouritesFragment.newInstance());
                             return true;
+                        case R.id.action_cart:
+                            switchFragment(CartFragment.newInstance());
+//                            switchFragment(CheckoutFragment.newInstance());
+                            return true;
                         case R.id.action_profile:
                             switchFragment(ProfileFragment.newInstance());
-                            return true;
-                        case R.id.action_basket:
-                            switchFragment(BasketFragment.newInstance());
                             return true;
                     }
                     return false;
