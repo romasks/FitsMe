@@ -9,4 +9,6 @@
     <color name="black">#000000</color>
     <color name="toCartButton">#940235</color>
     <color name="inCartButton">#554f4f4f</color>
+    <color name="navbarItemActive">#940235</color>
+    <color name="navbarItemInactive">#88000000</color>
 </resources>

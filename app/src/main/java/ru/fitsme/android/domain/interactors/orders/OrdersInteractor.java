@@ -36,11 +36,11 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @NonNull
     @Override
-    public Single<Order> getSingleOrder(int page){
+    public Single<Order> getSingleOrder(int page) {
         return Single.create((SingleOnSubscribe<Order>) emitter ->
                 emitter.onSuccess(getOrders(page).getOrdersList().get(1)))
-                        .subscribeOn(workThread)
-                        .observeOn(mainThread);
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 
     private OrdersPage getOrders(int page) throws AppException {
@@ -61,11 +61,11 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @NonNull
     @Override
-    public Completable makeOrder(String phoneNumber,
-                                 String destinationAddress,
-                                 OrderStatus orderStatus) {
+    public Completable makeOrder(
+            String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
+    ) {
         return Completable.create(emitter -> {
-            orderRepository.makeOrder(1, phoneNumber, destinationAddress, orderStatus);
+            orderRepository.makeOrder(1, phoneNumber, street, houseNumber, apartment, orderStatus);
             emitter.onComplete();
         })
                 .subscribeOn(workThread)
