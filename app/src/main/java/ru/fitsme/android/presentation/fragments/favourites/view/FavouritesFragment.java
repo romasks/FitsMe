@@ -8,12 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +24,6 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
-import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
