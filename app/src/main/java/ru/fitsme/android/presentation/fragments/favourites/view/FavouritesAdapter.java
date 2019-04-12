@@ -72,8 +72,12 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         notifyItemChanged(index);
     }
 
-    void clearFavouriteList() {
-        items.clear();
+    FavouritesItem getFavouriteItemAt(Integer index) {
+        return items.get(index);
+    }
+
+    void removeItemAt(Integer index) {
+        items.remove(getFavouriteItemAt(index));
     }
 
     class GenericViewHolder extends RecyclerView.ViewHolder {
@@ -89,7 +93,7 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         }
 
         void bind(FavouritesViewModel viewModel, Integer position) {
-            ClothesItem item = viewModel.getFavouriteItemAt(position).getItem();
+            ClothesItem item = getFavouriteItemAt(position).getItem();
             String imageUrl = item.getPics()
                     .get(0)
                     .getUrl()
