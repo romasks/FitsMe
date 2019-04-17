@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -72,20 +73,7 @@ public class CheckoutFragment extends Fragment implements CheckoutBindingEvents 
 
     private void onLoadOrder(Order order) {
         viewModel.loading.set(GONE);
-        if (order.getPhoneNumber() != null) binding.phoneNumber.setText(order.getPhoneNumber());
-        if (order.getCity() != null) binding.addressCity.setText(order.getCity());
-        if (order.getStreet() != null) binding.addressStreet.setText(order.getStreet());
-        if (order.getHouseNumber() != null) binding.addressHouse.setText(order.getHouseNumber());
-        if (order.getApartment() != null) binding.addressAppartment.setText(order.getApartment());
-
-        int price = 0;
-        for (OrderItem item : order.getOrderItemList()) {
-            price += item.getPrice();
-        }
-        binding.price.setText(String.valueOf(price));
-
-        int totalPrice = price + Integer.parseInt(binding.deliveryPrice.getText().toString());
-        binding.totalPrice.setText(String.valueOf(totalPrice));
+        viewModel.orderModel.set(new OrderModel(order));
     }
 
     @Override

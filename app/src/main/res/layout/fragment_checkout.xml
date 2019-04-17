@@ -92,7 +92,8 @@
                         android:layout_height="@dimen/delivery_address_field_height"
                         android:hint="@string/checkout_hint_phone_number"
                         android:inputType="phone"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_medium"
+                        android:text="@{viewModel.orderModel.phoneNumber}"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -118,7 +119,8 @@
                             android:hint="@string/checkout_hint_enter_city"
                             android:lines="1"
                             android:maxLength="12"
-                            android:textSize="@dimen/delivery_address_edit_field_text" />
+                            android:textSize="@dimen/delivery_address_edit_field_text"
+                            android:text="@{viewModel.orderModel.city}"/>
 
                         <EditText
                             android:id="@+id/address_street"
@@ -129,7 +131,8 @@
                             android:hint="@string/checkout_hint_enter_street"
                             android:lines="1"
                             android:maxLength="12"
-                            android:textSize="@dimen/delivery_address_edit_field_text" />
+                            android:textSize="@dimen/delivery_address_edit_field_text"
+                            android:text="@{viewModel.orderModel.street}"/>
 
                     </LinearLayout>
 
@@ -148,7 +151,8 @@
                             android:inputType="number"
                             android:lines="1"
                             android:maxLength="3"
-                            android:textSize="@dimen/delivery_address_edit_field_text" />
+                            android:textSize="@dimen/delivery_address_edit_field_text"
+                            android:text="@{viewModel.orderModel.houseNumber}"/>
 
                         <EditText
                             android:id="@+id/address_appartment"
@@ -160,7 +164,8 @@
                             android:inputType="number"
                             android:lines="1"
                             android:maxLength="3"
-                            android:textSize="@dimen/delivery_address_edit_field_text" />
+                            android:textSize="@dimen/delivery_address_edit_field_text"
+                            android:text="@{viewModel.orderModel.apartment}"/>
 
                     </LinearLayout>
 
@@ -201,6 +206,7 @@
                             android:id="@+id/price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@{viewModel.orderModel.price}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text"
                             android:textStyle="bold"
@@ -236,7 +242,7 @@
                             android:id="@+id/deliveryPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="300"
+                            android:text="@{viewModel.orderModel.discount}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text"
                             android:textStyle="bold" />
@@ -272,6 +278,7 @@
                             android:id="@+id/totalPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@{viewModel.orderModel.totalPrice}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/delivery_address_amount_text"
                             android:textStyle="bold"
