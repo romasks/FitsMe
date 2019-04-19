@@ -23,7 +23,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
 
         Timber.plant(new Timber.DebugTree());
 
