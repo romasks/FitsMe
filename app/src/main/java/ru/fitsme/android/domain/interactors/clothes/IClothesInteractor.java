@@ -6,7 +6,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.data.entities.response.clothes.ClothesItem;
 
 public interface IClothesInteractor {
 

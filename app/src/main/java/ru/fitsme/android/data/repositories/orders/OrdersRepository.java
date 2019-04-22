@@ -4,10 +4,10 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
-import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
+import ru.fitsme.android.data.api.WebLoader;
+import ru.fitsme.android.data.entities.response.orders.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.exceptions.AppException;
 import ru.fitsme.android.utils.OrderStatus;
 
 public class OrdersRepository implements IOrdersRepository {

@@ -5,11 +5,11 @@ import android.util.SparseArray;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
-import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
+import ru.fitsme.android.data.api.WebLoader;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesPage;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.data.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesItem;
 
 public class FavouritesRepository implements IFavouritesRepository {
     private static final int PAGE_SIZE = 10;

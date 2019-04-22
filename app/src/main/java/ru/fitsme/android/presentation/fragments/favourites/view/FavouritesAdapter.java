@@ -17,8 +17,8 @@ import java.util.List;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.data.entities.response.clothes.ClothesItem;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesItem;
 
 public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesAdapter.GenericViewHolder> {
 

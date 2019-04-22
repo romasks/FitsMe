@@ -17,8 +17,8 @@ import ru.fitsme.android.domain.boundaries.clothes.IClothesIndexRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesLikeRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.response.clothes.ClothesItem;
+import ru.fitsme.android.data.entities.exceptions.AppException;
 
 @Singleton
 public class ClothesInteractor implements IClothesInteractor {

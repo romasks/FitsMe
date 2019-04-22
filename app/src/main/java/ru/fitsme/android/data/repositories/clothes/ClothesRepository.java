@@ -5,11 +5,11 @@ import android.util.SparseArray;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
-import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.data.api.WebLoader;
+import ru.fitsme.android.data.entities.response.clothes.ClothesPage;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.response.clothes.ClothesItem;
+import ru.fitsme.android.data.entities.exceptions.AppException;
 
 public class ClothesRepository implements IClothesRepository {
 

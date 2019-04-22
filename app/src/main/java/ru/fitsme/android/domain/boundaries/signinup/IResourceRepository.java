@@ -2,7 +2,7 @@ package ru.fitsme.android.domain.boundaries.signinup;
 
 import android.support.annotation.NonNull;
 
-import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.exceptions.AppException;
 
 public interface IResourceRepository {
     @NonNull

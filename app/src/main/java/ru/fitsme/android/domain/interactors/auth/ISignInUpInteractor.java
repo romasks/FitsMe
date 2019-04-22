@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import io.reactivex.Single;
-import ru.fitsme.android.domain.entities.signinup.AutoSignInInfo;
-import ru.fitsme.android.domain.entities.signinup.SignInInfo;
-import ru.fitsme.android.domain.entities.signinup.SignInUpResult;
+import ru.fitsme.android.data.entities.response.signinup.AutoSignInInfo;
+import ru.fitsme.android.data.entities.response.signinup.SignInInfo;
+import ru.fitsme.android.data.entities.response.signinup.SignInUpResult;
 
 public interface ISignInUpInteractor {
     @NonNull

@@ -2,7 +2,7 @@ package ru.fitsme.android.domain.boundaries.favourites;
 
 import android.support.annotation.NonNull;
 
-import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.data.entities.exceptions.user.UserException;
 
 public interface IFavouritesActionRepository {
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.R;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 
 import static ru.fitsme.android.utils.Constants.GONE;

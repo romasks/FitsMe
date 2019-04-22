@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.api.WebLoader;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesLikeRepository;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.exceptions.AppException;
 
 public class ClothesLikeRepository implements IClothesLikeRepository {
 

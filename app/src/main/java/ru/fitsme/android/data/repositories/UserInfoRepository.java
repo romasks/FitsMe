@@ -5,12 +5,12 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
-import ru.fitsme.android.data.frameworks.sharedpreferences.SignInUpInfoStorage;
+import ru.fitsme.android.data.storage.AuthInfoStorage;
+import ru.fitsme.android.data.storage.SignInUpInfoStorage;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
-import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
-import ru.fitsme.android.domain.entities.signinup.AuthInfo;
-import ru.fitsme.android.domain.entities.signinup.SignInInfo;
+import ru.fitsme.android.data.entities.exceptions.internal.DataNotFoundException;
+import ru.fitsme.android.data.entities.response.signinup.AuthInfo;
+import ru.fitsme.android.data.entities.response.signinup.SignInInfo;
 
 @Singleton
 public class UserInfoRepository implements IUserInfoRepository {

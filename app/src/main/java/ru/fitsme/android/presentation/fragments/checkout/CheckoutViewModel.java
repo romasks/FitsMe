@@ -11,9 +11,9 @@ import android.support.annotation.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.disposables.CompositeDisposable;
-import ru.fitsme.android.data.models.OrderModel;
-import ru.fitsme.android.domain.entities.order.Order;
+import ru.fitsme.android.domain.entities.OrderDTO;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
+import ru.fitsme.android.presentation.models.OrderModel;
 import ru.fitsme.android.utils.OrderStatus;
 
 import static ru.fitsme.android.utils.Constants.GONE;
@@ -23,7 +23,7 @@ public class CheckoutViewModel extends ViewModel {
     private final String TAG = getClass().getName();
     private final IOrdersInteractor ordersInteractor;
 
-    private MutableLiveData<Order> orderLiveData;
+    private MutableLiveData<OrderDTO> orderLiveData;
     private CompositeDisposable disposable;
 
     public ObservableBoolean loading;
@@ -51,7 +51,7 @@ public class CheckoutViewModel extends ViewModel {
         );
     }
 
-    LiveData<Order> getOrderLiveData() {
+    LiveData<OrderDTO> getOrderLiveData() {
         return orderLiveData;
     }
 

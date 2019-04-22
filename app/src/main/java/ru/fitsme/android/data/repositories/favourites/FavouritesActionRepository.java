@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.api.WebLoader;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
-import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.data.entities.exceptions.user.UserException;
 
 public class FavouritesActionRepository implements IFavouritesActionRepository {
     private final WebLoader webLoader;

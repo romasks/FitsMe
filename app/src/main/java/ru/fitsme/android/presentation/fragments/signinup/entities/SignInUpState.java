@@ -1,6 +1,6 @@
 package ru.fitsme.android.presentation.fragments.signinup.entities;
 
-import ru.fitsme.android.domain.entities.signinup.SignInUpResult;
+import ru.fitsme.android.data.entities.response.signinup.SignInUpResult;
 
 public class SignInUpState {
     private SignInUpResult signInUpResult;

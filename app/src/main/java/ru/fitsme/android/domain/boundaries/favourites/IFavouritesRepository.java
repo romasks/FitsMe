@@ -2,9 +2,9 @@ package ru.fitsme.android.domain.boundaries.favourites;
 
 import android.support.annotation.NonNull;
 
-import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesPage;
+import ru.fitsme.android.data.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesItem;
 
 public interface IFavouritesRepository {
 

@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesPage;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesItem;
 
 public interface IFavouritesInteractor {
 

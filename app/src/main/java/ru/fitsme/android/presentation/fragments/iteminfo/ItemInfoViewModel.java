@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import io.reactivex.disposables.Disposable;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.data.entities.response.clothes.ClothesItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 
 public class ItemInfoViewModel extends ViewModel {

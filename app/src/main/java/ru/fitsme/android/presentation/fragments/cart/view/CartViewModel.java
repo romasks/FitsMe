@@ -1,6 +1,6 @@
 package ru.fitsme.android.presentation.fragments.cart.view;
 
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesItem;
 
 public class CartViewModel {
 

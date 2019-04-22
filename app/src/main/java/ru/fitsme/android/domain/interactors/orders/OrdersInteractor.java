@@ -10,10 +10,10 @@ import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
-import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
+import ru.fitsme.android.data.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.response.orders.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.order.Order;
+import ru.fitsme.android.domain.entities.OrderDTO;
 import ru.fitsme.android.utils.OrderStatus;
 
 @Singleton
@@ -36,9 +36,11 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @NonNull
     @Override
-    public Single<Order> getSingleOrder(int page) {
-        return Single.create((SingleOnSubscribe<Order>) emitter ->
-                emitter.onSuccess(getOrders(page).getOrdersList().get(1)))
+    public Single<OrderDTO> getSingleOrder(int page) {
+        return Single.create((SingleOnSubscribe<OrderDTO>) emitter -> {
+            OrderDTO orderDTO = new OrderDTO(getOrders(page).getOrdersList().get(1));
+            emitter.onSuccess(orderDTO);
+        })
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }

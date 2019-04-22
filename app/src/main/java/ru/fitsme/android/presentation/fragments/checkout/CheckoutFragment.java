@@ -21,12 +21,11 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
-import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.entities.OrderDTO;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.cart.view.CartFragment;
+import ru.fitsme.android.presentation.models.OrderModel;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
@@ -71,7 +70,7 @@ public class CheckoutFragment extends Fragment implements CheckoutBindingEvents 
         viewModel.getOrderLiveData().observe(this, this::onLoadOrder);
     }
 
-    private void onLoadOrder(Order order) {
+    private void onLoadOrder(OrderDTO order) {
         viewModel.loading.set(GONE);
         viewModel.orderModel.set(new OrderModel(order));
     }

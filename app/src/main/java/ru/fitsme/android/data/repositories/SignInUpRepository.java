@@ -5,11 +5,11 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.api.WebLoader;
 import ru.fitsme.android.domain.boundaries.signinup.ISignInUpRepository;
-import ru.fitsme.android.domain.entities.exceptions.user.UserException;
-import ru.fitsme.android.domain.entities.signinup.AuthInfo;
-import ru.fitsme.android.domain.entities.signinup.SignInInfo;
+import ru.fitsme.android.data.entities.exceptions.user.UserException;
+import ru.fitsme.android.data.entities.response.signinup.AuthInfo;
+import ru.fitsme.android.data.entities.response.signinup.SignInInfo;
 
 @Singleton
 public class SignInUpRepository implements ISignInUpRepository {

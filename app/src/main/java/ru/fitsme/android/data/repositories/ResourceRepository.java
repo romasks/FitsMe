@@ -8,13 +8,13 @@ import javax.inject.Singleton;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.domain.boundaries.signinup.IResourceRepository;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.exceptions.internal.ServerInternalException;
-import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
-import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyExistException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
+import ru.fitsme.android.data.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.exceptions.internal.ServerInternalException;
+import ru.fitsme.android.data.entities.exceptions.user.InternetConnectionException;
+import ru.fitsme.android.data.entities.exceptions.user.LoginAlreadyExistException;
+import ru.fitsme.android.data.entities.exceptions.user.WrongLoginException;
+import ru.fitsme.android.data.entities.exceptions.user.WrongLoginOrPasswordException;
+import ru.fitsme.android.data.entities.exceptions.user.WrongPasswordException;
 
 @Singleton
 public class ResourceRepository implements IResourceRepository {

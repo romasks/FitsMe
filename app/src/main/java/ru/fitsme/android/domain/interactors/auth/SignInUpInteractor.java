@@ -14,17 +14,17 @@ import ru.fitsme.android.domain.boundaries.signinup.IResourceRepository;
 import ru.fitsme.android.domain.boundaries.signinup.ISignInUpRepository;
 import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
-import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
-import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
-import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyExistException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
-import ru.fitsme.android.domain.entities.exceptions.user.UserException;
-import ru.fitsme.android.domain.entities.signinup.AuthInfo;
-import ru.fitsme.android.domain.entities.signinup.AutoSignInInfo;
-import ru.fitsme.android.domain.entities.signinup.SignInInfo;
-import ru.fitsme.android.domain.entities.signinup.SignInUpResult;
+import ru.fitsme.android.data.entities.exceptions.internal.DataNotFoundException;
+import ru.fitsme.android.data.entities.exceptions.user.InternetConnectionException;
+import ru.fitsme.android.data.entities.exceptions.user.LoginAlreadyExistException;
+import ru.fitsme.android.data.entities.exceptions.user.WrongLoginException;
+import ru.fitsme.android.data.entities.exceptions.user.WrongLoginOrPasswordException;
+import ru.fitsme.android.data.entities.exceptions.user.WrongPasswordException;
+import ru.fitsme.android.data.entities.exceptions.user.UserException;
+import ru.fitsme.android.data.entities.response.signinup.AuthInfo;
+import ru.fitsme.android.data.entities.response.signinup.AutoSignInInfo;
+import ru.fitsme.android.data.entities.response.signinup.SignInInfo;
+import ru.fitsme.android.data.entities.response.signinup.SignInUpResult;
 
 @Singleton
 public class SignInUpInteractor implements ISignInUpInteractor {

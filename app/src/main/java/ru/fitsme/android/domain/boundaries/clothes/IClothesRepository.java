@@ -2,8 +2,8 @@ package ru.fitsme.android.domain.boundaries.clothes;
 
 import android.support.annotation.NonNull;
 
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.response.clothes.ClothesItem;
+import ru.fitsme.android.data.entities.exceptions.AppException;
 
 public interface IClothesRepository {
 

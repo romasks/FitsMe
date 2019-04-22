@@ -10,12 +10,12 @@ import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
-import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesPage;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.data.entities.exceptions.AppException;
+import ru.fitsme.android.data.entities.response.favourites.FavouritesItem;
 
 @Singleton
 public class FavouritesInteractor implements IFavouritesInteractor {

@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
-import ru.fitsme.android.domain.entities.signinup.SignInUpResult;
+import ru.fitsme.android.data.entities.response.signinup.SignInUpResult;
 import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
 import ru.fitsme.android.presentation.common.livedata.NonNullLiveData;
 import ru.fitsme.android.presentation.common.livedata.NonNullMutableLiveData;
