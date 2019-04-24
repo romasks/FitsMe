@@ -114,7 +114,7 @@ public class WebLoader {
                 return getResponse(response.body());
             }
 
-            if (response.isSuccessful() && response.body() == null){
+            if (response.isSuccessful() && response.body() == null) {
                 return null;
             }
         } catch (IOException | InternalException | JsonSyntaxException e) {
@@ -125,6 +125,7 @@ public class WebLoader {
 
     public void likeItem(@NonNull String token, int id, boolean liked) throws UserException {
         String headerToken = "Token " + token;
+        Timber.tag("Like Item").d("ID, %d", id);
         executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
     }
 
