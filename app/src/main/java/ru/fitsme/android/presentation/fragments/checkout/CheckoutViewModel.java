@@ -15,12 +15,12 @@ import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.utils.OrderStatus;
+import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 
 public class CheckoutViewModel extends ViewModel {
 
-    private final String TAG = getClass().getName();
     private final IOrdersInteractor ordersInteractor;
 
     private MutableLiveData<Order> orderLiveData;
@@ -47,6 +47,7 @@ public class CheckoutViewModel extends ViewModel {
                         .subscribe(order -> {
                             orderLiveData.setValue(order);
                         }, throwable -> {
+                            Timber.tag(getClass().getName()).d(throwable);
                         })
         );
     }
@@ -60,6 +61,7 @@ public class CheckoutViewModel extends ViewModel {
                 ordersInteractor.makeOrder(phone, street, house, apartment, OrderStatus.FM)
                         .subscribe(() -> {
                         }, throwable -> {
+                            Timber.tag(getClass().getName()).d(throwable);
                         })
         );
     }
