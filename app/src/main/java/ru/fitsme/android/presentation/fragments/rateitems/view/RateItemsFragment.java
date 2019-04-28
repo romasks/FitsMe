@@ -17,7 +17,6 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
-import ru.fitsme.android.presentation.fragments.iteminfo.OnSwipeTouchListener;
 
 public class RateItemsFragment extends Fragment implements IOnSwipeListener {
     @Inject
