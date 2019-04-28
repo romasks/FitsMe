@@ -1,6 +1,7 @@
 package ru.fitsme.android.presentation.fragments.rateitems.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,48 +10,43 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 
-public class RateItemsFragment extends Fragment implements IOnSwipeListener {
+public class RateItemsFragment extends Fragment
+        implements IOnSwipeListener, BindingEventsClickListener {
     @Inject
     IClothesInteractor clothesInteractor;
 
     private RateItemsViewModel viewModel;
     private ItemInfoFragment curFragment;
+    private FragmentRateItemsBinding binding;
 
     public RateItemsFragment() {
         App.getInstance().getDi().inject(this);
     }
 
     public static RateItemsFragment newInstance() {
-        RateItemsFragment fragment = new RateItemsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new RateItemsFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rate_items, container, false);
-
-        Button button = view.findViewById(R.id.btn_like);
-        button.setOnClickListener(v -> likeItem(true));
-
-        return view;
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rate_items, container, false);
+        binding.setBindingEvents(this);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
             @Override
@@ -62,11 +58,13 @@ public class RateItemsFragment extends Fragment implements IOnSwipeListener {
             public void onSwipeLeft() {
                 onSwipe(IOnSwipeListener.AnimationType.LEFT);
             }
-
         });
 
         viewModel = ViewModelProviders.of(this,
                 new RateItemsViewModel.Factory(clothesInteractor)).get(RateItemsViewModel.class);
+        if (savedInstanceState == null) {
+            viewModel.init();
+        }
 
         viewModel.getIndexLiveData()
                 .observe(this, this::onIndex);
@@ -99,9 +97,14 @@ public class RateItemsFragment extends Fragment implements IOnSwipeListener {
                 .commit();
     }
 
-    private void likeItem(boolean liked) {
+    @Override
+    public void onClickLikeItem() {
+        likeItem();
+    }
+
+    private void likeItem() {
         if (curFragment != null && curFragment.isActive()) {
-            viewModel.likeClothesItem(liked, AnimationType.SIMPLE);
+            viewModel.likeClothesItem(true, AnimationType.SIMPLE);
         }
     }
 }
