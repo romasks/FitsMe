@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 
@@ -15,16 +15,20 @@ public class ItemInfoViewModel extends ViewModel {
     private final int index;
 
     private final MutableLiveData<ItemInfoState> itemLiveData = new MutableLiveData<>();
-    private final Disposable disposable;
+    private CompositeDisposable disposable;
 
     private ItemInfoViewModel(@NonNull IClothesInteractor clothesInteractor, int index) {
         this.clothesInteractor = clothesInteractor;
         this.index = index;
+    }
 
+    void init() {
         itemLiveData.setValue(new ItemInfoState(ItemInfoState.State.LOADING));
-
-        disposable = clothesInteractor.getSingleClothesItem(index)
-                .subscribe(this::onItem, this::onError);
+        disposable = new CompositeDisposable();
+        disposable.add(
+                clothesInteractor.getSingleClothesItem(index)
+                        .subscribe(this::onItem, this::onError)
+        );
     }
 
     private void onError(Throwable throwable) {
@@ -42,7 +46,7 @@ public class ItemInfoViewModel extends ViewModel {
         disposable.dispose();
     }
 
-    public LiveData<ItemInfoState> getItemLiveData() {
+    LiveData<ItemInfoState> getItemLiveData() {
         return itemLiveData;
     }
 
