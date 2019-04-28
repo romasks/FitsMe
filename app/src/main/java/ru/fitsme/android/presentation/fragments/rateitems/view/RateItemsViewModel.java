@@ -6,40 +6,47 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 
 public class RateItemsViewModel extends ViewModel {
     private final IClothesInteractor clothesInteractor;
 
     private final MutableLiveData<RateItemsState> indexLiveData = new MutableLiveData<>();
-    private Disposable disposable;
+    private CompositeDisposable disposable;
 
     private int firstIndex;
 
     private RateItemsViewModel(@NonNull IClothesInteractor clothesInteractor) {
         this.clothesInteractor = clothesInteractor;
-
-        disposable = clothesInteractor.getLastIndexSingle()
-                .subscribe(index -> {
-                    firstIndex = index;
-                    RateItemsState rateItemsState = new RateItemsState(firstIndex,
-                            IOnSwipeListener.AnimationType.NONE);
-                    indexLiveData.setValue(rateItemsState);
-                });
     }
 
-    public void likeClothesItem(boolean liked, IOnSwipeListener.AnimationType animationType) {
+    void init() {
+        disposable = new CompositeDisposable();
+        disposable.add(
+                clothesInteractor.getLastIndexSingle()
+                        .subscribe(index -> {
+                            firstIndex = index;
+                            RateItemsState rateItemsState = new RateItemsState(firstIndex,
+                                    IOnSwipeListener.AnimationType.NONE);
+                            indexLiveData.setValue(rateItemsState);
+                        })
+        );
+    }
+
+    void likeClothesItem(boolean liked, IOnSwipeListener.AnimationType animationType) {
         //TODO: можно вставить уведомление об лайке/дизлайке
-        clothesInteractor.setLikeToClothesItem(firstIndex, liked)
-                .subscribe(() -> {
-                }, throwable -> {
-                });
+        disposable.add(
+                clothesInteractor.setLikeToClothesItem(firstIndex, liked)
+                        .subscribe(() -> {
+                        }, throwable -> {
+                        })
+        );
 
         indexLiveData.setValue(new RateItemsState(++firstIndex, animationType));
     }
 
-    public LiveData<RateItemsState> getIndexLiveData() {
+    LiveData<RateItemsState> getIndexLiveData() {
         return indexLiveData;
     }
 
