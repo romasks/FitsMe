@@ -4,24 +4,24 @@ import android.support.annotation.NonNull;
 
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
-public class ItemInfoState {
+class ItemInfoState {
     private ClothesItem clothesItem;
     private State state;
 
-    public ItemInfoState(@NonNull ClothesItem clothesItem) {
+    ItemInfoState(@NonNull ClothesItem clothesItem) {
         this.clothesItem = clothesItem;
         this.state = State.OK;
     }
 
-    public ItemInfoState(@NonNull State state) {
+    ItemInfoState(@NonNull State state) {
         this.state = state;
     }
 
-    public ClothesItem getClothesItem() {
+    ClothesItem getClothesItem() {
         return clothesItem;
     }
 
-    public State getState() {
+    State getState() {
         return state;
     }
 
