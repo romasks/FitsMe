@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
-
 
 public class CartFragment extends Fragment {
 
     public CartFragment() {
+        App.getInstance().getDi().inject(this);
     }
 
     public static CartFragment newInstance() {

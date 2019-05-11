@@ -10,21 +10,20 @@ import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
+import ru.fitsme.android.presentation.common.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 
-public class CheckoutViewModel extends ViewModel {
+public class CheckoutViewModel extends BaseViewModel {
 
     private final IOrdersInteractor ordersInteractor;
 
     private MutableLiveData<Order> orderLiveData;
-    private CompositeDisposable disposable;
 
     public ObservableBoolean loading;
     public ObservableField<OrderModel> orderModel;
@@ -35,14 +34,13 @@ public class CheckoutViewModel extends ViewModel {
 
     void init() {
         orderLiveData = new MutableLiveData<>();
-        disposable = new CompositeDisposable();
         loading = new ObservableBoolean(GONE);
         orderModel = new ObservableField<>();
         loadOrder();
     }
 
     private void loadOrder() {
-        disposable.add(
+        addDisposable(
                 ordersInteractor.getSingleOrder(1)
                         .subscribe(order -> {
                             orderLiveData.setValue(order);
@@ -57,19 +55,13 @@ public class CheckoutViewModel extends ViewModel {
     }
 
     void onClickMakeOrder(String phone, String street, String house, String apartment) {
-        disposable.add(
+        addDisposable(
                 ordersInteractor.makeOrder(phone, street, house, apartment, OrderStatus.FM)
                         .subscribe(() -> {
                         }, throwable -> {
                             Timber.tag(getClass().getName()).d(throwable);
                         })
         );
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        disposable.dispose();
     }
 
     static public class Factory implements ViewModelProvider.Factory {

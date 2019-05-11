@@ -1,12 +1,15 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -17,7 +20,7 @@ import java.util.List;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.data.models.ClothesItemModel;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesAdapter.GenericViewHolder> {
@@ -42,7 +45,7 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
 
     @Override
     public void onBindViewHolder(@NonNull GenericViewHolder holder, int position) {
-        holder.bind(viewModel, position);
+        holder.bind(position);
     }
 
     @Override
@@ -92,23 +95,33 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
             viewForeground = binding.getRoot().findViewById(R.id.item_favourite_view_foreground);
         }
 
-        void bind(FavouritesViewModel viewModel, Integer position) {
-            ClothesItem item = getFavouriteItemAt(position).getItem();
-            String imageUrl = item.getPics()
-                    .get(0)
-                    .getUrl()
-                    .replace("random", "image=");
-            imageUrl += item.getId() % 400;
+        void bind(int position) {
+            FavouritesItem favouritesItem = items.get(position);
+            ClothesItemModel clothesItem = new ClothesItemModel(favouritesItem.getItem());
 
-            ImageView imageView = binding.getRoot().findViewById(R.id.favourite_image);
-            Glide.with(imageView)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.clother_example)
-                    .into(imageView);
+            Button inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);
 
+            if (favouritesItem.isInCart()){
+                inCartBtn.setBackgroundResource(R.drawable.bg_in_cart_btn);
+                inCartBtn.setEnabled(false);
+                inCartBtn.setText(R.string.clothe_in_cart);
+                inCartBtn.setTextColor(binding.getRoot().getResources().getColor(R.color.black));
+            } else {
+                inCartBtn.setBackgroundResource(R.drawable.bg_to_cart_btn);
+                inCartBtn.setEnabled(true);
+                inCartBtn.setText(R.string.to_cart);
+                inCartBtn.setTextColor(binding.getRoot().getResources().getColor(R.color.white));
+            }
+
+            binding.setVariable(BR.clothesItem, clothesItem);
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();
         }
+    }
+
+    @BindingAdapter({"app:imageUrl", "app:defaultImage"})
+    public static void loadImage(ImageView imageView, String imageUrl, Drawable defaultImage) {
+        Glide.with(imageView).load(imageUrl).placeholder(defaultImage).error(defaultImage).into(imageView);
     }
 }
