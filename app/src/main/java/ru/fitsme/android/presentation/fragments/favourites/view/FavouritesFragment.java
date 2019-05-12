@@ -62,6 +62,7 @@ public class FavouritesFragment extends Fragment
                 new FavouritesViewModel.Factory(favouritesInteractor)).get(FavouritesViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
+            viewModel.setAdapter(R.layout.item_favourite);
         }
 
         binding.favouritesListRv.setHasFixedSize(true);

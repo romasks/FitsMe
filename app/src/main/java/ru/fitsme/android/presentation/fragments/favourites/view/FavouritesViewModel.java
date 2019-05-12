@@ -14,15 +14,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
-import ru.fitsme.android.R;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 
 public class FavouritesViewModel extends ViewModel {
-
-    private final String TAG = getClass().getName();
 
     private final IFavouritesInteractor favouritesInteractor;
 
@@ -41,11 +38,14 @@ public class FavouritesViewModel extends ViewModel {
 
     void init() {
         pageLiveData = new MutableLiveData<>();
-        adapter = new FavouritesAdapter(R.layout.item_favourite, this);
         disposable = new CompositeDisposable();
         postPagination = new PostPagination();
         loading = new ObservableBoolean(GONE);
         showEmpty = new ObservableBoolean(GONE);
+    }
+
+    void setAdapter(int layoutId) {
+        adapter = new FavouritesAdapter(layoutId, this);
     }
 
     FavouritesAdapter getAdapter() {

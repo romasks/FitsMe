@@ -17,12 +17,15 @@ import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.common.base.BaseFragment;
+import ru.fitsme.android.presentation.common.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.view.CartFragment;
 
 import static ru.fitsme.android.utils.Constants.GONE;
@@ -30,14 +33,12 @@ import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
 import static ru.fitsme.android.utils.Constants.RU_PHONE_PREFIX;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 
-public class CheckoutFragment extends BaseFragment<CheckoutViewModel, IOrdersInteractor> implements CheckoutBindingEvents {
+public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements CheckoutBindingEvents {
+
+    @Inject IOrdersInteractor ordersInteractor;
 
     private FragmentCheckoutBinding binding;
     private boolean isMaskFilled = false;
-
-    /*public CheckoutFragment() {
-        inject(this);
-    }*/
 
     public static CheckoutFragment newInstance() {
         return new CheckoutFragment();
@@ -55,8 +56,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel, IOrdersInt
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this,
-                new CheckoutViewModel.Factory(interactor)).get(CheckoutViewModel.class);
+        viewModel = ViewModelProviders.of(this, new ViewModelFactory(ordersInteractor)).get(CheckoutViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

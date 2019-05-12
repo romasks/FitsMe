@@ -2,11 +2,8 @@ package ru.fitsme.android.presentation.fragments.checkout;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +25,7 @@ public class CheckoutViewModel extends BaseViewModel {
     public ObservableBoolean loading;
     public ObservableField<OrderModel> orderModel;
 
-    private CheckoutViewModel(@NotNull IOrdersInteractor ordersInteractor) {
+    public CheckoutViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
     }
 
@@ -62,19 +59,5 @@ public class CheckoutViewModel extends BaseViewModel {
                             Timber.tag(getClass().getName()).d(throwable);
                         })
         );
-    }
-
-    static public class Factory implements ViewModelProvider.Factory {
-        private final IOrdersInteractor ordersInteractor;
-
-        public Factory(@NotNull IOrdersInteractor ordersInteractor) {
-            this.ordersInteractor = ordersInteractor;
-        }
-
-        @NonNull
-        @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new CheckoutViewModel(ordersInteractor);
-        }
     }
 }
