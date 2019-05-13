@@ -48,6 +48,7 @@ public class OrdersInteractor implements IOrdersInteractor {
     public Single<Order> getCurrentOrderInCart() {
         return Single.create((SingleOnSubscribe<Order>) emitter -> {
 //                emitter.onSuccess(getOrderWithStatus("FM"))
+            emitter.onSuccess(new Order());
         })
                 .subscribeOn(workThread)
                 .observeOn(mainThread);

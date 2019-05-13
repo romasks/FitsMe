@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
-import ru.fitsme.android.presentation.common.base.BaseViewModel;
+import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 

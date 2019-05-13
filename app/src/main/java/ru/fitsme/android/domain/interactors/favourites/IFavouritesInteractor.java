@@ -2,15 +2,13 @@ package ru.fitsme.android.domain.interactors.favourites;
 
 import android.support.annotation.NonNull;
 
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.interactors.BaseInteractor;
 
-public interface IFavouritesInteractor {
-
-    String TAG = "FavouritesInteractor";
+public interface IFavouritesInteractor extends BaseInteractor {
 
     @NonNull
     Single<Integer> getLastIndexSingle();

@@ -1,15 +1,24 @@
 package ru.fitsme.android.presentation.fragments.cart.view;
 
+import android.databinding.ObservableBoolean;
+
 import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
-import ru.fitsme.android.presentation.common.base.BaseViewModel;
+import ru.fitsme.android.presentation.common.adapter.FavouritesAdapter;
+import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import timber.log.Timber;
+
+import static ru.fitsme.android.utils.Constants.GONE;
 
 public class CartViewModel extends BaseViewModel {
 
     private IOrdersInteractor ordersInteractor;
+    private FavouritesAdapter adapter;
+
+    public ObservableBoolean loading;
+    public ObservableBoolean showEmpty;
 
     public CartViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
@@ -17,7 +26,17 @@ public class CartViewModel extends BaseViewModel {
 
     void init() {
         Timber.tag(getClass().getName()).d("INIT Cart VM");
+        loading = new ObservableBoolean(GONE);
+        showEmpty = new ObservableBoolean(GONE);
         loadCart();
+    }
+
+    void setAdapter(int layoutId) {
+        adapter = new FavouritesAdapter(layoutId, this);
+    }
+
+    FavouritesAdapter getAdapter() {
+        return adapter;
     }
 
     private void loadCart() {
@@ -31,16 +50,8 @@ public class CartViewModel extends BaseViewModel {
         );
     }
 
-    public boolean showEmpty() {
-        return true;
-    }
-
-    public boolean loading() {
-        return true;
-    }
-
-    public FavouritesItem getCartItemAt(int position) {
-        return new FavouritesItem();
+    public FavouritesItem getCartItemAt(int index) {
+        return adapter.getFavouriteItemAt(index);
     }
 
 }

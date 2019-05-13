@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.favourites.view;
+package ru.fitsme.android.presentation.common.adapter;
 
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
@@ -22,14 +22,15 @@ import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.ClothesItemModel;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
 public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesAdapter.GenericViewHolder> {
 
     private int layoutId;
     private List<FavouritesItem> items;
-    private FavouritesViewModel viewModel;
+    private BaseViewModel viewModel;
 
-    FavouritesAdapter(@LayoutRes int layoutId, FavouritesViewModel viewModel) {
+    public FavouritesAdapter(@LayoutRes int layoutId, BaseViewModel viewModel) {
         this.layoutId = layoutId;
         this.viewModel = viewModel;
     }
@@ -62,31 +63,31 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         return layoutId;
     }
 
-    void setFavouritesItems(List<FavouritesItem> items) {
+    public void setFavouritesItems(List<FavouritesItem> items) {
         this.items = items;
     }
 
-    void addFavouritesItems(List<FavouritesItem> items) {
+    public void addFavouritesItems(List<FavouritesItem> items) {
         this.items.addAll(items);
     }
 
-    void changeStatus(int index, boolean inCart) {
+    public void changeStatus(int index, boolean inCart) {
         items.get(index).setInCart(inCart);
         notifyItemChanged(index);
     }
 
-    FavouritesItem getFavouriteItemAt(Integer index) {
+    public FavouritesItem getFavouriteItemAt(Integer index) {
         return items.get(index);
     }
 
-    void removeItemAt(Integer index) {
+    public void removeItemAt(Integer index) {
         items.remove(getFavouriteItemAt(index));
     }
 
-    class GenericViewHolder extends RecyclerView.ViewHolder {
+    public class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
-        RelativeLayout viewBackground;
-        RelativeLayout viewForeground;
+        public RelativeLayout viewBackground;
+        public RelativeLayout viewForeground;
 
         GenericViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -101,7 +102,7 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
 
             Button inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);
 
-            if (favouritesItem.isInCart()){
+            if (favouritesItem.isInCart()) {
                 inCartBtn.setBackgroundResource(R.drawable.bg_in_cart_btn);
                 inCartBtn.setEnabled(false);
                 inCartBtn.setText(R.string.clothe_in_cart);

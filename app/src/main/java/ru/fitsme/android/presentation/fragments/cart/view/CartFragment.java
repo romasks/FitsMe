@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,11 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentCartBinding;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
-import ru.fitsme.android.presentation.common.base.BaseFragment;
-import ru.fitsme.android.presentation.common.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
+
+import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 public class CartFragment extends BaseFragment<CartViewModel> implements CartBindingEvents {
 
@@ -43,9 +44,14 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
         viewModel = ViewModelProviders.of(this, new ViewModelFactory(ordersInteractor)).get(CartViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
+            viewModel.setAdapter(R.layout.item_cart);
         }
 
-        binding.cartListRv.setAdapter(new CartAdapter());
+        binding.cartListRv.setHasFixedSize(true);
+        binding.cartListRv.setAdapter(viewModel.getAdapter());
+
+        viewModel.loading.set(VISIBLE);
+        viewModel.showEmpty.set(VISIBLE);
     }
 
     @Override

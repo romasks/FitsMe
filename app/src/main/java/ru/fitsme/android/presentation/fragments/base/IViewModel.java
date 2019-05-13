@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.common.base;
+package ru.fitsme.android.presentation.fragments.base;
 
 import io.reactivex.disposables.Disposable;
 

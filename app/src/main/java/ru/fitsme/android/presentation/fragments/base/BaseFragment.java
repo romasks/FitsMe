@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.common.base;
+package ru.fitsme.android.presentation.fragments.base;
 
 import android.support.v4.app.Fragment;
 

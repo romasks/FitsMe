@@ -24,8 +24,8 @@ import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
-import ru.fitsme.android.presentation.common.base.BaseFragment;
-import ru.fitsme.android.presentation.common.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.view.CartFragment;
 
 import static ru.fitsme.android.utils.Constants.GONE;

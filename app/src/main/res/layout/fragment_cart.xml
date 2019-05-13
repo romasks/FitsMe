@@ -8,7 +8,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="model"
+            name="viewModel"
             type="ru.fitsme.android.presentation.fragments.cart.view.CartViewModel" />
 
         <variable
@@ -37,7 +37,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:visibility="@{model.loading ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -47,7 +47,7 @@
             android:id="@+id/cart_no_item_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{model.showEmpty ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.showEmpty ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="cart_no_item_tv, cart_no_item_go_to_favourite_btn, cart_no_item_go_to_rate_item_btn"
             tools:visibility="visible" />
 
@@ -96,7 +96,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="124dp"
-            android:visibility="@{model.showEmpty ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.showEmpty ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
