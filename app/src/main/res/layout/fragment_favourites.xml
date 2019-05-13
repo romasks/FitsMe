@@ -8,7 +8,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="model"
+            name="viewModel"
             type="ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel" />
     </data>
 
@@ -31,14 +31,14 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:visibility="@{model.loading ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/no_items_in_favourites"
-            android:visibility="@{model.showEmpty ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewModel.showEmpty ? View.VISIBLE : View.GONE}" />
 
     </FrameLayout>
 

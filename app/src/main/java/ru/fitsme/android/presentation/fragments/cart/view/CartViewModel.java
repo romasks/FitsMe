@@ -25,7 +25,6 @@ public class CartViewModel extends BaseViewModel {
     }
 
     void init() {
-        Timber.tag(getClass().getName()).d("INIT Cart VM");
         loading = new ObservableBoolean(GONE);
         showEmpty = new ObservableBoolean(GONE);
         loadCart();
@@ -44,6 +43,7 @@ public class CartViewModel extends BaseViewModel {
                 ordersInteractor.getCurrentOrderInCart()
                         .subscribe(order -> {
                             Timber.tag(getClass().getName()).d("SUCCESS");
+                            loading.set(GONE);
                         }, throwable -> {
                             Timber.tag(getClass().getName()).d("FAIL");
                         })

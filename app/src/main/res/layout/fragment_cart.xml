@@ -69,6 +69,7 @@
             android:layout_height="40dp"
             android:background="@drawable/bg_rounded_corners_primary_dark_btn"
             android:gravity="center"
+            android:onClick="@{() -> bindingEvents.onClickGoToFavourites()}"
             android:text="@string/cart_no_item_go_to_favourite_btn_text"
             android:textAllCaps="false"
             android:textColor="@color/white"

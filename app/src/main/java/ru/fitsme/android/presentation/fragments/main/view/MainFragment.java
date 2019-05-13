@@ -72,4 +72,8 @@ public class MainFragment extends Fragment {
                 .replace(R.id.container, fragment)
                 .commit();
     }
+
+    public void goToFavourites() {
+        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
+    }
 }

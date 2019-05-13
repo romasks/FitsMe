@@ -17,6 +17,7 @@ import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
+import ru.fitsme.android.presentation.fragments.main.view.MainFragment;
 
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 
@@ -34,6 +35,7 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
+        binding.setBindingEvents(this);
         return binding.getRoot();
     }
 
@@ -46,6 +48,7 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
             viewModel.init();
             viewModel.setAdapter(R.layout.item_cart);
         }
+        binding.setViewModel(viewModel);
 
         binding.cartListRv.setHasFixedSize(true);
         binding.cartListRv.setAdapter(viewModel.getAdapter());
@@ -59,5 +62,10 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
         getParentFragment().getChildFragmentManager().beginTransaction()
                 .replace(R.id.container, CheckoutFragment.newInstance())
                 .commit();
+    }
+
+    @Override
+    public void onClickGoToFavourites() {
+        ((MainFragment) getParentFragment()).goToFavourites();
     }
 }
