@@ -15,6 +15,9 @@ public interface IOrdersInteractor extends BaseInteractor {
     Single<Order> getSingleOrder(int page);
 
     @NonNull
+    Single<Order> getCurrentOrderInCart();
+
+    @NonNull
     Completable removeItemFromOrder(int index);
 
     @NonNull

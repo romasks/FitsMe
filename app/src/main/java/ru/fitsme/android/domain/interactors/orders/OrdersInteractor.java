@@ -43,6 +43,16 @@ public class OrdersInteractor implements IOrdersInteractor {
                 .observeOn(mainThread);
     }
 
+    @NonNull
+    @Override
+    public Single<Order> getCurrentOrderInCart() {
+        return Single.create((SingleOnSubscribe<Order>) emitter -> {
+//                emitter.onSuccess(getOrderWithStatus("FM"))
+        })
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
+    }
+
     private OrdersPage getOrders(int page) throws AppException {
         return orderRepository.getOrders(page);
     }

@@ -21,9 +21,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @NotNull
     @Override
     public <T extends ViewModel> T create(@NotNull Class<T> modelClass) {
-        /*if (modelClass.isAssignableFrom(CartViewModel.class)) {
-            return (T) new CartViewModel(interactor);
-        } else*/
+        if (modelClass.isAssignableFrom(CartViewModel.class)) {
+            return (T) new CartViewModel((IOrdersInteractor) interactor);
+        } else
         if (modelClass.isAssignableFrom(CheckoutViewModel.class)) {
             return (T) new CheckoutViewModel((IOrdersInteractor) interactor);
         }
