@@ -8,6 +8,8 @@ import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
 
+import ru.fitsme.android.presentation.common.adapter.FavouritesAdapter;
+
 public class FavouritesRecyclerItemTouchHelper extends
         ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;

@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,12 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
 import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.view.CartFragment;
 
 import static ru.fitsme.android.utils.Constants.GONE;
@@ -34,17 +33,12 @@ import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
 import static ru.fitsme.android.utils.Constants.RU_PHONE_PREFIX;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 
-public class CheckoutFragment extends Fragment implements CheckoutBindingEvents {
-    @Inject
-    IOrdersInteractor ordersInteractor;
+public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements CheckoutBindingEvents {
+
+    @Inject IOrdersInteractor ordersInteractor;
 
     private FragmentCheckoutBinding binding;
-    private CheckoutViewModel viewModel;
     private boolean isMaskFilled = false;
-
-    public CheckoutFragment() {
-        App.getInstance().getDi().inject(this);
-    }
 
     public static CheckoutFragment newInstance() {
         return new CheckoutFragment();
@@ -62,8 +56,7 @@ public class CheckoutFragment extends Fragment implements CheckoutBindingEvents 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this,
-                new CheckoutViewModel.Factory(ordersInteractor)).get(CheckoutViewModel.class);
+        viewModel = ViewModelProviders.of(this, new ViewModelFactory(ordersInteractor)).get(CheckoutViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

@@ -13,6 +13,10 @@
         <variable
             name="viewModel"
             type="ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel" />
+
+        <variable
+            name="clothesItem"
+            type="ru.fitsme.android.data.models.ClothesItemModel" />
     </data>
 
     <FrameLayout
@@ -28,13 +32,12 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_delete_24dp"
-                android:contentDescription="@null"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginEnd="@dimen/padding_extra_medium"
-                />
+                android:contentDescription="@null"
+                android:src="@drawable/ic_delete_24dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -42,13 +45,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorBackground"
-            android:padding="@dimen/padding_medium"
-            >
+            android:padding="@dimen/padding_medium">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/favourite_image_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_medium"
                 android:background="@drawable/bg_rounded_corners"
                 app:cardCornerRadius="10dp">
 
@@ -57,17 +60,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
-                    tools:src="@drawable/clother_example" />
+                    app:defaultImage="@{@drawable/clothe_example}"
+                    app:imageUrl="@{clothesItem.imageUrl}"
+                    tools:src="@drawable/clothe_example" />
             </android.support.v7.widget.CardView>
 
             <TextView
                 android:id="@+id/favourites_brand_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_toRightOf="@id/favourite_image_field"
+                android:layout_toEndOf="@id/favourite_image_field"
                 android:paddingBottom="4dp"
-                android:text="@{viewModel.getFavouriteItemAt(position).item.brand}"
+                android:text="@{clothesItem.brandName}"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 tools:text="@string/brand_name_hint_in_two_lines" />
@@ -77,10 +81,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/favourites_brand_name"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_toRightOf="@id/favourite_image_field"
+                android:layout_toEndOf="@id/favourite_image_field"
                 android:paddingBottom="4dp"
-                android:text="@{viewModel.getFavouriteItemAt(position).item.name}"
+                android:text="@{clothesItem.name}"
                 tools:text="@string/clothe_name_hint" />
 
             <TextView
@@ -88,27 +91,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/favourites_name"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_toRightOf="@id/favourite_image_field"
+                android:layout_toEndOf="@id/favourite_image_field"
                 android:paddingBottom="4dp"
-                android:text="@{viewModel.getFavouriteItemAt(position).item.description}"
+                android:text="@{clothesItem.description}"
                 android:textStyle="bold"
                 tools:text="@string/clothe_price_hint" />
 
             <Button
-                android:id="@+id/favourites_btn_to_basket"
+                android:id="@+id/favourites_btn_to_cart"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_toRightOf="@id/favourite_image_field"
-                android:background="@{viewModel.inCart(position) ? @drawable/bg_in_cart_btn : @drawable/bg_to_cart_btn}"
-                android:enabled="@{!viewModel.inCart(position)}"
+                android:layout_toEndOf="@id/favourite_image_field"
                 android:onClick="@{() -> viewModel.addItemToCart(position)}"
                 android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small"
-                android:text="@{viewModel.inCart(position) ? @string/clothe_in_cart : @string/to_cart}"
-                android:textColor="@{viewModel.inCart(position) ? @color/black : @color/white}"
                 tools:text="@string/to_cart" />
 
         </RelativeLayout>

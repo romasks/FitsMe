@@ -82,9 +82,9 @@ public class ItemInfoFragment extends Fragment {
                 String url = itemInfoState.getClothesItem()
                         .getPics()
                         .get(0)
-                        .getUrl()
-                        .replace("random", "image=");
-                url += itemInfoState.getClothesItem().getId() % 400;
+                        .getUrl();
+//                        .replace("random", "image=");
+//                url += itemInfoState.getClothesItem().getId() % 400;
                 Glide.with(binding.ivPhoto)
                         .load(url)//TODO:debug
                         .into(binding.ivPhoto);

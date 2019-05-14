@@ -24,6 +24,7 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
@@ -31,10 +32,8 @@ import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 public class FavouritesFragment extends Fragment
     implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener{
-    @Inject
-    IFavouritesInteractor favouritesInteractor;
 
-    private final String TAG = getClass().getName();
+    @Inject IFavouritesInteractor favouritesInteractor;
 
     private FavouritesViewModel viewModel;
     private FragmentFavouritesBinding binding;
@@ -59,10 +58,12 @@ public class FavouritesFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new FavouritesViewModel.Factory(favouritesInteractor)).get(FavouritesViewModel.class);
+                new ViewModelFactory(favouritesInteractor)).get(FavouritesViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
+            viewModel.setAdapter(R.layout.item_favourite);
         }
+        binding.setViewModel(viewModel);
 
         binding.favouritesListRv.setHasFixedSize(true);
         binding.favouritesListRv.setAdapter(viewModel.getAdapter());
