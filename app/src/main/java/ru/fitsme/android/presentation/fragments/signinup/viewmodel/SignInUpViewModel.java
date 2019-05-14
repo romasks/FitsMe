@@ -1,33 +1,27 @@
 package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 
-import android.arch.lifecycle.ViewModel;
+import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
-
-import io.reactivex.disposables.Disposable;
-import ru.fitsme.android.app.App;
-import ru.fitsme.android.app.Navigation;
 import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
-public class SignInUpViewModel extends ViewModel {
+public class SignInUpViewModel extends BaseViewModel {
 
-    private final Disposable disposable;
+    private ISignInUpInteractor signInUpInteractor;
 
-    @Inject
-    Navigation navigation;
+    public SignInUpViewModel(@NotNull ISignInUpInteractor signInUpInteractor) {
+        this.signInUpInteractor = signInUpInteractor;
+        inject(this);
+    }
 
-    @Inject
-    ISignInUpInteractor signInUpInteractor;
-
-    public SignInUpViewModel() {
-        App.getInstance().getDi().inject(this);
-
-        disposable = signInUpInteractor.getAutoSignInInfo()
+    public void init() {
+        addDisposable(signInUpInteractor.getAutoSignInInfo()
                 .subscribe(autoSignInInfo -> {
                     if (autoSignInInfo.isAuto()) {
                         onSignIn();
                     }
-                });
+                })
+        );
     }
 
     public void onSignUp() {
@@ -36,12 +30,5 @@ public class SignInUpViewModel extends ViewModel {
 
     public void onSignIn() {
         navigation.goSignIn();
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-
-        disposable.dispose();
     }
 }
