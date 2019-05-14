@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.favourites.view;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;

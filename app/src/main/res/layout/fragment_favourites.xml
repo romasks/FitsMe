@@ -9,13 +9,13 @@
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel" />
+            type="ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.fragments.favourites.view.FavouritesFragment">
+        tools:context=".presentation.fragments.favourites.FavouritesFragment">
 
         <com.hendraanggrian.widget.PaginatedRecyclerView
             android:id="@+id/favourites_list_rv"

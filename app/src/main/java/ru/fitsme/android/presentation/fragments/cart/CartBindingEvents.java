@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.cart.view;
+package ru.fitsme.android.presentation.fragments.cart;
 
 public interface CartBindingEvents {
     void onClickGoToCheckout();

@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.cart.view;
+package ru.fitsme.android.presentation.fragments.cart;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -17,7 +17,7 @@ import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
-import ru.fitsme.android.presentation.fragments.main.view.MainFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 

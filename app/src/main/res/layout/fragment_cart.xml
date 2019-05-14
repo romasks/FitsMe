@@ -9,11 +9,11 @@
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.cart.view.CartViewModel" />
+            type="ru.fitsme.android.presentation.fragments.cart.CartViewModel" />
 
         <variable
             name="bindingEvents"
-            type="ru.fitsme.android.presentation.fragments.cart.view.CartBindingEvents" />
+            type="ru.fitsme.android.presentation.fragments.cart.CartBindingEvents" />
     </data>
 
     <android.support.constraint.ConstraintLayout

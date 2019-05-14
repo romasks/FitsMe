@@ -11,7 +11,7 @@
 
         <variable
             name="model"
-            type="ru.fitsme.android.presentation.fragments.cart.view.CartViewModel" />
+            type="ru.fitsme.android.presentation.fragments.cart.CartViewModel" />
     </data>
 
     <RelativeLayout

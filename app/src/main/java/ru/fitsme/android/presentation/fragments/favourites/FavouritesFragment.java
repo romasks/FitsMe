@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.favourites.view;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -31,7 +31,7 @@ import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 
 public class FavouritesFragment extends Fragment
-    implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener{
+    implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     @Inject IFavouritesInteractor favouritesInteractor;
 

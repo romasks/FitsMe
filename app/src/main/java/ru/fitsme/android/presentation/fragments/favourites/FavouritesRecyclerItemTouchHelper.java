@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.favourites.view;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;

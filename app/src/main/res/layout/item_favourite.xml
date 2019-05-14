@@ -12,7 +12,7 @@
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel" />
+            type="ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel" />
 
         <variable
             name="clothesItem"

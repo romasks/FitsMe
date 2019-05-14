@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.rateitems.view;
+package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
