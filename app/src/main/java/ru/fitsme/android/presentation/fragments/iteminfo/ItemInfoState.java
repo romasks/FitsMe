@@ -2,14 +2,15 @@ package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.support.annotation.NonNull;
 
+import ru.fitsme.android.data.models.ClothesItemModel;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
 class ItemInfoState {
-    private ClothesItem clothesItem;
+    private ClothesItemModel clothesItem;
     private State state;
 
     ItemInfoState(@NonNull ClothesItem clothesItem) {
-        this.clothesItem = clothesItem;
+        this.clothesItem = new ClothesItemModel(clothesItem);
         this.state = State.OK;
     }
 
@@ -17,7 +18,7 @@ class ItemInfoState {
         this.state = state;
     }
 
-    ClothesItem getClothesItem() {
+    ClothesItemModel getClothesItem() {
         return clothesItem;
     }
 

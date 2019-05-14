@@ -5,6 +5,7 @@ import android.databinding.ObservableBoolean;
 import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.common.adapter.FavouritesAdapter;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -39,15 +40,17 @@ public class CartViewModel extends BaseViewModel {
     }
 
     private void loadCart() {
-        addDisposable(
-                ordersInteractor.getCurrentOrderInCart()
-                        .subscribe(order -> {
-                            Timber.tag(getClass().getName()).d("SUCCESS");
-                            loading.set(GONE);
-                        }, throwable -> {
-                            Timber.tag(getClass().getName()).d("FAIL");
-                        })
-        );
+        addDisposable(ordersInteractor.getCurrentOrderInCart()
+                .subscribe(this::onOrder, this::onError));
+    }
+
+    private void onOrder(@NotNull Order order) {
+        Timber.tag(getClass().getName()).d("SUCCESS");
+        loading.set(GONE);
+    }
+
+    private void onError(Throwable throwable) {
+        Timber.tag(getClass().getName()).d("FAIL");
     }
 
     public FavouritesItem getCartItemAt(int index) {

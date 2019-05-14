@@ -35,7 +35,8 @@ import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements CheckoutBindingEvents {
 
-    @Inject IOrdersInteractor ordersInteractor;
+    @Inject
+    IOrdersInteractor ordersInteractor;
 
     private FragmentCheckoutBinding binding;
     private boolean isMaskFilled = false;
@@ -45,7 +46,8 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_checkout, container, false);
         binding.setBindingEvents(this);
         initPhoneFieldListener(binding.phoneNumber);
@@ -56,7 +58,8 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory(ordersInteractor)).get(CheckoutViewModel.class);
+        viewModel = ViewModelProviders.of(this,
+                new ViewModelFactory(ordersInteractor)).get(CheckoutViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

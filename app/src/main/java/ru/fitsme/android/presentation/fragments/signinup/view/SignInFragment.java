@@ -34,7 +34,8 @@ public class SignInFragment extends BaseFragment<SignInViewModel> implements Sig
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         loadingDialog = new LoadingDialog();
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false);
@@ -46,7 +47,8 @@ public class SignInFragment extends BaseFragment<SignInViewModel> implements Sig
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory(signInUpInteractor)).get(SignInViewModel.class);
+        viewModel = ViewModelProviders.of(this,
+                new ViewModelFactory(signInUpInteractor)).get(SignInViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

@@ -47,7 +47,8 @@ public class SignUpFragment extends BaseFragment<SignUpViewModel> implements Sig
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory(signInUpInteractor)).get(SignUpViewModel.class);
+        viewModel = ViewModelProviders.of(this,
+                new ViewModelFactory(signInUpInteractor)).get(SignUpViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

@@ -2,72 +2,50 @@ package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import timber.log.Timber;
 
-public class RateItemsViewModel extends ViewModel {
+public class RateItemsViewModel extends BaseViewModel {
+
     private final IClothesInteractor clothesInteractor;
-
     private final MutableLiveData<RateItemsState> indexLiveData = new MutableLiveData<>();
-    private CompositeDisposable disposable;
-
     private int firstIndex;
 
-    private RateItemsViewModel(@NonNull IClothesInteractor clothesInteractor) {
+    public RateItemsViewModel(@NonNull IClothesInteractor clothesInteractor) {
         this.clothesInteractor = clothesInteractor;
     }
 
     void init() {
-        disposable = new CompositeDisposable();
-        disposable.add(
-                clothesInteractor.getLastIndexSingle()
-                        .subscribe(index -> {
-                            firstIndex = index;
-                            RateItemsState rateItemsState = new RateItemsState(firstIndex,
-                                    IOnSwipeListener.AnimationType.NONE);
-                            indexLiveData.setValue(rateItemsState);
-                        })
-        );
+        addDisposable(clothesInteractor.getLastIndexSingle()
+                .subscribe(this::onIndex, this::onError));
     }
 
     void likeClothesItem(boolean liked, IOnSwipeListener.AnimationType animationType) {
         //TODO: можно вставить уведомление об лайке/дизлайке
-        disposable.add(
-                clothesInteractor.setLikeToClothesItem(firstIndex, liked)
-                        .subscribe(() -> {
-                        }, throwable -> {
-                        })
-        );
-
+        addDisposable(clothesInteractor.setLikeToClothesItem(firstIndex, liked)
+                .subscribe(this::onLike, this::onError));
         indexLiveData.setValue(new RateItemsState(++firstIndex, animationType));
+    }
+
+    private void onIndex(Integer index) {
+        firstIndex = index;
+        RateItemsState rateItemsState = new RateItemsState(firstIndex,
+                IOnSwipeListener.AnimationType.NONE);
+        indexLiveData.setValue(rateItemsState);
+    }
+
+    private void onLike() {
+
+    }
+
+    private void onError(Throwable throwable) {
+        Timber.tag(getClass().getName()).e(throwable);
     }
 
     LiveData<RateItemsState> getIndexLiveData() {
         return indexLiveData;
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-
-        disposable.dispose();
-    }
-
-    static public class Factory implements ViewModelProvider.Factory {
-        private final IClothesInteractor clothesInteractor;
-
-        public Factory(@NonNull IClothesInteractor clothesInteractor) {
-            this.clothesInteractor = clothesInteractor;
-        }
-
-        @NonNull
-        @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new RateItemsViewModel(clothesInteractor);
-        }
     }
 }

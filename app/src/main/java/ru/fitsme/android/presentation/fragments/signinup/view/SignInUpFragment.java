@@ -31,7 +31,8 @@ public class SignInUpFragment extends BaseFragment<SignInUpViewModel> implements
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in_up, container, false);
         binding.setBindingEvents(this);
         return binding.getRoot();
@@ -41,7 +42,8 @@ public class SignInUpFragment extends BaseFragment<SignInUpViewModel> implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory(signInUpInteractor)).get(SignInUpViewModel.class);
+        viewModel = ViewModelProviders.of(this,
+                new ViewModelFactory(signInUpInteractor)).get(SignInUpViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

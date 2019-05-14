@@ -1,19 +1,15 @@
 package ru.fitsme.android.presentation.common.adapter;
 
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
 import com.hendraanggrian.widget.PaginatedRecyclerView;
 
 import java.util.List;
@@ -119,10 +115,5 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();
         }
-    }
-
-    @BindingAdapter({"app:imageUrl", "app:defaultImage"})
-    public static void loadImage(ImageView imageView, String imageUrl, Drawable defaultImage) {
-        Glide.with(imageView).load(imageUrl).placeholder(defaultImage).error(defaultImage).into(imageView);
     }
 }

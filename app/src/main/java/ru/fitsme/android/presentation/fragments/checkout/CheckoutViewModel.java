@@ -37,14 +37,8 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     private void loadOrder() {
-        addDisposable(
-                ordersInteractor.getSingleOrder(1)
-                        .subscribe(order -> {
-                            orderLiveData.setValue(order);
-                        }, throwable -> {
-                            Timber.tag(getClass().getName()).d(throwable);
-                        })
-        );
+        addDisposable(ordersInteractor.getSingleOrder(1)
+                .subscribe(this::onOrder, this::onError));
     }
 
     LiveData<Order> getOrderLiveData() {
@@ -52,12 +46,19 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     void onClickMakeOrder(String phone, String street, String house, String apartment) {
-        addDisposable(
-                ordersInteractor.makeOrder(phone, street, house, apartment, OrderStatus.FM)
-                        .subscribe(() -> {
-                        }, throwable -> {
-                            Timber.tag(getClass().getName()).d(throwable);
-                        })
-        );
+        addDisposable(ordersInteractor.makeOrder(phone, street, house, apartment, OrderStatus.FM)
+                .subscribe(this::onMakeOrder, this::onError));
+    }
+
+    private void onOrder(@NotNull Order order) {
+        orderLiveData.setValue(order);
+    }
+
+    private void onMakeOrder() {
+        Timber.tag(getClass().getName()).d("SUCCESS");
+    }
+
+    private void onError(Throwable throwable) {
+        Timber.tag(getClass().getName()).e(throwable);
     }
 }

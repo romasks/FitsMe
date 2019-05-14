@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,23 +13,20 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 
-public class RateItemsFragment extends Fragment
+public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         implements IOnSwipeListener, BindingEventsClickListener {
+
     @Inject
     IClothesInteractor clothesInteractor;
 
-    private RateItemsViewModel viewModel;
     private ItemInfoFragment curFragment;
     private FragmentRateItemsBinding binding;
-
-    public RateItemsFragment() {
-        App.getInstance().getDi().inject(this);
-    }
 
     public static RateItemsFragment newInstance() {
         return new RateItemsFragment();
@@ -61,7 +57,7 @@ public class RateItemsFragment extends Fragment
         });
 
         viewModel = ViewModelProviders.of(this,
-                new RateItemsViewModel.Factory(clothesInteractor)).get(RateItemsViewModel.class);
+                new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

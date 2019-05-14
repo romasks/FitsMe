@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import ru.fitsme.android.R;
 
-
 public class ProfileFragment extends Fragment {
 
     public ProfileFragment() {

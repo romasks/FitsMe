@@ -30,7 +30,8 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
         return binding.getRoot();
     }
@@ -42,25 +43,23 @@ public class MainFragment extends Fragment {
     }
 
     private void initBottomNavigation(View view) {
-        binding.bnvMainFrNavigation.setOnNavigationItemSelectedListener(
-                item -> {
-                    switch (item.getItemId()) {
-                        case R.id.action_items:
-                            switchFragment(RateItemsFragment.newInstance());
-                            return true;
-                        case R.id.action_likes:
-                            switchFragment(FavouritesFragment.newInstance());
-                            return true;
-                        case R.id.action_cart:
-                            switchFragment(CartFragment.newInstance());
-//                            switchFragment(CheckoutFragment.newInstance());
-                            return true;
-                        case R.id.action_profile:
-                            switchFragment(ProfileFragment.newInstance());
-                            return true;
-                    }
-                    return false;
-                });
+        binding.bnvMainFrNavigation.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_items:
+                    switchFragment(RateItemsFragment.newInstance());
+                    return true;
+                case R.id.action_likes:
+                    switchFragment(FavouritesFragment.newInstance());
+                    return true;
+                case R.id.action_cart:
+                    switchFragment(CartFragment.newInstance());
+                    return true;
+                case R.id.action_profile:
+                    switchFragment(ProfileFragment.newInstance());
+                    return true;
+            }
+            return false;
+        });
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
     }
 

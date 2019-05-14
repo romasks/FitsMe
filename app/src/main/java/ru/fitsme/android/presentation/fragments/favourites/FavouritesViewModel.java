@@ -10,11 +10,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import io.reactivex.disposables.CompositeDisposable;
+import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.presentation.common.adapter.FavouritesAdapter;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 
@@ -24,7 +25,6 @@ public class FavouritesViewModel extends BaseViewModel {
 
     private MutableLiveData<List<FavouritesItem>> pageLiveData;
     private FavouritesAdapter adapter;
-    private CompositeDisposable disposable;
     private PostPagination postPagination;
     private Integer nextPage;
 
@@ -37,7 +37,6 @@ public class FavouritesViewModel extends BaseViewModel {
 
     void init() {
         pageLiveData = new MutableLiveData<>();
-        disposable = new CompositeDisposable();
         postPagination = new PostPagination();
         loading = new ObservableBoolean(GONE);
         showEmpty = new ObservableBoolean(GONE);
@@ -47,23 +46,12 @@ public class FavouritesViewModel extends BaseViewModel {
         adapter = new FavouritesAdapter(layoutId, this);
     }
 
-    FavouritesAdapter getAdapter() {
+    public FavouritesAdapter getAdapter() {
         return adapter;
     }
 
     PostPagination getPagination() {
         return postPagination;
-    }
-
-    private void loadPage(int index) {
-        disposable.add(
-                favouritesInteractor.getSingleFavouritesPage(index)
-                        .subscribe(favouritesPage -> {
-                            nextPage = favouritesPage.getNext();
-                            pageLiveData.setValue(favouritesPage.getItems());
-                            postPagination.pageReceived();
-                        })
-        );
     }
 
     void setFavouritesInAdapter(List<FavouritesItem> favouritesItems) {
@@ -79,40 +67,37 @@ public class FavouritesViewModel extends BaseViewModel {
         return pageLiveData;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-
-        disposable.dispose();
-    }
-
-    public FavouritesItem getFavouriteItemAt(Integer index) {
+    private FavouritesItem getFavouriteItemAt(Integer index) {
         return adapter.getFavouriteItemAt(index);
     }
 
-    public boolean inCart(Integer index) {
-        return getFavouriteItemAt(index).isInCart();
+    private void loadPage(int index) {
+        addDisposable(favouritesInteractor.getSingleFavouritesPage(index)
+                .subscribe(this::onFavouritePage, this::onError));
     }
 
     public void addItemToCart(int index) {
-        disposable.add(
-                favouritesInteractor.addFavouritesItemToCart(index, 0)
-                        .subscribe(() -> {
-                            adapter.changeStatus(index, true);
-                        }, throwable -> {
-                        })
-        );
+        addDisposable(favouritesInteractor.addFavouritesItemToCart(index, 0)
+                .subscribe(() -> adapter.changeStatus(index, true), this::onError));
     }
 
-    void deleteItem(Integer index) {
-        disposable.add(
-                favouritesInteractor.deleteFavouriteItem(index)
-                        .subscribe(() -> {
-                            pageLiveData.getValue().remove(getFavouriteItemAt(index));
-                            adapter.removeItemAt(index);
-                            adapter.notifyItemRemoved(index);
-                        })
-        );
+    void deleteItem(int index) {
+        addDisposable(favouritesInteractor.deleteFavouriteItem(index)
+                .subscribe(() -> {
+                    pageLiveData.getValue().remove(getFavouriteItemAt(index));
+                    adapter.removeItemAt(index);
+                    adapter.notifyItemRemoved(index);
+                }, this::onError));
+    }
+
+    private void onFavouritePage(@NotNull FavouritesPage favouritesPage) {
+        nextPage = favouritesPage.getNext();
+        pageLiveData.setValue(favouritesPage.getItems());
+        postPagination.pageReceived();
+    }
+
+    private void onError(Throwable throwable) {
+        Timber.tag(getClass().getName()).e(throwable);
     }
 
     class PostPagination extends PaginatedRecyclerView.Pagination implements PageReceivedListener {

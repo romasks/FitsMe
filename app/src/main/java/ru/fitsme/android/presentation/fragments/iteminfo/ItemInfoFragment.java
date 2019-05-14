@@ -1,12 +1,10 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
-
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +14,13 @@ import com.bumptech.glide.Glide;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
-public class ItemInfoFragment extends Fragment {
+public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel> {
+
     @Inject
     IClothesInteractor clothesInteractor;
 
@@ -29,11 +29,6 @@ public class ItemInfoFragment extends Fragment {
     private int index;
     private ItemInfoState.State state;
     private FragmentItemInfoBinding binding;
-    private ItemInfoViewModel viewModel;
-
-    public ItemInfoFragment() {
-        App.getInstance().getDi().inject(this);
-    }
 
     public static ItemInfoFragment newInstance(int index) {
         ItemInfoFragment fragment = new ItemInfoFragment();
@@ -59,8 +54,7 @@ public class ItemInfoFragment extends Fragment {
         index = getArguments().getInt(INDEX_KEY);
 
         viewModel = ViewModelProviders.of(this,
-                new ItemInfoViewModel.Factory(clothesInteractor, index))
-                .get(ItemInfoViewModel.class);
+                new ViewModelFactory(clothesInteractor, index)).get(ItemInfoViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
@@ -79,12 +73,7 @@ public class ItemInfoFragment extends Fragment {
                 binding.tvIndex.setText("loading");
                 break;
             case OK:
-                String url = itemInfoState.getClothesItem()
-                        .getPics()
-                        .get(0)
-                        .getUrl();
-//                        .replace("random", "image=");
-//                url += itemInfoState.getClothesItem().getId() % 400;
+                String url = itemInfoState.getClothesItem().getImageUrl();
                 Glide.with(binding.ivPhoto)
                         .load(url)//TODO:debug
                         .into(binding.ivPhoto);
