@@ -75,7 +75,7 @@ public class FavouritesFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loadingProgressBar = getView().findViewById(R.id.spinnerLoading);
+        loadingProgressBar = getView().findViewById(R.id.favourites_loading_spinner);
         emptyTv = getView().findViewById(R.id.empty_tv_fragment_favourites);
 
         viewModel = ViewModelProviders.of(this,

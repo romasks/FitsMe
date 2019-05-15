@@ -39,4 +39,28 @@ public class OrderItem {
     public ClothesItem getClothe() {
         return clothe;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderItem)) return false;
+        OrderItem that = (OrderItem) o;
+        return getId() == that.getId() &&
+                getOrderId() == that.getOrderId() &&
+                getPrice() == that.getPrice() &&
+                getQuantity() == that.getQuantity() &&
+                getClothe() == that.getClothe();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        int prime = 31;
+        result = prime * result + getId();
+        result = prime * result + getOrderId();
+        result = prime * result + getPrice();
+        result = prime * result + getQuantity();
+        result = prime * result + getClothe().hashCode();
+        return result;
+    }
 }

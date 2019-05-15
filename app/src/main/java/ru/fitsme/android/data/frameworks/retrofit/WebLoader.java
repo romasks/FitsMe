@@ -134,6 +134,11 @@ public class WebLoader {
         return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
     }
 
+    public OrdersPage getOrdersPage(@NonNull String token, int page) throws UserException {
+        String headerToken = "Token " + token;
+        return executeRequest(() -> apiService.getOrders(headerToken, page));
+    }
+
     public void deleteFavouriteItem(@NonNull String token, int itemId) throws UserException {
         String headerToken = "Token " + token;
         try {

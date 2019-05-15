@@ -17,7 +17,7 @@
         tools:context=".presentation.fragments.cart.view.CartFragment"
         >
 
-        <com.hendraanggrian.widget.PaginatedRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/cart_list_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,12 +30,11 @@
             />
 
         <android.support.v4.widget.ContentLoadingProgressBar
-            android:id="@+id/spinnerLoading"
+            android:id="@+id/cart_loading_spinner"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:indeterminate="true"
             android:layout_gravity="center"
-            android:visibility="@{model.loading ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -46,8 +45,8 @@
             android:id="@+id/cart_no_item_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{model.showEmpty ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="cart_no_item_tv, cart_no_item_go_to_favourite_btn, cart_no_item_go_to_rate_item_btn"
+            android:visibility="invisible"
             tools:visibility="visible"
             />
 
@@ -84,7 +83,7 @@
                 android:id="@+id/cart_no_item_go_to_rate_item_btn"
                 android:layout_width="270dp"
                 android:layout_height="40dp"
-                android:text="@string/cart_no_item_go_to_favourite_btn_text"
+                android:text="@string/cart_no_item_go_to_rate_btn_text"
                 android:gravity="center"
                 android:textSize="@dimen/text_size_lower_medium"
                 android:textColor="@color/black"
@@ -97,12 +96,13 @@
                 />
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/cart_proceed_to_checkout_group"
             android:layout_width="match_parent"
             android:layout_height="124dp"
-            android:visibility="@{model.showEmpty ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:visibility="invisible"
             >
 
             <Button
