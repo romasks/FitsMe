@@ -59,7 +59,7 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
             } else {
                 orderItemList = ordersList.get(0).getOrderItemList();
             }
-            callback.onResult(orderItemList, null, ordersPage.getNextPage());
+            callback.onResult(orderItemList, ordersPage.getPreviousPage(), ordersPage.getNextPage());
         } catch (AppException e) {
             e.printStackTrace();
         }
