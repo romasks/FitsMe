@@ -1,9 +1,9 @@
-package ru.fitsme.android.presentation.fragments.rateitems.view;
+package ru.fitsme.android.presentation.fragments.rateitems;
 
 public interface IOnSwipeListener {
     void onSwipe(RateItemsFragment.AnimationType animationType);
 
-    public enum AnimationType {
+    enum AnimationType {
         LEFT, RIGHT, NONE, SIMPLE
     }
 }

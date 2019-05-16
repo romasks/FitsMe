@@ -1,10 +1,10 @@
-package ru.fitsme.android.presentation.fragments.rateitems.view;
+package ru.fitsme.android.presentation.fragments.rateitems;
 
 public class RateItemsState {
     private int index;
     private IOnSwipeListener.AnimationType animationType;
 
-    public RateItemsState(int index, IOnSwipeListener.AnimationType animationType) {
+    RateItemsState(int index, IOnSwipeListener.AnimationType animationType) {
         this.index = index;
         this.animationType = animationType;
     }
@@ -13,7 +13,7 @@ public class RateItemsState {
         return index;
     }
 
-    public IOnSwipeListener.AnimationType getAnimationType() {
+    IOnSwipeListener.AnimationType getAnimationType() {
         return animationType;
     }
 }
