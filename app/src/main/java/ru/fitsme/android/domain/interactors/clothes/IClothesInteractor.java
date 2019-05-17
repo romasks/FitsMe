@@ -7,8 +7,9 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.interactors.BaseInteractor;
 
-public interface IClothesInteractor {
+public interface IClothesInteractor extends BaseInteractor {
 
     @NonNull
     Single<Integer> getLastIndexSingle();

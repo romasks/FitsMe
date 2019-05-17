@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.fragments.signinup.view.SignInFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -17,6 +15,10 @@
         <variable
             name="signInUpState"
             type="ru.fitsme.android.presentation.fragments.signinup.entities.SignInUpState" />
+
+        <variable
+            name="bindingEvents"
+            type="ru.fitsme.android.presentation.fragments.signinup.events.SignInBindingEvents"/>
 
         <import type="android.view.View" />
     </data>
@@ -89,6 +91,7 @@
                     android:layout_margin="8dp"
                     android:enabled="@{!signInUpState.loading}"
                     android:focusable="@{!signInUpState.loading}"
+                    android:onClick="@{() -> bindingEvents.onClickSignIn()}"
                     android:text="@string/sign_in" />
 
             </LinearLayout>

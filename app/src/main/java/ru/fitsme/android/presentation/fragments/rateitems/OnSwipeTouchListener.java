@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.iteminfo;
+package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.content.Context;
 import android.view.GestureDetector;
@@ -9,7 +9,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     private final GestureDetector gestureDetector;
 
-    public OnSwipeTouchListener(Context ctx) {
+    OnSwipeTouchListener(Context ctx) {
         gestureDetector = new GestureDetector(ctx, new GestureListener());
     }
 
