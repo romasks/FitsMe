@@ -9,6 +9,7 @@ import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.common.adapter.FavouritesAdapter;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
@@ -40,12 +41,15 @@ public class CartViewModel extends BaseViewModel {
     }
 
     private void loadCart() {
-        addDisposable(ordersInteractor.getCurrentOrderInCart()
+        addDisposable(ordersInteractor.getSingleOrder(OrderStatus.FM)
                 .subscribe(this::onOrder, this::onError));
     }
 
     private void onOrder(@NotNull Order order) {
-        Timber.tag(getClass().getName()).d("SUCCESS");
+        Timber.tag(getClass().getName()).d("SUCCESS " +
+                order.getOrderId() + " " +
+                order.getApartment() + " " +
+                order.getPhoneNumber());
         loading.set(GONE);
     }
 

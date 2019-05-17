@@ -36,9 +36,9 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @NonNull
     @Override
-    public Single<Order> getSingleOrder(int page) {
+    public Single<Order> getSingleOrder(OrderStatus status) {
         return Single.create((SingleOnSubscribe<Order>) emitter ->
-                emitter.onSuccess(getOrders(page).getOrdersList().get(1)))
+                emitter.onSuccess(getOrders(status).getOrdersList().get(0)))
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }
@@ -54,8 +54,8 @@ public class OrdersInteractor implements IOrdersInteractor {
                 .observeOn(mainThread);
     }
 
-    private OrdersPage getOrders(int page) throws AppException {
-        return orderRepository.getOrders(page);
+    private OrdersPage getOrders(OrderStatus status) throws AppException {
+        return orderRepository.getOrders(status);
     }
 
     @NonNull
