@@ -21,8 +21,8 @@ public class OrdersRepository implements IOrdersRepository {
 
     @NonNull
     @Override
-    public OrdersPage getOrders(int page) throws AppException {
-        return webLoader.getOrders(page);
+    public OrdersPage getOrders(OrderStatus status) throws AppException {
+        return webLoader.getOrders(status);
     }
 
     @Override

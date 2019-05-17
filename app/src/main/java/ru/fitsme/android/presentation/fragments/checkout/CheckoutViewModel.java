@@ -17,6 +17,7 @@ import timber.log.Timber;
 import static ru.fitsme.android.utils.Constants.GONE;
 
 public class CheckoutViewModel extends BaseViewModel {
+    private static final String TAG = CheckoutViewModel.class.getSimpleName();
 
     private final IOrdersInteractor ordersInteractor;
 
@@ -37,7 +38,7 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     private void loadOrder() {
-        addDisposable(ordersInteractor.getSingleOrder(1)
+        addDisposable(ordersInteractor.getSingleOrder(OrderStatus.FM)
                 .subscribe(this::onOrder, this::onError));
     }
 
@@ -51,6 +52,7 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     private void onOrder(@NotNull Order order) {
+        Timber.tag(TAG).d(order.getOrderItemList().get(0).toString());
         orderLiveData.setValue(order);
     }
 

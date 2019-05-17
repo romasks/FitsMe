@@ -157,9 +157,9 @@ public class WebLoader {
                 new OrderUpdate(phoneNumber, street, houseNumber, apartment, orderStatus)));
     }
 
-    public OrdersPage getOrders(int page) throws DataNotFoundException, UserException {
+    public OrdersPage getOrders(OrderStatus status) throws DataNotFoundException, UserException {
         String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        return executeRequest(() -> apiService.getOrders(headerToken, page));
+        return executeRequest(() -> apiService.getOrders(headerToken, status));
     }
 
     public interface ExecutableRequest<T> {

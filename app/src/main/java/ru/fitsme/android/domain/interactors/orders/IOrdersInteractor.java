@@ -12,7 +12,7 @@ import ru.fitsme.android.utils.OrderStatus;
 public interface IOrdersInteractor extends BaseInteractor {
 
     @NonNull
-    Single<Order> getSingleOrder(int page);
+    Single<Order> getSingleOrder(OrderStatus status);
 
     @NonNull
     Single<Order> getCurrentOrderInCart();
