@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.fragments.signinup.view.SignInUpFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="bindingEvents"
+            type="ru.fitsme.android.presentation.fragments.signinup.events.SignInUpBindingEvents" />
+    </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,6 +33,7 @@
                 android:id="@+id/iv_logo_icon"
                 android:layout_width="54dp"
                 android:layout_height="48dp"
+                android:contentDescription="@null"
                 android:src="@drawable/ic_app_logo" />
 
             <TextView
@@ -59,11 +64,13 @@
                 android:id="@+id/btn_sign_up"
                 style="@style/SignInUp.Button.Red"
                 android:layout_marginBottom="32dp"
+                android:onClick="@{() -> bindingEvents.onClickSignUp()}"
                 android:text="@string/sign_up" />
 
             <Button
                 android:id="@+id/btn_sign_in"
                 style="@style/SignInUp.Button.Black"
+                android:onClick="@{() -> bindingEvents.onClickSignIn()}"
                 android:text="@string/sign_in" />
         </LinearLayout>
 

@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.favourites.view;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
@@ -7,6 +7,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
+
+import ru.fitsme.android.presentation.common.adapter.FavouritesAdapter;
 
 public class FavouritesRecyclerItemTouchHelper extends
         ItemTouchHelper.SimpleCallback {

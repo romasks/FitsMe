@@ -1,22 +1,30 @@
 package ru.fitsme.android.presentation.fragments.signinup.view;
 
-
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSignUpBinding;
+import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
 import ru.fitsme.android.presentation.common.keyboard.KeyboardUtils;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.signinup.entities.SignInUpState;
+import ru.fitsme.android.presentation.fragments.signinup.events.SignUpBindingEvents;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignUpViewModel;
 
-public class SignUpFragment extends Fragment {
+public class SignUpFragment extends BaseFragment<SignUpViewModel> implements SignUpBindingEvents {
+
+    @Inject
+    ISignInUpInteractor signInUpInteractor;
 
     private FragmentSignUpBinding binding;
     private LoadingDialog loadingDialog;
@@ -30,22 +38,23 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         loadingDialog = new LoadingDialog();
 
-        binding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_sign_up, container, false);
-
-        SignUpViewModel signUpViewModel = ViewModelProviders.of(this)
-                .get(SignUpViewModel.class);
-
-        binding.btnSignUp.setOnClickListener(v ->
-        {
-            KeyboardUtils.hide(getActivity(), binding.getRoot());
-            signUpViewModel.onSignUp(binding.getLogin(), binding.getPassword());
-        });
-
-        signUpViewModel.getFieldsStateLiveData()
-                .observe(this, this::onStateChanged);
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false);
+        binding.setBindingEvents(this);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this,
+                new ViewModelFactory(signInUpInteractor)).get(SignUpViewModel.class);
+        if (savedInstanceState == null) {
+            viewModel.init();
+        }
+
+        viewModel.getFieldsStateLiveData()
+                .observe(this, this::onStateChanged);
     }
 
     private void onStateChanged(SignInUpState signInUpState) {
@@ -63,5 +72,11 @@ public class SignUpFragment extends Fragment {
         super.onDestroyView();
 
         loadingDialog.hide();
+    }
+
+    @Override
+    public void onClickSignUp() {
+        KeyboardUtils.hide(getActivity(), binding.getRoot());
+        viewModel.onSignUp(binding.getLogin(), binding.getPassword());
     }
 }
