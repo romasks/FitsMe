@@ -23,6 +23,7 @@ import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
+import ru.fitsme.android.domain.entities.exceptions.user.FavouriteItemNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.InvalidTokenException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyExistException;
@@ -59,7 +60,7 @@ public class WebLoader {
     }
 
     @NonNull
-    private UserException makeException(Error error) throws InternalException {
+    private UserException makeException(Error error) throws UserException, InternalException {
         switch (error.getCode()) {
             case WrongLoginOrPasswordException.CODE:
                 return new WrongLoginOrPasswordException(error.getMessage());
@@ -85,6 +86,8 @@ public class WebLoader {
                 return new ClotheNotFoundException(error.getMessage());
             case InternalException.CODE:
                 throw new InternalException(error.getMessage());
+            case FavouriteItemNotFoundException.CODE:
+                throw new FavouriteItemNotFoundException(error.getMessage());
         }
         throw new InternalException("Unknown error (" + error.getCode() + "):" + error.getMessage());
     }
@@ -159,7 +162,7 @@ public class WebLoader {
 
     public OrdersPage getOrders(OrderStatus status) throws DataNotFoundException, UserException {
         String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        return executeRequest(() -> apiService.getOrders(headerToken, status));
+        return executeRequest(() -> apiService.getOrder(headerToken, status));
     }
 
     public interface ExecutableRequest<T> {
