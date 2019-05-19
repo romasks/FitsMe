@@ -9,16 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentCartBinding;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
+import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 public class CartFragment extends BaseFragment<CartViewModel> implements CartBindingEvents {
@@ -53,8 +58,22 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
         binding.cartListRv.setHasFixedSize(true);
         binding.cartListRv.setAdapter(viewModel.getAdapter());
 
+        viewModel.getPageLiveData()
+                .observe(this, this::onLoadOrder);
+
         viewModel.loading.set(VISIBLE);
         viewModel.showEmpty.set(VISIBLE);
+    }
+
+    private void onLoadOrder(List<OrderItem> orderItems) {
+        viewModel.loading.set(GONE);
+        if (orderItems == null || orderItems.size() == 0) {
+            viewModel.showEmpty.set(VISIBLE);
+            viewModel.setOrderItemsInAdapter(new ArrayList<>());
+        } else {
+            viewModel.showEmpty.set(GONE);
+            viewModel.setOrderItemsInAdapter(orderItems);
+        }
     }
 
     @Override

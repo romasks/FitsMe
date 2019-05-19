@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="position"
-            type="Integer" />
 
         <variable
-            name="model"
-            type="ru.fitsme.android.presentation.fragments.cart.CartViewModel" />
+            name="clothesItem"
+            type="ru.fitsme.android.data.models.ClothesItemModel"/>
+
+        <variable
+            name="price"
+            type="Integer"/>
     </data>
 
     <RelativeLayout
@@ -31,7 +32,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
-                tools:src="@drawable/clothe_example" />
+                app:defaultImage="@{@drawable/clothe_example}"
+                app:imageUrl="@{clothesItem.imageUrl}"
+                tools:src="@drawable/clothe_example"/>
         </android.support.v7.widget.CardView>
 
         <!-- todo Проверить работоспособность getCartItemAt-->
@@ -41,12 +44,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_medium"
             android:layout_toEndOf="@id/item_cart_image_field"
+            android:lines="2"
             android:paddingBottom="4dp"
-            android:text="@{model.getCartItemAt(position).item.brand}"
+            android:text="@{clothesItem.brandName}"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
-            android:lines="2"
-            tools:text="@string/brand_name_hint_in_two_lines" />
+            tools:text="@string/brand_name_hint_in_two_lines"/>
 
         <TextView
             android:id="@+id/item_cart_name"
@@ -55,10 +58,10 @@
             android:layout_below="@id/item_cart_brand_name"
             android:layout_marginStart="@dimen/padding_medium"
             android:layout_toEndOf="@id/item_cart_image_field"
-            android:paddingBottom="4dp"
-            android:text="@{model.getCartItemAt(position).item.name}"
             android:lines="2"
-            tools:text="@string/clothe_name_hint" />
+            android:paddingBottom="4dp"
+            android:text="@{clothesItem.name}"
+            tools:text="@string/clothe_name_hint"/>
 
         <TextView
             android:id="@+id/item_cart_price"
@@ -68,9 +71,9 @@
             android:layout_marginStart="@dimen/padding_medium"
             android:layout_toEndOf="@id/item_cart_image_field"
             android:paddingBottom="4dp"
-            android:text="@{model.getCartItemAt(position).item.description}"
+            android:text="@{Integer.toString(price)}"
             android:textStyle="bold"
-            tools:text="@string/clothe_price_hint" />
+            tools:text="@string/clothe_price_hint"/>
 
     </RelativeLayout>
 
