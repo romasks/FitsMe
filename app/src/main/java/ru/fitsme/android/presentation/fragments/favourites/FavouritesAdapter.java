@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.common.adapter;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
