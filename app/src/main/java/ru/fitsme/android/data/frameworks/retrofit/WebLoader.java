@@ -23,7 +23,6 @@ import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
-import ru.fitsme.android.domain.entities.exceptions.user.FavouriteItemNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.exceptions.user.InvalidTokenException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyExistException;
@@ -86,8 +85,6 @@ public class WebLoader {
                 return new ClotheNotFoundException(error.getMessage());
             case InternalException.CODE:
                 throw new InternalException(error.getMessage());
-            case FavouriteItemNotFoundException.CODE:
-                throw new FavouriteItemNotFoundException(error.getMessage());
         }
         throw new InternalException("Unknown error (" + error.getCode() + "):" + error.getMessage());
     }
