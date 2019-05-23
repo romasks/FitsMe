@@ -85,7 +85,6 @@ public class FavouritesViewModel extends BaseViewModel {
                 .subscribe(() -> {
                     pageLiveData.getValue().remove(getFavouriteItemAt(index));
                     adapter.removeItemAt(index);
-                    adapter.notifyItemRemoved(index);
                 }, this::onError));
     }
 

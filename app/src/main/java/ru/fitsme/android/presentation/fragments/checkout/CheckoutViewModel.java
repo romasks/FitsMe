@@ -17,11 +17,11 @@ import timber.log.Timber;
 import static ru.fitsme.android.utils.Constants.GONE;
 
 public class CheckoutViewModel extends BaseViewModel {
-    private static final String TAG = CheckoutViewModel.class.getSimpleName();
 
     private final IOrdersInteractor ordersInteractor;
 
     private MutableLiveData<Order> orderLiveData;
+    private MutableLiveData<Boolean> successMakeOrderLiveData;
 
     public ObservableBoolean loading;
     public ObservableField<OrderModel> orderModel;
@@ -30,8 +30,18 @@ public class CheckoutViewModel extends BaseViewModel {
         this.ordersInteractor = ordersInteractor;
     }
 
+    LiveData<Order> getOrderLiveData() {
+        return orderLiveData;
+    }
+
+    LiveData<Boolean> getSuccessMakeOrderLiveData() {
+        return successMakeOrderLiveData;
+    }
+
     void init() {
         orderLiveData = new MutableLiveData<>();
+        successMakeOrderLiveData = new MutableLiveData<>();
+        successMakeOrderLiveData.setValue(false);
         loading = new ObservableBoolean(GONE);
         orderModel = new ObservableField<>();
         loadOrder();
@@ -42,22 +52,19 @@ public class CheckoutViewModel extends BaseViewModel {
                 .subscribe(this::onOrder, this::onError));
     }
 
-    LiveData<Order> getOrderLiveData() {
-        return orderLiveData;
-    }
-
-    void onClickMakeOrder(String phone, String street, String house, String apartment) {
-        addDisposable(ordersInteractor.makeOrder(phone, street, house, apartment, OrderStatus.FM)
+    void onClickMakeOrder() {
+        addDisposable(ordersInteractor.makeOrder(orderModel.get())
                 .subscribe(this::onMakeOrder, this::onError));
     }
 
     private void onOrder(@NotNull Order order) {
-        Timber.tag(TAG).d(order.getOrderItemList().get(0).toString());
         orderLiveData.setValue(order);
+
     }
 
     private void onMakeOrder() {
         Timber.tag(getClass().getName()).d("SUCCESS");
+        successMakeOrderLiveData.setValue(true);
     }
 
     private void onError(Throwable throwable) {

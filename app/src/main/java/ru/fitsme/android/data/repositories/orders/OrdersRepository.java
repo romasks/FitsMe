@@ -27,7 +27,7 @@ public class OrdersRepository implements IOrdersRepository {
 
     @Override
     public void makeOrder(
-            int orderId, String phoneNumber, String street, String houseNumber,
+            long orderId, String phoneNumber, String street, String houseNumber,
             String apartment, OrderStatus orderStatus
     ) throws AppException {
 

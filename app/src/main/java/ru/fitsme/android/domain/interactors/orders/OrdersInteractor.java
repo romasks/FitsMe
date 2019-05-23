@@ -10,6 +10,7 @@ import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
+import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
@@ -37,8 +38,9 @@ public class OrdersInteractor implements IOrdersInteractor {
     @NonNull
     @Override
     public Single<Order> getSingleOrder(OrderStatus status) {
-        return Single.create((SingleOnSubscribe<Order>) emitter ->
-                emitter.onSuccess(getOrders(status).getOrdersList().get(0)))
+        return Single.create((SingleOnSubscribe<Order>) emitter -> {
+            emitter.onSuccess(getOrders(status).getOrdersList().get(0));
+        })
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }
@@ -72,11 +74,16 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @NonNull
     @Override
-    public Completable makeOrder(
-            String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
-    ) {
+    public Completable makeOrder(OrderModel orderModel) {
         return Completable.create(emitter -> {
-            orderRepository.makeOrder(1, phoneNumber, street, houseNumber, apartment, orderStatus);
+            orderRepository.makeOrder(
+                    orderModel.getOrderId(),
+                    orderModel.getPhoneNumber().replaceAll("[^\\d]", ""),
+                    orderModel.getStreet(),
+                    orderModel.getHouseNumber(),
+                    orderModel.getApartment(),
+                    OrderStatus.FM
+            );
             emitter.onComplete();
         })
                 .subscribeOn(workThread)

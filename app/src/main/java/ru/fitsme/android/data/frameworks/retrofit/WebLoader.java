@@ -149,7 +149,7 @@ public class WebLoader {
     }
 
     public void makeOrder(
-            int orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
+            long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
     ) throws DataNotFoundException, UserException {
 
         String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
