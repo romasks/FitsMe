@@ -26,7 +26,7 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
     private List<FavouritesItem> items;
     private BaseViewModel viewModel;
 
-    public FavouritesAdapter(@LayoutRes int layoutId, BaseViewModel viewModel) {
+    FavouritesAdapter(@LayoutRes int layoutId, BaseViewModel viewModel) {
         this.layoutId = layoutId;
         this.viewModel = viewModel;
     }
@@ -59,32 +59,32 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         return layoutId;
     }
 
-    public void setFavouritesItems(List<FavouritesItem> items) {
+    void setFavouritesItems(List<FavouritesItem> items) {
         this.items = items;
     }
 
-    public void addFavouritesItems(List<FavouritesItem> items) {
+    void addFavouritesItems(List<FavouritesItem> items) {
         this.items.addAll(items);
     }
 
-    public void changeStatus(int index, boolean inCart) {
+    void changeStatus(int index, boolean inCart) {
         items.get(index).setInCart(inCart);
         notifyItemChanged(index);
     }
 
-    public FavouritesItem getFavouriteItemAt(Integer index) {
+    FavouritesItem getFavouriteItemAt(Integer index) {
         return items.get(index);
     }
 
-    public void removeItemAt(Integer index) {
+    void removeItemAt(Integer index) {
         items.remove(items.get(index));
         notifyItemRemoved(index);
     }
 
-    public class GenericViewHolder extends RecyclerView.ViewHolder {
+    class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
-        public RelativeLayout viewBackground;
-        public RelativeLayout viewForeground;
+        RelativeLayout viewBackground;
+        RelativeLayout viewForeground;
 
         GenericViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());

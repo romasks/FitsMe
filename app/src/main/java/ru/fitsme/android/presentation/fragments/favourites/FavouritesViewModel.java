@@ -83,8 +83,10 @@ public class FavouritesViewModel extends BaseViewModel {
     void deleteItem(int index) {
         addDisposable(favouritesInteractor.deleteFavouriteItem(index)
                 .subscribe(() -> {
-                    pageLiveData.getValue().remove(getFavouriteItemAt(index));
                     adapter.removeItemAt(index);
+                    if (adapter.getItemCount() == 0) {
+                        pageLiveData.setValue(pageLiveData.getValue());
+                    }
                 }, this::onError));
     }
 
