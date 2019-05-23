@@ -9,7 +9,7 @@ import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
 
-public class BaseViewModel extends ViewModel implements IViewModel {
+public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
     @Inject
     protected Navigation navigation;
@@ -38,6 +38,6 @@ public class BaseViewModel extends ViewModel implements IViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        compositeDisposable.clear();
+//        compositeDisposable.clear();
     }
 }

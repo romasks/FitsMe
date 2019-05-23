@@ -27,6 +27,7 @@ import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
+import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
@@ -63,14 +64,20 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         if (savedInstanceState == null) {
             viewModel.init();
         }
+        binding.setViewModel(viewModel);
 
         viewModel.loading.set(VISIBLE);
         viewModel.getOrderLiveData().observe(this, this::onLoadOrder);
+        viewModel.getSuccessMakeOrderLiveData().observe(this, this::onSuccessMakeOrder);
     }
 
     private void onLoadOrder(Order order) {
         viewModel.loading.set(GONE);
         viewModel.orderModel.set(new OrderModel(order));
+    }
+
+    private void onSuccessMakeOrder(Boolean successMakeOrder) {
+        if (successMakeOrder) goBack();
     }
 
     @Override
@@ -82,12 +89,9 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
 
     @Override
     public void onClickMakeOrder() {
+        Timber.tag(getClass().getName()).d("isMaskFilled: %s", isMaskFilled);
         if (!isMaskFilled) return;
-        String street = binding.addressStreet.getText().toString();
-        String house = binding.addressHouse.getText().toString();
-        String apartment = binding.addressAppartment.getText().toString();
-        String phone = binding.phoneNumber.getText().toString().replaceAll("[^\\d]", "");
-        viewModel.onClickMakeOrder(phone, street, house, apartment);
+        viewModel.onClickMakeOrder();
     }
 
 

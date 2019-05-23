@@ -21,13 +21,13 @@ public class OrdersRepository implements IOrdersRepository {
 
     @NonNull
     @Override
-    public OrdersPage getOrders(int page) throws AppException {
-        return webLoader.getOrders(page);
+    public OrdersPage getOrders(OrderStatus status) throws AppException {
+        return webLoader.getOrders(status);
     }
 
     @Override
     public void makeOrder(
-            int orderId, String phoneNumber, String street, String houseNumber,
+            long orderId, String phoneNumber, String street, String houseNumber,
             String apartment, OrderStatus orderStatus
     ) throws AppException {
 

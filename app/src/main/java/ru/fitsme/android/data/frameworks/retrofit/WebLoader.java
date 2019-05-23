@@ -59,7 +59,7 @@ public class WebLoader {
     }
 
     @NonNull
-    private UserException makeException(Error error) throws InternalException {
+    private UserException makeException(Error error) throws UserException, InternalException {
         switch (error.getCode()) {
             case WrongLoginOrPasswordException.CODE:
                 return new WrongLoginOrPasswordException(error.getMessage());
@@ -114,7 +114,7 @@ public class WebLoader {
                 return getResponse(response.body());
             }
 
-            if (response.isSuccessful() && response.body() == null){
+            if (response.isSuccessful() && response.body() == null) {
                 return null;
             }
         } catch (IOException | InternalException | JsonSyntaxException e) {
@@ -125,6 +125,7 @@ public class WebLoader {
 
     public void likeItem(@NonNull String token, int id, boolean liked) throws UserException {
         String headerToken = "Token " + token;
+        Timber.tag("Like Item").d("ID, %d", id);
         executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
     }
 
@@ -148,7 +149,7 @@ public class WebLoader {
     }
 
     public void makeOrder(
-            int orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
+            long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
     ) throws DataNotFoundException, UserException {
 
         String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
@@ -156,9 +157,9 @@ public class WebLoader {
                 new OrderUpdate(phoneNumber, street, houseNumber, apartment, orderStatus)));
     }
 
-    public OrdersPage getOrders(int page) throws DataNotFoundException, UserException {
+    public OrdersPage getOrders(OrderStatus status) throws DataNotFoundException, UserException {
         String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        return executeRequest(() -> apiService.getOrders(headerToken, page));
+        return executeRequest(() -> apiService.getOrder(headerToken, status));
     }
 
     public interface ExecutableRequest<T> {

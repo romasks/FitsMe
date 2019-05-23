@@ -14,7 +14,6 @@ public class OrderItem {
     @SerializedName("price")
     private int price;
 
-    @SerializedName("quantity")
     private int quantity;
 
     @SerializedName("clothe")

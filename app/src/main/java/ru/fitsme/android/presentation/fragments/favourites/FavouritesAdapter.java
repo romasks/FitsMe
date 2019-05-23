@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.common.adapter;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -77,7 +77,8 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
     }
 
     public void removeItemAt(Integer index) {
-        items.remove(getFavouriteItemAt(index));
+        items.remove(items.get(index));
+        notifyItemRemoved(index);
     }
 
     public class GenericViewHolder extends RecyclerView.ViewHolder {

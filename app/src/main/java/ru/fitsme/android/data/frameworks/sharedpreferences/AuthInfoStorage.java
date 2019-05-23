@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.signinup.AuthInfo;
+import timber.log.Timber;
 
 public class AuthInfoStorage extends SharedPreferencesStorage<AuthInfo> {
 
@@ -31,6 +32,7 @@ public class AuthInfoStorage extends SharedPreferencesStorage<AuthInfo> {
     protected AuthInfo getValues() throws DataNotFoundException {
         String login = getStringValue(LOGIN_KEY);
         String token = getStringValue(TOKEN_KEY);
+        Timber.tag("TOKEN").d("Token %s", token);
         return new AuthInfo(login, token);
     }
 }
