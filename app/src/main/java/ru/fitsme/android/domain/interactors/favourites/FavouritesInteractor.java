@@ -5,6 +5,8 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
@@ -14,14 +16,14 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.SingleOnSubscribe;
 import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactory;
-import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
+import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 @Singleton
@@ -62,39 +64,68 @@ public class FavouritesInteractor implements IFavouritesInteractor {
                 new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
                     .setFetchExecutor(Executors.newSingleThreadExecutor())
                     .build();
-
     }
 
     @Override
     public LiveData<PagedList<FavouritesItem>> getPagedListLiveData() {
+        invalidateDataSource();
         return pagedListLiveData;
     }
 
-    public void invalidateDataSource(){
-        Objects.requireNonNull(favouritesDataSourceFactory.getSourceLiveData().getValue()).invalidate();
+    private void invalidateDataSource(){
+        FavouritesRepository repository = favouritesDataSourceFactory.getSourceLiveData().getValue();
+        if (repository != null) {
+            Objects.requireNonNull(repository).invalidate();
+        }
     }
 
+    @NonNull
     @Override
-    public Completable deleteFavouriteItem(Integer index) {
+    public Completable addFavouritesItemToCart(int position, int quantity) {
         return Completable.create(emitter -> {
-//            String token = userInfoRepository.getAuthInfo().getToken();
-//            FavouritesItem favouritesItem = getFavouritesItem(index);
-//            favouritesActionRepository.removeItem(token, favouritesItem.getId());
-//            emitter.onComplete();
+            String token = userInfoRepository.getAuthInfo().getToken();
+            PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
+            if (pagedList != null && pagedList.size() > position){
+                FavouritesItem item = pagedList.get(position);
+                if (item != null){
+                    int clotheItemId = item.getItem().getId();
+                    favouritesActionRepository.addItemToCart(token, clotheItemId, quantity);
+                    invalidateDataSource();
+                }
+            }
+            emitter.onComplete();
         })
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }
 
-    private FavouritesItem getFavouritesItem(int index) throws AppException {
-        String token = userInfoRepository.getAuthInfo().getToken();
-        return getFavouritesItem(token, index);
+    @NotNull
+    @Override
+    public Completable deleteFavouriteItem(Integer position) {
+        return Completable.create(emitter -> {
+            String token = userInfoRepository.getAuthInfo().getToken();
+            PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
+            if (pagedList != null && pagedList.size() > position){
+                FavouritesItem item = pagedList.get(position);
+                if (item != null){
+                    favouritesActionRepository.removeItem(token, item.getId());
+                    invalidateDataSource();
+                }
+            }
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 
-    private FavouritesItem getFavouritesItem(String token, int index) throws AppException {
-        return favouritesRepository.getFavouritesItem(token, index);
-    }
-
+//    private FavouritesItem getFavouritesItem(int index) throws AppException {
+//        String token = userInfoRepository.getAuthInfo().getToken();
+//        return getFavouritesItem(token, index);
+//    }
+//
+//    private FavouritesItem getFavouritesItem(String token, int index) throws AppException {
+//        return favouritesRepository.getFavouritesItem(token, index);
+//    }
 
 
 //    @NonNull
@@ -124,15 +155,15 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 //                emitter.onSuccess(getFavouritesPage(page)))
 //                .subscribeOn(workThread)
 //                .observeOn(mainThread);
-//    }
 
+//    }
 //    @NonNull
 //    private FavouritesPage getFavouritesPage(int page) throws AppException {
 //        String token = userInfoRepository.getAuthInfo().getToken();
+
 //        return favouritesRepository.getFavouritesPage(token, page);
 
 //    }
-
 
 
 //    @NonNull
@@ -147,18 +178,6 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 //                .observeOn(mainThread);
 //    }
 //
-    @NonNull
-    @Override
-    public Completable addFavouritesItemToCart(int index, int quantity) {
-        return Completable.create(emitter -> {
-            String token = userInfoRepository.getAuthInfo().getToken();
-            FavouritesItem favouritesItem = getFavouritesItem(index);
-            favouritesActionRepository.addItemToCart(token, favouritesItem.getItem().getId(), 0);
-            emitter.onComplete();
-        })
-                .subscribeOn(workThread)
-                .observeOn(mainThread);
-    }
 
 
 }

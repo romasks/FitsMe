@@ -33,7 +33,7 @@
             />
 
         <TextView
-            android:id="@+id/empty_tv_fragment_favourites"
+            android:id="@+id/empty_list_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

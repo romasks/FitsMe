@@ -1,11 +1,9 @@
 package ru.fitsme.android.presentation.fragments.favourites.view;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.paging.PagedList;
-import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,11 +20,7 @@ public class FavouritesViewModel extends ViewModel {
 
     private final IFavouritesInteractor favouritesInteractor;
 
-//    private MutableLiveData<PagedList<FavouritesItem>> pageLiveData;
     private CompositeDisposable disposable;
-
-//    public ObservableBoolean loading;
-//    public ObservableBoolean showEmpty;
 
     private FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
@@ -34,21 +28,7 @@ public class FavouritesViewModel extends ViewModel {
 
     void init() {
         disposable = new CompositeDisposable();
-//        loading = new ObservableBoolean(GONE);
-//        showEmpty = new ObservableBoolean(GONE);
     }
-
-//    private void loadPage(int index) {
-//        disposable.add(
-//                favouritesInteractor.getSingleFavouritesPage(index)
-//                        .subscribe(favouritesPage -> {
-//                            nextPage = favouritesPage.getNext();
-//                            pageLiveData.setValue(favouritesPage.getItems());
-//                            postPagination.pageReceived();
-//                        })
-//        );
-//    }
-
 
     LiveData<PagedList<FavouritesItem>> getPageLiveData() {
         return favouritesInteractor.getPagedListLiveData();
@@ -57,37 +37,31 @@ public class FavouritesViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-
         disposable.dispose();
     }
 
-//    public FavouritesItem getFavouriteItemAt(Integer index) {
-//        int i = 1;
-//        PagedList<FavouritesItem> list = pageLiveData.getValue();
-//        FavouritesItem item = list.get(index);
-//        return item;
-//    }
-//
-//    public boolean inCart(Integer index) {
-//        return pageLiveData.getValue().get(index).isInCart();
+//    public void addItemToCart(int position) {
+//        disposable.add(
+//                favouritesInteractor.addFavouritesItemToCart(position, 0)
+//                        .subscribe(() -> {
+//                            favouritesInteractor.addFavouritesItemToCart()
+//                        }, throwable -> {
+//                        })
+//        );
 //    }
 
-    public void addItemToCart(int index) {
+    void deleteItem(Integer position) {
         disposable.add(
-                favouritesInteractor.addFavouritesItemToCart(index, 0)
-                        .subscribe(() -> {
-//                            adapter.changeStatus(index, true);
-                        }, throwable -> {
-                        })
+                favouritesInteractor
+                        .deleteFavouriteItem(position)
+                        .subscribe()
         );
     }
 
-    void deleteItem(Integer index) {
+    void onInCartBtnClicked(int position, int quantity) {
         disposable.add(
-                favouritesInteractor.deleteFavouriteItem(index)
-                        .subscribe(() -> {
-//                            pageLiveData.
-                        })
+                favouritesInteractor.addFavouritesItemToCart(position, quantity)
+                .subscribe()
         );
     }
 

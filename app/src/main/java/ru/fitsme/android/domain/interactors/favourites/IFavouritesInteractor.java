@@ -27,10 +27,10 @@ public interface IFavouritesInteractor {
 //    Completable restoreItemToFavourites(int index);
 
     @NonNull
-    Completable addFavouritesItemToCart(int index, int quantity);
+    Completable addFavouritesItemToCart(int position, int quantity);
 
     @NonNull
-    Completable deleteFavouriteItem(Integer index);
+    Completable deleteFavouriteItem(Integer position);
 
     LiveData<PagedList<FavouritesItem>> getPagedListLiveData();
 }

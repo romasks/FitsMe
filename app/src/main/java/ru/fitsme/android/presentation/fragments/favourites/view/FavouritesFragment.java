@@ -7,14 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,19 +28,15 @@ import timber.log.Timber;
 
 public class FavouritesFragment extends Fragment
     implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener{
+
     @Inject
     IFavouritesInteractor favouritesInteractor;
-
-    private final String TAG = getClass().getName();
 
     private FavouritesViewModel viewModel;
     private FragmentFavouritesBinding binding;
     private FavouritesAdapter adapter;
 
-    private ContentLoadingProgressBar loadingProgressBar;
-    private TextView emptyTv;
-
-    public static  DiffUtil.ItemCallback<FavouritesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<FavouritesItem>() {
+    public static DiffUtil.ItemCallback<FavouritesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<FavouritesItem>() {
 
         @Override
         public boolean areItemsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
@@ -52,6 +46,7 @@ public class FavouritesFragment extends Fragment
 
         @Override
         public boolean areContentsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
+            Timber.d("areContentsTheSame()");
             return oldItem.equals(newItem);
         }
     };
@@ -75,9 +70,6 @@ public class FavouritesFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loadingProgressBar = getView().findViewById(R.id.favourites_loading_spinner);
-        emptyTv = getView().findViewById(R.id.empty_tv_fragment_favourites);
-
         viewModel = ViewModelProviders.of(this,
                 new FavouritesViewModel.Factory(favouritesInteractor)).get(FavouritesViewModel.class);
         if (savedInstanceState == null) {
@@ -89,7 +81,7 @@ public class FavouritesFragment extends Fragment
         binding.favouritesListRv.setHasFixedSize(true);
         binding.favouritesListRv.setAdapter(adapter);
 
-        loadingProgressBar.setVisibility(View.VISIBLE);
+        binding.spinnerLoading.setVisibility(View.VISIBLE);
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
 
@@ -99,11 +91,11 @@ public class FavouritesFragment extends Fragment
     }
 
     private void onLoadPage(PagedList<FavouritesItem> pagedList) {
-        loadingProgressBar.setVisibility(View.GONE);
+        binding.spinnerLoading.setVisibility(View.GONE);
         if (pagedList == null || pagedList.size() == 0) {
-            emptyTv.setVisibility(View.VISIBLE);
+            binding.emptyListTv.setVisibility(View.VISIBLE);
         } else {
-            emptyTv.setVisibility(View.INVISIBLE);
+            binding.emptyListTv.setVisibility(View.INVISIBLE);
         }
         adapter.submitList(pagedList);
     }
