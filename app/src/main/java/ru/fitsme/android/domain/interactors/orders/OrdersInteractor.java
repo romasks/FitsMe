@@ -17,6 +17,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
 import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
+import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
@@ -99,10 +100,14 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @Override
     public LiveData<PagedList<OrderItem>> getPagedListLiveData() {
+        invalidateDataSource();
         return pagedListLiveData;
     }
 
     public void invalidateDataSource(){
-        Objects.requireNonNull(ordersDataSourceFactory.getSourceLiveData().getValue()).invalidate();
+        OrdersRepository repository = ordersDataSourceFactory.getSourceLiveData().getValue();
+        if (repository != null) {
+            Objects.requireNonNull(repository).invalidate();
+        }
     }
 }

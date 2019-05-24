@@ -75,7 +75,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.Generic
             ImageView imageView = binding.getRoot().findViewById(R.id.item_cart_image);
             Glide.with(imageView)
                     .load(imageUrl)
-                    .placeholder(R.drawable.clother_example)
+                    .placeholder(R.drawable.clothe_example)
                     .into(imageView);
 
             TextView brandName = binding.getRoot().findViewById(R.id.item_cart_brand_name);

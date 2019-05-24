@@ -81,7 +81,7 @@ public class FavouritesFragment extends Fragment
         binding.favouritesListRv.setHasFixedSize(true);
         binding.favouritesListRv.setAdapter(adapter);
 
-        binding.spinnerLoading.setVisibility(View.VISIBLE);
+        binding.favouritesLoadingSpinner.setVisibility(View.VISIBLE);
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
 
@@ -91,7 +91,7 @@ public class FavouritesFragment extends Fragment
     }
 
     private void onLoadPage(PagedList<FavouritesItem> pagedList) {
-        binding.spinnerLoading.setVisibility(View.GONE);
+        binding.favouritesLoadingSpinner.setVisibility(View.GONE);
         if (pagedList == null || pagedList.size() == 0) {
             binding.emptyListTv.setVisibility(View.VISIBLE);
         } else {
