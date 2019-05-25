@@ -3,6 +3,7 @@ package ru.fitsme.android.presentation.fragments.cart;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableInt;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +27,7 @@ public class CartViewModel extends BaseViewModel {
 
     public ObservableBoolean loading;
     public ObservableBoolean showEmpty;
+    public ObservableInt totalPrice;
 
     public CartViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
@@ -35,6 +37,8 @@ public class CartViewModel extends BaseViewModel {
         pageLiveData = new MutableLiveData<>();
         loading = new ObservableBoolean(GONE);
         showEmpty = new ObservableBoolean(GONE);
+        totalPrice = new ObservableInt();
+        totalPrice.set(0);
         loadCart();
     }
 
@@ -47,6 +51,7 @@ public class CartViewModel extends BaseViewModel {
     }
 
     public void setOrderItemsInAdapter(List<OrderItem> orderItems) {
+
         if (adapter.getItemCount() == 0) {
             adapter.setOrderItems(orderItems);
         } else {
@@ -70,6 +75,11 @@ public class CartViewModel extends BaseViewModel {
 
     private void onOrder(@NotNull Order order) {
         pageLiveData.setValue(order.getOrderItemList());
+        int tmpPrice = 0;
+        for (OrderItem oi : order.getOrderItemList()) {
+            tmpPrice += oi.getPrice();
+        }
+        totalPrice.set(tmpPrice);
         Timber.tag(getClass().getName()).d("SUCCESS " +
                 order.getOrderId() + " " +
                 order.getApartment() + " " +
