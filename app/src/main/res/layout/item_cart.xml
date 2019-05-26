@@ -47,6 +47,7 @@
             android:lines="2"
             android:paddingBottom="4dp"
             android:text="@{clothesItem.brandName}"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             tools:text="@string/brand_name_hint_in_two_lines"/>
@@ -61,6 +62,7 @@
             android:lines="2"
             android:paddingBottom="4dp"
             android:text="@{clothesItem.name}"
+            android:textColor="@color/black"
             tools:text="@string/clothe_name_hint"/>
 
         <TextView
@@ -72,6 +74,7 @@
             android:layout_toEndOf="@id/item_cart_image_field"
             android:paddingBottom="4dp"
             android:text="@{Integer.toString(price)}"
+            android:textColor="@color/black"
             android:textStyle="bold"
             tools:text="@string/clothe_price_hint"/>
 
