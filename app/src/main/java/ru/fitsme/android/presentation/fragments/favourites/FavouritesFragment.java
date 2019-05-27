@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.favourites.view;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -19,15 +18,16 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import timber.log.Timber;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
 
-public class FavouritesFragment extends Fragment
-    implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener{
+public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
+        implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     @Inject
     IFavouritesInteractor favouritesInteractor;
@@ -51,10 +51,6 @@ public class FavouritesFragment extends Fragment
         }
     };
 
-    public FavouritesFragment() {
-        App.getInstance().getDi().inject(this);
-    }
-
     public static FavouritesFragment newInstance() {
         return new FavouritesFragment();
     }
@@ -71,10 +67,12 @@ public class FavouritesFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new FavouritesViewModel.Factory(favouritesInteractor)).get(FavouritesViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
+                new ViewModelFactory(favouritesInteractor)).get(FavouritesViewModel.class);
+//        if (savedInstanceState == null) {
+//            viewModel.init();
+//            viewModel.setAdapter(R.layout.item_favourite);
+//        }
+        binding.setViewModel(viewModel);
 
         adapter = new FavouritesAdapter(viewModel);
 
@@ -102,7 +100,7 @@ public class FavouritesFragment extends Fragment
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (position != RecyclerView.NO_POSITION){
+        if (position != RecyclerView.NO_POSITION) {
             viewModel.deleteItem(position);
         }
     }

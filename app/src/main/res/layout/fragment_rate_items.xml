@@ -5,7 +5,7 @@
 
         <variable
             name="bindingEvents"
-            type="ru.fitsme.android.presentation.fragments.rateitems.view.BindingEventsClickListener" />
+            type="ru.fitsme.android.presentation.fragments.rateitems.BindingEventsClickListener" />
     </data>
 
     <FrameLayout
@@ -23,9 +23,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/padding_medium"
             android:onClick="@{() -> bindingEvents.onClickLikeItem()}"
-            android:text="like" />
+            android:text="@string/like" />
 
     </FrameLayout>
 

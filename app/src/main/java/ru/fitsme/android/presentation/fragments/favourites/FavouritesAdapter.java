@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.favourites.view;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.arch.paging.PagedListAdapter;
 import android.databinding.BindingAdapter;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,15 +24,15 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.ClothesItemModel;
 import ru.fitsme.android.databinding.ItemFavouriteBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import timber.log.Timber;
 
 public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, FavouritesAdapter.GenericViewHolder> {
 
-    private FavouritesViewModel viewModel;
+    private BaseViewModel viewModel;
 
-    FavouritesAdapter(FavouritesViewModel viewModel) {
+    FavouritesAdapter(BaseViewModel viewModel) {
         super(FavouritesFragment.DIFF_CALLBACK);
-        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -65,7 +66,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
             Button inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);
             final int quantity = 1;
-            inCartBtn.setOnClickListener(view -> viewModel.onInCartBtnClicked(position, quantity));
+            inCartBtn.setOnClickListener(view -> ((FavouritesViewModel) viewModel).onInCartBtnClicked(position, quantity));
 
             if (favouritesItem.isInCart()){
                 inCartBtn.setBackgroundResource(R.drawable.bg_in_cart_btn);
@@ -90,42 +91,4 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     public static void loadImage(ImageView imageView, String imageUrl, Drawable defaultImage) {
         Glide.with(imageView).load(imageUrl).placeholder(defaultImage).error(defaultImage).into(imageView);
     }
-
-//
-//    @Override
-//    public int getItemCount() {
-//        return items == null ? 0 : items.size();
-//    }
-//
-//    @Override
-//    public int getItemViewType(int position) {
-//        return getLayoutIdForPosition(position);
-//    }
-//
-//    private int getLayoutIdForPosition(int position) {
-//        return layoutId;
-//    }
-//
-//    void setFavouritesItems(List<FavouritesItem> items) {
-//        this.items = items;
-//    }
-//
-//    void addFavouritesItems(List<FavouritesItem> items) {
-//        this.items.addAll(items);
-//    }
-//
-//    void changeStatus(int index, boolean inCart) {
-//        items.get(index).setInCart(inCart);
-//        notifyItemChanged(index);
-//    }
-//
-//    FavouritesItem getFavouriteItemAt(Integer index) {
-//        return items.get(index);
-//    }
-//
-//    void removeItemAt(Integer index) {
-//        items.remove(getFavouriteItemAt(index));
-//    }
-//
-
 }

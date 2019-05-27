@@ -13,7 +13,6 @@ public class Navigation {
     public static final String NAV_SIGN_IN_UP = "SignInUp";
     public static final String NAV_SIGN_UP = "SignUp";
     public static final String NAV_SIGN_IN = "SignIn";
-    public static final String NAV_RATE_ITEM = "RateItem";
     public static final String NAV_MAIN_ITEM = "MainItem";
 
     private Cicerone<Router> cicerone;
@@ -54,10 +53,6 @@ public class Navigation {
 
     public void goSignUp() {
         goNavigate(NAV_SIGN_UP);
-    }
-
-    public void goRateItem() {
-        goNavigate(NAV_RATE_ITEM);
     }
 
     public void goToMainItem() {

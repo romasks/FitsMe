@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
         <variable
-            name="model"
-            type="ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel" />
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.fragments.favourites.view.FavouritesFragment">
+        tools:context=".presentation.fragments.favourites.FavouritesFragment">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/favourites_list_rv"
@@ -21,14 +22,13 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:orientation="vertical"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            />
+            android:background="@color/white"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <android.support.v4.widget.ContentLoadingProgressBar
             android:id="@+id/favourites_loading_spinner"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:indeterminate="true"
             android:layout_gravity="center"
             />
 
@@ -39,7 +39,5 @@
             android:layout_gravity="center"
             android:text="@string/no_items_in_favourites"
             />
-
     </FrameLayout>
-
 </layout>

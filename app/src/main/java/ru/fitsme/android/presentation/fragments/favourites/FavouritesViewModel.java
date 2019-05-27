@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.favourites.view;
+package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
@@ -8,50 +8,25 @@ import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import timber.log.Timber;
 
-//import static ru.fitsme.android.utils.Constants.GONE;
-
-public class FavouritesViewModel extends ViewModel {
-
-    private final String TAG = getClass().getName();
+public class FavouritesViewModel extends BaseViewModel {
 
     private final IFavouritesInteractor favouritesInteractor;
 
-    private CompositeDisposable disposable;
-
-    private FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
+    public FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
-    }
-
-    void init() {
-        disposable = new CompositeDisposable();
     }
 
     LiveData<PagedList<FavouritesItem>> getPageLiveData() {
         return favouritesInteractor.getPagedListLiveData();
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        disposable.dispose();
-    }
-
-//    public void addItemToCart(int position) {
-//        disposable.add(
-//                favouritesInteractor.addFavouritesItemToCart(position, 0)
-//                        .subscribe(() -> {
-//                            favouritesInteractor.addFavouritesItemToCart()
-//                        }, throwable -> {
-//                        })
-//        );
-//    }
-
     void deleteItem(Integer position) {
-        disposable.add(
+        addDisposable(
                 favouritesInteractor
                         .deleteFavouriteItem(position)
                         .subscribe()
@@ -59,9 +34,9 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     void onInCartBtnClicked(int position, int quantity) {
-        disposable.add(
+        addDisposable(
                 favouritesInteractor.addFavouritesItemToCart(position, quantity)
-                .subscribe()
+                        .subscribe()
         );
     }
 
@@ -77,5 +52,9 @@ public class FavouritesViewModel extends ViewModel {
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             return (T) new FavouritesViewModel(favouritesInteractor);
         }
+    }
+
+    private void onError(Throwable throwable) {
+        Timber.tag(getClass().getName()).e(throwable);
     }
 }

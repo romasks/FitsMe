@@ -19,8 +19,8 @@ public class ClothesItemModel extends BaseObservable {
         this.brandName = clothesItem.getBrand();
         this.name = clothesItem.getName();
         this.description = clothesItem.getDescription();
-        this.imageUrl = clothesItem.getPics().get(0).getUrl()
-                .replace("random", "image=") + (id % 400);
+        this.imageUrl = clothesItem.getPics().get(0).getUrl();
+//                .replace("random", "image=") + (id % 400);
     }
 
     @Bindable

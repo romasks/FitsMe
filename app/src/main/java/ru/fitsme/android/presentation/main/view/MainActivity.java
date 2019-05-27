@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
-import ru.fitsme.android.presentation.fragments.main.view.MainFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;

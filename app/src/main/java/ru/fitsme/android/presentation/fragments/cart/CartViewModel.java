@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.cart.view;
+package ru.fitsme.android.presentation.fragments.cart;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
@@ -17,7 +17,7 @@ public class CartViewModel extends ViewModel {
     private final IOrdersInteractor ordersInteractor;
     private CompositeDisposable disposable;
 
-    private CartViewModel(@NotNull IOrdersInteractor ordersInteractor) {
+    public CartViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
     }
 

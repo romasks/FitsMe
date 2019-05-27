@@ -9,17 +9,21 @@ import ru.fitsme.android.domain.entities.order.OrderItem;
 
 public class OrderModel extends BaseObservable {
 
+    private long orderId;
+
     private String city;
     private String street;
     private String houseNumber;
     private String apartment;
     private String phoneNumber;
 
-    private int price;
-    private int discount;
-    private int totalPrice;
+    private String price;
+    private String discount;
+    private String totalPrice;
 
     public OrderModel(Order order) {
+        this.orderId = order.getOrderId();
+
         this.city = order.getCity();
         this.street = order.getStreet();
         this.houseNumber = order.getHouseNumber();
@@ -30,10 +34,18 @@ public class OrderModel extends BaseObservable {
         for (OrderItem item : order.getOrderItemList()) {
             price += item.getPrice();
         }
+        this.price = String.valueOf(price);
 
-        this.price = price;
-        this.discount = 300;
-        this.totalPrice = price + discount;
+        //ToDo: what is it?
+        int discount = 300;
+        this.discount = String.valueOf(discount);
+
+        this.totalPrice = String.valueOf(price + discount);
+    }
+
+
+    public long getOrderId() {
+        return orderId;
     }
 
     @Bindable
@@ -87,18 +99,32 @@ public class OrderModel extends BaseObservable {
     }
 
     @Bindable
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
+    public void setPrice(String price) {
+        this.price = price;
+        notifyPropertyChanged(BR.price);
+    }
+
     @Bindable
-    public int getDiscount() {
+    public String getDiscount() {
         return discount;
     }
 
+    public void setDiscount(String discount) {
+        this.discount = discount;
+        notifyPropertyChanged(BR.discount);
+    }
+
     @Bindable
-    public int getTotalPrice() {
+    public String getTotalPrice() {
         return totalPrice;
     }
 
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
+        notifyPropertyChanged(BR.totalPrice);
+    }
 }

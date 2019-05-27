@@ -7,8 +7,9 @@ import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.signinup.AutoSignInInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 import ru.fitsme.android.domain.entities.signinup.SignInUpResult;
+import ru.fitsme.android.domain.interactors.BaseInteractor;
 
-public interface ISignInUpInteractor {
+public interface ISignInUpInteractor extends BaseInteractor {
     @NonNull
     Single<SignInUpResult> register(@Nullable String login, @Nullable String password);
 

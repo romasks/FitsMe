@@ -21,6 +21,7 @@ import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.entities.signinup.SignInInfo;
+import ru.fitsme.android.utils.OrderStatus;
 
 public interface ApiService {
     @POST("customers/signup/")
@@ -52,6 +53,10 @@ public interface ApiService {
     @GET("orders/")
     Call<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
                                            @Query("page") int page);
+
+    @GET("orders/")
+    Call<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
+                                           @Query("status") OrderStatus status);
 
     @PUT("orders/{id}/")
     Call<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,

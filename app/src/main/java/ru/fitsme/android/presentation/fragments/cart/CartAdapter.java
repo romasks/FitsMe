@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.cart.view;
+package ru.fitsme.android.presentation.fragments.cart;
 
 import android.arch.paging.PagedListAdapter;
 import android.databinding.DataBindingUtil;
@@ -7,9 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,12 +17,8 @@ import java.util.Objects;
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemCartBinding;
-import ru.fitsme.android.databinding.ItemFavouriteBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.presentation.fragments.favourites.view.FavouritesFragment;
-import ru.fitsme.android.presentation.fragments.favourites.view.FavouritesViewModel;
 import timber.log.Timber;
 
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.GenericViewHolder> {
@@ -60,7 +54,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.Generic
         void bind(int position) {
             Timber.d("onBind %s", position);
             binding.setVariable(BR.position, position);
-            binding.setVariable(BR.model, viewModel);
+//            binding.setVariable(BR.model, viewModel);
             binding.executePendingBindings();
 
             OrderItem orderItem = getItem(position);

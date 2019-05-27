@@ -59,7 +59,7 @@ public class WebLoader {
     }
 
     @NonNull
-    private UserException makeException(Error error) throws InternalException {
+    private UserException makeException(Error error) throws UserException, InternalException {
         switch (error.getCode()) {
             case WrongLoginOrPasswordException.CODE:
                 return new WrongLoginOrPasswordException(error.getMessage());
@@ -139,6 +139,11 @@ public class WebLoader {
         return executeRequest(() -> apiService.getOrders(headerToken, page));
     }
 
+    public OrdersPage getOrders(OrderStatus status) throws DataNotFoundException, UserException {
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
+        return executeRequest(() -> apiService.getOrders(headerToken, status));
+    }
+
     public void deleteFavouriteItem(@NonNull String token, int itemId) throws UserException {
         String headerToken = "Token " + token;
         try {
@@ -154,17 +159,12 @@ public class WebLoader {
     }
 
     public void makeOrder(
-            int orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
+            long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
     ) throws DataNotFoundException, UserException {
 
         String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         executeRequest(() -> apiService.updateOrderById(headerToken, orderId,
                 new OrderUpdate(phoneNumber, street, houseNumber, apartment, orderStatus)));
-    }
-
-    public OrdersPage getOrders(int page) throws DataNotFoundException, UserException {
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        return executeRequest(() -> apiService.getOrders(headerToken, page));
     }
 
     public interface ExecutableRequest<T> {

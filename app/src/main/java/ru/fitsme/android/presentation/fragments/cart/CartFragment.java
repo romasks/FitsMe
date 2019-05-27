@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.cart.view;
+package ru.fitsme.android.presentation.fragments.cart;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
@@ -22,9 +22,9 @@ import ru.fitsme.android.databinding.FragmentCartBinding;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
-import ru.fitsme.android.presentation.fragments.favourites.view.FavouritesFragment;
-import ru.fitsme.android.presentation.fragments.main.view.MainFragment;
-import ru.fitsme.android.presentation.fragments.rateitems.view.RateItemsFragment;
+import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import timber.log.Timber;
 
 
@@ -129,8 +129,9 @@ public class CartFragment extends Fragment {
         });
 
         getView().findViewById(R.id.cart_proceed_to_checkout_user_agreement_ll).setOnClickListener(v -> {
-            Timber.d("Proceed to checkout user agreement was clicked");
-            // TODO: 09.05.2019
+            getParentFragment().getChildFragmentManager().beginTransaction()
+                    .replace(R.id.container, CheckoutFragment.newInstance())
+                    .commit();
         });
     }
 }
