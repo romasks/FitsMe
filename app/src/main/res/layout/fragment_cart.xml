@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
+            app:constraint_referenced_ids="cart_no_item_tv, cart_no_item_go_to_favourite_btn, cart_no_item_go_to_rate_item_btn"
             tools:visibility="invisible"
             />
 

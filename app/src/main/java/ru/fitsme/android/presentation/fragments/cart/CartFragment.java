@@ -37,9 +37,9 @@ public class CartFragment extends Fragment {
     private FragmentCartBinding binding;
     private CartAdapter adapter;
 
-    private ContentLoadingProgressBar loadingProgressBar;
-    private Group emptyGroup;
-    private View proceedToCheckout;
+//    private ContentLoadingProgressBar loadingProgressBar;
+//    private Group emptyGroup;
+//    private View proceedToCheckout;
 
     public static  DiffUtil.ItemCallback<OrderItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<OrderItem>() {
         @Override
@@ -73,9 +73,9 @@ public class CartFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loadingProgressBar = getView().findViewById(R.id.cart_loading_spinner);
-        emptyGroup = getView().findViewById(R.id.cart_no_item_group);
-        proceedToCheckout = getView().findViewById(R.id.cart_proceed_to_checkout_group);
+//        loadingProgressBar = getView().findViewById(R.id.cart_loading_spinner);
+//        emptyGroup = getView().findViewById(R.id.cart_no_item_group);
+//        proceedToCheckout = getView().findViewById(R.id.cart_proceed_to_checkout_group);
 
         viewModel = ViewModelProviders.of(this,
                 new CartViewModel.Factory(ordersInteractor)).get(CartViewModel.class);
@@ -88,7 +88,7 @@ public class CartFragment extends Fragment {
         binding.cartListRv.setHasFixedSize(true);
         binding.cartListRv.setAdapter(adapter);
 
-        loadingProgressBar.setVisibility(View.VISIBLE);
+        binding.cartLoadingSpinner.setVisibility(View.VISIBLE);
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
 
@@ -96,13 +96,13 @@ public class CartFragment extends Fragment {
     }
 
     private void onLoadPage(PagedList<OrderItem> pagedList) {
-        loadingProgressBar.setVisibility(View.GONE);
+        binding.cartLoadingSpinner.setVisibility(View.GONE);
         if (pagedList == null || pagedList.size() == 0) {
-            proceedToCheckout.setVisibility(View.INVISIBLE);
-            emptyGroup.setVisibility(View.VISIBLE);
+            binding.cartProceedToCheckoutGroup.setVisibility(View.INVISIBLE);
+            binding.cartNoItemGroup.setVisibility(View.VISIBLE);
         } else {
-            emptyGroup.setVisibility(View.INVISIBLE);
-            proceedToCheckout.setVisibility(View.VISIBLE);
+            binding.cartNoItemGroup.setVisibility(View.INVISIBLE);
+            binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
         }
         adapter.submitList(pagedList);
     }
