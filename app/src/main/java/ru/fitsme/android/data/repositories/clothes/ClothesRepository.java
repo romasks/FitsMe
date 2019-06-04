@@ -25,12 +25,12 @@ public class ClothesRepository implements IClothesRepository {
 
     @NonNull
     @Override
-    public ClothesItem getClothesItem(@NonNull String token, int index) throws AppException {
+    public ClothesItem getClothesItem(int index) throws AppException {
         //return new ClothesItem();
         int pageIndex = calculatePageIndex(index);
         ClothesPage clothesPage = clothesPageSparseArray.get(pageIndex);
         if (clothesPage == null) {
-            clothesPage = webLoader.getClothesPage(token, pageIndex + 1);
+            clothesPage = webLoader.getClothesPage(pageIndex + 1);
             clothesPageSparseArray.put(pageIndex, clothesPage);
         }
         int itemIndex = calculateItemIndex(index);

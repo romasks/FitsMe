@@ -105,6 +105,7 @@
                 android:layout_height="35dp"
                 android:layout_alignParentBottom="true"
                 android:layout_toEndOf="@id/favourite_image_field"
+                android:onClick="@{() -> viewModel.addItemToCart(position)}"
                 android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small"
                 tools:text="@string/to_cart" />

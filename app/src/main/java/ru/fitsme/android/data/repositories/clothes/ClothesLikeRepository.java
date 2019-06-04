@@ -1,7 +1,5 @@
 package ru.fitsme.android.data.repositories.clothes;
 
-import android.support.annotation.NonNull;
-
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
@@ -18,7 +16,7 @@ public class ClothesLikeRepository implements IClothesLikeRepository {
     }
 
     @Override
-    public void likeItem(@NonNull String token, int id, boolean liked) throws AppException {
-        webLoader.likeItem(token, id, liked);
+    public void likeItem(int id, boolean liked) throws AppException {
+        webLoader.likeItem(id, liked);
     }
 }

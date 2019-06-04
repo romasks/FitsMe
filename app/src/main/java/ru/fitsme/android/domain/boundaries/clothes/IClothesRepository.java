@@ -8,5 +8,5 @@ import ru.fitsme.android.domain.entities.exceptions.AppException;
 public interface IClothesRepository {
 
     @NonNull
-    ClothesItem getClothesItem(@NonNull String token, int index) throws AppException;
+    ClothesItem getClothesItem(int index) throws AppException;
 }

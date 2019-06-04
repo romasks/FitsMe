@@ -25,7 +25,7 @@ public interface IFavouritesInteractor extends BaseInteractor {
 //    Completable restoreItemToFavourites(int index);
 
     @NonNull
-    Completable addFavouritesItemToCart(int position, int quantity);
+    Completable addFavouritesItemToCart(int position);
 
     @NonNull
     Completable deleteFavouriteItem(Integer position);

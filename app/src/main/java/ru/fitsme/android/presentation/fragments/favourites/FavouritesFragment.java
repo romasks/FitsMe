@@ -32,7 +32,6 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     @Inject
     IFavouritesInteractor favouritesInteractor;
 
-//    private FavouritesViewModel viewModel;
     private FragmentFavouritesBinding binding;
     private FavouritesAdapter adapter;
 

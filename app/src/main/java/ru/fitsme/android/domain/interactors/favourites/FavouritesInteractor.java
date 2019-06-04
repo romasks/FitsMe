@@ -19,7 +19,6 @@ import io.reactivex.Scheduler;
 import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactory;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
-import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 @Singleton
@@ -28,7 +27,6 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     private static final int PAGE_SIZE = 10;
 
     private final IFavouritesActionRepository favouritesActionRepository;
-    private final IUserInfoRepository userInfoRepository;
     private final Scheduler workThread;
     private final Scheduler mainThread;
     private final FavouritesDataSourceFactory favouritesDataSourceFactory;
@@ -38,12 +36,10 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @Inject
     FavouritesInteractor(IFavouritesActionRepository favouritesActionRepository,
-                         IUserInfoRepository userInfoRepository,
                          FavouritesDataSourceFactory favouritesDataSourceFactory,
                          @Named("work") Scheduler workThread,
                          @Named("main") Scheduler mainThread) {
         this.favouritesActionRepository = favouritesActionRepository;
-        this.userInfoRepository = userInfoRepository;
         this.favouritesDataSourceFactory = favouritesDataSourceFactory;
         this.workThread = workThread;
         this.mainThread = mainThread;
@@ -55,8 +51,8 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
         pagedListLiveData =
                 new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
-                    .setFetchExecutor(Executors.newSingleThreadExecutor())
-                    .build();
+                        .setFetchExecutor(Executors.newSingleThreadExecutor())
+                        .build();
     }
 
     @Override
@@ -65,7 +61,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         return pagedListLiveData;
     }
 
-    private void invalidateDataSource(){
+    private void invalidateDataSource() {
         FavouritesRepository repository = favouritesDataSourceFactory.getSourceLiveData().getValue();
         if (repository != null) {
             Objects.requireNonNull(repository).invalidate();
@@ -74,15 +70,14 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @NonNull
     @Override
-    public Completable addFavouritesItemToCart(int position, int quantity) {
+    public Completable addFavouritesItemToCart(int position) {
         return Completable.create(emitter -> {
-            String token = userInfoRepository.getAuthInfo().getToken();
             PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
-            if (pagedList != null && pagedList.size() > position){
+            if (pagedList != null && pagedList.size() > position) {
                 FavouritesItem item = pagedList.get(position);
-                if (item != null){
+                if (item != null) {
                     int clotheItemId = item.getItem().getId();
-                    favouritesActionRepository.addItemToCart(token, clotheItemId, quantity);
+                    favouritesActionRepository.addItemToCart(clotheItemId);
                     invalidateDataSource();
                 }
             }
@@ -96,12 +91,11 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     @Override
     public Completable deleteFavouriteItem(Integer position) {
         return Completable.create(emitter -> {
-            String token = userInfoRepository.getAuthInfo().getToken();
             PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
-            if (pagedList != null && pagedList.size() > position){
+            if (pagedList != null && pagedList.size() > position) {
                 FavouritesItem item = pagedList.get(position);
-                if (item != null){
-                    favouritesActionRepository.removeItem(token, item.getId());
+                if (item != null) {
+                    favouritesActionRepository.removeItem(item.getId());
                     invalidateDataSource();
                 }
             }

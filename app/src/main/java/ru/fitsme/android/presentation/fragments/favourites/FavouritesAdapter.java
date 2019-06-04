@@ -62,13 +62,11 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
         void bind(int position) {
             FavouritesItem favouritesItem = getItem(position);
-            ClothesItemModel clothesItem = new ClothesItemModel(Objects.requireNonNull(favouritesItem).getItem());
+            ClothesItemModel clothesItem = new ClothesItemModel(favouritesItem.getItem());
 
             Button inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);
-            final int quantity = 1;
-            inCartBtn.setOnClickListener(view -> ((FavouritesViewModel) viewModel).onInCartBtnClicked(position, quantity));
 
-            if (favouritesItem.isInCart()){
+            if (favouritesItem.isInCart()) {
                 inCartBtn.setBackgroundResource(R.drawable.bg_in_cart_btn);
                 inCartBtn.setEnabled(false);
                 inCartBtn.setText(R.string.clothe_in_cart);
@@ -85,10 +83,5 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();
         }
-    }
-
-    @BindingAdapter({"app:imageUrl", "app:defaultImage"})
-    public static void loadImage(ImageView imageView, String imageUrl, Drawable defaultImage) {
-        Glide.with(imageView).load(imageUrl).placeholder(defaultImage).error(defaultImage).into(imageView);
     }
 }

@@ -16,7 +16,6 @@ import io.reactivex.SingleOnSubscribe;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesIndexRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesLikeRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
-import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 
@@ -26,7 +25,6 @@ public class ClothesInteractor implements IClothesInteractor {
     private final IClothesIndexRepository clothesIndexRepository;
     private final IClothesRepository clothesRepository;
     private final IClothesLikeRepository clothesLikeRepository;
-    private final IUserInfoRepository userInfoRepository;
     private final Scheduler workThread;
     private final Scheduler mainThread;
 
@@ -34,13 +32,11 @@ public class ClothesInteractor implements IClothesInteractor {
     ClothesInteractor(IClothesIndexRepository clothesIndexRepository,
                       IClothesRepository clothesRepository,
                       IClothesLikeRepository clothesLikeRepository,
-                      IUserInfoRepository userInfoRepository,
                       @Named("work") Scheduler workThread,
                       @Named("main") Scheduler mainThread) {
         this.clothesIndexRepository = clothesIndexRepository;
         this.clothesRepository = clothesRepository;
         this.clothesLikeRepository = clothesLikeRepository;
-        this.userInfoRepository = userInfoRepository;
         this.workThread = workThread;
         this.mainThread = mainThread;
     }
@@ -58,7 +54,7 @@ public class ClothesInteractor implements IClothesInteractor {
     @Override
     public Single<ClothesItem> getSingleClothesItem(int index) {
         return Single.create((SingleOnSubscribe<ClothesItem>) emitter ->
-                emitter.onSuccess(getClothesItem(index)))
+                emitter.onSuccess(clothesRepository.getClothesItem(index)))
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }
@@ -76,27 +72,17 @@ public class ClothesInteractor implements IClothesInteractor {
     private List<ClothesItem> getClothesItems(int firstIndex, int count) throws AppException {
         List<ClothesItem> items = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
-            items.add(getClothesItem(firstIndex + i));
+            items.add(clothesRepository.getClothesItem(firstIndex + i));
         }
         return items;
-    }
-
-    private ClothesItem getClothesItem(int index) throws AppException {
-        String token = userInfoRepository.getAuthInfo().getToken();
-        return getClothesItem(token, index);
-    }
-
-    private ClothesItem getClothesItem(String token, int index) throws AppException {
-        return clothesRepository.getClothesItem(token, index);
     }
 
     @NonNull
     @Override
     public Completable setLikeToClothesItem(int index, boolean liked) {
         return Completable.create(emitter -> {
-            String token = userInfoRepository.getAuthInfo().getToken();
-            ClothesItem clothesItem = getClothesItem(token, index);
-            clothesLikeRepository.likeItem(token, clothesItem.getId(), liked);
+            ClothesItem clothesItem = clothesRepository.getClothesItem(index);
+            clothesLikeRepository.likeItem(clothesItem.getId(), liked);
             clothesIndexRepository.setLastClothesItemIndex(index + 1);
             emitter.onComplete();
         })

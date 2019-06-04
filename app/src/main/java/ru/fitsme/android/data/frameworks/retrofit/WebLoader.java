@@ -99,8 +99,8 @@ public class WebLoader {
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
-    public ClothesPage getClothesPage(@NonNull String token, int page) throws UserException {
-        String headerToken = "Token " + token;
+    public ClothesPage getClothesPage(int page) throws UserException, DataNotFoundException {
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         return executeRequest(() -> apiService.getClothes(headerToken, page));
     }
 
@@ -123,19 +123,18 @@ public class WebLoader {
         throw new InternetConnectionException();
     }
 
-    public void likeItem(@NonNull String token, int id, boolean liked) throws UserException {
-        String headerToken = "Token " + token;
-        Timber.tag("Like Item").d("ID, %d", id);
+    public void likeItem(int id, boolean liked) throws UserException, DataNotFoundException {
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
     }
 
-    public FavouritesPage getFavouritesClothesPage(@NonNull String token, int page) throws UserException {
-        String headerToken = "Token " + token;
+    public FavouritesPage getFavouritesClothesPage(int page) throws UserException, DataNotFoundException {
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
     }
 
-    public OrdersPage getOrdersPage(@NonNull String token, int page) throws UserException {
-        String headerToken = "Token " + token;
+    public OrdersPage getOrdersPage(int page) throws UserException, DataNotFoundException {
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         return executeRequest(() -> apiService.getOrders(headerToken, page));
     }
 
@@ -144,8 +143,8 @@ public class WebLoader {
         return executeRequest(() -> apiService.getOrders(headerToken, status));
     }
 
-    public void deleteFavouriteItem(@NonNull String token, int itemId) throws UserException {
-        String headerToken = "Token " + token;
+    public void deleteFavouriteItem(int itemId) throws DataNotFoundException {
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         try {
             apiService.deleteFavouritesItem(headerToken, itemId).execute();
         } catch (IOException e) {
@@ -153,8 +152,8 @@ public class WebLoader {
         }
     }
 
-    public void addItemToCart(@NonNull String token, int id, int quantity) throws UserException {
-        String headerToken = "Token " + token;
+    public void addItemToCart(int id, int quantity) throws UserException, DataNotFoundException {
+        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
         executeRequest(() -> apiService.addItemToCart(headerToken, new OrderedItem(id, quantity)));
     }
 

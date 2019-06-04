@@ -1,10 +1,7 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.paging.PagedList;
-import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,32 +23,17 @@ public class FavouritesViewModel extends BaseViewModel {
     }
 
     void deleteItem(Integer position) {
-        addDisposable(
-                favouritesInteractor
-                        .deleteFavouriteItem(position)
-                        .subscribe()
+        addDisposable(favouritesInteractor
+                .deleteFavouriteItem(position)
+                .subscribe(() -> {}, this::onError)
         );
     }
 
-    void onInCartBtnClicked(int position, int quantity) {
-        addDisposable(
-                favouritesInteractor.addFavouritesItemToCart(position, quantity)
-                        .subscribe()
+    public void addItemToCart(Integer position) {
+        addDisposable(favouritesInteractor
+                .addFavouritesItemToCart(position)
+                .subscribe(() -> {}, this::onError)
         );
-    }
-
-    static public class Factory implements ViewModelProvider.Factory {
-        private final IFavouritesInteractor favouritesInteractor;
-
-        public Factory(@NotNull IFavouritesInteractor favouritesInteractor) {
-            this.favouritesInteractor = favouritesInteractor;
-        }
-
-        @NonNull
-        @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new FavouritesViewModel(favouritesInteractor);
-        }
     }
 
     private void onError(Throwable throwable) {
