@@ -26,18 +26,18 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <android.support.v4.widget.ContentLoadingProgressBar
-            android:id="@+id/favourites_loading_spinner"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            />
+            android:indeterminate="true"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}" />
 
         <TextView
-            android:id="@+id/empty_list_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/no_items_in_favourites"
-            />
+            android:visibility="@{viewModel.showEmpty ? View.VISIBLE : View.GONE}" />
+
     </FrameLayout>
 </layout>

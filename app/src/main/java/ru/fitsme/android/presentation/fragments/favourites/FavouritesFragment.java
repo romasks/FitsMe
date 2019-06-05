@@ -25,6 +25,8 @@ import timber.log.Timber;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
+import static ru.fitsme.android.utils.Constants.GONE;
+import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
@@ -67,10 +69,9 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(favouritesInteractor)).get(FavouritesViewModel.class);
-//        if (savedInstanceState == null) {
-//            viewModel.init();
-//            viewModel.setAdapter(R.layout.item_favourite);
-//        }
+        if (savedInstanceState == null) {
+            viewModel.init();
+        }
         binding.setViewModel(viewModel);
 
         adapter = new FavouritesAdapter(viewModel);
@@ -78,7 +79,7 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         binding.favouritesListRv.setHasFixedSize(true);
         binding.favouritesListRv.setAdapter(adapter);
 
-        binding.favouritesLoadingSpinner.setVisibility(View.VISIBLE);
+        viewModel.loading.set(VISIBLE);
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
 
@@ -88,11 +89,11 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     }
 
     private void onLoadPage(PagedList<FavouritesItem> pagedList) {
-        binding.favouritesLoadingSpinner.setVisibility(View.GONE);
+        viewModel.loading.set(GONE);
         if (pagedList == null || pagedList.size() == 0) {
-            binding.emptyListTv.setVisibility(View.VISIBLE);
+            viewModel.showEmpty.set(VISIBLE);
         } else {
-            binding.emptyListTv.setVisibility(View.INVISIBLE);
+            viewModel.showEmpty.set(GONE);
         }
         adapter.submitList(pagedList);
     }
