@@ -10,9 +10,9 @@ public interface IFavouritesRepository {
 
     String TAG = "FavouritesRepository";
 
-    @NonNull
-    FavouritesItem getFavouritesItem(@NonNull String token, int index) throws AppException;
-
-    @NonNull
-    FavouritesPage getFavouritesPage(@NonNull String token, int page) throws AppException;
+//    @NonNull
+//    FavouritesItem getFavouritesItem(@NonNull String token, int index) throws AppException;
+//
+//    @NonNull
+//    FavouritesPage getFavouritesPage(@NonNull String token, int page) throws AppException;
 }

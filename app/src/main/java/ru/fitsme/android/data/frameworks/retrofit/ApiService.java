@@ -43,7 +43,7 @@ public interface ApiService {
                                                           @Query("page") int page);
 
     @DELETE("viewed/{itemId}/")
-    Call<Void> deleteFavouritesItem(@Header("Authorization") String token,
+    Call<OkResponse<Void>> deleteFavouritesItem(@Header("Authorization") String token,
                                             @Path("itemId") int itemId);
 
     @POST("orders/items/")
@@ -51,8 +51,12 @@ public interface ApiService {
                                               @Body OrderedItem orderedItem);
 
     @GET("orders/")
-    Call<OkResponse<OrdersPage>> getOrder(@Header("Authorization") String token,
-                                          @Query("status") OrderStatus status);
+    Call<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
+                                           @Query("page") int page);
+
+    @GET("orders/")
+    Call<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
+                                           @Query("status") OrderStatus status);
 
     @PUT("orders/{id}/")
     Call<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,

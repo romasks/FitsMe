@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -8,76 +7,84 @@
 
         <variable
             name="clothesItem"
-            type="ru.fitsme.android.data.models.ClothesItemModel"/>
+            type="ru.fitsme.android.data.models.ClothesItemModel" />
 
         <variable
             name="price"
-            type="Integer"/>
+            type="Integer" />
     </data>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="172dp"
-        android:padding="@dimen/padding_medium">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/item_cart_image_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_corners"
-            app:cardCornerRadius="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="172dp"
+            android:padding="@dimen/padding_medium">
 
-            <ImageView
-                android:id="@+id/item_cart_image"
+            <android.support.v7.widget.CardView
+                android:id="@+id/item_cart_image_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                app:defaultImage="@{@drawable/clothe_example}"
-                app:imageUrl="@{clothesItem.imageUrl}"
-                tools:src="@drawable/clothe_example"/>
-        </android.support.v7.widget.CardView>
+                android:background="@drawable/bg_rounded_corners"
+                app:cardCornerRadius="10dp">
 
-        <!-- todo Проверить работоспособность getCartItemAt-->
-        <TextView
-            android:id="@+id/item_cart_brand_name"
+                <ImageView
+                    android:id="@+id/item_cart_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    app:defaultImage="@{@drawable/clothe_example}"
+                    app:imageUrl="@{clothesItem.imageUrl}"
+                    tools:src="@drawable/clothe_example" />
+            </android.support.v7.widget.CardView>
+
+            <!-- todo Проверить работоспособность getCartItemAt-->
+            <TextView
+                android:id="@+id/item_cart_brand_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_toEndOf="@id/item_cart_image_field"
+                android:lines="2"
+                android:paddingBottom="4dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                tools:text="@string/brand_name_hint_in_two_lines" />
+
+            <TextView
+                android:id="@+id/item_cart_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_cart_brand_name"
+                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_toEndOf="@id/item_cart_image_field"
+                android:lines="2"
+                android:paddingBottom="4dp"
+                android:text="@{clothesItem.name}"
+                android:textColor="@color/black"
+                tools:text="@string/clothe_name_hint" />
+
+            <TextView
+                android:id="@+id/item_cart_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_cart_name"
+                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_toEndOf="@id/item_cart_image_field"
+                android:paddingBottom="4dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                tools:text="@string/clothe_price_hint" />
+
+        </RelativeLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_medium"
-            android:layout_toEndOf="@id/item_cart_image_field"
-            android:lines="2"
-            android:paddingBottom="4dp"
-            android:text="@{clothesItem.brandName}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold"
-            tools:text="@string/brand_name_hint_in_two_lines"/>
+            android:layout_height="0.5dp"
+            android:background="@color/colorStatusBar" />
 
-        <TextView
-            android:id="@+id/item_cart_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_cart_brand_name"
-            android:layout_marginStart="@dimen/padding_medium"
-            android:layout_toEndOf="@id/item_cart_image_field"
-            android:lines="2"
-            android:paddingBottom="4dp"
-            android:text="@{clothesItem.name}"
-            android:textColor="@color/black"
-            tools:text="@string/clothe_name_hint"/>
-
-        <TextView
-            android:id="@+id/item_cart_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_cart_name"
-            android:layout_marginStart="@dimen/padding_medium"
-            android:layout_toEndOf="@id/item_cart_image_field"
-            android:paddingBottom="4dp"
-            android:text="@{Integer.toString(price)}"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            tools:text="@string/clothe_price_hint"/>
-
-    </RelativeLayout>
-
+    </FrameLayout>
 </layout>

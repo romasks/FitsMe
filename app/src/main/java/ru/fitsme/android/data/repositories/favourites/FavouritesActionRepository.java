@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
+import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 
 public class FavouritesActionRepository implements IFavouritesActionRepository {
@@ -17,8 +18,8 @@ public class FavouritesActionRepository implements IFavouritesActionRepository {
     }
 
     @Override
-    public void removeItem(@NonNull String token, int id) throws UserException {
-        webLoader.deleteFavouriteItem(token, id);
+    public void removeItem(int id) throws UserException, DataNotFoundException {
+        webLoader.deleteFavouriteItem(id);
     }
 
     @Override
@@ -27,7 +28,7 @@ public class FavouritesActionRepository implements IFavouritesActionRepository {
     }
 
     @Override
-    public void addItemToCart(@NonNull String token, int id, int quantity) throws UserException {
-        webLoader.addItemToCart(token, id, quantity);
+    public void addItemToCart(int id) throws UserException, DataNotFoundException {
+        webLoader.addItemToCart(id, 1);
     }
 }

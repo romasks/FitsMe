@@ -1,10 +1,12 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -13,15 +15,13 @@ import android.view.ViewGroup;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import timber.log.Timber;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
@@ -35,6 +35,22 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     IFavouritesInteractor favouritesInteractor;
 
     private FragmentFavouritesBinding binding;
+    private FavouritesAdapter adapter;
+
+    public static DiffUtil.ItemCallback<FavouritesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<FavouritesItem>() {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
+            Timber.d("areItemsTheSame()");
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
+            Timber.d("areContentsTheSame()");
+            return oldItem.equals(newItem);
+        }
+    };
 
     public static FavouritesFragment newInstance() {
         return new FavouritesFragment();
@@ -55,32 +71,31 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
                 new ViewModelFactory(favouritesInteractor)).get(FavouritesViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
-            viewModel.setAdapter(R.layout.item_favourite);
         }
         binding.setViewModel(viewModel);
 
+        adapter = new FavouritesAdapter(viewModel);
+
         binding.favouritesListRv.setHasFixedSize(true);
-        binding.favouritesListRv.setAdapter(viewModel.getAdapter());
-        binding.favouritesListRv.setPagination(viewModel.getPagination());
+        binding.favouritesListRv.setAdapter(adapter);
 
         viewModel.loading.set(VISIBLE);
-        viewModel.getPageLiveData()
-                .observe(this, this::onLoadPage);
+        viewModel.getPageLiveData().observe(
+                this, this::onLoadPage);
 
         ItemTouchHelper.SimpleCallback simpleCallback =
                 new FavouritesRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.favouritesListRv);
     }
 
-    private void onLoadPage(List<FavouritesItem> favouritesItems) {
+    private void onLoadPage(PagedList<FavouritesItem> pagedList) {
         viewModel.loading.set(GONE);
-        if (favouritesItems == null || favouritesItems.size() == 0) {
+        if (pagedList == null || pagedList.size() == 0) {
             viewModel.showEmpty.set(VISIBLE);
-            viewModel.setFavouritesInAdapter(new ArrayList<>());
         } else {
             viewModel.showEmpty.set(GONE);
-            viewModel.setFavouritesInAdapter(favouritesItems);
         }
+        adapter.submitList(pagedList);
     }
 
     @Override
