@@ -30,7 +30,6 @@ import ru.fitsme.android.utils.OrderStatus;
 public class OrdersInteractor implements IOrdersInteractor {
 
     private static final int PAGE_SIZE = 10;
-    private final String TAG = getClass().getName();
 
     private final IOrdersRepository orderRepository;
     private final Scheduler workThread;
@@ -64,8 +63,9 @@ public class OrdersInteractor implements IOrdersInteractor {
     @NonNull
     @Override
     public Single<Order> getSingleOrder(OrderStatus status) {
-        return Single.create((SingleOnSubscribe<Order>) emitter ->
-                emitter.onSuccess(getOrders(status).getOrdersList().get(1)))
+        return Single.create((SingleOnSubscribe<Order>) emitter -> {
+            emitter.onSuccess(getOrders(status).getOrdersList().get(0));
+        })
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
     }

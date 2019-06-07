@@ -43,7 +43,7 @@ public interface ApiService {
                                                           @Query("page") int page);
 
     @DELETE("viewed/{itemId}/")
-    Call<Void> deleteFavouritesItem(@Header("Authorization") String token,
+    Call<OkResponse<Void>> deleteFavouritesItem(@Header("Authorization") String token,
                                             @Path("itemId") int itemId);
 
     @POST("orders/items/")

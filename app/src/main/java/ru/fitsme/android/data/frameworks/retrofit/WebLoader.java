@@ -58,8 +58,41 @@ public class WebLoader {
         throw makeException(okResponse.getError());
     }
 
+    private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
+            throws UserException {
+        try {
+            Timber.tag("WebLoader request URL").d(executableRequest.request().request().url().toString());
+            Response<OkResponse<T>> response = executableRequest.request().execute();
+
+            if (response.isSuccessful() && response.body() != null) {
+                return getResponse(response.body());
+            }
+
+            if (response.isSuccessful() && response.body() == null) {
+                return null;
+            }
+        } catch (IOException | InternalException | JsonSyntaxException e) {
+            Timber.e(e);
+        }
+        throw new InternetConnectionException();
+    }
+
+    public interface ExecutableRequest<T> {
+        @NonNull
+        Call<OkResponse<T>> request();
+    }
+
+    private String getHeaderToken() {
+        try {
+            return "Token " + userInfoRepository.getAuthInfo().getToken();
+        } catch (DataNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     @NonNull
-    private UserException makeException(Error error) throws UserException, InternalException {
+    private UserException makeException(Error error) throws InternalException {
         switch (error.getCode()) {
             case WrongLoginOrPasswordException.CODE:
                 return new WrongLoginOrPasswordException(error.getMessage());
@@ -99,75 +132,39 @@ public class WebLoader {
         return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
-    public ClothesPage getClothesPage(int page) throws UserException, DataNotFoundException {
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        return executeRequest(() -> apiService.getClothes(headerToken, page));
+    public ClothesPage getClothesPage(int page) throws UserException {
+        return executeRequest(() -> apiService.getClothes(getHeaderToken(), page));
     }
 
-    private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
-            throws UserException {
-        try {
-            Timber.tag("WebLoader request URL").d(executableRequest.request().request().url().toString());
-            Response<OkResponse<T>> response = executableRequest.request().execute();
-
-            if (response.isSuccessful() && response.body() != null) {
-                return getResponse(response.body());
-            }
-
-            if (response.isSuccessful() && response.body() == null) {
-                return null;
-            }
-        } catch (IOException | InternalException | JsonSyntaxException e) {
-            Timber.e(e);
-        }
-        throw new InternetConnectionException();
+    public void likeItem(int id, boolean liked) throws UserException {
+        executeRequest(() -> apiService.likeItem(getHeaderToken(), new LikedItem(id, liked)));
     }
 
-    public void likeItem(int id, boolean liked) throws UserException, DataNotFoundException {
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        executeRequest(() -> apiService.likeItem(headerToken, new LikedItem(id, liked)));
+    public FavouritesPage getFavouritesClothesPage(int page) throws UserException {
+        return executeRequest(() -> apiService.getFavouritesClothes(getHeaderToken(), page));
     }
 
-    public FavouritesPage getFavouritesClothesPage(int page) throws UserException, DataNotFoundException {
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        return executeRequest(() -> apiService.getFavouritesClothes(headerToken, page));
+    public OrdersPage getOrdersPage(int page) throws UserException {
+        return executeRequest(() -> apiService.getOrders(getHeaderToken(), page));
     }
 
-    public OrdersPage getOrdersPage(int page) throws UserException, DataNotFoundException {
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        return executeRequest(() -> apiService.getOrders(headerToken, page));
+    public OrdersPage getOrders(OrderStatus status) throws UserException {
+        return executeRequest(() -> apiService.getOrders(getHeaderToken(), status));
     }
 
-    public OrdersPage getOrders(OrderStatus status) throws DataNotFoundException, UserException {
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        return executeRequest(() -> apiService.getOrders(headerToken, status));
+    public void deleteFavouriteItem(int itemId) throws UserException {
+        executeRequest(() -> apiService.deleteFavouritesItem(getHeaderToken(), itemId));
     }
 
-    public void deleteFavouriteItem(int itemId) throws DataNotFoundException {
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        try {
-            apiService.deleteFavouritesItem(headerToken, itemId).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addItemToCart(int id, int quantity) throws UserException, DataNotFoundException {
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        executeRequest(() -> apiService.addItemToCart(headerToken, new OrderedItem(id, quantity)));
+    public void addItemToCart(int id, int quantity) throws UserException {
+        executeRequest(() -> apiService.addItemToCart(getHeaderToken(), new OrderedItem(id, quantity)));
     }
 
     public void makeOrder(
             long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
-    ) throws DataNotFoundException, UserException {
+    ) throws UserException {
 
-        String headerToken = "Token " + userInfoRepository.getAuthInfo().getToken();
-        executeRequest(() -> apiService.updateOrderById(headerToken, orderId,
+        executeRequest(() -> apiService.updateOrderById(getHeaderToken(), orderId,
                 new OrderUpdate(phoneNumber, street, houseNumber, apartment, orderStatus)));
-    }
-
-    public interface ExecutableRequest<T> {
-        @NonNull
-        Call<OkResponse<T>> request();
     }
 }

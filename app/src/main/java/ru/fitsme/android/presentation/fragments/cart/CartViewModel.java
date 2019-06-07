@@ -1,52 +1,46 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.paging.PagedList;
-import android.support.annotation.NonNull;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableInt;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.reactivex.disposables.CompositeDisposable;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
-public class CartViewModel extends ViewModel {
+import static ru.fitsme.android.utils.Constants.GONE;
+
+public class CartViewModel extends BaseViewModel {
 
     private final IOrdersInteractor ordersInteractor;
-    private CompositeDisposable disposable;
+
+    public ObservableBoolean loading;
+    public ObservableBoolean showEmpty;
+    public ObservableInt totalPrice;
 
     public CartViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
     }
 
     public void init() {
-        disposable = new CompositeDisposable();
+        loading = new ObservableBoolean(GONE);
+        showEmpty = new ObservableBoolean(GONE);
+        totalPrice = new ObservableInt();
+        totalPrice.set(0);
     }
 
     LiveData<PagedList<OrderItem>> getPageLiveData() {
         return ordersInteractor.getPagedListLiveData();
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-
-        disposable.dispose();
-    }
-
-    static public class Factory implements ViewModelProvider.Factory {
-        private final IOrdersInteractor ordersInteractor;
-
-        public Factory(@NotNull IOrdersInteractor ordersInteractor) {
-            this.ordersInteractor = ordersInteractor;
+    public void setTotalPrice(PagedList<OrderItem> pagedList) {
+        int tmpPrice = 0;
+        for (OrderItem oi : pagedList) {
+            tmpPrice += oi.getPrice();
         }
-
-        @NonNull
-        @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new CartViewModel(ordersInteractor);
-        }
+        totalPrice.set(tmpPrice);
     }
 }
