@@ -30,7 +30,9 @@ import ru.fitsme.android.data.repositories.clothes.ClothesIndexRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesLikeRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
+import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactory;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
+import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesIndexRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesLikeRepository;
@@ -84,9 +86,12 @@ public class DI {
             bind(IFavouritesInteractor.class).to(FavouritesInteractor.class);
             bind(IFavouritesRepository.class).to(FavouritesRepository.class);
             bind(IFavouritesActionRepository.class).to(FavouritesActionRepository.class);
+            bind(FavouritesDataSourceFactory.class).to(FavouritesDataSourceFactory.class);
 
             bind(IOrdersInteractor.class).to(OrdersInteractor.class);
             bind(IOrdersRepository.class).to(OrdersRepository.class);
+            bind(OrdersDataSourceFactory.class).to(OrdersDataSourceFactory.class);
+
         }});
     }
 
