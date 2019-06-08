@@ -23,6 +23,13 @@ public class SignInUpViewModel extends BaseViewModel {
 
     private void onAutoSignIn(@NotNull AutoSignInInfo autoSignInInfo) {
         if (autoSignInInfo.isAuto()) {
+            addDisposable(signInUpInteractor.authorize(autoSignInInfo.getSignInInfo())
+                    .subscribe((signInUpResult) -> {
+                        if (signInUpResult.isSuccess()) {
+                            navigation.goToMainItem();
+                        }
+                    }, this::onError));
+        } else {
             onSignIn();
         }
     }
