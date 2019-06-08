@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="12dp"
-                android:text="@{@string/cart_total_amount_tv(Integer.toString(viewModel.totalPrice))}"
+                android:text="@{@string/cart_amount_tv(Integer.toString(viewModel.totalPrice))}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_minimal_medium"
                 app:layout_constraintBottom_toTopOf="@id/cart_proceed_to_checkout_btn"

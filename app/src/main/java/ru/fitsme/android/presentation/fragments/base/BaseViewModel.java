@@ -22,7 +22,9 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
     @Override
     public void addDisposable(Disposable disposable) {
-        compositeDisposable.add(disposable);
+        if (App.getInstance().isOnline()) {
+            compositeDisposable.add(disposable);
+        }
     }
 
     @Override
