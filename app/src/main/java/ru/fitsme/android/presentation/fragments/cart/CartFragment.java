@@ -74,7 +74,7 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
         }
         binding.setViewModel(viewModel);
 
-        adapter = new CartAdapter(viewModel);
+        adapter = new CartAdapter();
 
         binding.cartListRv.setHasFixedSize(true);
         binding.cartListRv.setAdapter(adapter);

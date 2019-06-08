@@ -12,14 +12,14 @@ public class ClothesItemModel extends BaseObservable {
     private String brandName;
     private String name;
     private String imageUrl;
-    private int price;
+    private String price;
 
     public ClothesItemModel(ClothesItem clothesItem) {
         this.id = clothesItem.getId();
         this.brandName = clothesItem.getBrand();
         this.name = clothesItem.getName();
         this.imageUrl = clothesItem.getPics().get(0).getUrl();
-        this.price = clothesItem.getPrice();
+        this.price = String.valueOf(clothesItem.getPrice());
     }
 
     @Bindable
@@ -48,11 +48,11 @@ public class ClothesItemModel extends BaseObservable {
     }
 
     @Bindable
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
         notifyPropertyChanged(BR.price);
     }

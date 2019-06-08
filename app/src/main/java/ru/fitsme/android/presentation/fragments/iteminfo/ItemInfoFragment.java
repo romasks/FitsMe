@@ -9,11 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.GlideApp;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -74,7 +73,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel> {
                 break;
             case OK:
                 String url = itemInfoState.getClothesItem().getImageUrl();
-                Glide.with(binding.ivPhoto)
+                GlideApp.with(binding.ivPhoto.getContext())
                         .load(url)//TODO:debug
                         .into(binding.ivPhoto);
                 binding.tvIndex.setText(index + " index");

@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.TextInputLayout;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import ru.fitsme.android.app.GlideApp;
 
 public class BindingAdapterUtils {
 
@@ -18,6 +18,10 @@ public class BindingAdapterUtils {
     // FavouriteItem ImageView setImage
     @BindingAdapter({"app:imageUrl", "app:defaultImage"})
     public static void loadImage(ImageView imageView, String imageUrl, Drawable defaultImage) {
-        Glide.with(imageView).load(imageUrl).placeholder(defaultImage).error(defaultImage).into(imageView);
+        GlideApp.with(imageView.getContext())
+                .load(imageUrl)
+                .placeholder(defaultImage)
+                .error(defaultImage)
+                .into(imageView);
     }
 }

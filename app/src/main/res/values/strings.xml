@@ -27,7 +27,7 @@
     <string name="cart_no_item_go_to_rate_btn_text">Продолжить просмотр товаров</string>
     <string name="cart_proceed_to_checkout_btn_text">Перейти к оформлению</string>
     <string name="cart_total_tv">Итого:\u0020</string>
-    <string name="cart_total_amount_tv">%1$s \u20BD</string>
+    <string name="cart_amount_tv">%1$s \u20BD</string>
     <string name="cart_user_agreement_1">Нажимая кнопку \"Перейти к оформлению\", вы соглашаетесь с</string>
     <string name="cart_user_agreement_2"><u>условиями обработки персональных данных</u></string>
 
