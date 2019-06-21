@@ -79,7 +79,7 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
     @Override
     public void onClickGoToCheckout() {
         getParentFragment().getChildFragmentManager().beginTransaction()
-                .replace(R.id.container, CheckoutFragment.newInstance())
+                .replace(R.id.fragment_main_container, CheckoutFragment.newInstance())
                 .commit();
     }
 

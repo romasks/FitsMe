@@ -16,5 +16,6 @@
     <dimen name="delivery_address_edit_field_text">16sp</dimen>
     <dimen name="delivery_address_warning_text">12sp</dimen>
     <dimen name="delivery_address_amount_text">14sp</dimen>
+    <dimen name="rate_items_elevation">3dp</dimen>
 
 </resources>

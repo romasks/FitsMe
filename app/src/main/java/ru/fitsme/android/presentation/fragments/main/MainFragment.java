@@ -65,7 +65,7 @@ public class MainFragment extends Fragment {
 
     private void switchFragment(Fragment fragment) {
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.fragment_main_container, fragment)
                 .commit();
     }
 

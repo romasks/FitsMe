@@ -50,6 +50,12 @@
     <string name="menu_favourites">Избранное</string>
     <string name="menu_cart">Корзина</string>
     <string name="menu_profile">Профиль</string>
+
+    <string name="menu_rate_items_return">Вернуться</string>
+    <string name="menu_rate_items_dislike">Не нравиться</string>
+    <string name="menu_rate_items_like">Нраиться</string>
+    <string name="menu_rate_items_filter">Фильтр</string>
+
     <string name="currency_sign">P</string>
     <string name="like">like</string>
 </resources>

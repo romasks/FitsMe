@@ -18,6 +18,7 @@ import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
+import timber.log.Timber;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         implements IOnSwipeListener, BindingEventsClickListener {
@@ -89,7 +90,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                 transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_simple);
                 break;
         }
-        transaction.replace(R.id.container, curFragment)
+        transaction.replace(R.id.fragment_rate_items_container, curFragment)
                 .commit();
     }
 
@@ -98,9 +99,30 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         likeItem();
     }
 
+    @Override
+    public void onClickRefresh() {
+        Timber.d("onClickRefresh()");
+    }
+
+    @Override
+    public void onClickDislikeItem() {
+        dislikeItem();
+    }
+
+    @Override
+    public void onClickFilter() {
+        Timber.d("onClickFilter()");
+    }
+
     private void likeItem() {
         if (curFragment != null && curFragment.isActive()) {
             viewModel.likeClothesItem(true, AnimationType.SIMPLE);
+        }
+    }
+
+    private void dislikeItem() {
+        if (curFragment != null && curFragment.isActive()) {
+            viewModel.likeClothesItem(false, AnimationType.SIMPLE);
         }
     }
 }
