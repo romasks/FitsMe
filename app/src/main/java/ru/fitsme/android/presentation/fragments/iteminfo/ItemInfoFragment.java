@@ -103,11 +103,10 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                 binding.itemInfoItemContentTv.setText(content);
                 Glide.with(binding.ivPhoto)
                         .asBitmap()
-                        .load(url)//TODO:debug
+                        .load(url)
                         .into(binding.ivPhoto);
                 break;
         }
-        //TODO: реализовать отображение
     }
 
     public boolean isActive() {

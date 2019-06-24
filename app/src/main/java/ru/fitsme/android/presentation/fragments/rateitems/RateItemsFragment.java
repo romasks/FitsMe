@@ -45,7 +45,19 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+//        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+//            @Override
+//            public void onSwipeRight() {
+//                onSwipe(IOnSwipeListener.AnimationType.RIGHT);
+//            }
+//
+//            @Override
+//            public void onSwipeLeft() {
+//                onSwipe(IOnSwipeListener.AnimationType.LEFT);
+//            }
+//        });
+
+        binding.fragmentRateItemsContainer.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
             @Override
             public void onSwipeRight() {
                 onSwipe(IOnSwipeListener.AnimationType.RIGHT);
@@ -55,6 +67,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             public void onSwipeLeft() {
                 onSwipe(IOnSwipeListener.AnimationType.LEFT);
             }
+
+
         });
 
         viewModel = ViewModelProviders.of(this,
