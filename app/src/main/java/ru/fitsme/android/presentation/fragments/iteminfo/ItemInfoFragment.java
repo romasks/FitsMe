@@ -1,15 +1,29 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.engine.Resource;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
+
+import java.security.MessageDigest;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,7 +33,8 @@ import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
-public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel> {
+public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
+            implements BindingEventsClickListener{
 
     @Inject
     IClothesInteractor clothesInteractor;
@@ -44,6 +59,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel> {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_info, container, false);
+        binding.setBindingEvents(this);
         return binding.getRoot();
     }
 
@@ -65,6 +81,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel> {
 
     private void onItem(ItemInfoState itemInfoState) {
         state = itemInfoState.getState();
+
         switch (state) {
             case ERROR:
                 binding.tvIndex.setText("error");
@@ -73,11 +90,21 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel> {
                 binding.tvIndex.setText("loading");
                 break;
             case OK:
+                binding.tvIndex.setText(null);
                 String url = itemInfoState.getClothesItem().getImageUrl();
+                String description = itemInfoState.getClothesItem().getDescription();
+                List<String> contentList = itemInfoState.getClothesItem().getMaterial();
+                String content = contentList.toString();
+                String brandName = itemInfoState.getClothesItem().getBrandName();
+                String name = itemInfoState.getClothesItem().getName();
+                binding.itemInfoBrandNameTv.setText(brandName);
+                binding.itemInfoItemNameTv.setText(name);
+                binding.itemInfoItemDescriptionTv.setText(description);
+                binding.itemInfoItemContentTv.setText(content);
                 Glide.with(binding.ivPhoto)
+                        .asBitmap()
                         .load(url)//TODO:debug
                         .into(binding.ivPhoto);
-                binding.tvIndex.setText(index + " index");
                 break;
         }
         //TODO: реализовать отображение
@@ -85,5 +112,19 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel> {
 
     public boolean isActive() {
         return state == ItemInfoState.State.OK;
+    }
+
+    @Override
+    public void onClickBrandName() {
+        if(binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE){
+            binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
+            binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
+            binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
+            binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
+            binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
+        }
+        binding.itemInfoItemInfoCard.invalidate();
     }
 }

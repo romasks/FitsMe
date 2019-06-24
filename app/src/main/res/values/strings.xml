@@ -58,4 +58,6 @@
 
     <string name="currency_sign">P</string>
     <string name="like">like</string>
+    <string name="item_info_item_description_text">Описание</string>
+    <string name="item_info_item_content_text">Состав</string>
 </resources>
