@@ -124,6 +124,21 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
         }
-        binding.itemInfoItemInfoCard.invalidate();
+    }
+
+    public void showYes(boolean flag){
+        if (flag){
+            binding.rateItemsYes.setVisibility(View.VISIBLE);
+        } else {
+            binding.rateItemsYes.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void showNo(boolean flag){
+        if (flag){
+            binding.rateItemsNo.setVisibility(View.VISIBLE);
+        } else {
+            binding.rateItemsNo.setVisibility(View.INVISIBLE);
+        }
     }
 }
