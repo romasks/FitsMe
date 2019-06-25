@@ -3,6 +3,8 @@ package ru.fitsme.android.data.models;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import java.util.List;
+
 import ru.fitsme.android.BR;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
@@ -11,15 +13,19 @@ public class ClothesItemModel extends BaseObservable {
     private int id;
     private String brandName;
     private String name;
+    private String description;
     private String imageUrl;
     private String price;
+    private List<String> material;
 
     public ClothesItemModel(ClothesItem clothesItem) {
         this.id = clothesItem.getId();
         this.brandName = clothesItem.getBrand();
         this.name = clothesItem.getName();
+        this.description = clothesItem.getDescription();
         this.imageUrl = clothesItem.getPics().get(0).getUrl();
         this.price = String.valueOf(clothesItem.getPrice());
+        this.material = clothesItem.getMaterial();
     }
 
     @Bindable
@@ -67,4 +73,15 @@ public class ClothesItemModel extends BaseObservable {
         notifyPropertyChanged(BR.imageUrl);
     }
 
+    public List<String> getMaterial() {
+        return material;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

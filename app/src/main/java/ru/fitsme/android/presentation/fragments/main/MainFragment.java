@@ -66,7 +66,7 @@ public class MainFragment extends Fragment {
 
     private void switchFragment(Fragment fragment) {
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.fragment_main_container, fragment)
                 .commit();
     }
 
@@ -76,5 +76,13 @@ public class MainFragment extends Fragment {
 
     public void goToCheckout() {
         switchFragment(CheckoutFragment.newInstance());
+    }
+
+    public void showBottomNavigation(boolean b){
+        if (b){
+            binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
+        } else {
+            binding.bnvMainFrNavigation.setVisibility(View.GONE);
+        }
     }
 }
