@@ -72,4 +72,12 @@ public class MainFragment extends Fragment {
     public void goToFavourites() {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
     }
+
+    public void showBottomNavigation(boolean b){
+        if (b){
+            binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
+        } else {
+            binding.bnvMainFrNavigation.setVisibility(View.GONE);
+        }
+    }
 }
