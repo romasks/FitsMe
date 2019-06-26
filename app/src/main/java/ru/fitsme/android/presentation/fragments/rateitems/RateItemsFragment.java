@@ -1,12 +1,15 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.main.view.MainActivity;
 import timber.log.Timber;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
@@ -63,17 +67,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
-            @Override
-            public void onSwipeRight() {
-                likeItem();
-            }
-
-            @Override
-            public void onSwipeLeft() {
-                dislikeItem();
-            }
-        });
+        MyOnSwipeTouchListener swipeTouchListener = new MyOnSwipeTouchListener(getContext());
+        view.setOnTouchListener(swipeTouchListener);
+        ((MainActivity) getActivity()).putSwipeListener(swipeTouchListener);
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
@@ -168,6 +164,24 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_like_btn, ConstraintSet.TOP);
         }
         set.applyTo(binding.rateItemsLayout);
+    }
+
+
+    public class MyOnSwipeTouchListener extends OnSwipeTouchListener{
+
+        MyOnSwipeTouchListener(Context ctx) {
+            super(ctx);
+        }
+
+        @Override
+        public void onSwipeRight() {
+            likeItem();
+        }
+
+        @Override
+        public void onSwipeLeft() {
+            dislikeItem();
+        }
     }
 
 }

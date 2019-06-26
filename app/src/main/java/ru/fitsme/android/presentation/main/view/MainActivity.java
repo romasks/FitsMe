@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -14,6 +17,7 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     Navigation navigation;
 
     private Navigator navigator = getFragmentNavigator();
+    private RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener;
 
     public MainActivity() {
         App.getInstance().getDi().inject(this);
@@ -59,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         navigation.removeNavigator();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        boolean isDispatch = super.dispatchTouchEvent(ev);
+        if (swipeTouchListener != null){
+            swipeTouchListener.onTouch(new TextView(this), ev);
+        }
+        return isDispatch;
     }
 
     @NonNull
@@ -92,5 +106,9 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         };
+    }
+
+    public void putSwipeListener(RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener) {
+        this.swipeTouchListener = swipeTouchListener;
     }
 }
