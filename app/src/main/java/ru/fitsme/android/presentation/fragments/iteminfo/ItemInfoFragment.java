@@ -101,7 +101,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                 binding.itemInfoItemDescriptionTv.setText(description);
                 binding.itemInfoItemContentTv.setText(content);
                 Glide.with(binding.ivPhoto.getContext())
-                        .asBitmap()
                         .load(url)
                         .into(binding.ivPhoto);
                 break;

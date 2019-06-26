@@ -14,7 +14,6 @@
             android:id="@+id/item_info_item_info_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp"
             >
 
             <android.support.v4.widget.NestedScrollView
@@ -29,15 +28,17 @@
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:clipToPadding="false"
+                    >
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/item_info_item_info_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@android:color/transparent"
                         app:cardCornerRadius="10dp"
-                        app:elevation="3dp"
+                        app:cardElevation="@dimen/items_info_elevation"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -69,6 +70,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_rate_items_no"
                         android:visibility="invisible"
+                        android:elevation="@dimen/items_info_elevation"
                         tools:visibility="visible"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -82,6 +84,7 @@
                         android:layout_margin="32dp"
                         android:background="@drawable/ic_rate_items_yes"
                         android:visibility="invisible"
+                        android:elevation="@dimen/items_info_elevation"
                         tools:visibility="visible"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -94,6 +97,7 @@
                         android:layout_margin="16dp"
                         app:cardBackgroundColor="@color/transparentBackground"
                         app:cardCornerRadius="10dp"
+                        app:cardElevation="@dimen/items_info_elevation"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintBottom_toBottomOf="@id/item_info_item_info_card"
