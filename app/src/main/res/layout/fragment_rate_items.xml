@@ -15,13 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:paddingBottom="16dp"
+        android:paddingBottom="12dp"
         >
 
         <FrameLayout
             android:id="@+id/fragment_rate_items_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:paddingBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/fragment_rate_items_like_btn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

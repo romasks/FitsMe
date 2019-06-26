@@ -13,6 +13,11 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/bottom_nav_shadow"
+            />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bnv_main_fr_navigation"
