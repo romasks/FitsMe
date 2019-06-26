@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -149,10 +150,24 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
             ((MainFragment) getParentFragment()).showBottomNavigation(false);
+            setConstraintToFullState(true);
         } else {
             binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
             ((MainFragment) getParentFragment()).showBottomNavigation(true);
+            setConstraintToFullState(false);
         }
     }
+
+    private void setConstraintToFullState(boolean b){
+        ConstraintSet set = new ConstraintSet();
+        set.clone(binding.rateItemsLayout);
+        if (b) {
+            set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
+        } else {
+            set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_like_btn, ConstraintSet.TOP);
+        }
+        set.applyTo(binding.rateItemsLayout);
+    }
+
 }

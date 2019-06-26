@@ -14,5 +14,5 @@
     <color name="inCartButton">#55552727</color>
     <color name="navbarItemActive">#940235</color>
     <color name="navbarItemInactive">#88000000</color>
-    <color name="transparentBackground">#96FFFFFF</color>
+    <color name="transparentBackground">#DEFFFFFF</color>
 </resources>
