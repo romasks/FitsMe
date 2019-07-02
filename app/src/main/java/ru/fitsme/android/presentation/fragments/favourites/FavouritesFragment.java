@@ -41,13 +41,11 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
         @Override
         public boolean areItemsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
-            Timber.d("areItemsTheSame()");
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
-            Timber.d("areContentsTheSame()");
             return oldItem.equals(newItem);
         }
     };

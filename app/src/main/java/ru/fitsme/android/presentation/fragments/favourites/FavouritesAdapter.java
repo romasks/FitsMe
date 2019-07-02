@@ -6,8 +6,10 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import ru.fitsme.android.BR;
@@ -41,6 +43,8 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
     class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
+        final ImageView rightDeleteIcon;
+        final ImageView leftDeleteIcon;
         RelativeLayout viewBackground;
         RelativeLayout viewForeground;
 
@@ -49,6 +53,8 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             this.binding = binding;
             viewBackground = binding.getRoot().findViewById(R.id.item_favourite_view_background);
             viewForeground = binding.getRoot().findViewById(R.id.item_favourite_view_foreground);
+            rightDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_right);
+            leftDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_left);
         }
 
         void bind(int position) {

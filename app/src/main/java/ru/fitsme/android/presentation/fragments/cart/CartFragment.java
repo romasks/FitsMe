@@ -37,7 +37,6 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
     public static DiffUtil.ItemCallback<OrderItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<OrderItem>() {
         @Override
         public boolean areItemsTheSame(@NonNull OrderItem oldItem, @NonNull OrderItem newItem) {
-            Timber.d("areItemsTheSame()");
             return oldItem.getId() == newItem.getId();
         }
 
