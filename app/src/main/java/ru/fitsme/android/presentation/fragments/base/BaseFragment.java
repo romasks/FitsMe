@@ -32,8 +32,4 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
     public void showErrorMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
-
-    public void onBackPressed(){
-        viewModel.onBackPressed();
-    };
 }

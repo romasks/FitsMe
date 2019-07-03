@@ -56,7 +56,7 @@ public class Navigation {
     }
 
     public void goToMainItem() {
-        goNavigate(NAV_MAIN_ITEM);
+        getRouter().newRootScreen(NAV_MAIN_ITEM);
     }
 
     public void goToSplash(){

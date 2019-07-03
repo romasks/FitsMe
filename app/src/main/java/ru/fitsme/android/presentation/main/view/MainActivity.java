@@ -120,13 +120,4 @@ public class MainActivity extends AppCompatActivity {
     public void putSwipeListener(RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener) {
         this.swipeTouchListener = swipeTouchListener;
     }
-
-    @Override
-    public void onBackPressed() {
-//        BaseFragment fragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_container);
-//        if (fragment != null) {
-//            fragment.onBackPressed();
-//        }
-        super.onBackPressed();
-    }
 }

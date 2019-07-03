@@ -61,7 +61,7 @@ public class MainFragment extends Fragment {
             }
             return false;
         });
-        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
+        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_items);
     }
 
     private void switchFragment(Fragment fragment) {

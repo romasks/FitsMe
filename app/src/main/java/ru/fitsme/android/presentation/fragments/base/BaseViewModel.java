@@ -40,8 +40,5 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-//        compositeDisposable.clear();
     }
-
-    public abstract void onBackPressed();
 }

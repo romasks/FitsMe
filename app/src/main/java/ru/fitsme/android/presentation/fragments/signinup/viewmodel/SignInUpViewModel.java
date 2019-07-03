@@ -38,8 +38,4 @@ public class SignInUpViewModel extends BaseViewModel {
     public void onSignIn() {
         navigation.goSignIn();
     }
-
-    @Override
-    public void onBackPressed() {
-    }
 }

@@ -48,9 +48,4 @@ public class RateItemsViewModel extends BaseViewModel {
     LiveData<RateItemsState> getIndexLiveData() {
         return indexLiveData;
     }
-
-    @Override
-    public void onBackPressed() {
-
-    }
 }

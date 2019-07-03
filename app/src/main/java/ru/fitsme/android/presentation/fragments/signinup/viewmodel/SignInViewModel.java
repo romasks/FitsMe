@@ -65,9 +65,4 @@ public class SignInViewModel extends BaseViewModel {
     public NonNullLiveData<SignInUpState> getFieldsStateLiveData() {
         return fieldsStateLiveData;
     }
-
-    @Override
-    public void onBackPressed() {
-
-    }
 }
