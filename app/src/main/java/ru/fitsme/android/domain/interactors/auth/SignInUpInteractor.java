@@ -28,7 +28,7 @@ import ru.fitsme.android.domain.entities.signinup.SignInUpResult;
 
 @Singleton
 public class SignInUpInteractor implements ISignInUpInteractor {
-    private static boolean auto = true;
+    private static boolean auto;
     private ISignInUpRepository signInRepository;
     private IUserInfoRepository userInfoRepository;
     private ITextValidator textValidator;
@@ -130,6 +130,7 @@ public class SignInUpInteractor implements ISignInUpInteractor {
     @Override
     @NonNull
     public Single<AutoSignInInfo> getAutoSignInInfo() {
+        auto = true;
         return Single.create((SingleOnSubscribe<AutoSignInInfo>) emitter -> {
             SignInInfo signInInfo;
             try {
