@@ -21,7 +21,6 @@ public class Navigation {
     @Inject
     public Navigation() {
         cicerone = Cicerone.create();
-//        getRouter().newRootScreen(NAV_SPLASH);
     }
 
     private NavigatorHolder getNavigatorHolder() {
@@ -45,7 +44,7 @@ public class Navigation {
     }
 
     public void goSignInUp() {
-        goNavigate(NAV_SIGN_IN_UP);
+        getRouter().newRootScreen(NAV_SIGN_IN_UP);
     }
 
     public void goSignIn() {

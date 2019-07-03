@@ -37,4 +37,9 @@ public class ItemInfoViewModel extends BaseViewModel {
     LiveData<ItemInfoState> getItemLiveData() {
         return itemLiveData;
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

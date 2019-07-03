@@ -50,4 +50,9 @@ public class FavouritesViewModel extends BaseViewModel {
     private void onError(Throwable throwable) {
         Timber.tag(getClass().getName()).e(throwable);
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

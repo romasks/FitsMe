@@ -43,4 +43,9 @@ public class CartViewModel extends BaseViewModel {
         }
         totalPrice.set(tmpPrice);
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

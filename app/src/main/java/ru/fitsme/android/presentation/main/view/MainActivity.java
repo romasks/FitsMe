@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
@@ -50,12 +51,11 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.activity_main_container, SplashFragment.newInstance())
-                .commit();
-
         MainViewModel mainViewModel = ViewModelProviders.of(this)
                 .get(MainViewModel.class);
+
+        navigation.setNavigator(navigator);
+        navigation.goToSplash();
     }
 
     @Override
@@ -119,5 +119,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void putSwipeListener(RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener) {
         this.swipeTouchListener = swipeTouchListener;
+    }
+
+    @Override
+    public void onBackPressed() {
+//        BaseFragment fragment = (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_container);
+//        if (fragment != null) {
+//            fragment.onBackPressed();
+//        }
+        super.onBackPressed();
     }
 }

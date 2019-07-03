@@ -53,4 +53,8 @@ public class SplashViewModel extends BaseViewModel {
         Timber.tag(getClass().getName()).e(throwable);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }
