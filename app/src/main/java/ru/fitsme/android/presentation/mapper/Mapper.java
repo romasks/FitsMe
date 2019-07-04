@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.mapper
+package ru.fitsme.android.presentation.mapper;
 
 /**
  * Interface for model mappers. It provides helper methods that facilitate
@@ -7,8 +7,8 @@ package ru.fitsme.android.presentation.mapper
  * @param <V> the input type (base model)
  * @param <D> the view model output type
  */
-interface Mapper<out V, in D> {
+public interface Mapper<V, D> {
 
-    fun mapToViewModel(type: D): V
+    V mapToViewModel(D type);
 
 }

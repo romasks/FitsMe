@@ -16,7 +16,7 @@ public class BindingAdapterUtils {
     }
 
     // FavouriteItem ImageView setImage
-    @BindingAdapter({"app:imageUrl", "app:defaultImage"})
+    @BindingAdapter({"imageUrl", "defaultImage"})
     public static void loadImage(ImageView imageView, String imageUrl, Drawable defaultImage) {
         GlideApp.with(imageView.getContext())
                 .load(imageUrl)

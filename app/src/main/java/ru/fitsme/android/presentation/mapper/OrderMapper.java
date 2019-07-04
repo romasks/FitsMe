@@ -19,16 +19,16 @@ public class OrderMapper implements Mapper<OrderViewModel, Order> {
      */
     @Override
     public OrderViewModel mapToViewModel(Order type) {
-        OrderViewModel orderViewModel = new OrderViewModel(type.getOrderId());
+        OrderViewModel orderViewModel = new OrderViewModel(type.orderId);
 
-        orderViewModel.setCity(type.getCity());
-        orderViewModel.setStreet(type.getStreet());
-        orderViewModel.setHouseNumber(type.getHouseNumber());
-        orderViewModel.setApartment(type.getApartment());
-        orderViewModel.setPhoneNumber(type.getPhoneNumber());
+        orderViewModel.setCity(type.city);
+        orderViewModel.setStreet(type.street);
+        orderViewModel.setHouseNumber(type.houseNumber);
+        orderViewModel.setApartment(type.apartment);
+        orderViewModel.setPhoneNumber(type.phoneNumber);
 
         int price = 0;
-        for (OrderItem item : type.getOrderItemList()) {
+        for (OrderItem item : type.orderItemList) {
             price += item.getPrice();
         }
         orderViewModel.setPrice(String.valueOf(price));
