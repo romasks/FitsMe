@@ -1,33 +1,30 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
+import android.arch.paging.PagedListAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.hendraanggrian.widget.PaginatedRecyclerView;
-
-import java.util.List;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.ClothesItemModel;
+import ru.fitsme.android.databinding.ItemFavouriteBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
-public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesAdapter.GenericViewHolder> {
+public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, FavouritesAdapter.GenericViewHolder> {
 
-    private int layoutId;
-    private List<FavouritesItem> items;
     private BaseViewModel viewModel;
 
-    FavouritesAdapter(@LayoutRes int layoutId, BaseViewModel viewModel) {
-        this.layoutId = layoutId;
+    FavouritesAdapter(BaseViewModel viewModel) {
+        super(FavouritesFragment.DIFF_CALLBACK);
         this.viewModel = viewModel;
     }
 
@@ -35,8 +32,7 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
     @Override
     public GenericViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, viewType, parent, false);
-
+        ItemFavouriteBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_favourite, parent, false);
         return new GenericViewHolder(binding);
     }
 
@@ -45,44 +41,10 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
         holder.bind(position);
     }
 
-    @Override
-    public int getItemCount() {
-        return items == null ? 0 : items.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return getLayoutIdForPosition(position);
-    }
-
-    private int getLayoutIdForPosition(int position) {
-        return layoutId;
-    }
-
-    void setFavouritesItems(List<FavouritesItem> items) {
-        this.items = items;
-    }
-
-    void addFavouritesItems(List<FavouritesItem> items) {
-        this.items.addAll(items);
-    }
-
-    void changeStatus(int index, boolean inCart) {
-        items.get(index).setInCart(inCart);
-        notifyItemChanged(index);
-    }
-
-    FavouritesItem getFavouriteItemAt(Integer index) {
-        return items.get(index);
-    }
-
-    void removeItemAt(Integer index) {
-        items.remove(items.get(index));
-        notifyItemRemoved(index);
-    }
-
     class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
+        final ImageView rightDeleteIcon;
+        final ImageView leftDeleteIcon;
         RelativeLayout viewBackground;
         RelativeLayout viewForeground;
 
@@ -91,10 +53,12 @@ public class FavouritesAdapter extends PaginatedRecyclerView.Adapter<FavouritesA
             this.binding = binding;
             viewBackground = binding.getRoot().findViewById(R.id.item_favourite_view_background);
             viewForeground = binding.getRoot().findViewById(R.id.item_favourite_view_foreground);
+            rightDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_right);
+            leftDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_left);
         }
 
         void bind(int position) {
-            FavouritesItem favouritesItem = items.get(position);
+            FavouritesItem favouritesItem = getItem(position);
             ClothesItemModel clothesItem = new ClothesItemModel(favouritesItem.getItem());
 
             Button inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);

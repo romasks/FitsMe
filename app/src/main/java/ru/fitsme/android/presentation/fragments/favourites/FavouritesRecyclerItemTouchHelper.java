@@ -48,6 +48,10 @@ public class FavouritesRecyclerItemTouchHelper extends
     @Override
     public void clearView(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
         final View foregroundView = ((FavouritesAdapter.GenericViewHolder) viewHolder).viewForeground;
+        final View rightDeleteIcon = ((FavouritesAdapter.GenericViewHolder) viewHolder).rightDeleteIcon;
+        final View leftDeleteIcon = ((FavouritesAdapter.GenericViewHolder) viewHolder).leftDeleteIcon;
+        rightDeleteIcon.setVisibility(View.INVISIBLE);
+        leftDeleteIcon.setVisibility(View.INVISIBLE);
         foregroundView.setAlpha(1.0f);
         getDefaultUIUtil().clearView(foregroundView);
     }
@@ -57,7 +61,15 @@ public class FavouritesRecyclerItemTouchHelper extends
                             @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
         final View foregroundView = ((FavouritesAdapter.GenericViewHolder) viewHolder).viewForeground;
+        final View rightDeleteIcon = ((FavouritesAdapter.GenericViewHolder) viewHolder).rightDeleteIcon;
+        final View leftDeleteIcon = ((FavouritesAdapter.GenericViewHolder) viewHolder).leftDeleteIcon;
         if (isCurrentlyActive){
+            if (dX > 0){
+                leftDeleteIcon.setVisibility(View.VISIBLE);
+            }
+            if (dX < 0){
+                rightDeleteIcon.setVisibility(View.VISIBLE);
+            }
             foregroundView.setAlpha(0.6f);
         }
         getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,

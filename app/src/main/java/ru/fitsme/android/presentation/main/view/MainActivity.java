@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -13,10 +15,13 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
+import ru.fitsme.android.presentation.fragments.splash.SplashFragment;
 import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
@@ -25,6 +30,7 @@ import static ru.fitsme.android.app.Navigation.NAV_MAIN_ITEM;
 import static ru.fitsme.android.app.Navigation.NAV_SIGN_IN;
 import static ru.fitsme.android.app.Navigation.NAV_SIGN_IN_UP;
 import static ru.fitsme.android.app.Navigation.NAV_SIGN_UP;
+import static ru.fitsme.android.app.Navigation.NAV_SPLASH;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Navigation navigation;
 
     private Navigator navigator = getFragmentNavigator();
+    private RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener;
 
     public MainActivity() {
         App.getInstance().getDi().inject(this);
@@ -39,12 +46,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_main);
 
         MainViewModel mainViewModel = ViewModelProviders.of(this)
                 .get(MainViewModel.class);
+
+        navigation.setNavigator(navigator);
+        navigation.goToSplash();
     }
 
     @Override
@@ -61,9 +72,19 @@ public class MainActivity extends AppCompatActivity {
         navigation.removeNavigator();
     }
 
+    //передает TouchEvent в RateFragment, т.к. из-за ScrollView события автоматом не передаются
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        boolean isDispatch = super.dispatchTouchEvent(ev);
+        if (swipeTouchListener != null){
+            swipeTouchListener.onTouch(new TextView(this), ev);
+        }
+        return isDispatch;
+    }
+
     @NonNull
     private SupportFragmentNavigator getFragmentNavigator() {
-        return new SupportFragmentNavigator(getSupportFragmentManager(), R.id.fragment_container) {
+        return new SupportFragmentNavigator(getSupportFragmentManager(), R.id.activity_main_container) {
             @Override
             protected Fragment createFragment(String screenKey, Object data) {
                 switch (screenKey) {
@@ -78,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
              */
                     case NAV_MAIN_ITEM:
                         return MainFragment.newInstance();
+                    case NAV_SPLASH:
+                        return SplashFragment.newInstance();
                 }
                 throw new RuntimeException("Unknown screen key");
             }
@@ -92,5 +115,9 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         };
+    }
+
+    public void putSwipeListener(RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener) {
+        this.swipeTouchListener = swipeTouchListener;
     }
 }

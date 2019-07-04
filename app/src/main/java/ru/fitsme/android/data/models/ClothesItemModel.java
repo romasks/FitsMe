@@ -3,6 +3,8 @@ package ru.fitsme.android.data.models;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import java.util.List;
+
 import ru.fitsme.android.BR;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
@@ -13,6 +15,8 @@ public class ClothesItemModel extends BaseObservable {
     private String name;
     private String description;
     private String imageUrl;
+    private String price;
+    private List<String> material;
 
     public ClothesItemModel(ClothesItem clothesItem) {
         this.id = clothesItem.getId();
@@ -20,7 +24,8 @@ public class ClothesItemModel extends BaseObservable {
         this.name = clothesItem.getName();
         this.description = clothesItem.getDescription();
         this.imageUrl = clothesItem.getPics().get(0).getUrl();
-//                .replace("random", "image=") + (id % 400);
+        this.price = String.valueOf(clothesItem.getPrice());
+        this.material = clothesItem.getMaterial();
     }
 
     @Bindable
@@ -49,13 +54,13 @@ public class ClothesItemModel extends BaseObservable {
     }
 
     @Bindable
-    public String getDescription() {
-        return description;
+    public String getPrice() {
+        return price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-        notifyPropertyChanged(BR.description);
+    public void setPrice(String price) {
+        this.price = price;
+        notifyPropertyChanged(BR.price);
     }
 
     @Bindable
@@ -68,4 +73,15 @@ public class ClothesItemModel extends BaseObservable {
         notifyPropertyChanged(BR.imageUrl);
     }
 
+    public List<String> getMaterial() {
+        return material;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

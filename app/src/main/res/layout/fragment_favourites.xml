@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
 
         <variable
@@ -17,16 +16,16 @@
         android:layout_height="match_parent"
         tools:context=".presentation.fragments.favourites.FavouritesFragment">
 
-        <com.hendraanggrian.widget.PaginatedRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/favourites_list_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:background="@color/white"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <android.support.v4.widget.ContentLoadingProgressBar
-            android:id="@+id/spinnerLoading"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
@@ -41,5 +40,4 @@
             android:visibility="@{viewModel.showEmpty ? View.VISIBLE : View.GONE}" />
 
     </FrameLayout>
-
 </layout>

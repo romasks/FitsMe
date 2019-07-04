@@ -1,90 +1,51 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
+import android.arch.paging.PagedListAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.hendraanggrian.widget.PaginatedRecyclerView;
-
-import java.util.List;
-
 import ru.fitsme.android.BR;
+import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.ClothesItemModel;
+import ru.fitsme.android.databinding.ItemCartBinding;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
-public class CartAdapter extends PaginatedRecyclerView.Adapter<CartAdapter.ViewHolder> {
+public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.GenericViewHolder> {
 
-    private int layoutId;
-    private List<OrderItem> items;
-    private BaseViewModel viewModel;
-
-    public CartAdapter(@LayoutRes int layoutId, BaseViewModel viewModel) {
-        this.layoutId = layoutId;
-        this.viewModel = viewModel;
+    CartAdapter() {
+        super(CartFragment.DIFF_CALLBACK);
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CartAdapter.GenericViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, viewType, parent, false);
-        return new ViewHolder(binding);
+        ItemCartBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_cart, parent, false);
+        return new CartAdapter.GenericViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.bind(items.get(position));
+    public void onBindViewHolder(@NonNull CartAdapter.GenericViewHolder holder, int position) {
+        holder.bind(position);
     }
 
-    @Override
-    public int getItemCount() {
-        return items == null ? 0 : items.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return getLayoutIdForPosition(position);
-    }
-
-    private int getLayoutIdForPosition(int position) {
-        return layoutId;
-    }
-
-    public void setOrderItems(List<OrderItem> items) {
-        this.items = items;
-    }
-
-    public void addOrderItems(List<OrderItem> items) {
-        this.items.addAll(items);
-    }
-
-    public OrderItem getOrderItemAt(int position) {
-        return items.get(position);
-    }
-
-    public void removeItemAt(int position) {
-        items.remove(getOrderItemAt(position));
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
 
-        ViewHolder(@NonNull ViewDataBinding binding) {
+        GenericViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
         }
 
-        public void bind(OrderItem item) {
-            ClothesItemModel clothesItem = new ClothesItemModel(item.getClothe());
+        void bind(int position) {
+            OrderItem orderItem = getItem(position);
+            ClothesItemModel clothesItem = new ClothesItemModel(orderItem.getClothe());
+
             binding.setVariable(BR.clothesItem, clothesItem);
-            binding.setVariable(BR.price, item.getPrice());
             binding.executePendingBindings();
         }
     }

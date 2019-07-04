@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/rate_items_action_return"
+        android:icon="@drawable/ic_rate_items_return"
+        android:title="@string/menu_rate_items_return"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/rate_items_action_dislike"
+        android:icon="@drawable/ic_rate_items_dislike"
+        android:title="@string/menu_rate_items_dislike"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/rate_items_action_like"
+        android:icon="@drawable/ic_rate_items_like"
+        android:title="@string/menu_rate_items_like"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/rate_items_action_filter"
+        android:icon="@drawable/ic_rate_items_filter"
+        android:title="@string/menu_rate_items_filter"
+        app:showAsAction="always" />
+
+</menu>

@@ -36,6 +36,7 @@ public class OrderModel extends BaseObservable {
         }
         this.price = String.valueOf(price);
 
+        //ToDo: what is it?
         int discount = 300;
         this.discount = String.valueOf(discount);
 

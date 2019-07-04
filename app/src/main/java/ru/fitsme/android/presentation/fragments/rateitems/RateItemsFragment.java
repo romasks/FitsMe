@@ -1,11 +1,15 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +22,37 @@ import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.main.view.MainActivity;
+import timber.log.Timber;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         implements IOnSwipeListener, BindingEventsClickListener {
+
+    private static final String KEY_ITEM_INFO_STATE = "state";
 
     @Inject
     IClothesInteractor clothesInteractor;
 
     private ItemInfoFragment curFragment;
     private FragmentRateItemsBinding binding;
+    private boolean isFullItemInfoState;
 
     public static RateItemsFragment newInstance() {
         return new RateItemsFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null){
+            isFullItemInfoState = getArguments().getBoolean(KEY_ITEM_INFO_STATE);
+        } else {
+            isFullItemInfoState = false;
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
+            setArguments(bundle);
+        }
     }
 
     @Override
@@ -44,17 +67,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
-            @Override
-            public void onSwipeRight() {
-                onSwipe(IOnSwipeListener.AnimationType.RIGHT);
-            }
-
-            @Override
-            public void onSwipeLeft() {
-                onSwipe(IOnSwipeListener.AnimationType.LEFT);
-            }
-        });
+        MyOnSwipeTouchListener swipeTouchListener = new MyOnSwipeTouchListener(getContext());
+        view.setOnTouchListener(swipeTouchListener);
+        ((MainActivity) getActivity()).putSwipeListener(swipeTouchListener);
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
@@ -68,13 +83,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void onSwipe(AnimationType animationType) {
-        if (curFragment != null && curFragment.isActive()) {
-            viewModel.likeClothesItem(false, animationType);
-        }
     }
 
     private void onIndex(RateItemsState rateItemsState) {
-        curFragment = ItemInfoFragment.newInstance(rateItemsState.getIndex());
+        curFragment = ItemInfoFragment.newInstance(rateItemsState.getIndex(), isFullItemInfoState);
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 
@@ -89,7 +101,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                 transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_simple);
                 break;
         }
-        transaction.replace(R.id.container, curFragment)
+        transaction.replace(R.id.fragment_rate_items_container, curFragment)
                 .commit();
     }
 
@@ -98,9 +110,78 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         likeItem();
     }
 
+    @Override
+    public void onClickRefresh() {
+        Timber.d("onClickRefresh()");
+    }
+
+    @Override
+    public void onClickDislikeItem() {
+        dislikeItem();
+    }
+
+    @Override
+    public void onClickFilter() {
+        Timber.d("onClickFilter()");
+    }
+
     private void likeItem() {
+        curFragment.showYes(true);
         if (curFragment != null && curFragment.isActive()) {
-            viewModel.likeClothesItem(true, AnimationType.SIMPLE);
+            viewModel.likeClothesItem(true, IOnSwipeListener.AnimationType.RIGHT);
         }
     }
+
+    private void dislikeItem() {
+        curFragment.showNo(true);
+        if (curFragment != null && curFragment.isActive()) {
+            viewModel.likeClothesItem(false, IOnSwipeListener.AnimationType.LEFT);
+        }
+    }
+
+    public void setFullItemInfoState(boolean b) {
+        isFullItemInfoState = b;
+        getArguments().putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
+        if (b){
+            binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
+            binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
+            ((MainFragment) getParentFragment()).showBottomNavigation(false);
+            setConstraintToFullState(true);
+        } else {
+            binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
+            binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
+            ((MainFragment) getParentFragment()).showBottomNavigation(true);
+            setConstraintToFullState(false);
+        }
+    }
+
+    private void setConstraintToFullState(boolean b){
+        ConstraintSet set = new ConstraintSet();
+        set.clone(binding.rateItemsLayout);
+        if (b) {
+            set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
+        } else {
+            set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_like_btn, ConstraintSet.TOP);
+        }
+        set.applyTo(binding.rateItemsLayout);
+    }
+
+
+    public class MyOnSwipeTouchListener extends OnSwipeTouchListener{
+
+        MyOnSwipeTouchListener(Context ctx) {
+            super(ctx);
+        }
+
+        @Override
+        public void onSwipeRight() {
+            likeItem();
+        }
+
+        @Override
+        public void onSwipeLeft() {
+            dislikeItem();
+        }
+    }
+
 }

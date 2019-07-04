@@ -83,7 +83,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
     @Override
     public void goBack() {
         getParentFragment().getChildFragmentManager().beginTransaction()
-                .replace(R.id.container, CartFragment.newInstance())
+                .replace(R.id.fragment_main_container, CartFragment.newInstance())
                 .commit();
     }
 

@@ -17,18 +17,6 @@ public class SignInUpViewModel extends BaseViewModel {
     }
 
     public void init() {
-        addDisposable(signInUpInteractor.getAutoSignInInfo()
-                .subscribe(this::onAutoSignIn, this::onError));
-    }
-
-    private void onAutoSignIn(@NotNull AutoSignInInfo autoSignInInfo) {
-        if (autoSignInInfo.isAuto()) {
-            onSignIn();
-        }
-    }
-
-    private void onError(Throwable throwable) {
-        Timber.tag(getClass().getName()).e(throwable);
     }
 
     public void onSignUp() {

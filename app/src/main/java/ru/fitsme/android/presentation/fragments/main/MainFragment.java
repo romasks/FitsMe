@@ -13,6 +13,7 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
+import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
 import ru.fitsme.android.presentation.fragments.profile.ProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
@@ -60,16 +61,28 @@ public class MainFragment extends Fragment {
             }
             return false;
         });
-        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
+        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_items);
     }
 
     private void switchFragment(Fragment fragment) {
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.fragment_main_container, fragment)
                 .commit();
     }
 
     public void goToFavourites() {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
+    }
+
+    public void goToCheckout() {
+        switchFragment(CheckoutFragment.newInstance());
+    }
+
+    public void showBottomNavigation(boolean b){
+        if (b){
+            binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
+        } else {
+            binding.bnvMainFrNavigation.setVisibility(View.GONE);
+        }
     }
 }

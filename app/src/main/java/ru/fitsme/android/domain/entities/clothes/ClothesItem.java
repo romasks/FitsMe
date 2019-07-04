@@ -8,8 +8,12 @@ public class ClothesItem {
     private String name;
     private String description;
     private List<String> material;
+    private String material_percentage;
     private List<Picture> pics;
-// TODO: price ?
+    private List<Integer> available_sizes_id;
+    private ClotheType clothe_type;
+    private String size_in_stock;
+    private int price;
 
     public int getId() {
         return id;
@@ -31,7 +35,62 @@ public class ClothesItem {
         return material;
     }
 
+    public String getMaterialPercentage() {
+        return material_percentage;
+    }
+
     public List<Picture> getPics() {
         return pics;
+    }
+
+    public List<Integer> getAvailableSizesId() {
+        return available_sizes_id;
+    }
+
+    public ClotheType getClotheType() {
+        return clothe_type;
+    }
+
+    public String getSizeInStock() {
+        return size_in_stock;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClothesItem)) return false;
+        ClothesItem that = (ClothesItem) o;
+        return getId() == that.getId() &&
+                getBrand().equals(that.getBrand()) &&
+                getName().equals(that.getName()) &&
+                getDescription().equals(that.getDescription()) &&
+                getMaterial().equals(that.getMaterial()) &&
+                getMaterialPercentage().equals(that.getMaterialPercentage()) &&
+                getPics().equals(that.getPics()) &&
+                getAvailableSizesId().equals(that.getAvailableSizesId()) &&
+                getClotheType().equals(that.getClotheType()) &&
+                getSizeInStock().equals(that.getSizeInStock()) &&
+                getPrice() == that.getPrice();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + getId();
+        result = 31 * result + getBrand().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getDescription().hashCode();
+        result = 31 * result + getMaterial().hashCode();
+        result = 31 * result + getMaterialPercentage().hashCode();
+        result = 31 * result + getPics().hashCode();
+        result = 31 * result + getAvailableSizesId().hashCode();
+        result = 31 * result + getClotheType().hashCode();
+        result = 31 * result + getSizeInStock().hashCode();
+        result = 31 * result + getPrice();
+        return result;
     }
 }

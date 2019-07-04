@@ -20,7 +20,7 @@
         android:background="@color/white">
 
         <android.support.v4.widget.ContentLoadingProgressBar
-            android:id="@+id/spinnerLoading"
+            android:id="@+id/favourites_loading_spinner"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
@@ -92,7 +92,8 @@
                     android:hint="@string/checkout_hint_phone_number"
                     android:inputType="phone"
                     android:textSize="@dimen/text_size_medium"
-                    android:text="@={viewModel.orderModel.phoneNumber}"/>
+                    android:text="@={viewModel.orderModel.phoneNumber}"
+                    tools:ignore="Autofill" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -116,10 +117,12 @@
                         android:layout_marginEnd="@dimen/padding_medium"
                         android:layout_weight="1"
                         android:hint="@string/checkout_hint_enter_city"
+                        android:inputType="text"
                         android:lines="1"
                         android:maxLength="12"
                         android:textSize="@dimen/delivery_address_edit_field_text"
-                        android:text="@={viewModel.orderModel.city}"/>
+                        android:text="@={viewModel.orderModel.city}"
+                        tools:ignore="Autofill" />
 
                     <EditText
                         android:id="@+id/address_street"
@@ -128,10 +131,12 @@
                         android:layout_marginStart="@dimen/padding_medium"
                         android:layout_weight="1"
                         android:hint="@string/checkout_hint_enter_street"
+                        android:inputType="text"
                         android:lines="1"
                         android:maxLength="12"
                         android:textSize="@dimen/delivery_address_edit_field_text"
-                        android:text="@={viewModel.orderModel.street}"/>
+                        android:text="@={viewModel.orderModel.street}"
+                        tools:ignore="Autofill" />
 
                 </LinearLayout>
 
@@ -151,7 +156,8 @@
                         android:lines="1"
                         android:maxLength="3"
                         android:textSize="@dimen/delivery_address_edit_field_text"
-                        android:text="@={viewModel.orderModel.houseNumber}"/>
+                        android:text="@={viewModel.orderModel.houseNumber}"
+                        tools:ignore="Autofill" />
 
                     <EditText
                         android:id="@+id/address_apartment"
@@ -164,7 +170,8 @@
                         android:lines="1"
                         android:maxLength="3"
                         android:textSize="@dimen/delivery_address_edit_field_text"
-                        android:text="@={viewModel.orderModel.apartment}"/>
+                        android:text="@={viewModel.orderModel.apartment}"
+                        tools:ignore="Autofill" />
 
                 </LinearLayout>
 
@@ -205,20 +212,11 @@
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.orderModel.price}"
+                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.price)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/delivery_address_amount_text"
                         android:textStyle="bold"
-                        tools:text="14000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="@string/currency_sign"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text"
-                        android:textStyle="bold" />
+                        tools:text="14000 P" />
 
                 </LinearLayout>
 
@@ -241,20 +239,11 @@
                         android:id="@+id/deliveryPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.orderModel.discount}"
+                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.discount)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/delivery_address_amount_text"
                         android:textStyle="bold"
-                        tools:text="300" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="@string/currency_sign"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text"
-                        android:textStyle="bold" />
+                        tools:text="300 P" />
 
                 </LinearLayout>
 
@@ -278,20 +267,11 @@
                         android:id="@+id/totalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.orderModel.totalPrice}"
+                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.totalPrice)}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/delivery_address_amount_text"
                         android:textStyle="bold"
-                        tools:text="14300" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="@string/currency_sign"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text"
-                        android:textStyle="bold" />
+                        tools:text="14300 P" />
 
                 </LinearLayout>
 
@@ -312,11 +292,7 @@
                     android:textSize="@dimen/text_size_lower_medium" />
 
             </LinearLayout>
-
         </ScrollView>
-
     </LinearLayout>
-
     </FrameLayout>
-
 </layout>

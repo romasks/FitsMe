@@ -14,13 +14,13 @@ public class Navigation {
     public static final String NAV_SIGN_UP = "SignUp";
     public static final String NAV_SIGN_IN = "SignIn";
     public static final String NAV_MAIN_ITEM = "MainItem";
+    public static final String NAV_SPLASH = "Splash";
 
     private Cicerone<Router> cicerone;
 
     @Inject
     public Navigation() {
         cicerone = Cicerone.create();
-        getRouter().newRootScreen(NAV_SIGN_IN_UP);
     }
 
     private NavigatorHolder getNavigatorHolder() {
@@ -44,7 +44,7 @@ public class Navigation {
     }
 
     public void goSignInUp() {
-        goNavigate(NAV_SIGN_IN_UP);
+        getRouter().newRootScreen(NAV_SIGN_IN_UP);
     }
 
     public void goSignIn() {
@@ -56,6 +56,10 @@ public class Navigation {
     }
 
     public void goToMainItem() {
-        goNavigate(NAV_MAIN_ITEM);
+        getRouter().newRootScreen(NAV_MAIN_ITEM);
+    }
+
+    public void goToSplash(){
+        goNavigate(NAV_SPLASH);
     }
 }

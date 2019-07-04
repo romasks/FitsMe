@@ -22,25 +22,21 @@ public class SignInViewModel extends BaseViewModel {
         inject(this);
     }
 
-    public void init() {
-        addDisposable(signInUpInteractor.getAutoSignInInfo()
-                .subscribe(this::onAutoSignIn, this::onError));
-    }
+    public void init(){}
 
-    private void onAutoSignIn(@NotNull AutoSignInInfo autoSignInInfo) {
-        if (autoSignInInfo.getSignInInfo() != null && autoSignInInfo.isAuto()) {
-            startLoading();
-            addDisposable(signInUpInteractor.authorize(autoSignInInfo.getSignInInfo())
-                    .subscribe(this::onSignInResult, this::onError));
-        }
-    }
-
-    public void onSignIn(String login, String password) {
-        startLoading();
-        addDisposable(signInUpInteractor.authorize(login, password)
-                .subscribe(this::onSignInResult, this::onError));
-    }
-
+//    public void init() {
+//        addDisposable(signInUpInteractor.getAutoSignInInfo()
+//                .subscribe(this::onAutoSignIn, this::onError));
+//    }
+//
+//    private void onAutoSignIn(@NotNull AutoSignInInfo autoSignInInfo) {
+//        if (autoSignInInfo.getSignInInfo() != null && autoSignInInfo.isAuto()) {
+//            startLoading();
+//            addDisposable(signInUpInteractor.authorize(autoSignInInfo.getSignInInfo())
+//                    .subscribe(this::onSignInResult, this::onError));
+//        }
+//    }
+//
     private void onSignInResult(SignInUpResult signInUpResult) {
         stopLoading(signInUpResult);
         if (signInUpResult.isSuccess()) {
@@ -58,6 +54,12 @@ public class SignInViewModel extends BaseViewModel {
 
     private void stopLoading(SignInUpResult signInUpResult) {
         fieldsStateLiveData.setValue(new SignInUpState(signInUpResult, false));
+    }
+
+    public void onSignIn(String login, String password) {
+        startLoading();
+        addDisposable(signInUpInteractor.authorize(login, password)
+                .subscribe(this::onSignInResult, this::onError));
     }
 
     public NonNullLiveData<SignInUpState> getFieldsStateLiveData() {
