@@ -7,10 +7,9 @@ import android.databinding.ObservableField;
 
 import org.jetbrains.annotations.NotNull;
 
-import ru.fitsme.android.data.models.OrderModel;
-import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.presentation.model.OrderViewModel;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
@@ -20,17 +19,17 @@ public class CheckoutViewModel extends BaseViewModel {
 
     private final IOrdersInteractor ordersInteractor;
 
-    private MutableLiveData<Order> orderLiveData;
+    private MutableLiveData<OrderViewModel> orderLiveData;
     private MutableLiveData<Boolean> successMakeOrderLiveData;
 
     public ObservableBoolean loading;
-    public ObservableField<OrderModel> orderModel;
+    public ObservableField<OrderViewModel> orderModel;
 
     public CheckoutViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
     }
 
-    LiveData<Order> getOrderLiveData() {
+    LiveData<OrderViewModel> getOrderLiveData() {
         return orderLiveData;
     }
 
@@ -57,7 +56,7 @@ public class CheckoutViewModel extends BaseViewModel {
                 .subscribe(this::onMakeOrder, this::onError));
     }
 
-    private void onOrder(@NotNull Order order) {
+    private void onOrder(@NotNull OrderViewModel order) {
         orderLiveData.setValue(order);
 
     }

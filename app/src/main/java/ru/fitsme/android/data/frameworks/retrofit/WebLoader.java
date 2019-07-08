@@ -16,6 +16,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
+import ru.fitsme.android.data.model.OrderRequest;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
@@ -160,11 +161,7 @@ public class WebLoader {
         executeRequest(() -> apiService.addItemToCart(getHeaderToken(), new OrderedItem(id, quantity)));
     }
 
-    public void makeOrder(
-            long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
-    ) throws UserException {
-
-        executeRequest(() -> apiService.updateOrderById(getHeaderToken(), orderId,
-                new OrderUpdate(phoneNumber, street, houseNumber, apartment, orderStatus)));
+    public void makeOrder(long orderId, OrderRequest request) throws UserException {
+        executeRequest(() -> apiService.updateOrderById(getHeaderToken(), orderId, request));
     }
 }

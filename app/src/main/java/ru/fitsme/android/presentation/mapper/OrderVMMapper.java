@@ -10,9 +10,9 @@ import ru.fitsme.android.presentation.model.OrderViewModel;
  * Map a [Order] to and from a [OrderViewModel] instance when data is moving between
  * this layer and the Domain layer
  */
-public class OrderMapper implements Mapper<OrderViewModel, Order> {
+public class OrderVMMapper implements Mapper<OrderViewModel, Order> {
 
-    @Inject public OrderMapper() {}
+    @Inject public OrderVMMapper() {}
 
     /**
      * Map a [Order] instance to a [OrderViewModel] instance
@@ -39,6 +39,22 @@ public class OrderMapper implements Mapper<OrderViewModel, Order> {
         orderViewModel.setTotalPrice(String.valueOf(price + discount));
 
         return orderViewModel;
+    }
+
+    /**
+     * Map a [OrderViewModel] instance to a [Order] instance
+     */
+    @Override
+    public Order mapFromViewModel(OrderViewModel type) {
+        Order order = new Order(type.getOrderId());
+
+        order.city = type.getCity();
+        order.street = type.getStreet();
+        order.houseNumber = type.getHouseNumber();
+        order.apartment = type.getApartment();
+        order.phoneNumber = type.getPhoneNumber();
+
+        return order;
     }
 
 }

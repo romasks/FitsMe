@@ -22,6 +22,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
+import ru.fitsme.android.data.mapper.OrderWebMapper;
 import ru.fitsme.android.data.repositories.ResourceRepository;
 import ru.fitsme.android.data.repositories.SignInUpRepository;
 import ru.fitsme.android.data.repositories.TextValidator;
@@ -52,6 +53,7 @@ import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.orders.OrdersInteractor;
+import ru.fitsme.android.presentation.mapper.OrderVMMapper;
 import toothpick.Scope;
 import toothpick.Toothpick;
 import toothpick.config.Module;
@@ -91,6 +93,8 @@ public class DI {
             bind(IOrdersInteractor.class).to(OrdersInteractor.class);
             bind(IOrdersRepository.class).to(OrdersRepository.class);
             bind(OrdersDataSourceFactory.class).to(OrdersDataSourceFactory.class);
+            bind(ru.fitsme.android.data.mapper.Mapper.class).to(OrderWebMapper.class);
+            bind(ru.fitsme.android.presentation.mapper.Mapper.class).to(OrderVMMapper.class);
 
         }});
     }

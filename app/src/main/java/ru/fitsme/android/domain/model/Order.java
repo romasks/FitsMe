@@ -15,6 +15,10 @@ public class Order {
     public OrderStatus orderStatus;
     public List<OrderItem> orderItemList;
 
+    public Order(long orderId) {
+        this.orderId = orderId;
+    }
+
     public Order(long orderId, String city, String street, String houseNumber,
                  String apartment, String phoneNumber, OrderStatus orderStatus,
                  List<OrderItem> orderItemList) {

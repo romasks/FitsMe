@@ -14,6 +14,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
+import ru.fitsme.android.data.model.OrderRequest;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
@@ -61,5 +62,5 @@ public interface ApiService {
     @PUT("orders/{id}/")
     Call<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
                                             @Path("id") long orderId,
-                                            @Body OrderUpdate order);
+                                            @Body OrderRequest request);
 }

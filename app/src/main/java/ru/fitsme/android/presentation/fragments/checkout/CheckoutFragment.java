@@ -20,13 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
-import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
+import ru.fitsme.android.presentation.model.OrderViewModel;
 import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
@@ -71,9 +70,9 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         viewModel.getSuccessMakeOrderLiveData().observe(this, this::onSuccessMakeOrder);
     }
 
-    private void onLoadOrder(Order order) {
+    private void onLoadOrder(OrderViewModel order) {
         viewModel.loading.set(GONE);
-        viewModel.orderModel.set(new OrderModel(order));
+        viewModel.orderModel.set(order);
     }
 
     private void onSuccessMakeOrder(Boolean successMakeOrder) {

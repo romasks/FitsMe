@@ -9,17 +9,22 @@ import java.util.List;
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.mapper.OrderWebMapper;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.model.Order;
 import ru.fitsme.android.utils.OrderStatus;
+import timber.log.Timber;
 
 public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
         implements IOrdersRepository {
 
     private final WebLoader webLoader;
+
+    @Inject
+    OrderWebMapper mapper;
 
     @Inject
     OrdersRepository(WebLoader webLoader) {
@@ -33,24 +38,21 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
     }
 
     @Override
-    public void makeOrder(
-            long orderId, String phoneNumber, String street, String houseNumber,
-            String apartment, OrderStatus orderStatus
-    ) throws AppException {
-
-        webLoader.makeOrder(orderId, phoneNumber, street, houseNumber, apartment, orderStatus);
+    public void makeOrder(Order order) throws AppException {
+        webLoader.makeOrder(order.orderId, mapper.mapToEntity(order));
     }
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, OrderItem> callback) {
         try {
             OrdersPage ordersPage = webLoader.getOrdersPage(1);
-            List<Order> ordersList = ordersPage.getOrdersList();
+            Timber.d("mapper: %s", mapper);
+            List<Order> ordersList = ordersPage.getOrdersList(mapper);
             List<OrderItem> orderItemList;
             if (ordersList.size() == 0) {
                 orderItemList = new ArrayList<>();
             } else {
-                orderItemList = ordersList.get(0).getOrderItemList();
+                orderItemList = ordersList.get(0).orderItemList;
             }
             callback.onResult(orderItemList, ordersPage.getPreviousPage(), ordersPage.getNextPage());
         } catch (AppException e) {
@@ -67,8 +69,9 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, OrderItem> callback) {
         try {
             OrdersPage ordersPage = webLoader.getOrdersPage(params.key);
-            List<Order> ordersList = ordersPage.getOrdersList();
-            callback.onResult(ordersList.get(0).getOrderItemList(), ordersPage.getNextPage());
+            Timber.d("mapper: %s", mapper);
+            List<Order> ordersList = ordersPage.getOrdersList(mapper);
+            callback.onResult(ordersList.get(0).orderItemList, ordersPage.getNextPage());
         } catch (AppException e) {
             e.printStackTrace();
         }

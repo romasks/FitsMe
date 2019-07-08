@@ -7,19 +7,15 @@ import android.support.annotation.NonNull;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import ru.fitsme.android.data.models.OrderModel;
-import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
+import ru.fitsme.android.presentation.model.OrderViewModel;
 import ru.fitsme.android.utils.OrderStatus;
 
 public interface IOrdersInteractor extends BaseInteractor{
 
     @NonNull
-    Single<Order> getSingleOrder(OrderStatus status);
-
-    @NonNull
-    Single<Order> getCurrentOrderInCart();
+    Single<OrderViewModel> getSingleOrder(OrderStatus status);
 
     @NonNull
     Completable removeItemFromOrder(int index);
@@ -29,5 +25,5 @@ public interface IOrdersInteractor extends BaseInteractor{
 
     LiveData<PagedList<OrderItem>> getPagedListLiveData();
 
-    Completable makeOrder(OrderModel orderModel);
+    Completable makeOrder(OrderViewModel order);
 }
