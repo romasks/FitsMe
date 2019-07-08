@@ -57,7 +57,7 @@
                         <TextView
                             android:id="@+id/tv_index"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="260dp"
                             android:gravity="center"
                             tools:text="@string/loading"
                             />
