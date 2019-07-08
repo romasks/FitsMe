@@ -152,6 +152,10 @@ public class WebLoader {
         return executeRequest(() -> apiService.getOrders(getHeaderToken(), status));
     }
 
+    public void deleteOrderItem(int itemId) throws UserException {
+        executeRequest(() -> apiService.deleteOrdersItem(getHeaderToken(), itemId));
+    }
+
     public void deleteFavouriteItem(int itemId) throws UserException {
         executeRequest(() -> apiService.deleteFavouritesItem(getHeaderToken(), itemId));
     }
