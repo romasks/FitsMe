@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +22,15 @@ import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.favourites.FavouritesRecyclerItemTouchHelper;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
 
-public class CartFragment extends BaseFragment<CartViewModel> implements CartBindingEvents {
+public class CartFragment extends BaseFragment<CartViewModel>
+        implements CartBindingEvents, CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener  {
 
     @Inject
     IOrdersInteractor ordersInteractor;
@@ -83,6 +87,10 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
 
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
+
+        ItemTouchHelper.SimpleCallback simpleCallback =
+                new CartRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+        new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.cartListRv);
     }
 
     private void onLoadPage(PagedList<OrderItem> pagedList) {
@@ -104,5 +112,13 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
     @Override
     public void onClickGoToFavourites() {
         ((MainFragment) getParentFragment()).goToFavourites();
+    }
+
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (position != RecyclerView.NO_POSITION) {
+            viewModel.deleteItem(position);
+        }
     }
 }

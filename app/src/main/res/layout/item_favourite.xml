@@ -21,7 +21,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="172dp">
+        android:layout_height="@dimen/item_favourite_height">
 
         <RelativeLayout
             android:id="@+id/item_favourite_view_background"

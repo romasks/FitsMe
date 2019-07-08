@@ -12,11 +12,46 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/item_cart_height">
 
         <RelativeLayout
+            android:id="@+id/item_cart_view_background"
             android:layout_width="match_parent"
-            android:layout_height="172dp"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_medium">
+
+            <ImageView
+                android:id="@+id/item_cart_delete_icon_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/padding_extra_medium"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_delete_24dp"
+                android:visibility="invisible"
+                />
+
+            <ImageView
+                android:id="@+id/item_cart_delete_icon_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/padding_extra_medium"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_delete_24dp"
+                android:visibility="invisible"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/item_cart_view_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="@dimen/padding_medium">
 
             <android.support.v7.widget.CardView
