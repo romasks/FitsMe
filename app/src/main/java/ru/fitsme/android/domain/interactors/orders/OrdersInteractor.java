@@ -133,7 +133,7 @@ public class OrdersInteractor implements IOrdersInteractor {
         return pagedListLiveData;
     }
 
-    public void invalidateDataSource(){
+    private void invalidateDataSource(){
         OrdersRepository repository = ordersDataSourceFactory.getSourceLiveData().getValue();
         if (repository != null) {
             Objects.requireNonNull(repository).invalidate();
