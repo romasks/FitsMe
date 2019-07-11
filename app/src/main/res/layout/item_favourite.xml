@@ -67,20 +67,24 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/favourite_image_field"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/padding_medium"
                 android:background="@drawable/bg_rounded_corners"
-                app:cardCornerRadius="10dp"
-                app:elevation="3dp">
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                >
 
                 <ImageView
                     android:id="@+id/favourite_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:contentDescription="@null"
-                    app:defaultImage="@{@drawable/clothe_example}"
+                    android:layout_gravity="fill"
+                    app:defaultImage="@{@drawable/placeholder}"
                     app:imageUrl="@{clothesItem.imageUrl}"
-                    tools:src="@drawable/clothe_example" />
+                    tools:src="@drawable/placeholder"
+                    />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -88,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/favourite_image_field"
+                android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{clothesItem.brandName}"
                 android:textSize="@dimen/text_size_medium"
@@ -101,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/favourites_brand_name"
                 android:layout_toEndOf="@id/favourite_image_field"
+                android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{clothesItem.name}"
                 android:textColor="@color/black"
@@ -112,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/favourites_name"
                 android:layout_toEndOf="@id/favourite_image_field"
+                android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{@string/cart_amount_tv(clothesItem.price)}"
                 android:textColor="@color/black"
@@ -126,6 +133,7 @@
                 android:textAllCaps="false"
                 android:layout_alignParentBottom="true"
                 android:layout_toEndOf="@id/favourite_image_field"
+                android:layout_alignParentEnd="true"
                 android:onClick="@{() -> viewModel.addItemToCart(position)}"
                 android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small"
