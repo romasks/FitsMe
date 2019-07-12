@@ -74,6 +74,10 @@ public class MainFragment extends Fragment {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
     }
 
+    public void goToRateItems(){
+        switchFragment(RateItemsFragment.newInstance());
+    }
+
     public void goToCheckout() {
         switchFragment(CheckoutFragment.newInstance());
     }
@@ -83,6 +87,14 @@ public class MainFragment extends Fragment {
             binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
         } else {
             binding.bnvMainFrNavigation.setVisibility(View.GONE);
+        }
+    }
+
+    public void showBottomShadow(boolean b){
+        if (b){
+            binding.fragmentMainBottomShadow.setVisibility(View.VISIBLE);
+        } else {
+            binding.fragmentMainBottomShadow.setVisibility(View.GONE);
         }
     }
 }

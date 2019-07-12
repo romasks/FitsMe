@@ -79,7 +79,7 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
         binding.cartListRv.setAdapter(adapter);
 
         viewModel.loading.set(VISIBLE);
-        viewModel.showEmpty.set(VISIBLE);
+//        viewModel.showEmpty.set(VISIBLE);
 
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
@@ -88,9 +88,9 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
     private void onLoadPage(PagedList<OrderItem> pagedList) {
         viewModel.loading.set(GONE);
         if (pagedList == null || pagedList.size() == 0) {
-            viewModel.showEmpty.set(VISIBLE);
+            showCartEmpty(true);
         } else {
-            viewModel.showEmpty.set(GONE);
+            showCartEmpty(false);
             viewModel.setTotalPrice(pagedList);
         }
         adapter.submitList(pagedList);
@@ -104,5 +104,29 @@ public class CartFragment extends BaseFragment<CartViewModel> implements CartBin
     @Override
     public void onClickGoToFavourites() {
         ((MainFragment) getParentFragment()).goToFavourites();
+    }
+
+    @Override
+    public void onClickGoToRateItems() {
+        ((MainFragment) getParentFragment()).goToRateItems();
+    }
+
+
+    private void showCartEmpty(boolean b){
+        if (b){
+            binding.cartNoItemGroup.setVisibility(View.VISIBLE);
+            binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
+            ((MainFragment) getParentFragment()).showBottomShadow(true);
+        } else {
+            binding.cartNoItemGroup.setVisibility(View.GONE);
+            binding.cartProceedToCheckoutGroup.setVisibility(View.INVISIBLE);
+            ((MainFragment) getParentFragment()).showBottomShadow(false);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        ((MainFragment) getParentFragment()).showBottomShadow(true);
+        super.onDestroyView();
     }
 }

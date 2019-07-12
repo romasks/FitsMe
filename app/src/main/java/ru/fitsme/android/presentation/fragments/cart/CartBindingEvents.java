@@ -4,4 +4,6 @@ public interface CartBindingEvents {
     void onClickGoToCheckout();
 
     void onClickGoToFavourites();
+
+    void onClickGoToRateItems();
 }
