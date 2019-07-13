@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -102,7 +103,10 @@
                 android:background="#f3fafafa"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="@{signInUpState.loading ? View.VISIBLE : View.GONE}">
+                android:visibility="@{signInUpState.loading ? View.VISIBLE : View.GONE}"
+                tools:visibility="invisible"
+                >
+
 
                 <ProgressBar
                     android:layout_width="64dp"

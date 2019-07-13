@@ -24,7 +24,7 @@ import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInViewMod
 public class SignInFragment extends BaseFragment<SignInViewModel> implements SignInBindingEvents {
 
     @Inject
-    IAuthInteractor signInUpInteractor;
+    IAuthInteractor authInteractor;
 
     private FragmentSignInBinding binding;
     private LoadingDialog loadingDialog;
@@ -48,7 +48,7 @@ public class SignInFragment extends BaseFragment<SignInViewModel> implements Sig
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(signInUpInteractor)).get(SignInViewModel.class);
+                new ViewModelFactory(authInteractor)).get(SignInViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
@@ -59,12 +59,6 @@ public class SignInFragment extends BaseFragment<SignInViewModel> implements Sig
 
     private void onStateChanged(SignInUpState signInUpState) {
         binding.setSignInUpState(signInUpState);
-
-        /*if (signInUpState.isLoading()) {
-            loadingDialog.show(getContext());
-        } else {
-            loadingDialog.hide();
-        }*/
     }
 
     @Override

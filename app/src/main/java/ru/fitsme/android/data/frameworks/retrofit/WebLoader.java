@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
@@ -16,13 +17,10 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
-import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
-import ru.fitsme.android.domain.boundaries.signinup.IAuthRepository;
 import ru.fitsme.android.domain.entities.auth.SignInInfo;
-import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
@@ -32,6 +30,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.ProductInListOfViewedEx
 import ru.fitsme.android.domain.entities.exceptions.user.TokenNotSearchUser;
 import ru.fitsme.android.domain.entities.exceptions.user.TokenOutOfDateException;
 import ru.fitsme.android.domain.entities.exceptions.user.TokenUserNotActiveException;
+import ru.fitsme.android.domain.entities.exceptions.user.UnknowError;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
@@ -44,19 +43,33 @@ import timber.log.Timber;
 public class WebLoader {
 
     private ApiService apiService;
-    private IAuthRepository authRepository;
+//    private IAuthRepository authRepository;
 
     @Inject
-    WebLoader(ApiService apiService, IAuthRepository authRepository){
+    WebLoader(ApiService apiService){
         this.apiService = apiService;
-        this.authRepository = authRepository;
+    }
+
+    public Single<AuthInfo> signIn(@NonNull SignInInfo signInInfo){
+        return apiService.signIn(signInInfo)
+                .map(authTokenOkResponse -> {
+                    AuthToken authToken = authTokenOkResponse.getResponse();
+                    if (authToken != null){
+                        String token = authToken.getToken();
+                        return new AuthInfo(signInInfo.getLogin(), token);
+                    } else {
+                        Error error = authTokenOkResponse.getError();
+                        UserException userException = makeError(error);
+                        return new AuthInfo(userException);
+                    }
+                });
     }
 
     private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
         if (okResponse.getResponse() != null) {
             return okResponse.getResponse();
         }
-        throw makeException(okResponse.getError());
+        throw makeError(okResponse.getError());
     }
 
     private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
@@ -77,10 +90,10 @@ public class WebLoader {
         }
         throw new InternetConnectionException();
     }
-
     public interface ExecutableRequest<T> {
         @NonNull
         Call<OkResponse<T>> request();
+
     }
 
     private String getHeaderToken() {
@@ -88,7 +101,7 @@ public class WebLoader {
     }
 
     @NonNull
-    private UserException makeException(Error error) throws InternalException {
+    private UserException makeError(Error error){
         switch (error.getCode()) {
             case WrongLoginOrPasswordException.CODE:
                 return new WrongLoginOrPasswordException(error.getMessage());
@@ -112,15 +125,9 @@ public class WebLoader {
                 return new ProductInListOfViewedException(error.getMessage());
             case ClotheNotFoundException.CODE:
                 return new ClotheNotFoundException(error.getMessage());
-            case InternalException.CODE:
-                throw new InternalException(error.getMessage());
+            default:
+                return new UnknowError();
         }
-        throw new InternalException("Unknown error (" + error.getCode() + "):" + error.getMessage());
-    }
-
-    public AuthInfo signIn(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(() -> apiService.signIn(signInInfo));
-        return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
     public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {

@@ -1,4 +1,4 @@
-package ru.fitsme.android.data.repositories;
+package ru.fitsme.android.data.repositories.auth;
 
 import android.support.annotation.Nullable;
 
@@ -17,14 +17,20 @@ public class TextValidator implements ITextValidator {
     }
 
     @Override
-    public void checkLogin(@Nullable String login) throws WrongLoginException {
-        if (login == null || login.length() < 3)
-            throw new WrongLoginException();
+    public boolean checkLogin(@Nullable String login){
+        if (login == null || login.length() < 3) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
-    public void checkPassword(@Nullable String password) throws WrongPasswordException {
-        if (password == null || password.length() < 6)
-            throw new WrongPasswordException();
+    public boolean checkPassword(@Nullable String password){
+        if (password == null || password.length() < 6) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

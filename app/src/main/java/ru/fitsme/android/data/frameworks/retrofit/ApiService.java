@@ -1,5 +1,6 @@
 package ru.fitsme.android.data.frameworks.retrofit;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -28,7 +29,7 @@ public interface ApiService {
     Call<OkResponse<AuthToken>> signUp(@Body SignInInfo signInInfo);
 
     @POST("customers/signin/")
-    Call<OkResponse<AuthToken>> signIn(@Body SignInInfo signInInfo);
+    Single<OkResponse<AuthToken>> signIn(@Body SignInInfo signInInfo);
 
     @GET("clothes/")
     Call<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,

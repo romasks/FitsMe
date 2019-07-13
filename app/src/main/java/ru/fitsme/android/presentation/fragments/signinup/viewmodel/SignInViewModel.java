@@ -12,30 +12,23 @@ import timber.log.Timber;
 
 public class SignInViewModel extends BaseViewModel {
 
-    private IAuthInteractor signInUpInteractor;
+    private IAuthInteractor authInteractor;
 
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
-    public SignInViewModel(@NotNull IAuthInteractor signInUpInteractor) {
-        this.signInUpInteractor = signInUpInteractor;
+    public SignInViewModel(@NotNull IAuthInteractor authInteractor) {
+        this.authInteractor = authInteractor;
         inject(this);
     }
 
     public void init(){}
 
-//    public void init() {
-//        addDisposable(signInUpInteractor.getAuthInfo()
-//                .subscribe(this::onAutoSignIn, this::onError));
-//    }
-//
-//    private void onAutoSignIn(@NotNull AutoSignInInfo autoSignInInfo) {
-//        if (autoSignInInfo.getAuthInfo() != null && autoSignInInfo.isAuto()) {
-//            startLoading();
-//            addDisposable(signInUpInteractor.authorize(autoSignInInfo.getAuthInfo())
-//                    .subscribe(this::onSignInResult, this::onError));
-//        }
-//    }
-//
+    public void onSignIn(String login, String password) {
+        startLoading();
+        addDisposable(authInteractor.signIn(login, password)
+                .subscribe(this::onSignInResult, this::onError));
+    }
+
     private void onSignInResult(SignInUpResult signInUpResult) {
         stopLoading(signInUpResult);
         if (signInUpResult.isSuccess()) {
@@ -53,12 +46,6 @@ public class SignInViewModel extends BaseViewModel {
 
     private void stopLoading(SignInUpResult signInUpResult) {
         fieldsStateLiveData.setValue(new SignInUpState(signInUpResult, false));
-    }
-
-    public void onSignIn(String login, String password) {
-//        startLoading();
-//        addDisposable(signInUpInteractor.authorize(login, password)
-//                .subscribe(this::onSignInResult, this::onError));
     }
 
     public NonNullLiveData<SignInUpState> getFieldsStateLiveData() {

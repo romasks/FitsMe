@@ -1,12 +1,13 @@
 package ru.fitsme.android.domain.entities.auth;
 
 import ru.fitsme.android.domain.entities.exceptions.AppException;
+import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 
 public class AuthInfo {
     private boolean isAuth;
     private String login;
     private String token;
-    private AppException error;
+    private UserException error;
 
     public AuthInfo(String login, String token) {
         this.login = login;
@@ -18,7 +19,7 @@ public class AuthInfo {
         }
     }
 
-    public AuthInfo(AppException error){
+    public AuthInfo(UserException error){
         this.isAuth = false;
         this.error = error;
     }
@@ -31,7 +32,7 @@ public class AuthInfo {
         return token;
     }
 
-    public AppException getError() {
+    public UserException getError() {
         return error;
     }
 

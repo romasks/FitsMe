@@ -7,7 +7,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 
 public interface ITextValidator {
 
-    void checkLogin(@Nullable String login) throws WrongLoginException;
+    boolean checkLogin(@Nullable String login);
 
-    void checkPassword(@Nullable String password) throws WrongPasswordException;
+    boolean checkPassword(@Nullable String password);
 }

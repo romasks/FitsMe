@@ -6,18 +6,23 @@ import android.support.annotation.Nullable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
+import ru.fitsme.android.domain.entities.auth.SignInInfo;
 import ru.fitsme.android.domain.entities.auth.SignInUpResult;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 
 public interface IAuthInteractor extends BaseInteractor {
 
     Single<AuthInfo> getAuthInfo();
-//
-//    @NonNull
-//    Single<SignInUpResult> register(@Nullable String login, @Nullable String password);
+
+    @NonNull
+    Single<SignInUpResult> signIn(@Nullable String login, @Nullable String password);
 
 //    @NonNull
-//    Single<SignInUpResult> authorize(@Nullable String login, @Nullable String password);
+//    Single<SignInUpResult> signIn(@NonNull SignInInfo signInInfo);
+//
+
+//    @NonNull
+//    Single<SignInUpResult> register(@Nullable String login, @Nullable String password);
 //
 //    @NonNull
 //    Single<SignInUpResult> checkLogin(@Nullable String login);
@@ -28,8 +33,6 @@ public interface IAuthInteractor extends BaseInteractor {
 //    @NonNull
 //    Single<SignInInfo> getAuthInfo();
 //
-//    @NonNull
-//    Single<SignInUpResult> authorize(@NonNull SignInInfo signInInfo);
 
 
 }

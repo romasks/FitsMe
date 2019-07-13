@@ -37,7 +37,7 @@ public class SplashViewModel extends BaseViewModel {
 //        if (autoSignInInfo.getSignInInfo() != null && autoSignInInfo.isAuto()) {
 //            addDisposable(
 //                    authInteractor
-//                            .authorize(autoSignInInfo.getSignInInfo())
+//                            .signIn(autoSignInInfo.getSignInInfo())
 //                            .subscribe(this::onSignInResult, this::onError));
 //        } else {
 //            navigation.goSignInUp();
