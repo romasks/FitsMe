@@ -22,7 +22,7 @@ import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewM
 public class SignInUpFragment extends BaseFragment<SignInUpViewModel> implements SignInUpBindingEvents {
 
     @Inject
-    IAuthInteractor signInUpInteractor;
+    IAuthInteractor authInteractor;
 
     private FragmentSignInUpBinding binding;
 
@@ -43,7 +43,7 @@ public class SignInUpFragment extends BaseFragment<SignInUpViewModel> implements
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(signInUpInteractor)).get(SignInUpViewModel.class);
+                new ViewModelFactory(authInteractor)).get(SignInUpViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

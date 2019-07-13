@@ -22,7 +22,7 @@ public class SplashFragment extends BaseFragment<SplashViewModel> {
     FragmentSplashBinding binding;
 
     @Inject
-    IAuthInteractor signInUpInteractor;
+    IAuthInteractor authInteractor;
 
     public static SplashFragment newInstance() {
 
@@ -45,7 +45,7 @@ public class SplashFragment extends BaseFragment<SplashViewModel> {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(signInUpInteractor)).get(SplashViewModel .class);
+                new ViewModelFactory(authInteractor)).get(SplashViewModel .class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

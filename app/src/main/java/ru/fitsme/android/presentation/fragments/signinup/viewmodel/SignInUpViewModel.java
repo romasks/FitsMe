@@ -7,10 +7,10 @@ import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
 public class SignInUpViewModel extends BaseViewModel {
 
-    private IAuthInteractor signInUpInteractor;
+    private IAuthInteractor authInteractor;
 
-    public SignInUpViewModel(@NotNull IAuthInteractor signInUpInteractor) {
-        this.signInUpInteractor = signInUpInteractor;
+    public SignInUpViewModel(@NotNull IAuthInteractor authInteractor) {
+        this.authInteractor = authInteractor;
         inject(this);
     }
 
