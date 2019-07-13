@@ -1,4 +1,4 @@
-package ru.fitsme.android.domain.entities.signinup;
+package ru.fitsme.android.domain.entities.auth;
 
 public class SignInUpResult {
     private String loginError;

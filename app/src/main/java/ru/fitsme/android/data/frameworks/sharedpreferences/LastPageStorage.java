@@ -28,9 +28,15 @@ public class LastPageStorage extends SharedPreferencesStorage<LastItem> {
 
     @NonNull
     @Override
-    protected LastItem getValues() throws DataNotFoundException {
-        int page = getIntValue(PAGE_KEY);
-        int index = getIntValue(INDEX_KEY);
+    protected LastItem getValues(){
+        int page = 0;
+        int index = 0;
+        try {
+            page = getIntValue(PAGE_KEY);
+            index = getIntValue(INDEX_KEY);
+        } catch (DataNotFoundException e) {
+            e.printStackTrace();
+        }
         return new LastItem(page, index);
     }
 }

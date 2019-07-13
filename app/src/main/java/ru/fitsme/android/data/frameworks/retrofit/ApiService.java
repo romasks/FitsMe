@@ -17,10 +17,10 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
+import ru.fitsme.android.domain.entities.auth.SignInInfo;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 import ru.fitsme.android.utils.OrderStatus;
 
 public interface ApiService {

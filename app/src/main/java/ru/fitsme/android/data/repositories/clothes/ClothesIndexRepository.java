@@ -17,11 +17,7 @@ public class ClothesIndexRepository implements IClothesIndexRepository {
 
     @Override
     public int getLastClothesItemIndex() {
-        try {
             return clothesIndexStorage.getData();
-        } catch (DataNotFoundException e) {
-            return 0;
-        }
     }
 
     @Override

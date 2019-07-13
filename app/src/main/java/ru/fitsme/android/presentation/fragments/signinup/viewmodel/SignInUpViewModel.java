@@ -2,16 +2,14 @@ package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 
 import org.jetbrains.annotations.NotNull;
 
-import ru.fitsme.android.domain.entities.signinup.AutoSignInInfo;
-import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
-import timber.log.Timber;
 
 public class SignInUpViewModel extends BaseViewModel {
 
-    private ISignInUpInteractor signInUpInteractor;
+    private IAuthInteractor signInUpInteractor;
 
-    public SignInUpViewModel(@NotNull ISignInUpInteractor signInUpInteractor) {
+    public SignInUpViewModel(@NotNull IAuthInteractor signInUpInteractor) {
         this.signInUpInteractor = signInUpInteractor;
         inject(this);
     }

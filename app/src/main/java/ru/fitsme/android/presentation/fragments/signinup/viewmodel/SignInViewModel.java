@@ -2,9 +2,8 @@ package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 
 import org.jetbrains.annotations.NotNull;
 
-import ru.fitsme.android.domain.entities.signinup.AutoSignInInfo;
-import ru.fitsme.android.domain.entities.signinup.SignInUpResult;
-import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
+import ru.fitsme.android.domain.entities.auth.SignInUpResult;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.common.livedata.NonNullLiveData;
 import ru.fitsme.android.presentation.common.livedata.NonNullMutableLiveData;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -13,11 +12,11 @@ import timber.log.Timber;
 
 public class SignInViewModel extends BaseViewModel {
 
-    private ISignInUpInteractor signInUpInteractor;
+    private IAuthInteractor signInUpInteractor;
 
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
-    public SignInViewModel(@NotNull ISignInUpInteractor signInUpInteractor) {
+    public SignInViewModel(@NotNull IAuthInteractor signInUpInteractor) {
         this.signInUpInteractor = signInUpInteractor;
         inject(this);
     }
@@ -25,14 +24,14 @@ public class SignInViewModel extends BaseViewModel {
     public void init(){}
 
 //    public void init() {
-//        addDisposable(signInUpInteractor.getAutoSignInInfo()
+//        addDisposable(signInUpInteractor.getAuthInfo()
 //                .subscribe(this::onAutoSignIn, this::onError));
 //    }
 //
 //    private void onAutoSignIn(@NotNull AutoSignInInfo autoSignInInfo) {
-//        if (autoSignInInfo.getSignInInfo() != null && autoSignInInfo.isAuto()) {
+//        if (autoSignInInfo.getAuthInfo() != null && autoSignInInfo.isAuto()) {
 //            startLoading();
-//            addDisposable(signInUpInteractor.authorize(autoSignInInfo.getSignInInfo())
+//            addDisposable(signInUpInteractor.authorize(autoSignInInfo.getAuthInfo())
 //                    .subscribe(this::onSignInResult, this::onError));
 //        }
 //    }
@@ -57,9 +56,9 @@ public class SignInViewModel extends BaseViewModel {
     }
 
     public void onSignIn(String login, String password) {
-        startLoading();
-        addDisposable(signInUpInteractor.authorize(login, password)
-                .subscribe(this::onSignInResult, this::onError));
+//        startLoading();
+//        addDisposable(signInUpInteractor.authorize(login, password)
+//                .subscribe(this::onSignInResult, this::onError));
     }
 
     public NonNullLiveData<SignInUpState> getFieldsStateLiveData() {

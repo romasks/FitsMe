@@ -26,7 +26,13 @@ public class ClothesIndexStorage extends SharedPreferencesStorage<Integer> {
 
     @NonNull
     @Override
-    protected Integer getValues() throws DataNotFoundException {
-        return getIntegerValue(INDEX_KEY);
+    protected Integer getValues() {
+        int i = 0;
+        try {
+            i = getIntegerValue(INDEX_KEY);
+        } catch (DataNotFoundException e) {
+            e.printStackTrace();
+        }
+        return i;
     }
 }

@@ -23,9 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.repositories.ResourceRepository;
-import ru.fitsme.android.data.repositories.SignInUpRepository;
+import ru.fitsme.android.data.repositories.AuthRepository;
 import ru.fitsme.android.data.repositories.TextValidator;
-import ru.fitsme.android.data.repositories.UserInfoRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesIndexRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesLikeRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
@@ -40,12 +39,11 @@ import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
+import ru.fitsme.android.domain.boundaries.signinup.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.signinup.IResourceRepository;
-import ru.fitsme.android.domain.boundaries.signinup.ISignInUpRepository;
 import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
-import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
-import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
-import ru.fitsme.android.domain.interactors.auth.SignInUpInteractor;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
+import ru.fitsme.android.domain.interactors.auth.AuthInteractor;
 import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
@@ -64,9 +62,8 @@ public class DI {
     public DI(Application application) {
         appScope = Toothpick.openScope(application);
         appScope.installModules(new Module() {{
-            bind(ISignInUpInteractor.class).to(SignInUpInteractor.class);
-            bind(ISignInUpRepository.class).to(SignInUpRepository.class);
-            bind(IUserInfoRepository.class).to(UserInfoRepository.class);
+            bind(IAuthInteractor.class).to(AuthInteractor.class);
+            bind(IAuthRepository.class).to(AuthRepository.class);
             bind(ITextValidator.class).to(TextValidator.class);
             bind(IResourceRepository.class).to(ResourceRepository.class);
             bind(Context.class).toInstance(application);

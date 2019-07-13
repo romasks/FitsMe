@@ -1,4 +1,4 @@
-package ru.fitsme.android.domain.entities.signinup;
+package ru.fitsme.android.domain.entities.auth;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
+import ru.fitsme.android.domain.entities.auth.SignInInfo;
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
-import ru.fitsme.android.domain.entities.signinup.SignInInfo;
 
 public class SignInUpInfoStorage extends SharedPreferencesStorage<SignInInfo> {
     private static final String PREF_NAME = "signInUpInfoPref";
@@ -27,7 +27,7 @@ public class SignInUpInfoStorage extends SharedPreferencesStorage<SignInInfo> {
 
     @Override
     @NonNull
-    protected SignInInfo getValues() throws DataNotFoundException {
+    protected SignInInfo getValues() {
         String login = getStringValue(LOGIN_KEY);
         String passwordHash = getStringValue(PASSWORD_KEY);
         return SignInInfo.create(login, passwordHash);

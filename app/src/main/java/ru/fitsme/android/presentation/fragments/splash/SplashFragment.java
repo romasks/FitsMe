@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSplashBinding;
-import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
@@ -22,7 +22,7 @@ public class SplashFragment extends BaseFragment<SplashViewModel> {
     FragmentSplashBinding binding;
 
     @Inject
-    ISignInUpInteractor signInUpInteractor;
+    IAuthInteractor signInUpInteractor;
 
     public static SplashFragment newInstance() {
 

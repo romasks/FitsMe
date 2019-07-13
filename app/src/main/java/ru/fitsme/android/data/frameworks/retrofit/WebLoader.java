@@ -16,10 +16,12 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
+import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
-import ru.fitsme.android.domain.boundaries.signinup.IUserInfoRepository;
+import ru.fitsme.android.domain.boundaries.signinup.IAuthRepository;
+import ru.fitsme.android.domain.entities.auth.SignInInfo;
 import ru.fitsme.android.domain.entities.exceptions.internal.DataNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
@@ -35,20 +37,19 @@ import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
-import ru.fitsme.android.domain.entities.signinup.AuthInfo;
-import ru.fitsme.android.domain.entities.signinup.SignInInfo;
+import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
 public class WebLoader {
 
     private ApiService apiService;
-    private IUserInfoRepository userInfoRepository;
+    private IAuthRepository authRepository;
 
     @Inject
-    WebLoader(ApiService apiService, IUserInfoRepository userInfoRepository) {
+    WebLoader(ApiService apiService, IAuthRepository authRepository){
         this.apiService = apiService;
-        this.userInfoRepository = userInfoRepository;
+        this.authRepository = authRepository;
     }
 
     private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
@@ -83,12 +84,7 @@ public class WebLoader {
     }
 
     private String getHeaderToken() {
-        try {
-            return "Token " + userInfoRepository.getAuthInfo().getToken();
-        } catch (DataNotFoundException e) {
-            e.printStackTrace();
-            return "";
-        }
+        return "Token " + authRepository.getAuthInfo().getToken();
     }
 
     @NonNull

@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.domain.interactors.BaseInteractor;
-import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
@@ -49,13 +49,13 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         } else if (modelClass.isAssignableFrom(RateItemsViewModel.class)) {
             return (T) new RateItemsViewModel((IClothesInteractor) interactor);
         } else if (modelClass.isAssignableFrom(SignInViewModel.class)) {
-            return (T) new SignInViewModel((ISignInUpInteractor) interactor);
+            return (T) new SignInViewModel((IAuthInteractor) interactor);
         } else if (modelClass.isAssignableFrom(SignInUpViewModel.class)) {
-            return (T) new SignInUpViewModel((ISignInUpInteractor) interactor);
+            return (T) new SignInUpViewModel((IAuthInteractor) interactor);
         } else if (modelClass.isAssignableFrom(SignUpViewModel.class)) {
-            return (T) new SignUpViewModel((ISignInUpInteractor) interactor);
+            return (T) new SignUpViewModel((IAuthInteractor) interactor);
         } else if (modelClass.isAssignableFrom(SplashViewModel.class)) {
-            return (T) new SplashViewModel((ISignInUpInteractor) interactor);
+            return (T) new SplashViewModel((IAuthInteractor) interactor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

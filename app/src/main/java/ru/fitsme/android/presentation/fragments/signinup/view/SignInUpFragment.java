@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSignInUpBinding;
-import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.signinup.events.SignInUpBindingEvents;
@@ -22,7 +22,7 @@ import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewM
 public class SignInUpFragment extends BaseFragment<SignInUpViewModel> implements SignInUpBindingEvents {
 
     @Inject
-    ISignInUpInteractor signInUpInteractor;
+    IAuthInteractor signInUpInteractor;
 
     private FragmentSignInUpBinding binding;
 

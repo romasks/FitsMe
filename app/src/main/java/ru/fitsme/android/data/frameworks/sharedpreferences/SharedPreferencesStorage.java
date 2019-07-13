@@ -19,10 +19,10 @@ public abstract class SharedPreferencesStorage<T> {
     protected abstract void setValues(@NonNull SharedPreferences.Editor editor, @NonNull T data);
 
     @NonNull
-    protected abstract T getValues() throws DataNotFoundException;
+    protected abstract T getValues();
 
     @NonNull
-    public T getData() throws DataNotFoundException {
+    public T getData() {
         return getValues();
     }
 
@@ -34,22 +34,18 @@ public abstract class SharedPreferencesStorage<T> {
         editor.apply();
     }
 
-    protected String getStringValue(String key) throws DataNotFoundException {
-        checkContains(key);
-
+    protected String getStringValue(String key){
         return getSharedPreferences().getString(key, null);
     }
 
     protected int getIntValue(String key) throws DataNotFoundException {
-        checkContains(key);
+        isContain(key);
 
         return getSharedPreferences().getInt(key, 0);
     }
 
-    private void checkContains(String key) throws DataNotFoundException {
-        if (!getSharedPreferences().contains(key)) {
-            throw new DataNotFoundException();
-        }
+    private boolean isContain(String key) {
+        return getSharedPreferences().contains(key);
     }
 
     protected int getIntegerValue(String key) throws DataNotFoundException {

@@ -2,8 +2,8 @@ package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 
 import org.jetbrains.annotations.NotNull;
 
-import ru.fitsme.android.domain.entities.signinup.SignInUpResult;
-import ru.fitsme.android.domain.interactors.auth.ISignInUpInteractor;
+import ru.fitsme.android.domain.entities.auth.SignInUpResult;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.common.livedata.NonNullLiveData;
 import ru.fitsme.android.presentation.common.livedata.NonNullMutableLiveData;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -12,11 +12,11 @@ import timber.log.Timber;
 
 public class SignUpViewModel extends BaseViewModel {
 
-    private ISignInUpInteractor signInUpInteractor;
+    private IAuthInteractor signInUpInteractor;
 
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
-    public SignUpViewModel(ISignInUpInteractor signInUpInteractor) {
+    public SignUpViewModel(IAuthInteractor signInUpInteractor) {
         this.signInUpInteractor = signInUpInteractor;
         inject(this);
     }
@@ -26,9 +26,9 @@ public class SignUpViewModel extends BaseViewModel {
     }
 
     public void onSignUp(String login, String password) {
-        fieldsStateLiveData.setValue(new SignInUpState(null, true));
-        addDisposable(signInUpInteractor.register(login, password)
-                .subscribe(this::onSignInUpResult, this::onError));
+//        fieldsStateLiveData.setValue(new SignInUpState(null, true));
+//        addDisposable(signInUpInteractor.register(login, password)
+//                .subscribe(this::onSignInUpResult, this::onError));
     }
 
     private void onSignInUpResult(@NotNull SignInUpResult signInUpResult) {
