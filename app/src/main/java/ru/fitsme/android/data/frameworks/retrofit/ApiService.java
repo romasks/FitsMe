@@ -18,18 +18,18 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
-import ru.fitsme.android.domain.entities.auth.SignInInfo;
+import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.utils.OrderStatus;
 
 public interface ApiService {
-    @POST("customers/signup/")
-    Call<OkResponse<AuthToken>> signUp(@Body SignInInfo signInInfo);
-
     @POST("customers/signin/")
-    Single<OkResponse<AuthToken>> signIn(@Body SignInInfo signInInfo);
+    Single<OkResponse<AuthToken>> signIn(@Body SignInfo signInfo);
+
+    @POST("customers/signup/")
+    Single<OkResponse<AuthToken>> signUp(@Body SignInfo signInfo);
 
     @GET("clothes/")
     Call<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,

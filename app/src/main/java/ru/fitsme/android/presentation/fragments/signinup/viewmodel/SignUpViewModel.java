@@ -12,12 +12,12 @@ import timber.log.Timber;
 
 public class SignUpViewModel extends BaseViewModel {
 
-    private IAuthInteractor signInUpInteractor;
+    private IAuthInteractor authInteractor;
 
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
-    public SignUpViewModel(IAuthInteractor signInUpInteractor) {
-        this.signInUpInteractor = signInUpInteractor;
+    public SignUpViewModel(IAuthInteractor authInteractor) {
+        this.authInteractor = authInteractor;
         inject(this);
     }
 
@@ -26,9 +26,9 @@ public class SignUpViewModel extends BaseViewModel {
     }
 
     public void onSignUp(String login, String password) {
-//        fieldsStateLiveData.setValue(new SignInUpState(null, true));
-//        addDisposable(signInUpInteractor.register(login, password)
-//                .subscribe(this::onSignInUpResult, this::onError));
+        fieldsStateLiveData.setValue(new SignInUpState(null, true));
+        addDisposable(authInteractor.signUp(login, password)
+                .subscribe(this::onSignInUpResult, this::onError));
     }
 
     private void onSignInUpResult(@NotNull SignInUpResult signInUpResult) {

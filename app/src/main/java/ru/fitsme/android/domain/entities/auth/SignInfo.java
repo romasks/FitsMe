@@ -5,24 +5,24 @@ import com.google.gson.annotations.SerializedName;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class SignInInfo {
+public class SignInfo {
     private String login;
     @SerializedName("password")
     private String passwordHash;
 
-    private SignInInfo(String login) {
+    private SignInfo(String login) {
         this.login = login;
     }
 
-    public SignInInfo(String login, String password) {
+    public SignInfo(String login, String password) {
         this.login = login;
         this.passwordHash = convertToSha256(password);
     }
 
-    public static SignInInfo create(String login, String passwordHash) {
-        SignInInfo signInInfo = new SignInInfo(login);
-        signInInfo.passwordHash = passwordHash;
-        return signInInfo;
+    public static SignInfo create(String login, String passwordHash) {
+        SignInfo signInfo = new SignInfo(login);
+        signInfo.passwordHash = passwordHash;
+        return signInfo;
     }
 
     private static String convertToSha256(String data) {

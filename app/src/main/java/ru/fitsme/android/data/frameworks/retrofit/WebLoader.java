@@ -20,7 +20,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
-import ru.fitsme.android.domain.entities.auth.SignInInfo;
+import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
@@ -50,19 +50,26 @@ public class WebLoader {
         this.apiService = apiService;
     }
 
-    public Single<AuthInfo> signIn(@NonNull SignInInfo signInInfo){
-        return apiService.signIn(signInInfo)
-                .map(authTokenOkResponse -> {
-                    AuthToken authToken = authTokenOkResponse.getResponse();
-                    if (authToken != null){
-                        String token = authToken.getToken();
-                        return new AuthInfo(signInInfo.getLogin(), token);
-                    } else {
-                        Error error = authTokenOkResponse.getError();
-                        UserException userException = makeError(error);
-                        return new AuthInfo(userException);
-                    }
-                });
+    public Single<AuthInfo> signIn(@NonNull SignInfo signInfo){
+        return apiService.signIn(signInfo)
+                .map(authTokenOkResponse -> extractAuthInfo(signInfo, authTokenOkResponse));
+    }
+
+    public Single<AuthInfo> signUp(@NonNull SignInfo signInfo){
+        return apiService.signUp(signInfo)
+                .map(authTokenOkResponse -> extractAuthInfo(signInfo, authTokenOkResponse));
+    }
+
+    private AuthInfo extractAuthInfo(SignInfo signInfo, OkResponse<AuthToken> authTokenOkResponse) {
+        AuthToken authToken = authTokenOkResponse.getResponse();
+        if (authToken != null){
+            String token = authToken.getToken();
+            return new AuthInfo(signInfo.getLogin(), token);
+        } else {
+            Error error = authTokenOkResponse.getError();
+            UserException userException = makeError(error);
+            return new AuthInfo(userException);
+        }
     }
 
     private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
@@ -91,6 +98,7 @@ public class WebLoader {
         throw new InternetConnectionException();
     }
     public interface ExecutableRequest<T> {
+
         @NonNull
         Call<OkResponse<T>> request();
 
@@ -128,11 +136,6 @@ public class WebLoader {
             default:
                 return new UnknowError();
         }
-    }
-
-    public AuthInfo signUp(@NonNull SignInInfo signInInfo) throws UserException {
-        AuthToken authToken = executeRequest(() -> apiService.signUp(signInInfo));
-        return new AuthInfo(signInInfo.getLogin(), authToken.getToken());
     }
 
     public ClothesPage getClothesPage(int page) throws UserException {

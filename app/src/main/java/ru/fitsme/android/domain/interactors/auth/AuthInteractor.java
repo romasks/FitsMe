@@ -14,10 +14,9 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.domain.boundaries.signinup.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
-import ru.fitsme.android.domain.entities.auth.SignInInfo;
+import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.auth.SignInUpResult;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 
 @Singleton
 public class AuthInteractor implements IAuthInteractor {
@@ -48,22 +47,52 @@ public class AuthInteractor implements IAuthInteractor {
                 .cast(AuthInfo.class);
     }
 
+    private void checkLoginAndPass(SignInUpResult signInUpResult, String login, String password){
+        if (!textValidator.checkLogin(login)){
+            String string = App.getInstance().getResources().getString(R.string.login_incorrect_error);
+            signInUpResult.setLoginError(string);
+        } else if (!textValidator.checkPassword(password)){
+            String string = App.getInstance().getResources().getString(R.string.password_incorrect_error);
+            signInUpResult.setPasswordError(string);
+        }
+    }
+
     @Override
     @NonNull
     public Single<SignInUpResult> signIn(@Nullable String login, @Nullable String password) {
         return Single.create(emitter -> {
             SignInUpResult signInUpResult = SignInUpResult.build();
-            if (!textValidator.checkLogin(login)){
-                String string = App.getInstance().getResources().getString(R.string.login_incorrect_error);
-                signInUpResult.setLoginError(string);
-                emitter.onSuccess(signInUpResult);
-            } else if (!textValidator.checkPassword(password)){
-                String string = App.getInstance().getResources().getString(R.string.password_incorrect_error);
-                signInUpResult.setPasswordError(string);
-                emitter.onSuccess(signInUpResult);
-            } else {
+            checkLoginAndPass(signInUpResult, login, password);
+            if (signInUpResult.isSuccess()){
                 authRepository
-                        .signIn(new SignInInfo(login, password))
+                        .signIn(new SignInfo(login, password))
+                        .subscribe(authInfo -> {
+                            if (authInfo.isAuth()){
+                                authRepository.setAuthInfo(authInfo);
+                            } else {
+                                UserException error = authInfo.getError();
+                                signInUpResult.setCommonError(error.getMessage());
+                            }
+                            emitter.onSuccess(signInUpResult);
+                        }, emitter::onError);
+            } else {
+                emitter.onSuccess(signInUpResult);
+            }
+        })
+                .subscribeOn(workThread)
+                .observeOn(mainThread)
+                .cast(SignInUpResult.class);
+    }
+
+    @NonNull
+    @Override
+    public Single<SignInUpResult> signUp(@Nullable String login, @Nullable String password) {
+        return Single.create(emitter -> {
+            SignInUpResult signInUpResult = SignInUpResult.build();
+            checkLoginAndPass(signInUpResult, login, password);
+            if (signInUpResult.isSuccess()){
+                authRepository
+                        .signUp(new SignInfo(login, password))
                         .subscribe(authInfo -> {
                             if (authInfo.isAuth()){
                                 authRepository.setAuthInfo(authInfo);
@@ -74,42 +103,46 @@ public class AuthInteractor implements IAuthInteractor {
                             emitter.onSuccess(signInUpResult);
                         }, emitter::onError);
             }
-
+            else {
+                emitter.onSuccess(signInUpResult);
+            }
         })
                 .subscribeOn(workThread)
                 .observeOn(mainThread)
                 .cast(SignInUpResult.class);
     }
+
+
 }
 
 //    @Override
 //    @NonNull
-//    public Single<SignInUpResult> register(@Nullable String login, @Nullable String password) {
+//    public Single<SignInUpResult> signUp(@Nullable String login, @Nullable String password) {
 ////        auto = false;
 //        return doOperation(() -> {
 //            textValidator.checkLogin(login);
 //            textValidator.checkPassword(password);
-//            SignInInfo signInInfo = new SignInInfo(login, password);
-//            AuthInfo authInfo = authRepository.register(signInInfo);
+//            SignInfo signInInfo = new SignInfo(login, password);
+//            AuthInfo authInfo = authRepository.signUp(signInInfo);
 //            saveUserInfo(signInInfo, authInfo);
 //        });
 //    }
 //
 
 //
-//    private void doAuthorize(SignInInfo signInInfo) throws UserException {
+//    private void doAuthorize(SignInfo signInInfo) throws UserException {
 //        AuthInfo authInfo = authRepository.signIn(signInInfo);
 //        saveUserInfo(signInInfo, authInfo);
 //    }
 //
-//    private void saveUserInfo(SignInInfo signInInfo, AuthInfo authInfo) {
+//    private void saveUserInfo(SignInfo signInInfo, AuthInfo authInfo) {
 //        userInfoRepository.setAuthInfo(authInfo);
 //        userInfoRepository.setSignInInfo(signInInfo);
 //    }
 //
 //    @NonNull
 //    @Override
-//    public Single<SignInUpResult> signIn(@NonNull SignInInfo signInInfo) {
+//    public Single<SignInUpResult> signIn(@NonNull SignInfo signInInfo) {
 //        return doOperation(() -> doAuthorize(signInInfo));
 //    }
 //
@@ -139,9 +172,9 @@ public class AuthInteractor implements IAuthInteractor {
 //
 //    @Override
 //    @NonNull
-//    public Single<SignInInfo> getAuthInfo() {
-//        return Single.create((SingleOnSubscribe<SignInInfo>) emitter -> {
-//            SignInInfo signInInfo = userInfoRepository.getSignInInfo();
+//    public Single<SignInfo> getAuthInfo() {
+//        return Single.create((SingleOnSubscribe<SignInfo>) emitter -> {
+//            SignInfo signInInfo = userInfoRepository.getSignInInfo();
 //            emitter.onSuccess(signInInfo);
 //        })
 //                .subscribeOn(workThread)

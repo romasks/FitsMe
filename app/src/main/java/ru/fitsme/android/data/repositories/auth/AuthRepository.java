@@ -10,7 +10,7 @@ import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
 import ru.fitsme.android.domain.boundaries.signinup.IAuthRepository;
-import ru.fitsme.android.domain.entities.auth.SignInInfo;
+import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 
 @Singleton
@@ -24,12 +24,6 @@ public class AuthRepository implements IAuthRepository {
         this.authInfoStorage = authInfoStorage;
     }
 
-//    @NonNull
-//    @Override
-//    public AuthInfo register(@NonNull SignInInfo signInInfo) throws UserException {
-//        return webLoader.signUp(signInInfo);
-//    }
-
     @Override
     public AuthInfo getAuthInfo() {
         return authInfoStorage.getAuthInfo();
@@ -42,8 +36,13 @@ public class AuthRepository implements IAuthRepository {
 
     @NonNull
     @Override
-    public Single<AuthInfo> signIn(@NonNull SignInInfo signInInfo){
-        return webLoader.signIn(signInInfo);
+    public Single<AuthInfo> signIn(@NonNull SignInfo signInfo){
+        return webLoader.signIn(signInfo);
     }
 
+    @NonNull
+    @Override
+    public Single<AuthInfo> signUp(@NonNull SignInfo signInfo){
+        return webLoader.signUp(signInfo);
+    }
 }
