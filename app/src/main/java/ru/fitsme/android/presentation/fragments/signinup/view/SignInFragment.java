@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSignInBinding;
-import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
+import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.presentation.common.keyboard.KeyboardUtils;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
@@ -24,7 +24,7 @@ import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInViewMod
 public class SignInFragment extends BaseFragment<SignInViewModel> implements SignInBindingEvents {
 
     @Inject
-    IAuthInteractor authInteractor;
+    ISignInteractor signInteractor;
 
     private FragmentSignInBinding binding;
     private LoadingDialog loadingDialog;
@@ -48,7 +48,7 @@ public class SignInFragment extends BaseFragment<SignInViewModel> implements Sig
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(authInteractor)).get(SignInViewModel.class);
+                new ViewModelFactory(signInteractor)).get(SignInViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

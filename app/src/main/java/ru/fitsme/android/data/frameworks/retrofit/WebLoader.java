@@ -37,17 +37,19 @@ import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordExc
 import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
 public class WebLoader {
 
     private ApiService apiService;
-//    private IAuthRepository authRepository;
+    private IAuthInteractor authInteractor;
 
     @Inject
-    WebLoader(ApiService apiService){
+    WebLoader(ApiService apiService, IAuthInteractor authInteractor){
         this.apiService = apiService;
+        this.authInteractor = authInteractor;
     }
 
     public Single<AuthInfo> signIn(@NonNull SignInfo signInfo){
@@ -70,42 +72,6 @@ public class WebLoader {
             UserException userException = makeError(error);
             return new AuthInfo(userException);
         }
-    }
-
-    private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
-        if (okResponse.getResponse() != null) {
-            return okResponse.getResponse();
-        }
-        throw makeError(okResponse.getError());
-    }
-
-    private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
-            throws UserException {
-        try {
-            Timber.tag("WebLoader request URL").d(executableRequest.request().request().url().toString());
-            Response<OkResponse<T>> response = executableRequest.request().execute();
-
-            if (response.isSuccessful() && response.body() != null) {
-                return getResponse(response.body());
-            }
-
-            if (response.isSuccessful() && response.body() == null) {
-                return null;
-            }
-        } catch (IOException | InternalException | JsonSyntaxException e) {
-            Timber.e(e);
-        }
-        throw new InternetConnectionException();
-    }
-    public interface ExecutableRequest<T> {
-
-        @NonNull
-        Call<OkResponse<T>> request();
-
-    }
-
-    private String getHeaderToken() {
-        return "Token " + authRepository.getAuthInfo().getToken();
     }
 
     @NonNull
@@ -138,12 +104,48 @@ public class WebLoader {
         }
     }
 
-    public ClothesPage getClothesPage(int page) throws UserException {
-        return executeRequest(() -> apiService.getClothes(getHeaderToken(), page));
+    public void likeItem(int id, boolean liked) {
+        apiService.likeItem(getHeaderToken(), new LikedItem(id, liked));
+    }
+    private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
+        if (okResponse.getResponse() != null) {
+            return okResponse.getResponse();
+        }
+        throw makeError(okResponse.getError());
+    }
+    private <T> T executeRequest(@NonNull ExecutableRequest<T> executableRequest)
+            throws UserException {
+        try {
+            Timber.tag("WebLoader request URL").d(executableRequest.request().request().url().toString());
+            Response<OkResponse<T>> response = executableRequest.request().execute();
+
+            if (response.isSuccessful() && response.body() != null) {
+                return getResponse(response.body());
+            }
+
+            if (response.isSuccessful() && response.body() == null) {
+                return null;
+            }
+        } catch (IOException | InternalException | JsonSyntaxException e) {
+            Timber.e(e);
+        }
+        throw new InternetConnectionException();
+    }
+    public interface ExecutableRequest<T> {
+
+
+
+        @NonNull
+        Call<OkResponse<T>> request();
+
     }
 
-    public void likeItem(int id, boolean liked) throws UserException {
-        executeRequest(() -> apiService.likeItem(getHeaderToken(), new LikedItem(id, liked)));
+    private String getHeaderToken() {
+        return "Token " + authInteractor.getAuthInfoNotSingle().getToken();
+    }
+
+    public ClothesPage getClothesPage(int page) throws UserException {
+        return executeRequest(() -> apiService.getClothes(getHeaderToken(), page));
     }
 
     public FavouritesPage getFavouritesClothesPage(int page) throws UserException {

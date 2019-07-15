@@ -12,11 +12,7 @@ public interface IAuthInteractor extends BaseInteractor {
 
     Single<AuthInfo> getAuthInfo();
 
-    @NonNull
-    Single<SignInUpResult> signIn(@Nullable String login, @Nullable String password);
-
-    @NonNull
-    Single<SignInUpResult> signUp(@Nullable String login, @Nullable String password);
+    AuthInfo getAuthInfoNotSingle();
 
 //    @NonNull
 //    Single<SignInUpResult> signIn(@NonNull SignInfo signInInfo);

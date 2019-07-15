@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import ru.fitsme.android.app.di.DI;
+import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import timber.log.Timber;
 
 public class App extends Application {
@@ -15,6 +16,7 @@ public class App extends Application {
     private static App instance;
     private DI di;
     private boolean connected = false;
+    private AuthInfo authInfo;
 
     public App() {
         instance = this;
@@ -51,5 +53,13 @@ public class App extends Application {
             Timber.e("connectivity: %s", e.toString());
         }
         return connected;
+    }
+
+    public AuthInfo getAuthInfo() {
+        return authInfo;
+    }
+
+    public void setAuthInfo(AuthInfo authInfo) {
+        this.authInfo = authInfo;
     }
 }

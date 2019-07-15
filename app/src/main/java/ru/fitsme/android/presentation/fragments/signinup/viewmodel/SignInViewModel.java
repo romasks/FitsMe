@@ -3,7 +3,7 @@ package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.domain.entities.auth.SignInUpResult;
-import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
+import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.presentation.common.livedata.NonNullLiveData;
 import ru.fitsme.android.presentation.common.livedata.NonNullMutableLiveData;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -12,12 +12,12 @@ import timber.log.Timber;
 
 public class SignInViewModel extends BaseViewModel {
 
-    private IAuthInteractor authInteractor;
+    private ISignInteractor signInteractor;
 
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
-    public SignInViewModel(@NotNull IAuthInteractor authInteractor) {
-        this.authInteractor = authInteractor;
+    public SignInViewModel(@NotNull ISignInteractor signInteractor) {
+        this.signInteractor = signInteractor;
         inject(this);
     }
 
@@ -25,7 +25,7 @@ public class SignInViewModel extends BaseViewModel {
 
     public void onSignIn(String login, String password) {
         startLoading();
-        addDisposable(authInteractor.signIn(login, password)
+        addDisposable(signInteractor.signIn(login, password)
                 .subscribe(this::onSignInResult, this::onError));
     }
 

@@ -1,6 +1,5 @@
 package ru.fitsme.android.domain.entities.auth;
 
-import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 
 public class AuthInfo {

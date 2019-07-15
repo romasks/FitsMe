@@ -6,7 +6,7 @@ import android.arch.paging.DataSource;
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
-import ru.fitsme.android.domain.boundaries.signinup.IAuthRepository;
+import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public class FavouritesDataSourceFactory extends DataSource.Factory<Integer, FavouritesItem> {

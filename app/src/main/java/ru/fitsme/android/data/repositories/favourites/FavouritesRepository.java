@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
-import ru.fitsme.android.domain.boundaries.signinup.IAuthRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 

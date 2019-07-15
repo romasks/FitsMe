@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.domain.boundaries.signinup.IResourceRepository;
+import ru.fitsme.android.domain.boundaries.auth.IResourceRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.exceptions.internal.ServerInternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;

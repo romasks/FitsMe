@@ -5,9 +5,7 @@ import android.support.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.fitsme.android.domain.boundaries.signinup.ITextValidator;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
-import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
+import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
 
 @Singleton
 public class TextValidator implements ITextValidator {

@@ -1,4 +1,4 @@
-package ru.fitsme.android.domain.boundaries.signinup;
+package ru.fitsme.android.domain.boundaries.auth;
 
 import android.support.annotation.NonNull;
 
