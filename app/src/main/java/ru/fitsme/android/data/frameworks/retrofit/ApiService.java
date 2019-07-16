@@ -31,13 +31,13 @@ public interface ApiService {
     @POST("customers/signup/")
     Single<OkResponse<AuthToken>> signUp(@Body SignInfo signInfo);
 
-    @GET("clothes/")
-    Call<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,
-                                             @Query("page") int page);
-
     @POST("viewed/")
-    Call<OkResponse<LikedClothesItem>> likeItem(@Header("Authorization") String token,
+    Single<OkResponse<LikedClothesItem>> likeItem(@Header("Authorization") String token,
                                                 @Body LikedItem likedItem);
+
+    @GET("clothes/")
+    Single<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,
+                                             @Query("page") int page);
 
     @GET("viewed/")
     Call<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,

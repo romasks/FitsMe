@@ -16,6 +16,7 @@ import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.ClothesItemModel;
 import ru.fitsme.android.databinding.ItemFavouriteBinding;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
@@ -59,7 +60,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
         void bind(int position) {
             FavouritesItem favouritesItem = getItem(position);
-            ClothesItemModel clothesItem = new ClothesItemModel(favouritesItem.getItem());
+            ClothesItem clothesItem = favouritesItem.getItem();
 
             Button inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);
 
@@ -75,7 +76,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
                 inCartBtn.setTextColor(binding.getRoot().getResources().getColor(R.color.white));
             }
 
-            binding.setVariable(BR.clothesItem, clothesItem);
+            binding.setVariable(BR.clotheItem, clothesItem);
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();

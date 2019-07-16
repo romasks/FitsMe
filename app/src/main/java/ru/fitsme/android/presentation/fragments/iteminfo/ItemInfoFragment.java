@@ -2,6 +2,7 @@ package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,14 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.GlideApp;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
@@ -29,23 +35,15 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     @Inject
     IClothesInteractor clothesInteractor;
 
-    private static final String KEY_INDEX = "indexKey";
-    private static final String KEY_ITEM_INFO_STATE = "state";
-
-    private int index;
+    private static ClotheInfo clotheInfo;
     private static boolean isFullState;
-    private ItemInfoState.State state;
     private FragmentItemInfoBinding binding;
 
-    public static ItemInfoFragment newInstance(int index, boolean isFullItemInfoState) {
+    public static ItemInfoFragment newInstance(ClotheInfo item, boolean isFullItemInfoState) {
         ItemInfoFragment fragment = new ItemInfoFragment();
 
+        clotheInfo = item;
         isFullState = isFullItemInfoState;
-        Bundle args = new Bundle();
-        args.putInt(KEY_INDEX, index);
-        args.putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
-        fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -61,54 +59,60 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null){
-            index = getArguments().getInt(KEY_INDEX);
-            isFullState = getArguments().getBoolean(KEY_ITEM_INFO_STATE);
-            setFullState(isFullState);
-        }
+        setFullState(isFullState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(clothesInteractor, index)).get(ItemInfoViewModel.class);
+                new ViewModelFactory(clothesInteractor)).get(ItemInfoViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
 
-        viewModel.getItemLiveData()
-                .observe(this, this::onItem);
-    }
-
-    private void onItem(ItemInfoState itemInfoState) {
-        state = itemInfoState.getState();
-
-        switch (state) {
-            case ERROR:
-                binding.tvIndex.setText("error");
-                break;
-            case LOADING:
-                binding.tvIndex.setText("loading");
-                break;
-            case OK:
-                binding.tvIndex.setText(null);
-                String brandName = itemInfoState.getClothesItem().getBrandName();
-                String name = itemInfoState.getClothesItem().getName();
-                String description = itemInfoState.getClothesItem().getDescription();
-                List<String> contentList = itemInfoState.getClothesItem().getMaterial();
-                String content = contentList.toString();
-                String url = itemInfoState.getClothesItem().getImageUrl();
-
-                binding.itemInfoBrandNameTv.setText(brandName);
-                binding.itemInfoItemNameTv.setText(name);
-                binding.itemInfoItemDescriptionTv.setText(description);
-                binding.itemInfoItemContentTv.setText(content);
-                Glide.with(binding.ivPhoto.getContext())
-                        .load(url)
-                        .into(binding.ivPhoto);
-                break;
+        if (clotheInfo.getClothe() == null){
+            onError();
+        } else if (clotheInfo.getClothe() instanceof ClothesItem) {
+            onClothesItem((ClothesItem) clotheInfo.getClothe());
+        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
+            onLikedClothesItem();
         }
     }
 
-    public boolean isActive() {
-        return state == ItemInfoState.State.OK;
+    private void onError() {
+
+    }
+
+    private void onClothesItem(ClothesItem clothesItem) {
+            binding.tvIndex.setText("loading");
+            String brandName = clothesItem.getBrand();
+            String name = clothesItem.getName();
+            String description = clothesItem.getDescription();
+            List<String> contentList = clothesItem.getMaterial();
+            String content = contentList.toString();
+            String url = clothesItem.getPics().get(0).getUrl();
+
+            binding.itemInfoBrandNameTv.setText(brandName);
+            binding.itemInfoItemNameTv.setText(name);
+            binding.itemInfoItemDescriptionTv.setText(description);
+            binding.itemInfoItemContentTv.setText(content);
+            Glide.with(binding.ivPhoto.getContext())
+                    .load(url)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            binding.tvIndex.setText("error");
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            binding.tvIndex.setText("");
+                            return false;
+                        }
+                    })
+                    .into(binding.ivPhoto);
+    }
+
+    private void onLikedClothesItem() {
+
     }
 
     @Override
@@ -139,14 +143,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     private void setFullState(boolean b){
         if (b){
             isFullState = true;
-            getArguments().putBoolean(KEY_ITEM_INFO_STATE, true);
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
         } else {
             isFullState = false;
-            getArguments().putBoolean(KEY_ITEM_INFO_STATE, false);
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);

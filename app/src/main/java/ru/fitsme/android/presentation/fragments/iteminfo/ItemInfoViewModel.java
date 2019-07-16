@@ -11,30 +11,28 @@ import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 public class ItemInfoViewModel extends BaseViewModel {
 
     private final IClothesInteractor clothesInteractor;
-    private final int index;
 
-    private final MutableLiveData<ItemInfoState> itemLiveData = new MutableLiveData<>();
+    private final MutableLiveData<ClotheInfo> itemLiveData = new MutableLiveData<>();
 
-    public ItemInfoViewModel(@NonNull IClothesInteractor clothesInteractor, int index) {
+    public ItemInfoViewModel(@NonNull IClothesInteractor clothesInteractor) {
         this.clothesInteractor = clothesInteractor;
-        this.index = index;
     }
 
     void init() {
-        itemLiveData.setValue(new ItemInfoState(ItemInfoState.State.LOADING));
-        addDisposable(clothesInteractor.getSingleClothesItem(index)
-                .subscribe(this::onItem, this::onError));
+//        itemLiveData.setValue(new ClotheInfo(ClotheInfo.State.LOADING));
+//        addDisposable(clothesInteractor.getSingleClothesItem(index)
+//                .subscribe(this::onItem, this::onError));
     }
 
     private void onError(Throwable throwable) {
-        itemLiveData.setValue(new ItemInfoState(ItemInfoState.State.ERROR));
+//        itemLiveData.setValue(new ClotheInfo(ClotheInfo.State.ERROR));
     }
 
     private void onItem(@NonNull ClothesItem item) {
-        itemLiveData.setValue(new ItemInfoState(item));
+        itemLiveData.setValue(new ClotheInfo(item));
     }
 
-    LiveData<ItemInfoState> getItemLiveData() {
+    LiveData<ClotheInfo> getItemLiveData() {
         return itemLiveData;
     }
 }

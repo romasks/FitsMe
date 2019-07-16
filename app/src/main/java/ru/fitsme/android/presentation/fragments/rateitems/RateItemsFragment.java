@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +32,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Inject
     IClothesInteractor clothesInteractor;
 
-    private ItemInfoFragment curFragment;
+    private ItemInfoFragment currentFragment;
     private FragmentRateItemsBinding binding;
     private boolean isFullItemInfoState;
 
@@ -77,16 +75,16 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             viewModel.init();
         }
 
-        viewModel.getIndexLiveData()
-                .observe(this, this::onIndex);
+        viewModel.getRateItemsStateLiveData()
+                .observe(this, this::onChange);
     }
 
     @Override
     public void onSwipe(AnimationType animationType) {
     }
 
-    private void onIndex(RateItemsState rateItemsState) {
-        curFragment = ItemInfoFragment.newInstance(rateItemsState.getIndex(), isFullItemInfoState);
+    private void onChange(RateItemsState rateItemsState) {
+        currentFragment = ItemInfoFragment.newInstance(rateItemsState.getClotheInfo(), isFullItemInfoState);
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 
@@ -101,7 +99,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                 transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_simple);
                 break;
         }
-        transaction.replace(R.id.fragment_rate_items_container, curFragment)
+        transaction.replace(R.id.fragment_rate_items_container, currentFragment)
                 .commit();
     }
 
@@ -126,15 +124,15 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void likeItem() {
-        curFragment.showYes(true);
-        if (curFragment != null && curFragment.isActive()) {
+        currentFragment.showYes(true);
+        if (currentFragment != null) {
             viewModel.likeClothesItem(true, IOnSwipeListener.AnimationType.RIGHT);
         }
     }
 
     private void dislikeItem() {
-        curFragment.showNo(true);
-        if (curFragment != null && curFragment.isActive()) {
+        currentFragment.showNo(true);
+        if (currentFragment != null) {
             viewModel.likeClothesItem(false, IOnSwipeListener.AnimationType.LEFT);
         }
     }

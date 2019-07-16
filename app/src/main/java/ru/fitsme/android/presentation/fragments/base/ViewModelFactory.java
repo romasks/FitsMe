@@ -46,7 +46,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         } else if (modelClass.isAssignableFrom(FavouritesViewModel.class)) {
             return (T) new FavouritesViewModel((IFavouritesInteractor) interactor);
         } else if (modelClass.isAssignableFrom(ItemInfoViewModel.class)) {
-            return (T) new ItemInfoViewModel((IClothesInteractor) interactor, index);
+            return (T) new ItemInfoViewModel((IClothesInteractor) interactor);
         } else if (modelClass.isAssignableFrom(RateItemsViewModel.class)) {
             return (T) new RateItemsViewModel((IClothesInteractor) interactor);
         } else if (modelClass.isAssignableFrom(SignInViewModel.class)) {

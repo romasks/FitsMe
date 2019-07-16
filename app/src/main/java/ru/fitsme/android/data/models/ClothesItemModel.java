@@ -14,9 +14,9 @@ public class ClothesItemModel extends BaseObservable {
     private String brandName;
     private String name;
     private String description;
+    private List<String> material;
     private String imageUrl;
     private String price;
-    private List<String> material;
 
     public ClothesItemModel(ClothesItem clothesItem) {
         this.id = clothesItem.getId();

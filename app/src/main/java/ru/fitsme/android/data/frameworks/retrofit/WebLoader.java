@@ -7,7 +7,9 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -21,6 +23,8 @@ import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.internal.InternalException;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
@@ -38,6 +42,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
@@ -45,11 +50,19 @@ public class WebLoader {
 
     private ApiService apiService;
     private IAuthInteractor authInteractor;
+    private Scheduler workThread;
+    private Scheduler mainThread;
+    private final static String TOKEN = "Token ";
 
     @Inject
-    WebLoader(ApiService apiService, IAuthInteractor authInteractor){
+    WebLoader(ApiService apiService,
+              IAuthInteractor authInteractor,
+              @Named("work") Scheduler workThread,
+              @Named("main") Scheduler mainThread){
         this.apiService = apiService;
         this.authInteractor = authInteractor;
+        this.workThread = workThread;
+        this.mainThread = mainThread;
     }
 
     public Single<AuthInfo> signIn(@NonNull SignInfo signInfo){
@@ -72,6 +85,34 @@ public class WebLoader {
             UserException userException = makeError(error);
             return new AuthInfo(userException);
         }
+    }
+
+    public Single<OkResponse<LikedClothesItem>> likeItem(ClothesItem clothesItem, boolean liked) {
+        return Single.create(emitter -> {
+            authInteractor.getAuthInfo()
+                    .subscribe(authInfo -> {
+                        int id = clothesItem.getId();
+                        apiService.likeItem(TOKEN + authInfo.getToken(), new LikedItem(id, liked))
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError);
+                    }, emitter::onError);
+        });
+    }
+
+
+
+    public Single<OkResponse<ClothesPage>> getClothesPage(int page) {
+        return Single.create(emitter -> {
+            authInteractor.getAuthInfo()
+                    .subscribe(authInfo -> {
+                        apiService.getClothes(TOKEN + authInfo.getToken(), page)
+                                .subscribeOn(workThread)
+                                .subscribe(clothesPage -> {
+                                    Timber.d("thread " + Thread.currentThread().getName());
+                                    emitter.onSuccess(clothesPage);
+                                }, emitter::onError);
+                    }, emitter::onError);
+        });
     }
 
     @NonNull
@@ -103,10 +144,6 @@ public class WebLoader {
                 return new UnknowError();
         }
     }
-
-    public void likeItem(int id, boolean liked) {
-        apiService.likeItem(getHeaderToken(), new LikedItem(id, liked));
-    }
     private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
         if (okResponse.getResponse() != null) {
             return okResponse.getResponse();
@@ -135,6 +172,7 @@ public class WebLoader {
 
 
 
+
         @NonNull
         Call<OkResponse<T>> request();
 
@@ -142,10 +180,6 @@ public class WebLoader {
 
     private String getHeaderToken() {
         return "Token " + authInteractor.getAuthInfoNotSingle().getToken();
-    }
-
-    public ClothesPage getClothesPage(int page) throws UserException {
-        return executeRequest(() -> apiService.getClothes(getHeaderToken(), page));
     }
 
     public FavouritesPage getFavouritesClothesPage(int page) throws UserException {

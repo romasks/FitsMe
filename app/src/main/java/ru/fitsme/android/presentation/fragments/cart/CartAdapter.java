@@ -12,6 +12,7 @@ import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.ClothesItemModel;
 import ru.fitsme.android.databinding.ItemCartBinding;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.GenericViewHolder> {
@@ -43,9 +44,9 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.Generic
 
         void bind(int position) {
             OrderItem orderItem = getItem(position);
-            ClothesItemModel clothesItem = new ClothesItemModel(orderItem.getClothe());
+            ClothesItem clothesItem = orderItem.getClothe();
 
-            binding.setVariable(BR.clothesItem, clothesItem);
+            binding.setVariable(BR.clotheItem, clothesItem);
             binding.executePendingBindings();
         }
     }

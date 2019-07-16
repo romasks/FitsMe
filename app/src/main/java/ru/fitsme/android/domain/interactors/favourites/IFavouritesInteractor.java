@@ -13,7 +13,7 @@ import ru.fitsme.android.domain.interactors.BaseInteractor;
 public interface IFavouritesInteractor extends BaseInteractor {
 
 //    @NonNull
-//    Single<Integer> getLastIndexSingle();
+//    Single<Integer> getClothe();
 //
 //    @NonNull
 //    Single<FavouritesItem> getSingleFavouritesItem(int index);

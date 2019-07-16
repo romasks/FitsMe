@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="clothesItem"
-            type="ru.fitsme.android.data.models.ClothesItemModel" />
+            name="clotheItem"
+            type="ru.fitsme.android.domain.entities.clothes.ClothesItem" />
     </data>
 
     <FrameLayout
@@ -32,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
                     app:defaultImage="@{@drawable/clothe_example}"
-                    app:imageUrl="@{clothesItem.imageUrl}"
+                    app:imageUrl="@{clotheItem.pics[0].url}"
                     tools:src="@drawable/clothe_example" />
             </android.support.v7.widget.CardView>
 
@@ -44,7 +43,7 @@
                 android:layout_toEndOf="@id/item_cart_image_field"
                 android:lines="2"
                 android:paddingBottom="4dp"
-                android:text="@{clothesItem.brandName}"
+                android:text="@{clotheItem.brand}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
@@ -59,7 +58,7 @@
                 android:layout_toEndOf="@id/item_cart_image_field"
                 android:lines="2"
                 android:paddingBottom="4dp"
-                android:text="@{clothesItem.name}"
+                android:text="@{clotheItem.name}"
                 android:textColor="@color/black"
                 tools:text="@string/clothe_name_hint" />
 
@@ -71,7 +70,7 @@
                 android:layout_marginStart="@dimen/padding_medium"
                 android:layout_toEndOf="@id/item_cart_image_field"
                 android:paddingBottom="4dp"
-                android:text="@{@string/cart_amount_tv(clothesItem.price)}"
+                android:text="@{@string/cart_amount_tv(clotheItem.price)}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 tools:text="@string/clothe_price_hint" />
