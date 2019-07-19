@@ -2,6 +2,7 @@ package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
@@ -82,13 +87,13 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
         switch (state) {
             case ERROR:
-                binding.tvIndex.setText("error");
+                binding.tvIndex.setText(getString(R.string.item_info_load_error));
                 break;
             case LOADING:
-                binding.tvIndex.setText("loading");
+                binding.tvIndex.setText(getString(R.string.item_info_load_in_process));
                 break;
             case OK:
-                binding.tvIndex.setText(null);
+                binding.tvIndex.setText(getString(R.string.item_info_load_in_process));
                 String brandName = itemInfoState.getClothesItem().getBrandName();
                 String name = itemInfoState.getClothesItem().getName();
                 String description = itemInfoState.getClothesItem().getDescription();
@@ -100,8 +105,21 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                 binding.itemInfoItemNameTv.setText(name);
                 binding.itemInfoItemDescriptionTv.setText(description);
                 binding.itemInfoItemContentTv.setText(content);
-                Glide.with(binding.ivPhoto.getContext())
+                Glide.with(getContext())
                         .load(url)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                binding.tvIndex.setText(getString(R.string.item_info_load_error));
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                binding.tvIndex.setText(null);
+                                return false;
+                            }
+                        })
                         .into(binding.ivPhoto);
                 break;
         }
