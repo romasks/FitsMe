@@ -125,7 +125,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
             ((MainFragment) getParentFragment()).showBottomShadow(true);
         } else {
             binding.cartNoItemGroup.setVisibility(View.GONE);
-            binding.cartProceedToCheckoutGroup.setVisibility(View.INVISIBLE);
+            binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
             ((MainFragment) getParentFragment()).showBottomShadow(false);
         }
     }
