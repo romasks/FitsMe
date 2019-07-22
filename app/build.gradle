@@ -30,6 +30,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    outputFileName = "FitsMe-v${versionName}-debug.apk"
+                }
+            }
+        }
     }
     buildToolsVersion '28.0.3'
     compileOptions {
