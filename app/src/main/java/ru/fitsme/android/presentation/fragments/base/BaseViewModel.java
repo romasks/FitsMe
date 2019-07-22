@@ -29,12 +29,16 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
     @Override
     public void clearDisposables() {
-        compositeDisposable.clear();
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
     }
 
     @Override
     public void disposeDisposables() {
-        compositeDisposable.dispose();
+        if (compositeDisposable != null) {
+            compositeDisposable.dispose();
+        }
     }
 
     @Override
