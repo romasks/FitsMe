@@ -21,9 +21,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
+import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
@@ -68,7 +70,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
 
         if (clotheInfo.getClothe() == null){
-            onError();
+            onError(clotheInfo.getError());
         } else if (clotheInfo.getClothe() instanceof ClothesItem) {
             onClothesItem((ClothesItem) clotheInfo.getClothe());
         } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
@@ -76,8 +78,8 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
     }
 
-    private void onError() {
-
+    private void onError(UserException error) {
+        binding.tvIndex.setText(error.getMessage());
     }
 
     private void onClothesItem(ClothesItem clothesItem) {
@@ -98,7 +100,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            binding.tvIndex.setText("error");
+                            binding.tvIndex.setText(App.getInstance().getString(R.string.image_loading_error));
                             return false;
                         }
 

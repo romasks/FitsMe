@@ -1,18 +1,20 @@
 package ru.fitsme.android.data.repositories.clothes;
 
-import android.util.SparseArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Single;
+import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
+import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import timber.log.Timber;
 
@@ -42,24 +44,35 @@ public class ClothesRepository implements IClothesRepository {
 
     @Override
     public Single<List<ClotheInfo>> getClotheList() {
-        int page = 1;
-        return Single.create(emitter -> {
-            webLoader.getClothesPage(page)
-                    .subscribe(clothesPageOkResponse -> {
-                        Timber.d(Thread.currentThread().getName());
-                        currentClothePage = clothesPageOkResponse.getResponse();
-                        List<ClotheInfo> clotheInfoList = new ArrayList<>();
-                        if (currentClothePage != null){
-                            List<ClothesItem> clothesItemList = currentClothePage.getItems();
-                            for (int i = 0; i < clothesItemList.size(); i++) {
-                                clotheInfoList.add(new ClotheInfo<ClothesItem>(clothesItemList.get(i)));
+        if (currentClothePage == null || currentClothePage.getNext() != 0){
+            int page = 1;
+            return Single.create(emitter -> {
+                webLoader.getClothesPage(page)
+                        .subscribe(clothesPageOkResponse -> {
+                            Timber.d(Thread.currentThread().getName());
+                            currentClothePage = clothesPageOkResponse.getResponse();
+                            List<ClotheInfo> clotheInfoList = new ArrayList<>();
+                            if (currentClothePage != null){
+                                List<ClothesItem> clothesItemList = currentClothePage.getItems();
+                                for (int i = 0; i < clothesItemList.size(); i++) {
+                                    clotheInfoList.add(new ClotheInfo<ClothesItem>(clothesItemList.get(i)));
+                                }
+                            } else {
+                                UserException error = ErrorRepository.makeError(clothesPageOkResponse.getError());
+                                clotheInfoList.add(new ClotheInfo(error));
                             }
-                        } else {
-                            clotheInfoList.add(new ClotheInfo(clothesPageOkResponse.getError()));
-                        }
-                        emitter.onSuccess(clotheInfoList);
-                    }, emitter::onError);
-        });
+                            emitter.onSuccess(clotheInfoList);
+                        }, emitter::onError);
+            });
+        } else {
+            return Single.create(emitter -> {
+                List<ClotheInfo> clotheInfoList = new ArrayList<>();
+                ClotheInfo clotheInfo = new ClotheInfo(new UserException(
+                        App.getInstance().getString(R.string.end_of_not_viewed_list)));
+                clotheInfoList.add(clotheInfo);
+                emitter.onSuccess(clotheInfoList);
+            });
+        }
     }
 
 
