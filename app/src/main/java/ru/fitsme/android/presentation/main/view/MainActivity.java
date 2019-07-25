@@ -10,12 +10,13 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
+
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
-import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Navigation navigation;
 
     private Navigator navigator = getFragmentNavigator();
-    private RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener;
+    private WeakReference<RateItemsFragment.MyOnSwipeTouchListener> weakSwipeTouchListener;
 
     public MainActivity() {
         App.getInstance().getDi().inject(this);
@@ -76,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean isDispatch = super.dispatchTouchEvent(ev);
-        if (swipeTouchListener != null){
-            swipeTouchListener.onTouch(new TextView(this), ev);
+        if (weakSwipeTouchListener.get() != null){
+            weakSwipeTouchListener.get().onTouch(new TextView(this), ev);
         }
         return isDispatch;
     }
@@ -94,9 +95,6 @@ public class MainActivity extends AppCompatActivity {
                         return SignUpFragment.newInstance();
                     case NAV_SIGN_IN:
                         return SignInFragment.newInstance();
-             /*       case NAV_RATE_ITEM:
-                        return RateItemFragment.newInstance();
-             */
                     case NAV_MAIN_ITEM:
                         return MainFragment.newInstance();
                     case NAV_SPLASH:
@@ -117,7 +115,11 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    public void putSwipeListener(RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener) {
-        this.swipeTouchListener = swipeTouchListener;
+    public void observeSwipe(RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener) {
+        this.weakSwipeTouchListener = new WeakReference<>(swipeTouchListener);
+    }
+
+    public void unsubscribe() {
+        weakSwipeTouchListener.clear();
     }
 }

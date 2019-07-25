@@ -67,7 +67,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
         MyOnSwipeTouchListener swipeTouchListener = new MyOnSwipeTouchListener(getContext());
         view.setOnTouchListener(swipeTouchListener);
-        ((MainActivity) getActivity()).putSwipeListener(swipeTouchListener);
+        ((MainActivity) getActivity()).observeSwipe(swipeTouchListener);
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
@@ -77,6 +77,12 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
         viewModel.getRateItemsStateLiveData()
                 .observe(this, this::onChange);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ((MainActivity) getActivity()).unsubscribe();
     }
 
     @Override
