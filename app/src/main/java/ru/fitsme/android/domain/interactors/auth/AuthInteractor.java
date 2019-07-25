@@ -45,6 +45,7 @@ public class AuthInteractor implements IAuthInteractor {
                 .cast(AuthInfo.class);
     }
 
+    // TODO: 24.07.2019  используется в старом коде. Удалить после переделки всего кода
     @Override
     public AuthInfo getAuthInfoNotSingle() {
         return App.getInstance().getAuthInfo();

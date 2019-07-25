@@ -23,21 +23,17 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:background="@color/white"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
-        <android.support.v4.widget.ContentLoadingProgressBar
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}" />
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:visibility="visible"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/no_items_in_favourites"
-            android:visibility="@{viewModel.showEmpty ? View.VISIBLE : View.GONE}" />
+            android:text="@{viewModel.showMessage}"
+            tools:visibility="invisible"
+            />
 
     </FrameLayout>
 </layout>

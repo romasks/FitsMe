@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
+import android.arch.paging.PagedList;
 import android.arch.paging.PagedListAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -20,11 +21,16 @@ import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
+import static ru.fitsme.android.utils.Constants.GONE;
+
 public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, FavouritesAdapter.GenericViewHolder> {
 
-    private BaseViewModel viewModel;
+    private FavouritesViewModel viewModel;
 
-    FavouritesAdapter(BaseViewModel viewModel) {
+    private static final int NORMAL_TYPE = 1;
+    private static final int DELETED_TYPE = 2;
+
+    FavouritesAdapter(FavouritesViewModel viewModel) {
         super(FavouritesFragment.DIFF_CALLBACK);
         this.viewModel = viewModel;
     }

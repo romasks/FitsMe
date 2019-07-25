@@ -41,8 +41,9 @@ import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordExc
 import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
-import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
@@ -99,21 +100,48 @@ public class WebLoader {
         });
     }
 
-
-
     public Single<OkResponse<ClothesPage>> getClothesPage(int page) {
         return Single.create(emitter -> {
             authInteractor.getAuthInfo()
                     .subscribe(authInfo -> {
                         apiService.getClothes(TOKEN + authInfo.getToken(), page)
                                 .subscribeOn(workThread)
-                                .subscribe(clothesPage -> {
-                                    Timber.d("thread " + Thread.currentThread().getName());
-                                    emitter.onSuccess(clothesPage);
-                                }, emitter::onError);
+                                .subscribe(emitter::onSuccess, emitter::onError);
                     }, emitter::onError);
         });
     }
+
+    public Single<OkResponse<FavouritesPage>> getFavouritesClothesPage(int page){
+        return Single.create(emitter -> {
+            authInteractor.getAuthInfo()
+                    .subscribe(authInfo -> {
+                        apiService.getFavouritesClothes(TOKEN + authInfo.getToken(), page)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError);
+                    }, emitter::onError);
+        });
+    }
+
+    public Single<OkResponse<FavouritesItem>> deleteFavouriteItem(FavouritesItem item) {
+        return Single.create(emitter ->
+                authInteractor.getAuthInfo()
+                .subscribe(authInfo -> apiService.deleteItemFromFavourites(TOKEN + authInfo.getToken(), item.getId())
+                        .subscribeOn(workThread)
+                        .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<OrderItem>> addItemToCart(FavouritesItem favouritesItem, int quantity) {
+        int clotheId = favouritesItem.getItem().getId();
+        return Single.create(emitter ->
+                authInteractor.getAuthInfo()
+                        .subscribe(
+                                authInfo -> apiService.addItemToCart(TOKEN + authInfo.getToken(), new OrderedItem(clotheId, quantity))
+                                        .subscribeOn(workThread)
+                                        .subscribe(emitter::onSuccess, emitter::onError),
+                                emitter::onError));
+    }
+
 
     @NonNull
     private UserException makeError(Error error){
@@ -144,7 +172,6 @@ public class WebLoader {
                 return new UnknowError();
         }
     }
-
     private <T> T getResponse(OkResponse<T> okResponse) throws UserException, InternalException {
         if (okResponse.getResponse() != null) {
             return okResponse.getResponse();
@@ -170,10 +197,6 @@ public class WebLoader {
         throw new InternetConnectionException();
     }
     public interface ExecutableRequest<T> {
-
-
-
-
         @NonNull
         Call<OkResponse<T>> request();
 
@@ -183,24 +206,12 @@ public class WebLoader {
         return "Token " + authInteractor.getAuthInfoNotSingle().getToken();
     }
 
-    public FavouritesPage getFavouritesClothesPage(int page) throws UserException {
-        return executeRequest(() -> apiService.getFavouritesClothes(getHeaderToken(), page));
-    }
-
     public OrdersPage getOrdersPage(int page) throws UserException {
         return executeRequest(() -> apiService.getOrders(getHeaderToken(), page));
     }
 
     public OrdersPage getOrders(OrderStatus status) throws UserException {
         return executeRequest(() -> apiService.getOrders(getHeaderToken(), status));
-    }
-
-    public void deleteFavouriteItem(int itemId) throws UserException {
-        executeRequest(() -> apiService.deleteFavouritesItem(getHeaderToken(), itemId));
-    }
-
-    public void addItemToCart(int id, int quantity) throws UserException {
-        executeRequest(() -> apiService.addItemToCart(getHeaderToken(), new OrderedItem(id, quantity)));
     }
 
     public void makeOrder(

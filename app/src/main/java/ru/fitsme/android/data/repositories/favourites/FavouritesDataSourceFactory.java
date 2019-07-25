@@ -2,23 +2,22 @@ package ru.fitsme.android.data.repositories.favourites;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
+import android.databinding.ObservableBoolean;
 
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import timber.log.Timber;
 
 public class FavouritesDataSourceFactory extends DataSource.Factory<Integer, FavouritesItem> {
 
     private final WebLoader webLoader;
-    private final IAuthRepository authRepository;
-//    private final IUserInfoRepository userInfoRepository;
 
     @Inject
-    public FavouritesDataSourceFactory(WebLoader webLoader, IAuthRepository authRepository) {
+    public FavouritesDataSourceFactory(WebLoader webLoader) {
         this.webLoader = webLoader;
-        this.authRepository = authRepository;
     }
 
     private MutableLiveData<FavouritesRepository> sourceLiveData = new MutableLiveData<>();

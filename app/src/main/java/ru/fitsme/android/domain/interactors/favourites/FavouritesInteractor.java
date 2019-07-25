@@ -3,9 +3,8 @@ package ru.fitsme.android.domain.interactors.favourites;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import android.support.annotation.NonNull;
-
-import org.jetbrains.annotations.NotNull;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -14,12 +13,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import io.reactivex.Completable;
 import io.reactivex.Scheduler;
+import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactory;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import timber.log.Timber;
 
 @Singleton
 public class FavouritesInteractor implements IFavouritesInteractor {
@@ -34,6 +35,8 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     private LiveData<PagedList<FavouritesItem>> pagedListLiveData;
     private PagedList.Config config;
 
+    private static ObservableField<String> showMessage;
+
     @Inject
     FavouritesInteractor(IFavouritesActionRepository favouritesActionRepository,
                          FavouritesDataSourceFactory favouritesDataSourceFactory,
@@ -44,6 +47,8 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         this.workThread = workThread;
         this.mainThread = mainThread;
 
+        showMessage = new ObservableField<String>(App.getInstance().getString(R.string.loading));
+
         config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPageSize(PAGE_SIZE)
@@ -52,6 +57,12 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         pagedListLiveData =
                 new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
                         .setFetchExecutor(Executors.newSingleThreadExecutor())
+                        .setBoundaryCallback(new PagedList.BoundaryCallback<FavouritesItem>() {
+                            @Override
+                            public void onZeroItemsLoaded() {
+                                showMessage.set(App.getInstance().getString(R.string.no_items_in_favourites));
+                            }
+                        })
                         .build();
     }
 
@@ -68,40 +79,38 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         }
     }
 
-    @NonNull
     @Override
-    public Completable addFavouritesItemToCart(int position) {
-        return Completable.create(emitter -> {
-            PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
-            if (pagedList != null && pagedList.size() > position) {
-                FavouritesItem item = pagedList.get(position);
-                if (item != null) {
-                    int clotheItemId = item.getItem().getId();
-                    favouritesActionRepository.addItemToCart(clotheItemId);
-                    invalidateDataSource();
-                }
+    public void addFavouritesItemToCart(int position) {
+        PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
+        if (pagedList != null && pagedList.size() > position) {
+            FavouritesItem item = pagedList.get(position);
+            if (item != null) {
+                favouritesActionRepository.addItemToCart(item)
+                        .subscribe(orderItem -> invalidateDataSource(), error -> Timber.d(error));
             }
-            emitter.onComplete();
-        })
-                .subscribeOn(workThread)
-                .observeOn(mainThread);
+        }
     }
 
-    @NotNull
     @Override
-    public Completable deleteFavouriteItem(Integer position) {
-        return Completable.create(emitter -> {
-            PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
-            if (pagedList != null && pagedList.size() > position) {
-                FavouritesItem item = pagedList.get(position);
-                if (item != null) {
-                    favouritesActionRepository.removeItem(item.getId());
-                    invalidateDataSource();
-                }
+    public void deleteFavouriteItem(Integer position) {
+        PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
+        if (pagedList != null && pagedList.size() > position) {
+            FavouritesItem removedItem = pagedList.get(position);
+            if (removedItem != null) {
+                favouritesActionRepository.removeItem(removedItem)
+                        .subscribe(updatedItem -> {
+                            invalidateDataSource();
+                        }, error -> {Timber.e(error);});
             }
-            emitter.onComplete();
-        })
-                .subscribeOn(workThread)
-                .observeOn(mainThread);
+        }
+    }
+
+    @Override
+    public ObservableField<String> getShowMessage() {
+        return showMessage;
+    }
+
+    public static void setFavouriteMessage(String string){
+        showMessage.set(string);
     }
 }

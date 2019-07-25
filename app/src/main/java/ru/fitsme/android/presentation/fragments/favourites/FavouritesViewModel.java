@@ -2,7 +2,7 @@ package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.PagedList;
-import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,22 +11,18 @@ import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import timber.log.Timber;
 
-import static ru.fitsme.android.utils.Constants.GONE;
-
 public class FavouritesViewModel extends BaseViewModel {
 
     private final IFavouritesInteractor favouritesInteractor;
 
-    public ObservableBoolean loading;
-    public ObservableBoolean showEmpty;
+    public ObservableField<String> showMessage;
 
     public FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
     }
 
     void init() {
-        loading = new ObservableBoolean(GONE);
-        showEmpty = new ObservableBoolean(GONE);
+        showMessage = favouritesInteractor.getShowMessage();
     }
 
     LiveData<PagedList<FavouritesItem>> getPageLiveData() {
@@ -34,17 +30,15 @@ public class FavouritesViewModel extends BaseViewModel {
     }
 
     void deleteItem(Integer position) {
-        addDisposable(favouritesInteractor
-                .deleteFavouriteItem(position)
-                .subscribe(() -> {}, this::onError)
-        );
+        favouritesInteractor.deleteFavouriteItem(position);
     }
 
     public void addItemToCart(Integer position) {
-        addDisposable(favouritesInteractor
-                .addFavouritesItemToCart(position)
-                .subscribe(() -> {}, this::onError)
-        );
+        favouritesInteractor.addFavouritesItemToCart(position);
+    }
+
+    public void restoreItem(int position){
+
     }
 
     private void onError(Throwable throwable) {

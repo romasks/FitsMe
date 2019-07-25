@@ -92,6 +92,7 @@ dependencies {
 
     // Paginated List
     implementation 'android.arch.paging:runtime:1.0.1'
+    implementation 'android.arch.paging:rxjava2:1.0.1'
 
     // Crashlytics
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {

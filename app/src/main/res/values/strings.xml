@@ -10,6 +10,7 @@
     <string name="password_not_valid_error">Пароль введён неверно</string>
     <string name="server_internal_error">Внутреняя ошибка сервера</string>
     <string name="loading">Загрузка&#8230;</string>
+    <string name="error">Ошибка</string>
     <string name="sign_up">Регистрация</string>
     <string name="sign_in">Войти</string>
     <string name="login">Логин</string>
@@ -21,7 +22,7 @@
     <string name="clothe_price_hint">7000 P</string>
     <string name="to_cart">В корзину</string>
     <string name="clothe_in_cart">Товар в корзине</string>
-    <string name="no_items_in_favourites">Нету товаров в избранном</string>
+    <string name="no_items_in_favourites">Нет товаров в избранном</string>
     <string name="no_items_in_cart">В корзине нет товаров</string>
     <string name="cart_no_item_go_to_favourite_btn_text">Перейти в избранное</string>
     <string name="cart_no_item_go_to_rate_btn_text">Продолжить просмотр товаров</string>
@@ -65,4 +66,6 @@
     <string name="item_info_item_name_text">Название товара</string>
     <string name="end_of_not_viewed_list">Список вещей закончился</string>
     <string name="image_loading_error">Ошибка загрузки изображения</string>
+    <string name="item_favourite_deleted_item_deleted">Товар удален</string>
+    <string name="item_favourite_deleted_undo">Вернуть</string>
 </resources>

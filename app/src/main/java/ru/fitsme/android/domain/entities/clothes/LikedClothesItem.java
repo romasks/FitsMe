@@ -2,10 +2,10 @@ package ru.fitsme.android.domain.entities.clothes;
 
 public class LikedClothesItem {
     private int id;
+    private ClothesItem clothe;
+    private String add_datetime;
     private boolean liked;
     private boolean in_cart;
-    private String add_datetime;
-    private ClothesItem clothe;
 
     public int getId() {
         return id;

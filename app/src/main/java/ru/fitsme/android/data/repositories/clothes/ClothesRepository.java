@@ -38,7 +38,7 @@ public class ClothesRepository implements IClothesRepository {
                         } else {
                             emitter.onSuccess(new ClotheInfo(likedClothesItemOkResponse.getError()));
                         }
-                    });
+                    }, emitter::onError);
         });
     }
 

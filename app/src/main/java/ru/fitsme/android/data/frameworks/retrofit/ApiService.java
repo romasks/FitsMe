@@ -20,6 +20,7 @@ import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.utils.OrderStatus;
@@ -40,15 +41,15 @@ public interface ApiService {
                                              @Query("page") int page);
 
     @GET("viewed/")
-    Call<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
+    Single<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
                                                           @Query("page") int page);
 
-    @DELETE("viewed/{itemId}/")
-    Call<OkResponse<Void>> deleteFavouritesItem(@Header("Authorization") String token,
-                                            @Path("itemId") int itemId);
+    @PUT("viewed/{itemId}/")
+    Single<OkResponse<FavouritesItem>> deleteItemFromFavourites(@Header("Authorization") String token,
+                                                                @Path("itemId") int itemId);
 
     @POST("orders/items/")
-    Call<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,
+    Single<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,
                                               @Body OrderedItem orderedItem);
 
     @GET("orders/")

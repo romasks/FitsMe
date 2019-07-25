@@ -21,7 +21,6 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
-import timber.log.Timber;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
@@ -77,7 +76,6 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         binding.favouritesListRv.setHasFixedSize(true);
         binding.favouritesListRv.setAdapter(adapter);
 
-        viewModel.loading.set(VISIBLE);
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
 
@@ -87,12 +85,6 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     }
 
     private void onLoadPage(PagedList<FavouritesItem> pagedList) {
-        viewModel.loading.set(GONE);
-        if (pagedList == null || pagedList.size() == 0) {
-            viewModel.showEmpty.set(VISIBLE);
-        } else {
-            viewModel.showEmpty.set(GONE);
-        }
         adapter.submitList(pagedList);
     }
 

@@ -1,5 +1,6 @@
 package ru.fitsme.android.data.repositories.auth;
 
+import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 
 import javax.inject.Inject;

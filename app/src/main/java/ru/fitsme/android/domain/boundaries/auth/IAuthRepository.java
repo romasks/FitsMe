@@ -1,5 +1,6 @@
 package ru.fitsme.android.domain.boundaries.auth;
 
+import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 
 import io.reactivex.Single;
