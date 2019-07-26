@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.GlideApp;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
@@ -139,6 +141,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     public void showYes(boolean b){
+        showNo(!b);
         if (b){
             binding.rateItemsYes.setVisibility(View.VISIBLE);
         } else {
@@ -147,6 +150,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     public void showNo(boolean b){
+        showYes(!b);
         if (b){
             binding.rateItemsNo.setVisibility(View.VISIBLE);
         } else {
@@ -162,6 +166,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
+            binding.itemInfoItemInfoContainer.setPadding(0,0,0,0);
+            binding.itemInfoItemInfoCard.setRadius(0);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                binding.itemInfoItemInfoCard.setElevation(0);
+                binding.itemInfoBrandNameCard.setElevation(0);
+            }
         } else {
             isFullState = false;
             getArguments().putBoolean(KEY_ITEM_INFO_STATE, false);
@@ -169,6 +179,13 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(false);
+            int paddingVal = App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding);
+            binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
+            binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                binding.itemInfoItemInfoCard.setElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+                binding.itemInfoBrandNameCard.setElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+            }
         }
     }
 }
