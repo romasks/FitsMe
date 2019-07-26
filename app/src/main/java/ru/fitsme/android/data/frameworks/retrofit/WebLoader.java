@@ -131,6 +131,15 @@ public class WebLoader {
                         emitter::onError));
     }
 
+    public Single<OkResponse<FavouritesItem>> restoreFavouriteItem(FavouritesItem item) {
+        return Single.create(emitter ->
+                authInteractor.getAuthInfo()
+                .subscribe(authInfo -> apiService.restoreItemToFavourites(TOKEN + authInfo.getToken(), item.getId())
+                        .subscribeOn(workThread)
+                        .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
     public Single<OkResponse<OrderItem>> addItemToCart(FavouritesItem favouritesItem, int quantity) {
         int clotheId = favouritesItem.getItem().getId();
         return Single.create(emitter ->

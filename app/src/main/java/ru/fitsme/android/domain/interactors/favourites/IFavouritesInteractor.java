@@ -6,21 +6,20 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
+import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 
 public interface IFavouritesInteractor extends BaseInteractor {
 
-//    @NonNull
-//    Completable restoreItemToFavourites(int index);
-
     @NonNull
     void addFavouritesItemToCart(int position);
 
-    @NonNull
-    void deleteFavouriteItem(Integer position);
+    Single<FavouritesItem> deleteFavouriteItem(Integer position);
 
     LiveData<PagedList<FavouritesItem>> getPagedListLiveData();
+
+    Single<FavouritesItem> restoreItemToFavourites(Integer position);
 
     ObservableField<String> getShowMessage();
 }

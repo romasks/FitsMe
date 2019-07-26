@@ -3,7 +3,6 @@ package ru.fitsme.android.domain.interactors.favourites;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
 import java.util.Objects;
@@ -14,6 +13,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactory;
@@ -92,17 +92,27 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     }
 
     @Override
-    public void deleteFavouriteItem(Integer position) {
+    public Single<FavouritesItem> deleteFavouriteItem(Integer position) {
         PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
         if (pagedList != null && pagedList.size() > position) {
             FavouritesItem removedItem = pagedList.get(position);
             if (removedItem != null) {
-                favouritesActionRepository.removeItem(removedItem)
-                        .subscribe(updatedItem -> {
-                            invalidateDataSource();
-                        }, error -> {Timber.e(error);});
+                return favouritesActionRepository.removeItem(removedItem);
             }
         }
+        return Single.just(new FavouritesItem());
+    }
+
+    @Override
+    public Single<FavouritesItem> restoreItemToFavourites(Integer position) {
+        PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
+        if (pagedList != null && pagedList.size() > position) {
+            FavouritesItem item = pagedList.get(position);
+            if (item != null) {
+                return favouritesActionRepository.restoreItem(item);
+            }
+        }
+        return Single.just(new FavouritesItem());
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.databinding.ObservableField;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -29,16 +30,16 @@ public class FavouritesViewModel extends BaseViewModel {
         return favouritesInteractor.getPagedListLiveData();
     }
 
-    void deleteItem(Integer position) {
-        favouritesInteractor.deleteFavouriteItem(position);
+    Single<FavouritesItem> deleteItem(Integer position) {
+        return favouritesInteractor.deleteFavouriteItem(position);
     }
 
     public void addItemToCart(Integer position) {
         favouritesInteractor.addFavouritesItemToCart(position);
     }
 
-    public void restoreItem(int position){
-
+    Single<FavouritesItem> restoreItem(int position){
+        return favouritesInteractor.restoreItemToFavourites(position);
     }
 
     private void onError(Throwable throwable) {

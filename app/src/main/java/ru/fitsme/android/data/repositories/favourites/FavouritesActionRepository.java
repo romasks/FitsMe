@@ -1,7 +1,5 @@
 package ru.fitsme.android.data.repositories.favourites;
 
-import android.support.annotation.NonNull;
-
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -12,7 +10,6 @@ import retrofit2.HttpException;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
-import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
@@ -32,12 +29,12 @@ public class FavouritesActionRepository implements IFavouritesActionRepository {
     public Single<FavouritesItem> removeItem(FavouritesItem item) {
         return Single.create(emitter ->
                 webLoader.deleteFavouriteItem(item)
-                        .subscribe(likedClothesItemOkResponse -> {
-                            FavouritesItem dislikedItem = likedClothesItemOkResponse.getResponse();
+                        .subscribe(favouritesItemOkResponse -> {
+                            FavouritesItem dislikedItem = favouritesItemOkResponse.getResponse();
                             if (dislikedItem != null){
                                 emitter.onSuccess(dislikedItem);
                             } else {
-                                UserException error = ErrorRepository.makeError(likedClothesItemOkResponse.getError());
+                                UserException error = ErrorRepository.makeError(favouritesItemOkResponse.getError());
                                 Timber.e(error);
                                 emitter.onSuccess(item);
                             }
@@ -45,8 +42,19 @@ public class FavouritesActionRepository implements IFavouritesActionRepository {
     }
 
     @Override
-    public void restoreItem(@NonNull String token, int id) {
-
+    public Single<FavouritesItem> restoreItem(FavouritesItem item) {
+        return Single.create(emitter ->
+                webLoader.restoreFavouriteItem(item)
+                        .subscribe(favouritesItemOkResponse -> {
+                            FavouritesItem restoredItem = favouritesItemOkResponse.getResponse();
+                            if (restoredItem != null){
+                                emitter.onSuccess(restoredItem);
+                            } else {
+                                UserException error = ErrorRepository.makeError(favouritesItemOkResponse.getError());
+                                Timber.e(error);
+                                emitter.onSuccess(item);
+                            }
+                        }, emitter::onError));
     }
 
     @Override

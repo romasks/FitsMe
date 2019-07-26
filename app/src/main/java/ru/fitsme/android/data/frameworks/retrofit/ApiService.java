@@ -48,6 +48,10 @@ public interface ApiService {
     Single<OkResponse<FavouritesItem>> deleteItemFromFavourites(@Header("Authorization") String token,
                                                                 @Path("itemId") int itemId);
 
+    @PUT("viewed/{itemId}/")
+    Single<OkResponse<FavouritesItem>> restoreItemToFavourites(@Header("Authorization") String token,
+                                                                @Path("itemId") int itemId);
+
     @POST("orders/items/")
     Single<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,
                                               @Body OrderedItem orderedItem);
