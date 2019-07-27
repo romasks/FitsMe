@@ -48,17 +48,14 @@ public class FavouritesInteractor implements IFavouritesInteractor {
                 .setEnablePlaceholders(false)
                 .setPageSize(PAGE_SIZE)
                 .build();
-
-        pagedListLiveData =
-                new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
-                        .setFetchExecutor(Executors.newSingleThreadExecutor())
-                        .build();
     }
 
     @Override
     public LiveData<PagedList<FavouritesItem>> getPagedListLiveData() {
-        invalidateDataSource();
-        return pagedListLiveData;
+        return pagedListLiveData =
+                new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
+                        .setFetchExecutor(Executors.newSingleThreadExecutor())
+                        .build();
     }
 
     private void invalidateDataSource() {
