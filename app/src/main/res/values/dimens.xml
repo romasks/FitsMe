@@ -9,6 +9,7 @@
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_lower_medium">16sp</dimen>
     <dimen name="text_size_minimal_medium">14sp</dimen>
+    <dimen name="text_size_12sp">12sp</dimen>
     <dimen name="text_size_small">10sp</dimen>
 
     <dimen name="delivery_address_field_height">45dp</dimen>

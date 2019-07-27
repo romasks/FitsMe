@@ -189,14 +189,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:textSize="@dimen/text_size_12sp"
+                                android:textColor="@color/black"
                                 android:text="@string/item_info_item_description_text"
-                                tools:text="Описание"
                                 />
 
                             <TextView
                                 android:id="@+id/item_info_item_description_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_size_12sp"
+                                android:textColor="@color/darkGrey"
                                 android:layout_marginStart="32dp"
                                 tools:text="sometexklafjkl klf;dsgkfl;dgkfsl;kl;gks;lgkf;lkslgsdfgkls;gk;glsfkdl;t"
                                 />
@@ -208,14 +211,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:textSize="@dimen/text_size_12sp"
+                                android:textColor="@color/black"
                                 android:text="@string/item_info_item_content_text"
-                                tools:text="Состав"
                                 />
 
                             <TextView
                                 android:id="@+id/item_info_item_content_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_size_12sp"
+                                android:textColor="@color/darkGrey"
                                 android:layout_marginStart="32dp"
                                 tools:text="cottonjklfjsdkfjsfadskgdfgdfgdgfjdskljfakfjksadljfadkfjsdklfjsdkjfa"
                                 />

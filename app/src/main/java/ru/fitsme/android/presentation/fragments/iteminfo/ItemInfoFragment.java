@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.app.GlideApp;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -141,18 +139,18 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     public void showYes(boolean b){
-        showNo(!b);
         if (b){
             binding.rateItemsYes.setVisibility(View.VISIBLE);
+            showNo(false);
         } else {
             binding.rateItemsYes.setVisibility(View.INVISIBLE);
         }
     }
 
     public void showNo(boolean b){
-        showYes(!b);
         if (b){
             binding.rateItemsNo.setVisibility(View.VISIBLE);
+            showYes(false);
         } else {
             binding.rateItemsNo.setVisibility(View.INVISIBLE);
         }
