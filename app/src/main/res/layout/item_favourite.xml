@@ -64,34 +64,28 @@
             android:background="@color/white"
             android:padding="@dimen/padding_medium">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/favourite_image_field"
-                android:layout_width="wrap_content"
+
+            <ImageView
+                android:id="@+id/favourite_image"
+                android:layout_width="98dp"
                 android:layout_height="match_parent"
+                android:scaleType="centerInside"
                 android:layout_marginEnd="@dimen/padding_medium"
-                android:background="@drawable/bg_rounded_corners"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
-                >
-
-                <ImageView
-                    android:id="@+id/favourite_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@null"
-                    android:layout_gravity="fill"
-                    app:defaultImage="@{@drawable/placeholder}"
-                    app:imageUrl="@{clothesItem.imageUrl}"
-                    tools:src="@drawable/placeholder"
-                    />
-            </android.support.v7.widget.CardView>
+                app:defaultImage="@{@drawable/placeholder}"
+                app:imageUrl="@{clothesItem.imageUrl}"
+                android:contentDescription="@null"
+                tools:src="@drawable/placeholder"
+                />
 
             <TextView
                 android:id="@+id/favourites_brand_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/favourite_image_field"
+                android:layout_toEndOf="@id/favourite_image"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{clothesItem.brandName}"
@@ -105,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/favourites_brand_name"
-                android:layout_toEndOf="@id/favourite_image_field"
+                android:layout_toEndOf="@id/favourite_image"
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{clothesItem.name}"
@@ -117,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/favourites_name"
-                android:layout_toEndOf="@id/favourite_image_field"
+                android:layout_toEndOf="@id/favourite_image"
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{@string/cart_amount_tv(clothesItem.price)}"
@@ -132,7 +126,7 @@
                 android:layout_margin= "5dp"
                 android:textAllCaps="false"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@id/favourite_image_field"
+                android:layout_toEndOf="@id/favourite_image"
                 android:layout_alignParentEnd="true"
                 android:onClick="@{() -> viewModel.addItemToCart(position)}"
                 android:paddingTop="@dimen/padding_small"
