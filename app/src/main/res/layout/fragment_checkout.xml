@@ -55,7 +55,7 @@
                     android:text="@string/screen_title_checkout_order"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_header"
+                    android:textSize="@dimen/text_size_20sp"
                     android:textStyle="bold" />
 
                 <View
@@ -82,7 +82,7 @@
                     android:layout_marginBottom="@dimen/padding_small"
                     android:text="@string/checkout_mobile_phone_number"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -91,7 +91,7 @@
                     android:layout_height="@dimen/delivery_address_field_height"
                     android:hint="@string/checkout_hint_phone_number"
                     android:inputType="phone"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_18sp"
                     android:text="@={viewModel.orderModel.phoneNumber}"
                     tools:ignore="Autofill" />
 
@@ -102,7 +102,7 @@
                     android:layout_marginBottom="@dimen/padding_small"
                     android:text="@string/checkout_delivery_address"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -289,7 +289,7 @@
                     android:text="@string/btn_checkout_order"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_lower_medium" />
+                    android:textSize="@dimen/text_size_16sp" />
 
             </LinearLayout>
         </ScrollView>

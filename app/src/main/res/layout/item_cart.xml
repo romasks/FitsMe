@@ -86,7 +86,7 @@
                 android:paddingBottom="4dp"
                 android:text="@{clothesItem.brandName}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_18sp"
                 android:textStyle="bold"
                 tools:text="@string/brand_name_hint_in_two_lines" />
 

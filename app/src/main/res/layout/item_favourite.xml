@@ -89,7 +89,7 @@
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{clothesItem.brandName}"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 tools:text="@string/brand_name_hint_in_two_lines" />
