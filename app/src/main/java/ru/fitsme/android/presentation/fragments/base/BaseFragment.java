@@ -19,13 +19,13 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
 
     @Override
     public void onDestroyView() {
-//        viewModel.clearDisposables();
+        viewModel.clearDisposables();
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-//        viewModel.disposeDisposables();
+        viewModel.disposeDisposables();
         super.onDestroy();
     }
 

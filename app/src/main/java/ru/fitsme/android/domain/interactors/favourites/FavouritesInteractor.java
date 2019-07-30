@@ -20,7 +20,7 @@ import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactor
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
-import timber.log.Timber;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 
 @Singleton
 public class FavouritesInteractor implements IFavouritesInteractor {
@@ -68,27 +68,22 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @Override
     public LiveData<PagedList<FavouritesItem>> getPagedListLiveData() {
-        invalidateDataSource();
-        return pagedListLiveData;
-    }
-
-    private void invalidateDataSource() {
-        FavouritesRepository repository = favouritesDataSourceFactory.getSourceLiveData().getValue();
-        if (repository != null) {
-            Objects.requireNonNull(repository).invalidate();
-        }
+        return pagedListLiveData =
+                new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
+                        .setFetchExecutor(Executors.newSingleThreadExecutor())
+                        .build();
     }
 
     @Override
-    public void addFavouritesItemToCart(int position) {
+    public Single<OrderItem> addFavouritesItemToCart(int position) {
         PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
         if (pagedList != null && pagedList.size() > position) {
             FavouritesItem item = pagedList.get(position);
             if (item != null) {
-                favouritesActionRepository.addItemToCart(item)
-                        .subscribe(orderItem -> invalidateDataSource(), error -> Timber.d(error));
+                return favouritesActionRepository.addItemToCart(item);
             }
         }
+        return Single.just(new OrderItem());
     }
 
     @Override

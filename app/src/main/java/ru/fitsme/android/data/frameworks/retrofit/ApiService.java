@@ -68,4 +68,8 @@ public interface ApiService {
     Call<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
                                             @Path("id") long orderId,
                                             @Body OrderUpdate order);
+
+    @DELETE("orders/items/{itemId}/")
+    Call<OkResponse<Void>> deleteOrdersItem(@Header("Authorization") String token,
+                                            @Path("itemId") int itemId);
 }

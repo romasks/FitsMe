@@ -223,6 +223,10 @@ public class WebLoader {
         return executeRequest(() -> apiService.getOrders(getHeaderToken(), status));
     }
 
+    public void deleteOrderItem(int itemId) throws UserException {
+        executeRequest(() -> apiService.deleteOrdersItem(getHeaderToken(), itemId));
+    }
+
     public void makeOrder(
             long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
     ) throws UserException {

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean isDispatch = super.dispatchTouchEvent(ev);
-        if (weakSwipeTouchListener.get() != null){
+        if (weakSwipeTouchListener != null && weakSwipeTouchListener.get() != null){
             weakSwipeTouchListener.get().onTouch(new TextView(this), ev);
         }
         return isDispatch;

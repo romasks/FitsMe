@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     private FragmentFavouritesBinding binding;
     private FavouritesAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
 
     public static DiffUtil.ItemCallback<FavouritesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<FavouritesItem>() {
 
@@ -69,8 +71,10 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         }
         binding.setViewModel(viewModel);
 
+        linearLayoutManager = new LinearLayoutManager(getContext());
         adapter = new FavouritesAdapter(viewModel);
 
+        binding.favouritesListRv.setLayoutManager(linearLayoutManager);
         binding.favouritesListRv.setHasFixedSize(true);
         binding.favouritesListRv.setAdapter(adapter);
 

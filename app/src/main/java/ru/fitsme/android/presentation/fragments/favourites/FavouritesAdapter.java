@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.HashSet;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemFavouriteBinding;
@@ -84,6 +85,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         final ImageView leftDeleteIcon;
         RelativeLayout viewBackground;
         RelativeLayout viewForeground;
+        Button inCartBtn;
 
         NormalViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -92,6 +94,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             viewForeground = binding.getRoot().findViewById(R.id.item_favourite_view_foreground);
             rightDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_right);
             leftDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_left);
+            inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);
         }
 
         @Override
@@ -99,9 +102,25 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             FavouritesItem favouritesItem = getItem(position);
             ClothesItem clothesItem = favouritesItem.getItem();
 
-            Button inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);
+            setButtonIsInCartState(favouritesItem.isInCart());
 
-            if (favouritesItem.isInCart()) {
+            inCartBtn.setOnClickListener(view ->
+                    viewModel.addItemToCart(position)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(orderItem -> {
+                                if (orderItem.getId() != 0){
+                                    setButtonIsInCartState(true);
+                                }
+                            }, Timber::e));
+
+            binding.setVariable(BR.clotheItem, clothesItem);
+            binding.setVariable(BR.viewModel, viewModel);
+            binding.setVariable(BR.position, position);
+            binding.executePendingBindings();
+        }
+
+        private void setButtonIsInCartState(boolean b) {
+            if (b) {
                 inCartBtn.setBackgroundResource(R.drawable.bg_in_cart_btn);
                 inCartBtn.setEnabled(false);
                 inCartBtn.setText(R.string.clothe_in_cart);
@@ -112,11 +131,6 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
                 inCartBtn.setText(R.string.to_cart);
                 inCartBtn.setTextColor(binding.getRoot().getResources().getColor(R.color.white));
             }
-
-            binding.setVariable(BR.clotheItem, clothesItem);
-            binding.setVariable(BR.viewModel, viewModel);
-            binding.setVariable(BR.position, position);
-            binding.executePendingBindings();
         }
     }
 

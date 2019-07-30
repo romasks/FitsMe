@@ -23,8 +23,6 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:background="@color/white"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:visibility="visible"
             />
 
         <TextView

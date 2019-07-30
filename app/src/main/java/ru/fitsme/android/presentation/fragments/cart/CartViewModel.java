@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 
@@ -42,5 +43,16 @@ public class CartViewModel extends BaseViewModel {
             tmpPrice += oi.getPrice();
         }
         totalPrice.set(tmpPrice);
+    }
+
+    public void deleteItem(int position) {
+        addDisposable(ordersInteractor
+                .removeItemFromOrder(position)
+                .subscribe(() -> {}, this::onError)
+        );
+    }
+
+    private void onError(Throwable throwable) {
+        Timber.tag(getClass().getName()).e(throwable);
     }
 }

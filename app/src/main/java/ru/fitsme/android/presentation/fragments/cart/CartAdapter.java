@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
@@ -36,10 +38,18 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.Generic
 
     class GenericViewHolder extends RecyclerView.ViewHolder {
         final ViewDataBinding binding;
+        final ImageView rightDeleteIcon;
+        final ImageView leftDeleteIcon;
+        RelativeLayout viewBackground;
+        RelativeLayout viewForeground;
 
         GenericViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            viewBackground = binding.getRoot().findViewById(R.id.item_cart_view_background);
+            viewForeground = binding.getRoot().findViewById(R.id.item_cart_view_foreground);
+            rightDeleteIcon = binding.getRoot().findViewById(R.id.item_cart_delete_icon_right);
+            leftDeleteIcon = binding.getRoot().findViewById(R.id.item_cart_delete_icon_left);
         }
 
         void bind(int position) {

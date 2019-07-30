@@ -114,7 +114,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     private void onLikedClothesItem() {
-
+        // TODO: 30.07.2019 Выполняется в случае отмены лайка. Не сделано еще
     }
 
     @Override
@@ -129,6 +129,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     public void showYes(boolean b){
         if (b){
             binding.rateItemsYes.setVisibility(View.VISIBLE);
+            showNo(false);
         } else {
             binding.rateItemsYes.setVisibility(View.INVISIBLE);
         }
@@ -137,6 +138,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     public void showNo(boolean b){
         if (b){
             binding.rateItemsNo.setVisibility(View.VISIBLE);
+            showYes(false);
         } else {
             binding.rateItemsNo.setVisibility(View.INVISIBLE);
         }
@@ -149,12 +151,25 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
+            binding.itemInfoItemInfoContainer.setPadding(0,0,0,0);
+            binding.itemInfoItemInfoCard.setRadius(0);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                binding.itemInfoItemInfoCard.setElevation(0);
+                binding.itemInfoBrandNameCard.setElevation(0);
+            }
         } else {
             isFullState = false;
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(false);
+            int paddingVal = App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding);
+            binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
+            binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                binding.itemInfoItemInfoCard.setElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+                binding.itemInfoBrandNameCard.setElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+            }
         }
     }
 }

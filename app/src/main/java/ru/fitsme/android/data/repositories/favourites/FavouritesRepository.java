@@ -31,7 +31,6 @@ public class FavouritesRepository extends PageKeyedDataSource<Integer, Favourite
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, FavouritesItem> callback) {
-        FavouritesInteractor.setFavouriteMessage(App.getInstance().getString(R.string.loading));
         webLoader.getFavouritesClothesPage(1)
                 .subscribe(favouritesPageOkResponse -> {
                     FavouritesPage favouritesPage = favouritesPageOkResponse.getResponse();

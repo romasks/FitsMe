@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import timber.log.Timber;
@@ -34,8 +35,8 @@ public class FavouritesViewModel extends BaseViewModel {
         return favouritesInteractor.deleteFavouriteItem(position);
     }
 
-    public void addItemToCart(Integer position) {
-        favouritesInteractor.addFavouritesItemToCart(position);
+    public Single<OrderItem> addItemToCart(Integer position) {
+        return favouritesInteractor.addFavouritesItemToCart(position);
     }
 
     Single<FavouritesItem> restoreItem(int position){

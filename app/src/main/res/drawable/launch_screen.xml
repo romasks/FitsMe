@@ -8,7 +8,7 @@
 
     <item>
         <bitmap
-            android:src="@drawable/ic_splash_image"
+            android:src="@drawable/splash_image"
             android:gravity="center"
             />
     </item>

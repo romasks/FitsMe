@@ -20,7 +20,7 @@ import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
-import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
+import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -31,7 +31,7 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     private static final int PAGE_SIZE = 10;
 
-    private final IOrdersRepository orderRepository;
+    private final IOrdersActionRepository ordersActionRepository;
     private final Scheduler workThread;
     private final Scheduler mainThread;
     private final OrdersDataSourceFactory ordersDataSourceFactory;
@@ -40,11 +40,11 @@ public class OrdersInteractor implements IOrdersInteractor {
     private PagedList.Config config;
 
     @Inject
-    OrdersInteractor(IOrdersRepository orderRepository,
+    OrdersInteractor(IOrdersActionRepository ordersActionRepository,
                      OrdersDataSourceFactory ordersDataSourceFactory,
                      @Named("work") Scheduler workThread,
                      @Named("main") Scheduler mainThread) {
-        this.orderRepository = orderRepository;
+        this.ordersActionRepository = ordersActionRepository;
         this.ordersDataSourceFactory = ordersDataSourceFactory;
         this.workThread = workThread;
         this.mainThread = mainThread;
@@ -81,13 +81,26 @@ public class OrdersInteractor implements IOrdersInteractor {
     }
 
     private OrdersPage getOrders(OrderStatus status) throws AppException {
-        return orderRepository.getOrders(status);
+        return ordersActionRepository.getOrders(status);
     }
 
     @NonNull
     @Override
-    public Completable removeItemFromOrder(int index) {
-        return null;
+    public Completable removeItemFromOrder(int position) {
+        return Completable.create(emitter -> {
+            PagedList<OrderItem> pagedList = pagedListLiveData.getValue();
+            if (pagedList != null && pagedList.size() > position) {
+                OrderItem item = pagedList.get(position);
+                if (item != null) {
+                    int orderItemId = item.getId();
+                    ordersActionRepository.removeItemFromOrder(orderItemId);
+                    invalidateDataSource();
+                }
+            }
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .observeOn(mainThread);
     }
 
     @NonNull
@@ -100,7 +113,7 @@ public class OrdersInteractor implements IOrdersInteractor {
     @Override
     public Completable makeOrder(OrderModel orderModel) {
         return Completable.create(emitter -> {
-            orderRepository.makeOrder(
+            ordersActionRepository.makeOrder(
                     orderModel.getOrderId(),
                     orderModel.getPhoneNumber().replaceAll("[^\\d]", ""),
                     orderModel.getStreet(),
@@ -120,7 +133,7 @@ public class OrdersInteractor implements IOrdersInteractor {
         return pagedListLiveData;
     }
 
-    public void invalidateDataSource(){
+    private void invalidateDataSource(){
         OrdersRepository repository = ordersDataSourceFactory.getSourceLiveData().getValue();
         if (repository != null) {
             Objects.requireNonNull(repository).invalidate();

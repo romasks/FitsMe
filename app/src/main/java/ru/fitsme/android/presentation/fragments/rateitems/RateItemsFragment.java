@@ -165,7 +165,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         if (b) {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
         } else {
-            set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_like_btn, ConstraintSet.TOP);
+            set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_buttons_group, ConstraintSet.TOP);
         }
         set.applyTo(binding.rateItemsLayout);
     }
