@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@{viewModel.showMessage}"
+            android:textSize="@dimen/text_size_lower_medium"
             tools:visibility="invisible"
             />
 

@@ -2,6 +2,8 @@ package ru.fitsme.android.domain.interactors.orders;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.PagedList;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
 
@@ -19,9 +21,6 @@ public interface IOrdersInteractor extends BaseInteractor{
     Single<Order> getSingleOrder(OrderStatus status);
 
     @NonNull
-    Single<Order> getCurrentOrderInCart();
-
-    @NonNull
     Completable removeItemFromOrder(int index);
 
     @NonNull
@@ -30,4 +29,8 @@ public interface IOrdersInteractor extends BaseInteractor{
     LiveData<PagedList<OrderItem>> getPagedListLiveData();
 
     Completable makeOrder(OrderModel orderModel);
+
+    ObservableBoolean getCartIsEmpty();
+
+    ObservableField<String> getMessage();
 }

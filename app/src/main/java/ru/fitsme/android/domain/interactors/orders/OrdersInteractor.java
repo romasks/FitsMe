@@ -3,6 +3,8 @@ package ru.fitsme.android.domain.interactors.orders;
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
 import java.util.Objects;
@@ -16,6 +18,8 @@ import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
+import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.models.OrderModel;
@@ -39,6 +43,10 @@ public class OrdersInteractor implements IOrdersInteractor {
     private LiveData<PagedList<OrderItem>> pagedListLiveData;
     private PagedList.Config config;
 
+    private final ObservableBoolean cartIsEmpty = new ObservableBoolean(false);
+    private final static ObservableField<String> message =
+            new ObservableField<String>(App.getInstance().getString(R.string.loading));
+
     @Inject
     OrdersInteractor(IOrdersActionRepository ordersActionRepository,
                      OrdersDataSourceFactory ordersDataSourceFactory,
@@ -53,10 +61,19 @@ public class OrdersInteractor implements IOrdersInteractor {
                 .setEnablePlaceholders(false)
                 .setPageSize(PAGE_SIZE)
                 .build();
+    }
 
-        pagedListLiveData =
+    @Override
+    public LiveData<PagedList<OrderItem>> getPagedListLiveData() {
+        return pagedListLiveData =
                 new LivePagedListBuilder<>(this.ordersDataSourceFactory, config)
                         .setFetchExecutor(Executors.newSingleThreadExecutor())
+                        .setBoundaryCallback(new PagedList.BoundaryCallback<OrderItem>() {
+                            @Override
+                            public void onZeroItemsLoaded() {
+                                cartIsEmpty.set(true);
+                            }
+                        })
                         .build();
     }
 
@@ -70,19 +87,20 @@ public class OrdersInteractor implements IOrdersInteractor {
                 .observeOn(mainThread);
     }
 
-    @NonNull
-    @Override
-    public Single<Order> getCurrentOrderInCart() {
-        return Single.create((SingleOnSubscribe<Order>) emitter ->{
-            emitter.onSuccess(new Order());
-        })
-                .subscribeOn(workThread)
-                .observeOn(mainThread);
-    }
-
     private OrdersPage getOrders(OrderStatus status) throws AppException {
         return ordersActionRepository.getOrders(status);
     }
+//    @NonNull
+//    @Override
+//    public Single<Order> getCurrentOrderInCart() {
+//        return Single.create((SingleOnSubscribe<Order>) emitter ->{
+//            emitter.onSuccess(new Order());
+//        })
+//                .subscribeOn(workThread)
+
+//                .observeOn(mainThread);
+
+//    }
 
     @NonNull
     @Override
@@ -127,16 +145,24 @@ public class OrdersInteractor implements IOrdersInteractor {
                 .observeOn(mainThread);
     }
 
-    @Override
-    public LiveData<PagedList<OrderItem>> getPagedListLiveData() {
-        invalidateDataSource();
-        return pagedListLiveData;
-    }
-
     private void invalidateDataSource(){
         OrdersRepository repository = ordersDataSourceFactory.getSourceLiveData().getValue();
         if (repository != null) {
             Objects.requireNonNull(repository).invalidate();
         }
+    }
+
+    @Override
+    public ObservableBoolean getCartIsEmpty() {
+        return cartIsEmpty;
+    }
+
+    @Override
+    public ObservableField<String> getMessage(){
+        return message;
+    }
+
+    public static void setMessage(String string){
+        message.set(string);
     }
 }

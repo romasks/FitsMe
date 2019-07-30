@@ -35,7 +35,8 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     private LiveData<PagedList<FavouritesItem>> pagedListLiveData;
     private PagedList.Config config;
 
-    private static ObservableField<String> showMessage;
+    private final static ObservableField<String> showMessage  =
+            new ObservableField<String>(App.getInstance().getString(R.string.loading));
 
     @Inject
     FavouritesInteractor(IFavouritesActionRepository favouritesActionRepository,
@@ -47,14 +48,15 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         this.workThread = workThread;
         this.mainThread = mainThread;
 
-        showMessage = new ObservableField<String>(App.getInstance().getString(R.string.loading));
-
         config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPageSize(PAGE_SIZE)
                 .build();
+    }
 
-        pagedListLiveData =
+    @Override
+    public LiveData<PagedList<FavouritesItem>> getPagedListLiveData() {
+        return pagedListLiveData =
                 new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
                         .setFetchExecutor(Executors.newSingleThreadExecutor())
                         .setBoundaryCallback(new PagedList.BoundaryCallback<FavouritesItem>() {
@@ -63,14 +65,6 @@ public class FavouritesInteractor implements IFavouritesInteractor {
                                 showMessage.set(App.getInstance().getString(R.string.no_items_in_favourites));
                             }
                         })
-                        .build();
-    }
-
-    @Override
-    public LiveData<PagedList<FavouritesItem>> getPagedListLiveData() {
-        return pagedListLiveData =
-                new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
-                        .setFetchExecutor(Executors.newSingleThreadExecutor())
                         .build();
     }
 

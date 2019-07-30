@@ -23,7 +23,6 @@ import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
-import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.VISIBLE;
@@ -81,8 +80,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
         binding.cartListRv.setHasFixedSize(true);
         binding.cartListRv.setAdapter(adapter);
 
-        viewModel.loading.set(VISIBLE);
-
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
 
@@ -92,7 +89,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
     private void onLoadPage(PagedList<OrderItem> pagedList) {
-        viewModel.loading.set(GONE);
         if (pagedList == null || pagedList.size() == 0) {
             showCartEmpty(true);
         } else {
@@ -120,12 +116,12 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     private void showCartEmpty(boolean b){
         if (b){
-            binding.cartNoItemGroup.setVisibility(View.VISIBLE);
-            binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
+//            binding.cartNoItemGroup.setVisibility(View.VISIBLE);
+//            binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
             ((MainFragment) getParentFragment()).showBottomShadow(true);
         } else {
-            binding.cartNoItemGroup.setVisibility(View.GONE);
-            binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
+//            binding.cartNoItemGroup.setVisibility(View.GONE);
+//            binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
             ((MainFragment) getParentFragment()).showBottomShadow(false);
         }
     }

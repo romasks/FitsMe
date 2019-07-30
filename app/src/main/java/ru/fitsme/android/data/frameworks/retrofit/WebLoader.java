@@ -114,11 +114,9 @@ public class WebLoader {
     public Single<OkResponse<FavouritesPage>> getFavouritesClothesPage(int page){
         return Single.create(emitter -> {
             authInteractor.getAuthInfo()
-                    .subscribe(authInfo -> {
-                        apiService.getFavouritesClothes(TOKEN + authInfo.getToken(), page)
-                                .subscribeOn(workThread)
-                                .subscribe(emitter::onSuccess, emitter::onError);
-                    }, emitter::onError);
+                    .subscribe(authInfo -> apiService.getFavouritesClothes(TOKEN + authInfo.getToken(), page)
+                            .subscribeOn(workThread)
+                            .subscribe(emitter::onSuccess, emitter::onError), emitter::onError);
         });
     }
 
@@ -151,6 +149,16 @@ public class WebLoader {
                                 emitter::onError));
     }
 
+    public Single<OkResponse<OrdersPage>> getOrdersPage(int page) {
+        return Single.create(
+                emitter -> authInteractor.getAuthInfo()
+                        .subscribe(
+                                authInfo -> apiService.getOrders(TOKEN + authInfo.getToken(), page)
+                                        .subscribeOn(workThread)
+                                        .subscribe(emitter::onSuccess, emitter::onError),
+                                emitter::onError)
+        );
+    }
 
     @NonNull
     private UserException makeError(Error error){
@@ -206,6 +214,7 @@ public class WebLoader {
         throw new InternetConnectionException();
     }
     public interface ExecutableRequest<T> {
+
         @NonNull
         Call<OkResponse<T>> request();
 
@@ -213,10 +222,6 @@ public class WebLoader {
 
     private String getHeaderToken() {
         return "Token " + authInteractor.getAuthInfoNotSingle().getToken();
-    }
-
-    public OrdersPage getOrdersPage(int page) throws UserException {
-        return executeRequest(() -> apiService.getOrders(getHeaderToken(), page));
     }
 
     public OrdersPage getOrders(OrderStatus status) throws UserException {

@@ -57,7 +57,7 @@ public interface ApiService {
                                               @Body OrderedItem orderedItem);
 
     @GET("orders/")
-    Call<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
+    Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
                                            @Query("page") int page);
 
     @GET("orders/")
