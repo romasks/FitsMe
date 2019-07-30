@@ -60,6 +60,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="260dp"
                             android:gravity="center"
+                            android:textSize="@dimen/text_size_lower_medium"
                             tools:text="@string/loading"
                             />
 

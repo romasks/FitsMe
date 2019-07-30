@@ -8,8 +8,6 @@ import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
 
-import ru.fitsme.android.presentation.fragments.favourites.FavouritesAdapter;
-
 
 public class CartRecyclerItemTouchHelper extends
         ItemTouchHelper.SimpleCallback {
@@ -33,7 +31,7 @@ public class CartRecyclerItemTouchHelper extends
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((CartAdapter.GenericViewHolder) viewHolder).viewForeground;
+            final View foregroundView = ((CartAdapter.NormalViewHolder) viewHolder).viewForeground;
             getDefaultUIUtil().onSelected(foregroundView);
         }
     }
@@ -42,16 +40,16 @@ public class CartRecyclerItemTouchHelper extends
     public void onChildDrawOver(@NotNull Canvas c, @NotNull RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((CartAdapter.GenericViewHolder) viewHolder).viewForeground;
+        final View foregroundView = ((CartAdapter.NormalViewHolder) viewHolder).viewForeground;
         getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = ((CartAdapter.GenericViewHolder) viewHolder).viewForeground;
-        final View rightDeleteIcon = ((CartAdapter.GenericViewHolder) viewHolder).rightDeleteIcon;
-        final View leftDeleteIcon = ((CartAdapter.GenericViewHolder) viewHolder).leftDeleteIcon;
+        final View foregroundView = ((CartAdapter.NormalViewHolder) viewHolder).viewForeground;
+        final View rightDeleteIcon = ((CartAdapter.NormalViewHolder) viewHolder).rightDeleteIcon;
+        final View leftDeleteIcon = ((CartAdapter.NormalViewHolder) viewHolder).leftDeleteIcon;
         rightDeleteIcon.setVisibility(View.INVISIBLE);
         leftDeleteIcon.setVisibility(View.INVISIBLE);
         foregroundView.setAlpha(1.0f);
@@ -62,9 +60,9 @@ public class CartRecyclerItemTouchHelper extends
     public void onChildDraw(@NotNull Canvas c, @NotNull RecyclerView recyclerView,
                             @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((CartAdapter.GenericViewHolder) viewHolder).viewForeground;
-        final View rightDeleteIcon = ((CartAdapter.GenericViewHolder) viewHolder).rightDeleteIcon;
-        final View leftDeleteIcon = ((CartAdapter.GenericViewHolder) viewHolder).leftDeleteIcon;
+        final View foregroundView = ((CartAdapter.NormalViewHolder) viewHolder).viewForeground;
+        final View rightDeleteIcon = ((CartAdapter.NormalViewHolder) viewHolder).rightDeleteIcon;
+        final View leftDeleteIcon = ((CartAdapter.NormalViewHolder) viewHolder).leftDeleteIcon;
         if (isCurrentlyActive){
             if (dX > 0){
                 leftDeleteIcon.setVisibility(View.VISIBLE);

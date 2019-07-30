@@ -61,29 +61,29 @@ public class FavouritesActionRepository implements IFavouritesActionRepository {
     public Single<OrderItem> addItemToCart(FavouritesItem favouritesItem) {
         return Single.create(emitter ->
                 webLoader.addItemToCart(favouritesItem, 1)
-        .subscribe(orderItemOkResponse -> {
-            OrderItem orderItem = orderItemOkResponse.getResponse();
-            if (orderItem != null){
-                emitter.onSuccess(orderItem);
-            } else {
-                UserException error = ErrorRepository.makeError(orderItemOkResponse.getError());
-                Timber.e(error);
-            }
-        }, error -> {
-            if (error instanceof HttpException){
-                HttpException httpException = (HttpException) error;
-                Response response = httpException.response();
-                ResponseBody errorBody = response.errorBody();
-                if (errorBody != null) {
-                    String string = errorBody.string();
-                    JSONObject jsonObject = new JSONObject(string);
-                    JSONObject errorJson = jsonObject.getJSONObject("error");
-                    String code = errorJson.getString("code");
-                    String message = errorJson.getString("message");
-                    UserException userException = ErrorRepository.makeError(new Error(Integer.parseInt(code), message));
-                }
-            }
-            Timber.e(error);
-        }));
+                        .subscribe(orderItemOkResponse -> {
+                            OrderItem orderItem = orderItemOkResponse.getResponse();
+                            if (orderItem != null){
+                                emitter.onSuccess(orderItem);
+                            } else {
+                                UserException error = ErrorRepository.makeError(orderItemOkResponse.getError());
+                                Timber.e(error);
+                            }
+                            }, error -> {
+                            if (error instanceof HttpException){
+                                HttpException httpException = (HttpException) error;
+                                Response response = httpException.response();
+                                ResponseBody errorBody = response.errorBody();
+                                if (errorBody != null) {
+                                    String string = errorBody.string();
+                                    JSONObject jsonObject = new JSONObject(string);
+                                    JSONObject errorJson = jsonObject.getJSONObject("error");
+                                    String code = errorJson.getString("code");
+                                    String message = errorJson.getString("message");
+                                    UserException userException = ErrorRepository.makeError(new Error(Integer.parseInt(code), message));
+                                }
+                            }
+                            Timber.e(error);
+                            }));
     }
 }

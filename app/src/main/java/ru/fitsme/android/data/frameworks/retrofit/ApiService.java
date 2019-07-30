@@ -2,6 +2,7 @@ package ru.fitsme.android.data.frameworks.retrofit;
 
 import io.reactivex.Single;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -70,6 +71,6 @@ public interface ApiService {
                                             @Body OrderUpdate order);
 
     @DELETE("orders/items/{itemId}/")
-    Call<OkResponse<Void>> deleteOrdersItem(@Header("Authorization") String token,
-                                            @Path("itemId") int itemId);
+    Single<Response<Void>> removeItemFromOrder(@Header("Authorization") String token,
+                                               @Path("itemId") int itemId);
 }

@@ -39,7 +39,7 @@ public class RateItemsViewModel extends BaseViewModel {
                     (ClothesItem) rateItemsState.getClotheInfo().getClothe(), liked)
                     .subscribe(clotheInfo -> {
                         clothesInteractor.getNext();
-                    });
+                    }, Timber::e);
         }
     }
 

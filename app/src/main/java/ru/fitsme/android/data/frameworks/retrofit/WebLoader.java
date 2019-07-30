@@ -116,7 +116,8 @@ public class WebLoader {
             authInteractor.getAuthInfo()
                     .subscribe(authInfo -> apiService.getFavouritesClothes(TOKEN + authInfo.getToken(), page)
                             .subscribeOn(workThread)
-                            .subscribe(emitter::onSuccess, emitter::onError), emitter::onError);
+                            .subscribe(emitter::onSuccess, emitter::onError),
+                            emitter::onError);
         });
     }
 
@@ -158,6 +159,34 @@ public class WebLoader {
                                         .subscribe(emitter::onSuccess, emitter::onError),
                                 emitter::onError)
         );
+    }
+
+    public Single<Response<Void>> removeItemFromOrder(OrderItem item) {
+        return Single.create(
+                emitter -> authInteractor.getAuthInfo()
+                        .subscribe(
+                                authInfo -> apiService.removeItemFromOrder(TOKEN + authInfo.getToken(), item.getId())
+                                        .subscribeOn(workThread)
+                                        .subscribe(emitter::onSuccess, emitter::onError),
+                                emitter::onError)
+        );
+    }
+
+    public Single<OkResponse<OrderItem>> restoreItemToOrder(OrderItem item){
+        int clotheId = item.getClothe().getId();
+        int quantity;
+        if (item.getQuantity() == 0){
+            quantity = 1;
+        } else {
+            quantity = item.getQuantity();
+        }
+        return Single.create(emitter ->
+                authInteractor.getAuthInfo()
+                        .subscribe(
+                                authInfo -> apiService.addItemToCart(TOKEN + authInfo.getToken(), new OrderedItem(clotheId, quantity))
+                                        .subscribeOn(workThread)
+                                        .subscribe(emitter::onSuccess, emitter::onError),
+                                emitter::onError));
     }
 
     @NonNull
@@ -228,9 +257,6 @@ public class WebLoader {
         return executeRequest(() -> apiService.getOrders(getHeaderToken(), status));
     }
 
-    public void deleteOrderItem(int itemId) throws UserException {
-        executeRequest(() -> apiService.deleteOrdersItem(getHeaderToken(), itemId));
-    }
 
     public void makeOrder(
             long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus

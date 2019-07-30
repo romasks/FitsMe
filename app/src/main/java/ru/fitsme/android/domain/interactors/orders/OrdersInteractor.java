@@ -7,7 +7,6 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
-import java.util.Objects;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
@@ -21,7 +20,6 @@ import io.reactivex.SingleOnSubscribe;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
-import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
@@ -65,6 +63,7 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @Override
     public LiveData<PagedList<OrderItem>> getPagedListLiveData() {
+        cartIsEmpty.set(false);
         return pagedListLiveData =
                 new LivePagedListBuilder<>(this.ordersDataSourceFactory, config)
                         .setFetchExecutor(Executors.newSingleThreadExecutor())
@@ -104,27 +103,28 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @NonNull
     @Override
-    public Completable removeItemFromOrder(int position) {
-        return Completable.create(emitter -> {
+    public Single<OrderItem> removeItemFromOrder(int position) {
             PagedList<OrderItem> pagedList = pagedListLiveData.getValue();
             if (pagedList != null && pagedList.size() > position) {
                 OrderItem item = pagedList.get(position);
                 if (item != null) {
-                    int orderItemId = item.getId();
-                    ordersActionRepository.removeItemFromOrder(orderItemId);
-                    invalidateDataSource();
+                    return ordersActionRepository.removeItemFromOrder(item);
                 }
             }
-            emitter.onComplete();
-        })
-                .subscribeOn(workThread)
-                .observeOn(mainThread);
+            return Single.just(new OrderItem());
     }
 
     @NonNull
     @Override
-    public Completable restoreItemToOrder(int index) {
-        return null;
+    public Single<OrderItem> restoreItemToOrder(int position) {
+        PagedList<OrderItem> pagedList = pagedListLiveData.getValue();
+        if (pagedList != null && pagedList.size() > position) {
+            OrderItem item = pagedList.get(position);
+            if (item != null) {
+                return ordersActionRepository.restoreItemToOrder(item);
+            }
+        }
+        return Single.just(new OrderItem());
     }
 
     @NonNull
@@ -143,13 +143,6 @@ public class OrdersInteractor implements IOrdersInteractor {
         })
                 .subscribeOn(workThread)
                 .observeOn(mainThread);
-    }
-
-    private void invalidateDataSource(){
-        OrdersRepository repository = ordersDataSourceFactory.getSourceLiveData().getValue();
-        if (repository != null) {
-            Objects.requireNonNull(repository).invalidate();
-        }
     }
 
     @Override

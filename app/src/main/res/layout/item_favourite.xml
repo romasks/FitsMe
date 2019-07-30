@@ -128,7 +128,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_toEndOf="@id/favourite_image"
                 android:layout_alignParentEnd="true"
-                android:onClick="@{() -> viewModel.addItemToCart(position)}"
                 android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small"
                 tools:text="@string/to_cart"

@@ -2,9 +2,10 @@ package ru.fitsme.android.domain.boundaries.orders;
 
 import android.support.annotation.NonNull;
 
+import io.reactivex.Single;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.entities.exceptions.AppException;
-import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.utils.OrderStatus;
 
 public interface IOrdersActionRepository {
@@ -15,5 +16,7 @@ public interface IOrdersActionRepository {
     void makeOrder(long orderId, String phoneNumber, String street, String houseNumber,
                    String apartment, OrderStatus orderStatus) throws AppException;
 
-    void removeItemFromOrder(int clotheItemId) throws UserException;
+    Single<OrderItem> removeItemFromOrder(OrderItem item);
+
+    Single<OrderItem> restoreItemToOrder(OrderItem item);
 }

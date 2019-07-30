@@ -23,9 +23,7 @@ import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
-
-import static ru.fitsme.android.utils.Constants.GONE;
-import static ru.fitsme.android.utils.Constants.VISIBLE;
+import timber.log.Timber;
 
 public class CartFragment extends BaseFragment<CartViewModel>
         implements CartBindingEvents, CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener  {
@@ -75,7 +73,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
         }
         binding.setViewModel(viewModel);
 
-        adapter = new CartAdapter();
+        adapter = new CartAdapter(viewModel);
 
         binding.cartListRv.setHasFixedSize(true);
         binding.cartListRv.setAdapter(adapter);
@@ -135,7 +133,12 @@ public class CartFragment extends BaseFragment<CartViewModel>
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (position != RecyclerView.NO_POSITION) {
-            viewModel.deleteItem(position);
+            viewModel.removeItemFromOrder(position)
+                    .subscribe(orderItem -> {
+                        if (orderItem.getId() != 0){
+                            adapter.setRemoved(position, orderItem);
+                        }
+                    }, Timber::e);
         }
     }
 }

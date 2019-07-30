@@ -46,25 +46,17 @@ public class ClothesInteractor implements IClothesInteractor {
 
     private void getClothesList() {
         clothesRepository.getClotheList()
-                .subscribeOn(workThread)
                 .observeOn(mainThread)
                 .subscribe(clotheInfoList -> {
-                    Timber.d("thread " + Thread.currentThread().getName());
                     clothesListIterator = clotheInfoList.listIterator();
                     getNext();
-                }, this :: onError);
-    }
-
-    private void onError(Throwable throwable) {
-        Timber.e(throwable);
+                }, Timber::e);
     }
 
     @NonNull
     @Override
     public Single<ClotheInfo> setLikeToClothesItem(ClothesItem clothesItem, boolean liked) {
-        return clothesRepository.likeItem(clothesItem, liked)
-                .subscribeOn(workThread)
-                .observeOn(mainThread);
+        return clothesRepository.likeItem(clothesItem, liked);
     }
 
     @Override

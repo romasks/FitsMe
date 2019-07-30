@@ -5,9 +5,11 @@ import android.arch.paging.PagedList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.net.wifi.aware.WifiAwareSession;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -44,14 +46,16 @@ public class CartViewModel extends BaseViewModel {
         totalPrice.set(tmpPrice);
     }
 
-    public void deleteItem(int position) {
-        addDisposable(ordersInteractor
-                .removeItemFromOrder(position)
-                .subscribe(() -> {}, this::onError)
-        );
+    public Single<OrderItem> removeItemFromOrder(int position) {
+        return ordersInteractor.removeItemFromOrder(position);
+    }
+
+    Single<OrderItem> restoreItemToOrder(int position){
+        return ordersInteractor.restoreItemToOrder(position);
     }
 
     private void onError(Throwable throwable) {
         Timber.tag(getClass().getName()).e(throwable);
     }
+
 }

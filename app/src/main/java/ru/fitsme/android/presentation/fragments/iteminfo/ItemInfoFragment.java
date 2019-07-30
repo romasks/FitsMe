@@ -83,7 +83,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     private void onClothesItem(ClothesItem clothesItem) {
-            binding.tvIndex.setText("message");
+            binding.tvIndex.setText(getString(R.string.loading));
             String brandName = clothesItem.getBrand();
             String name = clothesItem.getName();
             String description = clothesItem.getDescription();

@@ -21,10 +21,10 @@ public interface IOrdersInteractor extends BaseInteractor{
     Single<Order> getSingleOrder(OrderStatus status);
 
     @NonNull
-    Completable removeItemFromOrder(int index);
+    Single<OrderItem> removeItemFromOrder(int position);
 
     @NonNull
-    Completable restoreItemToOrder(int index);
+    Single<OrderItem> restoreItemToOrder(int position);
 
     LiveData<PagedList<OrderItem>> getPagedListLiveData();
 
