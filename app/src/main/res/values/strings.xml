@@ -67,7 +67,7 @@
     <string name="end_of_not_viewed_list">Список вещей закончился</string>
     <string name="image_loading_error">Ошибка загрузки изображения</string>
     <string name="item_favourite_deleted_item_deleted">Товар удален</string>
-    <string name="item_favourite_deleted_undo">Вернуть</string>
+    <string name="item_favourite_removed_undo_tv">Вернуть</string>
     <string name="item_info_load_error">Error</string>
     <string name="item_info_load_in_process">loading</string>
 </resources>

@@ -5,6 +5,7 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.databinding.ObservableField;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
@@ -37,6 +38,8 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     private final static ObservableField<String> showMessage  =
             new ObservableField<String>(App.getInstance().getString(R.string.loading));
+
+    private HashSet<Integer> removedFavouriteItemsIdList = new HashSet<>();
 
     @Inject
     FavouritesInteractor(IFavouritesActionRepository favouritesActionRepository,
@@ -81,12 +84,16 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     }
 
     @Override
-    public Single<FavouritesItem> deleteFavouriteItem(Integer position) {
+    public Single<FavouritesItem> removeFavouriteItem(Integer position) {
         PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
         if (pagedList != null && pagedList.size() > position) {
-            FavouritesItem removedItem = pagedList.get(position);
-            if (removedItem != null) {
-                return favouritesActionRepository.removeItem(removedItem);
+            FavouritesItem item = pagedList.get(position);
+            if (item != null) {
+                return favouritesActionRepository.removeItem(item)
+                        .map(removedItem -> {
+                            removedFavouriteItemsIdList.add(removedItem.getId());
+                            return removedItem;
+                        });
             }
         }
         return Single.just(new FavouritesItem());
@@ -98,7 +105,11 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         if (pagedList != null && pagedList.size() > position) {
             FavouritesItem item = pagedList.get(position);
             if (item != null) {
-                return favouritesActionRepository.restoreItem(item);
+                return favouritesActionRepository.restoreItem(item)
+                        .map(restoredItem -> {
+                            removedFavouriteItemsIdList.remove(restoredItem.getId());
+                            return restoredItem;
+                        });
             }
         }
         return Single.just(new FavouritesItem());
@@ -107,6 +118,18 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     @Override
     public ObservableField<String> getShowMessage() {
         return showMessage;
+    }
+
+    @Override
+    public boolean itemIsRemoved(int position) {
+        PagedList<FavouritesItem> pagedList = pagedListLiveData.getValue();
+        if (pagedList != null && pagedList.size() > position) {
+            FavouritesItem item = pagedList.get(position);
+            if (item != null) {
+                return removedFavouriteItemsIdList.contains(item.getId());
+            }
+        }
+        return false;
     }
 
     public static void setFavouriteMessage(String string){

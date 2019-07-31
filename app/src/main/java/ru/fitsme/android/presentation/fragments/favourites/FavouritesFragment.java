@@ -93,10 +93,10 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (position != RecyclerView.NO_POSITION) {
-            viewModel.deleteItem(position)
-                    .subscribe(favouritesItem -> {
-                        if (favouritesItem.getId() != 0){
-                            adapter.setDeleted(position, favouritesItem);
+            viewModel.removeItem(position)
+                    .subscribe(removedItem -> {
+                        if (removedItem.getId() != 0){
+                            adapter.notifyItemChanged(position);
                         }
                     }, Timber::e);
         }

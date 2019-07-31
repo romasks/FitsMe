@@ -13,13 +13,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.HashSet;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemFavouriteBinding;
-import ru.fitsme.android.databinding.ItemFavouriteDeletedBinding;
+import ru.fitsme.android.databinding.ItemFavouriteRemovedBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import timber.log.Timber;
@@ -27,10 +25,9 @@ import timber.log.Timber;
 public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, FavouritesAdapter.FavouritesViewHolder> {
 
     private FavouritesViewModel viewModel;
-    private HashSet<Integer> deletedFavouriteItemsIdList = new HashSet<>();
 
     private static final int NORMAL_TYPE = 1;
-    private static final int DELETED_TYPE = 2;
+    private static final int REMOVED_TYPE = 2;
 
     FavouritesAdapter(FavouritesViewModel viewModel) {
         super(FavouritesFragment.DIFF_CALLBACK);
@@ -44,9 +41,9 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         if (viewType == NORMAL_TYPE){
             ItemFavouriteBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_favourite, parent, false);
             return new NormalViewHolder(binding);
-        } else if (viewType == DELETED_TYPE){
-            ItemFavouriteDeletedBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_favourite_deleted, parent, false);
-            return new DeletedViewHolder(binding);
+        } else if (viewType == REMOVED_TYPE){
+            ItemFavouriteRemovedBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_favourite_removed, parent, false);
+            return new RemovedViewHolder(binding);
         } else throw new IllegalArgumentException("Can't create view holder from view type " + viewType);
     }
 
@@ -57,18 +54,12 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
     @Override
     public int getItemViewType(int position) {
-        if (deletedFavouriteItemsIdList.contains(getItem(position).getId())) {
-            return DELETED_TYPE;
+        if (viewModel.itemIsRemoved(position)) {
+            return REMOVED_TYPE;
         } else {
             return NORMAL_TYPE;
         }
     }
-
-    void setDeleted(int position, FavouritesItem favouritesItem) {
-        deletedFavouriteItemsIdList.add(favouritesItem.getId());
-        notifyItemChanged(position);
-    }
-
 
     abstract class FavouritesViewHolder extends RecyclerView.ViewHolder{
         FavouritesViewHolder(@NonNull View itemView) {
@@ -135,22 +126,21 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     }
 
 
-    class DeletedViewHolder  extends FavouritesViewHolder {
+    class RemovedViewHolder extends FavouritesViewHolder {
         final ViewDataBinding binding;
 
-        DeletedViewHolder(ViewDataBinding binding) {
+        RemovedViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         @Override
         void bind(int position) {
-            TextView undoButton = binding.getRoot().findViewById(R.id.item_favourite_deleted_back_tv);
+            TextView undoButton = binding.getRoot().findViewById(R.id.item_favourite_removed_back_tv);
             undoButton.setOnClickListener(v -> {
                 viewModel.restoreItem(position)
                         .subscribe(favouritesItem -> {
                             if (favouritesItem.getId() != 0) {
-                                deletedFavouriteItemsIdList.remove(favouritesItem.getId());
                                 notifyItemChanged(position);
                             }},
                                 Timber::e);

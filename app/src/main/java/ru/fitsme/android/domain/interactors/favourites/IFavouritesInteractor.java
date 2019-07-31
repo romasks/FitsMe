@@ -14,11 +14,13 @@ public interface IFavouritesInteractor extends BaseInteractor {
 
     Single<OrderItem> addFavouritesItemToCart(int position);
 
-    Single<FavouritesItem> deleteFavouriteItem(Integer position);
+    Single<FavouritesItem> removeFavouriteItem(Integer position);
 
     LiveData<PagedList<FavouritesItem>> getPagedListLiveData();
 
     Single<FavouritesItem> restoreItemToFavourites(Integer position);
 
     ObservableField<String> getShowMessage();
+
+    boolean itemIsRemoved(int position);
 }
