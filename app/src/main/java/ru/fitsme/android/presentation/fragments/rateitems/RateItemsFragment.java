@@ -71,9 +71,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
+        viewModel.init();
 
         viewModel.getRateItemsStateLiveData()
                 .observe(this, this::onChange);
@@ -83,6 +81,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void onDestroyView() {
         super.onDestroyView();
         ((MainActivity) getActivity()).unsubscribe();
+        viewModel.clearDisposables();
     }
 
     @Override

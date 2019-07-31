@@ -20,7 +20,7 @@ import timber.log.Timber;
 
 public class ClothesRepository implements IClothesRepository {
 
-    private ClothesPage currentClothePage;
+//    private ClothesPage currentClothePage;
     private final WebLoader webLoader;
 
     @Inject
@@ -44,18 +44,25 @@ public class ClothesRepository implements IClothesRepository {
 
     @Override
     public Single<List<ClotheInfo>> getClotheList() {
-        if (currentClothePage == null || currentClothePage.getNext() != 0){
+//        if (currentClothePage == null || currentClothePage.getNext() != 0){
             int page = 1;
             return Single.create(emitter -> {
                 webLoader.getClothesPage(page)
                         .subscribe(clothesPageOkResponse -> {
                             Timber.d(Thread.currentThread().getName());
-                            currentClothePage = clothesPageOkResponse.getResponse();
+                            ClothesPage clothePage = clothesPageOkResponse.getResponse();
                             List<ClotheInfo> clotheInfoList = new ArrayList<>();
-                            if (currentClothePage != null){
-                                List<ClothesItem> clothesItemList = currentClothePage.getItems();
-                                for (int i = 0; i < clothesItemList.size(); i++) {
-                                    clotheInfoList.add(new ClotheInfo<ClothesItem>(clothesItemList.get(i)));
+                            if (clothePage != null){
+                                List<ClothesItem> clothesItemList = clothePage.getItems();
+                                if (clothesItemList.size() == 0){
+                                    ClotheInfo clotheInfo = new ClotheInfo(new UserException(
+                                            App.getInstance().getString(R.string.end_of_not_viewed_list)));
+                                    clotheInfoList.add(clotheInfo);
+                                    emitter.onSuccess(clotheInfoList);
+                                } else {
+                                    for (int i = 0; i < clothesItemList.size(); i++) {
+                                        clotheInfoList.add(new ClotheInfo<ClothesItem>(clothesItemList.get(i)));
+                                    }
                                 }
                             } else {
                                 UserException error = ErrorRepository.makeError(clothesPageOkResponse.getError());
@@ -64,15 +71,15 @@ public class ClothesRepository implements IClothesRepository {
                             emitter.onSuccess(clotheInfoList);
                         }, emitter::onError);
             });
-        } else {
-            return Single.create(emitter -> {
-                List<ClotheInfo> clotheInfoList = new ArrayList<>();
-                ClotheInfo clotheInfo = new ClotheInfo(new UserException(
-                        App.getInstance().getString(R.string.end_of_not_viewed_list)));
-                clotheInfoList.add(clotheInfo);
-                emitter.onSuccess(clotheInfoList);
-            });
-        }
+//        } else {
+//            return Single.create(emitter -> {
+//                List<ClotheInfo> clotheInfoList = new ArrayList<>();
+//                ClotheInfo clotheInfo = new ClotheInfo(new UserException(
+//                        App.getInstance().getString(R.string.end_of_not_viewed_list)));
+//                clotheInfoList.add(clotheInfo);
+//                emitter.onSuccess(clotheInfoList);
+//            });
+//        }
     }
 
 

@@ -23,7 +23,7 @@ public class RateItemsViewModel extends BaseViewModel {
     void init() {
         animationType = IOnSwipeListener.AnimationType.SIMPLE;
         addDisposable(clothesInteractor.getItemInfoState()
-                .subscribe(this::onNext, this::onError));
+                .subscribe(this::onNext, Timber::e));
     }
 
     private void onNext(ClotheInfo clotheInfo) {
@@ -41,10 +41,6 @@ public class RateItemsViewModel extends BaseViewModel {
                         clothesInteractor.getNext();
                     }, Timber::e);
         }
-    }
-
-    private void onError(Throwable throwable) {
-        Timber.tag(getClass().getName()).e(throwable);
     }
 
     LiveData<RateItemsState> getRateItemsStateLiveData() {

@@ -56,7 +56,8 @@ public class ClothesInteractor implements IClothesInteractor {
     @NonNull
     @Override
     public Single<ClotheInfo> setLikeToClothesItem(ClothesItem clothesItem, boolean liked) {
-        return clothesRepository.likeItem(clothesItem, liked);
+        return clothesRepository.likeItem(clothesItem, liked)
+                .observeOn(mainThread);
     }
 
     @Override
