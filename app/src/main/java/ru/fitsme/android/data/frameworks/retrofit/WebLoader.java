@@ -42,6 +42,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.utils.OrderStatus;
@@ -124,7 +125,7 @@ public class WebLoader {
     public Single<OkResponse<FavouritesItem>> deleteFavouriteItem(FavouritesItem item) {
         return Single.create(emitter ->
                 authInteractor.getAuthInfo()
-                .subscribe(authInfo -> apiService.deleteItemFromFavourites(TOKEN + authInfo.getToken(), item.getId())
+                .subscribe(authInfo -> apiService.removeItemFromFavourites(TOKEN + authInfo.getToken(), item.getId())
                         .subscribeOn(workThread)
                         .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError));
@@ -165,7 +166,7 @@ public class WebLoader {
         return Single.create(
                 emitter -> authInteractor.getAuthInfo()
                         .subscribe(
-                                authInfo -> apiService.removeItemFromOrder(TOKEN + authInfo.getToken(), item.getId())
+                                authInfo -> apiService.removeItemFromCart(TOKEN + authInfo.getToken(), item.getId())
                                         .subscribeOn(workThread)
                                         .subscribe(emitter::onSuccess, emitter::onError),
                                 emitter::onError)
@@ -184,6 +185,39 @@ public class WebLoader {
                 authInteractor.getAuthInfo()
                         .subscribe(
                                 authInfo -> apiService.addItemToCart(TOKEN + authInfo.getToken(), new OrderedItem(clotheId, quantity))
+                                        .subscribeOn(workThread)
+                                        .subscribe(emitter::onSuccess, emitter::onError),
+                                emitter::onError));
+    }
+
+    public Single<OkResponse<OrdersPage>> getOrders(OrderStatus status) {
+        return Single.create(emitter ->
+                authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getOrders(TOKEN + authInfo.getToken(), status)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<Order>> makeOrder(long orderId,
+                                   String phoneNumber,
+                                   String street,
+                                   String houseNumber,
+                                   String apartment,
+                                   OrderStatus orderStatus) {
+        return Single.create(emitter ->
+                authInteractor.getAuthInfo()
+                        .subscribe(
+                                authInfo -> apiService.updateOrderById(
+                                        TOKEN + authInfo.getToken(),
+                                        orderId,
+                                        new OrderUpdate(
+                                                phoneNumber,
+                                                street,
+                                                houseNumber,
+                                                apartment,
+                                                orderStatus))
                                         .subscribeOn(workThread)
                                         .subscribe(emitter::onSuccess, emitter::onError),
                                 emitter::onError));
@@ -242,7 +276,9 @@ public class WebLoader {
         }
         throw new InternetConnectionException();
     }
+
     public interface ExecutableRequest<T> {
+
 
         @NonNull
         Call<OkResponse<T>> request();
@@ -253,16 +289,5 @@ public class WebLoader {
         return "Token " + authInteractor.getAuthInfoNotSingle().getToken();
     }
 
-    public OrdersPage getOrders(OrderStatus status) throws UserException {
-        return executeRequest(() -> apiService.getOrders(getHeaderToken(), status));
-    }
 
-
-    public void makeOrder(
-            long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus
-    ) throws UserException {
-
-        executeRequest(() -> apiService.updateOrderById(getHeaderToken(), orderId,
-                new OrderUpdate(phoneNumber, street, houseNumber, apartment, orderStatus)));
-    }
 }

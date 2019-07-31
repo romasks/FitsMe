@@ -88,10 +88,9 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     private void onLoadPage(PagedList<OrderItem> pagedList) {
         if (pagedList == null || pagedList.size() == 0) {
-            showCartEmpty(true);
+            ((MainFragment) getParentFragment()).showBottomShadow(true);
         } else {
-            showCartEmpty(false);
-            viewModel.setTotalPrice(pagedList);
+            ((MainFragment) getParentFragment()).showBottomShadow(false);
         }
         adapter.submitList(pagedList);
     }
@@ -109,15 +108,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
     @Override
     public void onClickGoToRateItems() {
         ((MainFragment) getParentFragment()).goToRateItems();
-    }
-
-
-    private void showCartEmpty(boolean b){
-        if (b){
-            ((MainFragment) getParentFragment()).showBottomShadow(true);
-        } else {
-            ((MainFragment) getParentFragment()).showBottomShadow(false);
-        }
     }
 
     @Override

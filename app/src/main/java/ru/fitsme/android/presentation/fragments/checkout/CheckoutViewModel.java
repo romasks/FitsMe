@@ -48,26 +48,23 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     private void loadOrder() {
-        addDisposable(ordersInteractor.getSingleOrder(OrderStatus.FM)
-                .subscribe(this::onOrder, this::onError));
+        ordersInteractor.getSingleOrder(OrderStatus.FM)
+                .subscribe(this::onOrder, Timber::e);
     }
 
     void onClickMakeOrder() {
-        addDisposable(ordersInteractor.makeOrder(orderModel.get())
-                .subscribe(this::onMakeOrder, this::onError));
+        ordersInteractor.makeOrder(orderModel.get())
+                .subscribe(this::onMakeOrder, Timber::e);
     }
 
     private void onOrder(@NotNull Order order) {
         orderLiveData.setValue(order);
-
     }
 
-    private void onMakeOrder() {
-        Timber.tag(getClass().getName()).d("SUCCESS");
-        successMakeOrderLiveData.setValue(true);
-    }
-
-    private void onError(Throwable throwable) {
-        Timber.tag(getClass().getName()).e(throwable);
+    private void onMakeOrder(Order order) {
+        if (order.getOrderId() != 0) {
+            Timber.tag(getClass().getName()).d("SUCCESS");
+            successMakeOrderLiveData.setValue(true);
+        }
     }
 }

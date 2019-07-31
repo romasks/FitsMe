@@ -46,7 +46,7 @@ public interface ApiService {
                                                           @Query("page") int page);
 
     @PUT("viewed/{itemId}/")
-    Single<OkResponse<FavouritesItem>> deleteItemFromFavourites(@Header("Authorization") String token,
+    Single<OkResponse<FavouritesItem>> removeItemFromFavourites(@Header("Authorization") String token,
                                                                 @Path("itemId") int itemId);
 
     @PUT("viewed/{itemId}/")
@@ -57,20 +57,20 @@ public interface ApiService {
     Single<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,
                                               @Body OrderedItem orderedItem);
 
+    @DELETE("orders/items/{itemId}/")
+    Single<Response<Void>> removeItemFromCart(@Header("Authorization") String token,
+                                              @Path("itemId") int itemId);
+
     @GET("orders/")
     Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
                                            @Query("page") int page);
 
     @GET("orders/")
-    Call<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
+    Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
                                            @Query("status") OrderStatus status);
 
     @PUT("orders/{id}/")
-    Call<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
+    Single<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
                                             @Path("id") long orderId,
                                             @Body OrderUpdate order);
-
-    @DELETE("orders/items/{itemId}/")
-    Single<Response<Void>> removeItemFromOrder(@Header("Authorization") String token,
-                                               @Path("itemId") int itemId);
 }

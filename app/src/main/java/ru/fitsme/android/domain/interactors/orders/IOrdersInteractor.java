@@ -4,10 +4,10 @@ import android.arch.lifecycle.LiveData;
 import android.arch.paging.PagedList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.domain.entities.order.Order;
@@ -28,11 +28,15 @@ public interface IOrdersInteractor extends BaseInteractor{
 
     LiveData<PagedList<OrderItem>> getPagedListLiveData();
 
-    Completable makeOrder(OrderModel orderModel);
+    Single<Order> makeOrder(OrderModel orderModel);
 
     ObservableBoolean getCartIsEmpty();
 
     ObservableField<String> getMessage();
 
     boolean itemIsRemoved(int position);
+
+    ObservableInt getTotalPrice();
+
+    void updateTotalPrice();
 }

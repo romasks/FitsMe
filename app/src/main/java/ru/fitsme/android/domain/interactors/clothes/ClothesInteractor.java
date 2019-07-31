@@ -43,7 +43,6 @@ public class ClothesInteractor implements IClothesInteractor {
         return itemInfoStateSubject;
     }
 
-
     private void getClothesList() {
         clothesRepository.getClotheList()
                 .observeOn(mainThread)

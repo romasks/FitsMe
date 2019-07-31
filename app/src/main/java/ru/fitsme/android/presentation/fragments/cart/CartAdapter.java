@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
+import android.arch.paging.PagedList;
 import android.arch.paging.PagedListAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
@@ -66,7 +70,6 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
         abstract void bind(int position);
     }
-
 
     class NormalViewHolder extends CartViewHolder {
         final ViewDataBinding binding;

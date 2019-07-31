@@ -9,8 +9,8 @@ import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
@@ -26,17 +26,45 @@ public class OrdersActionRepository implements IOrdersActionRepository {
 
     @NonNull
     @Override
-    public OrdersPage getOrders(OrderStatus status) throws AppException {
-        return webLoader.getOrders(status);
+    public Single<OrdersPage> getOrders(OrderStatus status){
+        return Single.create(emitter -> {
+            webLoader.getOrders(status)
+                    .subscribe(ordersPageOkResponse -> {
+                        OrdersPage ordersPage = ordersPageOkResponse.getResponse();
+                        if (ordersPage != null){
+                            emitter.onSuccess(ordersPage);
+                        } else {
+                            UserException error = ErrorRepository.makeError(ordersPageOkResponse.getError());
+                            Timber.e(error);
+                            emitter.onSuccess(new OrdersPage());
+                        }
+                    }, error -> {
+                        Timber.e(error);
+                        emitter.onSuccess(new OrdersPage());
+                    });
+
+        });
     }
 
     @Override
-    public void makeOrder(
+    public Single<Order> makeOrder(
             long orderId, String phoneNumber, String street, String houseNumber,
-            String apartment, OrderStatus orderStatus
-    ) throws AppException {
-
-        webLoader.makeOrder(orderId, phoneNumber, street, houseNumber, apartment, orderStatus);
+            String apartment, OrderStatus orderStatus){
+        return Single.create(emitter ->
+                webLoader.makeOrder(orderId, phoneNumber, street, houseNumber, apartment, orderStatus)
+                        .subscribe(orderOkResponse -> {
+                            Order order = orderOkResponse.getResponse();
+                            if (order != null) {
+                                emitter.onSuccess(order);
+                            } else {
+                                UserException error = ErrorRepository.makeError(orderOkResponse.getError());
+                                Timber.e(error);
+                                emitter.onSuccess(new Order());
+                            }
+                        }, error -> {
+                            Timber.e(error);
+                            emitter.onSuccess(new Order());
+                        }));
     }
 
     @Override

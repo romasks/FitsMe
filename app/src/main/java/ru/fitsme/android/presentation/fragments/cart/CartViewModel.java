@@ -5,7 +5,6 @@ import android.arch.paging.PagedList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.net.wifi.aware.WifiAwareSession;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +12,6 @@ import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
-import timber.log.Timber;
 
 public class CartViewModel extends BaseViewModel {
 
@@ -30,20 +28,11 @@ public class CartViewModel extends BaseViewModel {
     public void init() {
         message = ordersInteractor.getMessage();
         cartIsEmpty = ordersInteractor.getCartIsEmpty();
-        totalPrice = new ObservableInt();
-        totalPrice.set(0);
+        totalPrice = ordersInteractor.getTotalPrice();
     }
 
     LiveData<PagedList<OrderItem>> getPageLiveData() {
         return ordersInteractor.getPagedListLiveData();
-    }
-
-    public void setTotalPrice(PagedList<OrderItem> pagedList) {
-        int tmpPrice = 0;
-        for (OrderItem oi : pagedList) {
-            tmpPrice += oi.getPrice();
-        }
-        totalPrice.set(tmpPrice);
     }
 
     public Single<OrderItem> removeItemFromOrder(int position) {
@@ -54,11 +43,11 @@ public class CartViewModel extends BaseViewModel {
         return ordersInteractor.restoreItemToOrder(position);
     }
 
-    private void onError(Throwable throwable) {
-        Timber.tag(getClass().getName()).e(throwable);
-    }
-
     boolean itemIsRemoved(int position) {
         return ordersInteractor.itemIsRemoved(position);
+    }
+
+    void onPageListChanged() {
+        ordersInteractor.updateTotalPrice();
     }
 }
