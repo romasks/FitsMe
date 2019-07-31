@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.HashSet;
-
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemCartBinding;
@@ -25,7 +23,6 @@ import timber.log.Timber;
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartViewHolder> {
 
     private CartViewModel viewModel;
-    private HashSet<Integer> removedOrderClotheItemsIdList = new HashSet<>();
 
     private static final int NORMAL_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
@@ -55,18 +52,12 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
     @Override
     public int getItemViewType(int position) {
-        if (removedOrderClotheItemsIdList.contains(getItem(position).getClothe().getId())) {
+        if (viewModel.itemIsRemoved(position)){
             return REMOVED_TYPE;
         } else {
             return NORMAL_TYPE;
         }
     }
-
-    public void setRemoved(int position, OrderItem orderItem) {
-        removedOrderClotheItemsIdList.add(orderItem.getClothe().getId());
-        notifyItemChanged(position);
-    }
-
 
     abstract class CartViewHolder extends RecyclerView.ViewHolder{
         CartViewHolder(@NonNull View itemView) {
@@ -118,7 +109,6 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
                 viewModel.restoreItemToOrder(position)
                         .subscribe(orderItem -> {
                             if (orderItem.getId() != 0) {
-                                removedOrderClotheItemsIdList.remove(orderItem.getClothe().getId());
                                 notifyItemChanged(position);
                             }}, Timber::e);
             });

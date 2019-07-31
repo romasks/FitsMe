@@ -58,4 +58,7 @@ public class CartViewModel extends BaseViewModel {
         Timber.tag(getClass().getName()).e(throwable);
     }
 
+    boolean itemIsRemoved(int position) {
+        return ordersInteractor.itemIsRemoved(position);
+    }
 }

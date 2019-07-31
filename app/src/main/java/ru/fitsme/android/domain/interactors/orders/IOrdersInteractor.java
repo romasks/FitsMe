@@ -33,4 +33,6 @@ public interface IOrdersInteractor extends BaseInteractor{
     ObservableBoolean getCartIsEmpty();
 
     ObservableField<String> getMessage();
+
+    boolean itemIsRemoved(int position);
 }

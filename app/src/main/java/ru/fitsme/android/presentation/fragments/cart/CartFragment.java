@@ -114,12 +114,8 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     private void showCartEmpty(boolean b){
         if (b){
-//            binding.cartNoItemGroup.setVisibility(View.VISIBLE);
-//            binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
             ((MainFragment) getParentFragment()).showBottomShadow(true);
         } else {
-//            binding.cartNoItemGroup.setVisibility(View.GONE);
-//            binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
             ((MainFragment) getParentFragment()).showBottomShadow(false);
         }
     }
@@ -134,9 +130,9 @@ public class CartFragment extends BaseFragment<CartViewModel>
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (position != RecyclerView.NO_POSITION) {
             viewModel.removeItemFromOrder(position)
-                    .subscribe(orderItem -> {
-                        if (orderItem.getId() != 0){
-                            adapter.setRemoved(position, orderItem);
+                    .subscribe(removedOrderItem -> {
+                        if (removedOrderItem.getId() != 0){
+                            adapter.notifyItemChanged(position);
                         }
                     }, Timber::e);
         }
