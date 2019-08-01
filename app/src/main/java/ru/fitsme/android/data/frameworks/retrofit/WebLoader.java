@@ -73,10 +73,15 @@ class WebLoader {
         return Single.create(emitter -> {
             authInteractor.getAuthInfo()
                     .subscribe(authInfo -> {
-                        int id = clothesItem.getId();
-                        apiService.likeItem(TOKEN + authInfo.getToken(), new LikedItem(id, liked))
-                                .subscribeOn(workThread)
-                                .subscribe(emitter::onSuccess, emitter::onError);
+                        if (clothesItem != null) {
+                            int id = clothesItem.getId();
+                            apiService.likeItem(TOKEN + authInfo.getToken(), new LikedItem(id, liked))
+                                    .subscribeOn(workThread)
+                                    .subscribe(emitter::onSuccess, emitter::onError);
+                        } else {
+                            emitter.onError(new NullPointerException(
+                                    WebLoader.class.getSimpleName() + " likeItem() : clotheItem is null"));
+                        }
                     }, emitter::onError);
         });
     }

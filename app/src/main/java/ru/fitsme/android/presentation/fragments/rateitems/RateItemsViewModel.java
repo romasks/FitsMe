@@ -34,12 +34,10 @@ public class RateItemsViewModel extends BaseViewModel {
     void likeClothesItem(boolean liked, IOnSwipeListener.AnimationType animationType) {
         this.animationType = animationType;
         RateItemsState rateItemsState = rateItemsStateLiveData.getValue();
-        if (rateItemsState != null){
-            clothesInteractor.setLikeToClothesItem(
-                    (ClothesItem) rateItemsState.getClotheInfo().getClothe(), liked)
-                    .subscribe(clotheInfo -> {
-                        clothesInteractor.getNext();
-                    }, Timber::e);
+        ClothesItem clothesItem = (ClothesItem) rateItemsState.getClotheInfo().getClothe();
+        if (rateItemsState != null && clothesItem!= null){
+            clothesInteractor.setLikeToClothesItem(clothesItem, liked)
+                    .subscribe(clotheInfo -> clothesInteractor.getNext(), Timber::e);
         }
     }
 
