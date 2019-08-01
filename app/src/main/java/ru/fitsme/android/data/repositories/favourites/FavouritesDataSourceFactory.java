@@ -12,22 +12,18 @@ public class FavouritesDataSourceFactory extends DataSource.Factory<Integer, Fav
 
     private final WebLoader webLoader;
 
+    private MutableLiveData<FavouritesRepository> sourceLiveData = new MutableLiveData<>();
+    private FavouritesRepository latestSource = null;
+
     @Inject
     public FavouritesDataSourceFactory(WebLoader webLoader) {
         this.webLoader = webLoader;
     }
-
-    private MutableLiveData<FavouritesRepository> sourceLiveData = new MutableLiveData<>();
-    private FavouritesRepository latestSource = null;
 
     @Override
     public DataSource<Integer, FavouritesItem> create() {
         latestSource = new FavouritesRepository(webLoader);
         sourceLiveData.postValue(latestSource);
         return latestSource;
-    }
-
-    public MutableLiveData<FavouritesRepository> getSourceLiveData() {
-        return sourceLiveData;
     }
 }

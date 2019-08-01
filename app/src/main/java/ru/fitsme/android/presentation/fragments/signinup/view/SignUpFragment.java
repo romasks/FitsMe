@@ -59,12 +59,6 @@ public class SignUpFragment extends BaseFragment<SignUpViewModel> implements Sig
 
     private void onStateChanged(SignInUpState signInUpState) {
         binding.setSignInUpState(signInUpState);
-
-        /*if (signInUpState.isLoading()) {
-            loadingDialog.show(getContext());
-        } else {
-            loadingDialog.hide();
-        }*/
     }
 
     @Override

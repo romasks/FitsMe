@@ -12,22 +12,18 @@ public class OrdersDataSourceFactory extends DataSource.Factory<Integer, OrderIt
 
     private final WebLoader webLoader;
 
+    private MutableLiveData<OrdersRepository> sourceLiveData = new MutableLiveData<>();
+    private OrdersRepository latestSource = null;
+
     @Inject
     public OrdersDataSourceFactory(WebLoader webLoader) {
         this.webLoader = webLoader;
     }
-
-    private MutableLiveData<OrdersRepository> sourceLiveData = new MutableLiveData<>();
-    private OrdersRepository latestSource = null;
 
     @Override
     public DataSource<Integer, OrderItem> create() {
         latestSource = new OrdersRepository(webLoader);
         sourceLiveData.postValue(latestSource);
         return latestSource;
-    }
-
-    public MutableLiveData<OrdersRepository> getSourceLiveData() {
-        return sourceLiveData;
     }
 }

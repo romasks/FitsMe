@@ -32,24 +32,4 @@ public class SplashViewModel extends BaseViewModel {
     private void onError(Throwable throwable) {
         Timber.e(throwable);
     }
-
-    //    private void onAutoSignIn(@NotNull AutoSignInInfo autoSignInInfo) {
-//        if (autoSignInInfo.getSignInInfo() != null && autoSignInInfo.isAuto()) {
-//            addDisposable(
-//                    authInteractor
-//                            .signIn(autoSignInInfo.getSignInInfo())
-//                            .subscribe(this::onSignInResult, this::onError));
-//        } else {
-//            navigation.goSignInUp();
-//        }
-//    }
-//
-//    private void onSignInResult(SignInUpResult signInUpResult) {
-//        if (signInUpResult.isSuccess()) {
-//            navigation.goToMainItem();
-//        } else {
-//            navigation.goSignInUp();
-//        }
-//    }
-//
 }

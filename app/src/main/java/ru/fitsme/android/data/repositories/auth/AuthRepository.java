@@ -1,18 +1,12 @@
 package ru.fitsme.android.data.repositories.auth;
 
-import android.databinding.ObservableBoolean;
-import android.support.annotation.NonNull;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Single;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
-import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 
 @Singleton

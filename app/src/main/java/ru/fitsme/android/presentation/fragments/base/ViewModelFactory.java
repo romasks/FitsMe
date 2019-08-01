@@ -24,16 +24,9 @@ import ru.fitsme.android.presentation.fragments.splash.SplashViewModel;
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private final BaseInteractor interactor;
-    private final Integer index;
 
     public ViewModelFactory(@NotNull BaseInteractor interactor) {
         this.interactor = interactor;
-        this.index = null;
-    }
-
-    public ViewModelFactory(@NotNull BaseInteractor interactor, Integer index) {
-        this.interactor = interactor;
-        this.index = index;
     }
 
     @NotNull

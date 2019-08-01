@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
-import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;

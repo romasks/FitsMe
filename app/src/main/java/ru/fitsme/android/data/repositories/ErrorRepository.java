@@ -1,7 +1,5 @@
 package ru.fitsme.android.data.repositories;
 
-import android.support.annotation.NonNull;
-
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
 import ru.fitsme.android.domain.entities.exceptions.user.InvalidTokenException;

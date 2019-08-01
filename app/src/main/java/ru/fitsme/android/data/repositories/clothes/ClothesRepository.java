@@ -20,7 +20,6 @@ import timber.log.Timber;
 
 public class ClothesRepository implements IClothesRepository {
 
-//    private ClothesPage currentClothePage;
     private final WebLoader webLoader;
 
     @Inject
@@ -44,7 +43,6 @@ public class ClothesRepository implements IClothesRepository {
 
     @Override
     public Single<List<ClotheInfo>> getClotheList() {
-//        if (currentClothePage == null || currentClothePage.getNext() != 0){
             int page = 1;
             return Single.create(emitter -> {
                 webLoader.getClothesPage(page)
@@ -71,50 +69,5 @@ public class ClothesRepository implements IClothesRepository {
                             emitter.onSuccess(clotheInfoList);
                         }, emitter::onError);
             });
-//        } else {
-//            return Single.create(emitter -> {
-//                List<ClotheInfo> clotheInfoList = new ArrayList<>();
-//                ClotheInfo clotheInfo = new ClotheInfo(new UserException(
-//                        App.getInstance().getString(R.string.end_of_not_viewed_list)));
-//                clotheInfoList.add(clotheInfo);
-//                emitter.onSuccess(clotheInfoList);
-//            });
-//        }
     }
-
-
-//    @NonNull
-//    @Override
-//    public ClothesItem getClothe(int index) throws AppException {
-//        //return new ClothesItem();
-//        int pageIndex = calculatePageIndex(index);
-//        ClothesPage clothesPage = clothesPageSparseArray.get(pageIndex);
-//        if (clothesPage == null) {
-//            clothesPage = webLoader.getClothesPage(pageIndex + 1);
-//            clothesPageSparseArray.put(pageIndex, clothesPage);
-//        }
-//        int itemIndex = calculateItemIndex(index);
-//        return clothesPage.getItems().get(itemIndex);
-//    }
-
-
-
-//    private int calculateItemIndex(int index) {
-//        return index % PAGE_SIZE;
-//    }
-//
-//    private int calculatePageIndex(int index) {
-//        return index / PAGE_SIZE;
-//    }
-
-//    private ClotheInfo extractLikedClotheItem(OkResponse<LikedClothesItem> likedClothesItemOkResponse){
-//        LikedClothesItem likedClothesItem = likedClothesItemOkResponse.getResponse();
-//        if (likedClothesItem != null){
-//            return new ClotheInfo<LikedClothesItem>(likedClothesItem);
-//        } else {
-//            Error error = likedClothesItemOkResponse.getError();
-//            UserException userException = makeError(error);
-//            return new ClotheInfo(userException);
-//        }
-//    }
 }

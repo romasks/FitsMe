@@ -22,12 +22,9 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
-import ru.fitsme.android.data.repositories.ResourceRepository;
 import ru.fitsme.android.data.repositories.auth.AuthRepository;
 import ru.fitsme.android.data.repositories.auth.SignRepository;
 import ru.fitsme.android.data.repositories.auth.TextValidator;
-import ru.fitsme.android.data.repositories.clothes.ClothesIndexRepository;
-import ru.fitsme.android.data.repositories.clothes.ClothesLikeRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactory;
@@ -36,15 +33,12 @@ import ru.fitsme.android.data.repositories.orders.OrdersActionRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
-import ru.fitsme.android.domain.boundaries.clothes.IClothesIndexRepository;
-import ru.fitsme.android.domain.boundaries.clothes.IClothesLikeRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
-import ru.fitsme.android.domain.boundaries.auth.IResourceRepository;
 import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.AuthInteractor;
@@ -73,7 +67,6 @@ public class DI {
             bind(ISignRepository.class).to(SignRepository.class);
             bind(ISignInteractor.class).to(SignInteractor.class);
             bind(ITextValidator.class).to(TextValidator.class);
-            bind(IResourceRepository.class).to(ResourceRepository.class);
             bind(Context.class).toInstance(application);
             bind(Gson.class).toInstance(gson());
             bind(GsonConverterFactory.class).toInstance(gsonConverterFactory());
@@ -85,8 +78,6 @@ public class DI {
 
             bind(IClothesInteractor.class).to(ClothesInteractor.class);
             bind(IClothesRepository.class).to(ClothesRepository.class);
-            bind(IClothesIndexRepository.class).to(ClothesIndexRepository.class);
-            bind(IClothesLikeRepository.class).to(ClothesLikeRepository.class);
 
             bind(IFavouritesInteractor.class).to(FavouritesInteractor.class);
             bind(IFavouritesRepository.class).to(FavouritesRepository.class);
