@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
@@ -20,10 +20,10 @@ import timber.log.Timber;
 
 public class ClothesRepository implements IClothesRepository {
 
-    private final WebLoader webLoader;
+    private final WebLoaderNetworkChecker webLoader;
 
     @Inject
-    public ClothesRepository(WebLoader webLoader) {
+    public ClothesRepository(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 

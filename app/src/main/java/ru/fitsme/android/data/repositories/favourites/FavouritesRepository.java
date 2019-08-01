@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
@@ -22,10 +22,10 @@ import timber.log.Timber;
 public class FavouritesRepository extends PageKeyedDataSource<Integer, FavouritesItem>
         implements IFavouritesRepository {
 
-    private final WebLoader webLoader;
+    private final WebLoaderNetworkChecker webLoader;
 
     @Inject
-    FavouritesRepository(WebLoader webLoader) {
+    FavouritesRepository(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 

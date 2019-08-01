@@ -1,6 +1,7 @@
 package ru.fitsme.android.presentation.main.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
+import ru.fitsme.android.databinding.ActivityMainBinding;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     Navigation navigation;
 
+    private ActivityMainBinding binding;
     private Navigator navigator = getFragmentNavigator();
     private WeakReference<RateItemsFragment.MyOnSwipeTouchListener> weakSwipeTouchListener;
 
@@ -50,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.RGBA_8888);
-        setContentView(R.layout.activity_main);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         MainViewModel mainViewModel = ViewModelProviders.of(this)
                 .get(MainViewModel.class);
+        binding.setViewModel(mainViewModel);
 
         navigation.setNavigator(navigator);
         navigation.goToSplash();

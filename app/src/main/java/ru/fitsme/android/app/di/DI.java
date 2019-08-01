@@ -21,27 +21,24 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
-import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.repositories.auth.AuthRepository;
 import ru.fitsme.android.data.repositories.auth.SignRepository;
 import ru.fitsme.android.data.repositories.auth.TextValidator;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
-import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactory;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersActionRepository;
-import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
+import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
+import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
-import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
-import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
-import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.AuthInteractor;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.domain.interactors.auth.SignInteractor;
 import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
@@ -72,7 +69,6 @@ public class DI {
             bind(GsonConverterFactory.class).toInstance(gsonConverterFactory());
             bind(Retrofit.class).toInstance(retrofit());
             bind(ApiService.class).toInstance(apiService(retrofit()));
-            bind(AuthInfoStorage.class).to(AuthInfoStorage.class);
             bind(Scheduler.class).withName("main").toInstance(AndroidSchedulers.mainThread());
             bind(Scheduler.class).withName("work").toInstance(Schedulers.io());
 
@@ -82,13 +78,10 @@ public class DI {
             bind(IFavouritesInteractor.class).to(FavouritesInteractor.class);
             bind(IFavouritesRepository.class).to(FavouritesRepository.class);
             bind(IFavouritesActionRepository.class).to(FavouritesActionRepository.class);
-            bind(FavouritesDataSourceFactory.class).to(FavouritesDataSourceFactory.class);
 
             bind(IOrdersInteractor.class).to(OrdersInteractor.class);
             bind(IOrdersRepository.class).to(OrdersRepository.class);
             bind(IOrdersActionRepository.class).to(OrdersActionRepository.class);
-            bind(OrdersDataSourceFactory.class).to(OrdersDataSourceFactory.class);
-
         }});
     }
 

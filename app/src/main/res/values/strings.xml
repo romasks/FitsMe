@@ -70,4 +70,5 @@
     <string name="item_favourite_removed_undo_tv">Вернуть</string>
     <string name="item_info_load_error">Error</string>
     <string name="item_info_load_in_process">loading</string>
+    <string name="no_internet_error">Нет подключения к сети. \nПроверьте соединение с интернетом</string>
 </resources>

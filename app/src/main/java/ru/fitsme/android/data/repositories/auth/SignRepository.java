@@ -5,17 +5,17 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 
 public class SignRepository implements ISignRepository {
 
-    private WebLoader webLoader;
+    private WebLoaderNetworkChecker webLoader;
 
     @Inject
-    public SignRepository(WebLoader webLoader) {
+    public SignRepository(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 

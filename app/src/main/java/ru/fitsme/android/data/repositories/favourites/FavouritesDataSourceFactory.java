@@ -5,18 +5,18 @@ import android.arch.paging.DataSource;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 
 public class FavouritesDataSourceFactory extends DataSource.Factory<Integer, FavouritesItem> {
 
-    private final WebLoader webLoader;
+    private final WebLoaderNetworkChecker webLoader;
 
     private MutableLiveData<FavouritesRepository> sourceLiveData = new MutableLiveData<>();
     private FavouritesRepository latestSource = null;
 
     @Inject
-    public FavouritesDataSourceFactory(WebLoader webLoader) {
+    public FavouritesDataSourceFactory(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 

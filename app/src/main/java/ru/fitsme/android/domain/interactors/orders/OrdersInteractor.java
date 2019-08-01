@@ -162,8 +162,12 @@ public class OrdersInteractor implements IOrdersInteractor {
                         .observeOn(mainThread)
                         .subscribe(ordersPage -> {
                             checkOutIsLoading.set(false);
-                            Order order = ordersPage.getOrdersList().get(0);
-                            emitter.onSuccess(order);
+                            if (ordersPage.getOrdersList() != null) {
+                                Order order = ordersPage.getOrdersList().get(0);
+                                emitter.onSuccess(order);
+                            } else {
+                                emitter.onSuccess(new Order());
+                            }
                             }, emitter::onError));
     }
 

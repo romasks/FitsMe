@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
@@ -23,10 +23,10 @@ import timber.log.Timber;
 public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
     implements IOrdersRepository {
 
-    private final WebLoader webLoader;
+    private final WebLoaderNetworkChecker webLoader;
 
     @Inject
-    OrdersRepository(WebLoader webLoader) {
+    OrdersRepository(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 

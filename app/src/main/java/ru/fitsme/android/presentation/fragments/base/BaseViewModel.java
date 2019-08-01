@@ -8,6 +8,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.Navigation;
+import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 
 public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
@@ -22,7 +23,7 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
     @Override
     public void addDisposable(Disposable disposable) {
-        if (App.getInstance().isOnline()) {
+        if (MainViewModel.isOnline.get()) {
             compositeDisposable.add(disposable);
         }
     }

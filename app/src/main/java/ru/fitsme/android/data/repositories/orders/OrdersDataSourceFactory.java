@@ -5,18 +5,18 @@ import android.arch.paging.DataSource;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 
 public class OrdersDataSourceFactory extends DataSource.Factory<Integer, OrderItem> {
 
-    private final WebLoader webLoader;
+    private final WebLoaderNetworkChecker webLoader;
 
     private MutableLiveData<OrdersRepository> sourceLiveData = new MutableLiveData<>();
     private OrdersRepository latestSource = null;
 
     @Inject
-    public OrdersDataSourceFactory(WebLoader webLoader) {
+    public OrdersDataSourceFactory(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 

@@ -29,7 +29,7 @@ import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.utils.OrderStatus;
 
-public class WebLoader {
+class WebLoader {
 
     private ApiService apiService;
     private IAuthInteractor authInteractor;
@@ -37,11 +37,10 @@ public class WebLoader {
     private Scheduler mainThread;
     private final static String TOKEN = "Token ";
 
-    @Inject
     WebLoader(ApiService apiService,
               IAuthInteractor authInteractor,
-              @Named("work") Scheduler workThread,
-              @Named("main") Scheduler mainThread){
+              Scheduler workThread,
+              Scheduler mainThread){
         this.apiService = apiService;
         this.authInteractor = authInteractor;
         this.workThread = workThread;

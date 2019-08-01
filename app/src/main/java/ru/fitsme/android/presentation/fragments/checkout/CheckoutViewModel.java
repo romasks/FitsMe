@@ -56,7 +56,9 @@ public class CheckoutViewModel extends BaseViewModel {
     }
 
     private void onOrder(@NotNull Order order) {
-        orderLiveData.setValue(order);
+        if (order.getOrderId() != 0) {
+            orderLiveData.setValue(order);
+        }
     }
 
     private void onMakeOrder(Order order) {

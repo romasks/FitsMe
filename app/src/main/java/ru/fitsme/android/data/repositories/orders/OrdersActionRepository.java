@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
@@ -17,10 +17,10 @@ import timber.log.Timber;
 
 public class OrdersActionRepository implements IOrdersActionRepository {
 
-    private final WebLoader webLoader;
+    private final WebLoaderNetworkChecker webLoader;
 
     @Inject
-    OrdersActionRepository(WebLoader webLoader) {
+    OrdersActionRepository(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 

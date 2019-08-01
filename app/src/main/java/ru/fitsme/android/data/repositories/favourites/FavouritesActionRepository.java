@@ -8,7 +8,7 @@ import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
-import ru.fitsme.android.data.frameworks.retrofit.WebLoader;
+import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
@@ -18,10 +18,10 @@ import ru.fitsme.android.domain.entities.order.OrderItem;
 import timber.log.Timber;
 
 public class FavouritesActionRepository implements IFavouritesActionRepository {
-    private final WebLoader webLoader;
+    private final WebLoaderNetworkChecker webLoader;
 
     @Inject
-    FavouritesActionRepository(WebLoader webLoader) {
+    FavouritesActionRepository(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 
