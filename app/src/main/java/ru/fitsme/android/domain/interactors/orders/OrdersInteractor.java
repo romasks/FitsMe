@@ -1,7 +1,6 @@
 package ru.fitsme.android.domain.interactors.orders;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
@@ -9,11 +8,9 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.SparseIntArray;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
@@ -44,9 +41,10 @@ public class OrdersInteractor implements IOrdersInteractor {
     private LiveData<PagedList<OrderItem>> pagedListLiveData;
     private PagedList.Config config;
 
+    private final ObservableBoolean checkOutIsLoading = new ObservableBoolean(true);
     private final ObservableBoolean cartIsEmpty = new ObservableBoolean(false);
     private final ObservableInt totalPrice = new ObservableInt(0);
-    private final static ObservableField<String> message =
+    private final static ObservableField<String> cartMessage =
             new ObservableField<String>(App.getInstance().getString(R.string.loading));
 
     // Используется для хранения удаленных элементов, чтобы была возможность их восстановить.
@@ -158,10 +156,12 @@ public class OrdersInteractor implements IOrdersInteractor {
     @NonNull
     @Override
     public Single<Order> getSingleOrder(OrderStatus status) {
+        checkOutIsLoading.set(true);
         return Single.create(emitter ->
                 ordersActionRepository.getOrders(status)
                         .observeOn(mainThread)
                         .subscribe(ordersPage -> {
+                            checkOutIsLoading.set(false);
                             Order order = ordersPage.getOrdersList().get(0);
                             emitter.onSuccess(order);
                             }, emitter::onError));
@@ -187,7 +187,7 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @Override
     public ObservableField<String> getMessage(){
-        return message;
+        return cartMessage;
     }
 
     @Override
@@ -222,7 +222,12 @@ public class OrdersInteractor implements IOrdersInteractor {
         }
     }
 
-    public static void setMessage(String string){
-        message.set(string);
+    @Override
+    public ObservableBoolean getCheckOutIsLoading() {
+        return checkOutIsLoading;
+    }
+
+    public static void setCartMessage(String string){
+        cartMessage.set(string);
     }
 }

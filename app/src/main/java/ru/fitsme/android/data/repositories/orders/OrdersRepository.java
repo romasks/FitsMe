@@ -32,7 +32,7 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, OrderItem> callback) {
-        OrdersInteractor.setMessage(App.getInstance().getString(R.string.loading));
+        OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.loading));
         webLoader.getOrdersPage(1)
                 .subscribe(ordersPageOkResponse -> {
                     OrdersPage ordersPage = ordersPageOkResponse.getResponse();
@@ -51,10 +51,10 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
                         List<OrderItem> list = new ArrayList();
                         callback.onResult(list, null, null);
                     }
-                    OrdersInteractor.setMessage(null);
+                    OrdersInteractor.setCartMessage(null);
                 }, error -> {
                     Timber.e(error);
-                    OrdersInteractor.setMessage(App.getInstance().getString(R.string.error));
+                    OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.error));
                 });
     }
 
@@ -65,7 +65,7 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, OrderItem> callback) {
-        OrdersInteractor.setMessage(App.getInstance().getString(R.string.loading));
+        OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.loading));
         webLoader.getOrdersPage(params.key)
                 .subscribe(ordersPageOkResponse -> {
                     OrdersPage ordersPage = ordersPageOkResponse.getResponse();
@@ -84,10 +84,10 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
                         List<OrderItem> list = new ArrayList();
                         callback.onResult(list, null);
                     }
-                    OrdersInteractor.setMessage(null);
+                    OrdersInteractor.setCartMessage(null);
                 }, error -> {
                     Timber.e(error);
-                    OrdersInteractor.setMessage(App.getInstance().getString(R.string.error));
+                    OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.error));
                 });
     }
 }

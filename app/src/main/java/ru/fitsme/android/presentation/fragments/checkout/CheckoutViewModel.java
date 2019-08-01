@@ -14,8 +14,6 @@ import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
 
-import static ru.fitsme.android.utils.Constants.GONE;
-
 public class CheckoutViewModel extends BaseViewModel {
 
     private final IOrdersInteractor ordersInteractor;
@@ -23,7 +21,7 @@ public class CheckoutViewModel extends BaseViewModel {
     private MutableLiveData<Order> orderLiveData;
     private MutableLiveData<Boolean> successMakeOrderLiveData;
 
-    public ObservableBoolean loading;
+    public ObservableBoolean isLoading;
     public ObservableField<OrderModel> orderModel;
 
     public CheckoutViewModel(@NotNull IOrdersInteractor ordersInteractor) {
@@ -42,7 +40,7 @@ public class CheckoutViewModel extends BaseViewModel {
         orderLiveData = new MutableLiveData<>();
         successMakeOrderLiveData = new MutableLiveData<>();
         successMakeOrderLiveData.setValue(false);
-        loading = new ObservableBoolean(GONE);
+        isLoading = ordersInteractor.getCheckOutIsLoading();
         orderModel = new ObservableField<>();
         loadOrder();
     }

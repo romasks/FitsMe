@@ -46,8 +46,4 @@ public class CartViewModel extends BaseViewModel {
     boolean itemIsRemoved(int position) {
         return ordersInteractor.itemIsRemoved(position);
     }
-
-    void onPageListChanged() {
-        ordersInteractor.updateTotalPrice();
-    }
 }

@@ -29,10 +29,8 @@ import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import timber.log.Timber;
 
-import static ru.fitsme.android.utils.Constants.GONE;
 import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
 import static ru.fitsme.android.utils.Constants.RU_PHONE_PREFIX;
-import static ru.fitsme.android.utils.Constants.VISIBLE;
 
 public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements CheckoutBindingEvents {
 
@@ -66,13 +64,11 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         }
         binding.setViewModel(viewModel);
 
-        viewModel.loading.set(VISIBLE);
         viewModel.getOrderLiveData().observe(this, this::onLoadOrder);
         viewModel.getSuccessMakeOrderLiveData().observe(this, this::onSuccessMakeOrder);
     }
 
     private void onLoadOrder(Order order) {
-        viewModel.loading.set(GONE);
         viewModel.orderModel.set(new OrderModel(order));
     }
 
