@@ -1,386 +1,407 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="24dp"
-    android:stretchColumns="1"
-    tools:context=".presentation.fragments.profile.ProfileFragment"
-    >
 
-    <TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="3"
-            />
-    </TableRow>
+<layout>
 
-    <TableRow
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
+    <data>
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.profile.ProfileViewModel" />
+
+        <variable
+            name="bindingEvents"
+            type="ru.fitsme.android.presentation.fragments.profile.ProfileBindingEvents" />
+    </data>
+
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        android:stretchColumns="1"
+        tools:context=".presentation.fragments.profile.ProfileFragment"
         >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_resize"
-            android:contentDescription="@null"
-            />
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="3"
+                />
+        </TableRow>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
             android:layout_height="wrap_content"
-            android:text="@string/profile_your_size"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_minimal_medium"
-            android:gravity="start|center"
-            />
-
-        <ImageView
-            android:id="@+id/fragment_profile_your_size"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            />
-    </TableRow>
-
-    <TableRow
-        android:layout_marginStart="16dp"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_span="1"
+            android:onClick="@{() -> bindingEvents.onYourSizeClick()}"
             >
-        </TextView>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="2"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_resize"
+                android:contentDescription="@null"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_your_size"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_minimal_medium"
+                android:gravity="start|center"
+                />
+
+            <ImageView
+                android:id="@+id/fragment_profile_your_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginStart="16dp"
             >
-        </View>
-    </TableRow>
 
-    <TableRow
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="1"
+                >
+            </TextView>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_your_color_type"
-            />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="2"
+                >
+            </View>
+        </TableRow>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_your_type"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_minimal_medium"
-            android:layout_gravity="start|center"
-            />
-
-        <ImageView
-            android:id="@+id/fragment_profile_your_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+        <TableRow
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            />
-    </TableRow>
-
-    <TableRow>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="3"
+            android:onClick="@{() -> bindingEvents.onYourTypeClick()"
             >
-        </View>
-    </TableRow>
 
-    <TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_span="3"
-            />
-    </TableRow>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_your_color_type"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_your_type"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_minimal_medium"
+                android:layout_gravity="start|center"
+                />
+
+            <ImageView
+                android:id="@+id/fragment_profile_your_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                />
+        </TableRow>
+
+        <TableRow>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="3"
+                >
+            </View>
+        </TableRow>
+
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_span="3"
+                />
+        </TableRow>
 
 
 
-    <TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="3"
-            />
-    </TableRow>
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="3"
+                />
+        </TableRow>
 
-    <TableRow
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        >
-
-        <ImageView
-            android:layout_width="wrap_content"
+        <TableRow
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_orders_histroy"
-            android:contentDescription="@null"
-            />
-
-        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_orders_history"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_minimal_medium"
-            android:gravity="start|center"
-            />
-
-        <ImageView
-            android:id="@+id/fragment_profile_orders_history"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            />
-    </TableRow>
-
-    <TableRow
-        android:layout_marginStart="16dp"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_span="1"
+            android:onClick="@{() -> bindingEvents.onOrdersHistoryClick()}"
             >
-        </TextView>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="2"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_orders_histroy"
+                android:contentDescription="@null"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_orders_history"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_minimal_medium"
+                android:gravity="start|center"
+                />
+
+            <ImageView
+                android:id="@+id/fragment_profile_orders_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginStart="16dp"
             >
-        </View>
-    </TableRow>
 
-    <TableRow
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="1"
+                >
+            </TextView>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_order_return"
-            />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="2"
+                >
+            </View>
+        </TableRow>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_orders_return"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_minimal_medium"
-            android:layout_gravity="start|center"
-            />
-
-        <ImageView
-            android:id="@+id/fragment_profile_orders_return"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+        <TableRow
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            />
-    </TableRow>
-
-    <TableRow>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="3"
+            android:onClick="@{() -> bindingEvents.onOrdersReturnClick()}"
             >
-        </View>
-    </TableRow>
 
-    <TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_span="3"
-            />
-    </TableRow>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_order_return"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_orders_return"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_minimal_medium"
+                android:layout_gravity="start|center"
+                />
+
+            <ImageView
+                android:id="@+id/fragment_profile_orders_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                />
+        </TableRow>
+
+        <TableRow>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="3"
+                >
+            </View>
+        </TableRow>
+
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_span="3"
+                />
+        </TableRow>
 
 
 
-    <TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="3"
-            />
-    </TableRow>
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="3"
+                />
+        </TableRow>
 
-    <TableRow
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        >
-
-        <ImageView
-            android:layout_width="wrap_content"
+        <TableRow
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_leave_feedback"
-            android:contentDescription="@null"
-            />
-
-        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_leave_feedback"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_minimal_medium"
-            android:gravity="start|center"
-            />
-
-        <ImageView
-            android:id="@+id/fragment_profile_leave_feedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            />
-
-    </TableRow>
-
-    <TableRow>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="3"
+            android:onClick="@{() -> bindingEvents.onLeaveFeedbackClick()}"
             >
-        </View>
-    </TableRow>
 
-    <TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_span="3"
-            />
-    </TableRow>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_leave_feedback"
+                android:contentDescription="@null"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_leave_feedback"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_minimal_medium"
+                android:gravity="start|center"
+                />
+
+            <ImageView
+                android:id="@+id/fragment_profile_leave_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                />
+
+        </TableRow>
+
+        <TableRow>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="3"
+                >
+            </View>
+        </TableRow>
+
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_span="3"
+                />
+        </TableRow>
 
 
 
-    <TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="3"
-            />
-    </TableRow>
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="3"
+                />
+        </TableRow>
 
-    <TableRow
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        >
-
-        <ImageView
-            android:layout_width="wrap_content"
+        <TableRow
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_logout"
-            android:contentDescription="@null"
-            />
-
-        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_logout"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_minimal_medium"
-            android:gravity="start|center"
-            />
-
-        <ImageView
-            android:id="@+id/fragment_profile_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            />
-
-    </TableRow>
-
-    <TableRow>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"
-            android:layout_span="3"
+            android:onClick="@{() -> bindingEvents.onLogoutClick()}"
             >
-        </View>
-    </TableRow>
 
-    <TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_span="3"
-            />
-    </TableRow>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_logout"
+                android:contentDescription="@null"
+                />
 
-</TableLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_logout"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_minimal_medium"
+                android:gravity="start|center"
+                />
+
+            <ImageView
+                android:id="@+id/fragment_profile_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                />
+
+        </TableRow>
+
+        <TableRow>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:background="@color/colorStatusBar"
+                android:layout_span="3"
+                >
+            </View>
+        </TableRow>
+
+        <TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_span="3"
+                />
+        </TableRow>
+
+    </TableLayout>
+
+</layout>
