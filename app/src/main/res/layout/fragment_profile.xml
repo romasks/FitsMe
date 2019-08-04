@@ -34,12 +34,13 @@
         <TableRow
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
+            android:paddingTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingBottom="16dp"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> bindingEvents.onYourSizeClick()}"
+            android:background="?android:attr/selectableItemBackground"
             >
 
             <ImageView
@@ -48,6 +49,7 @@
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_resize"
                 android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
                 />
 
             <TextView
@@ -56,7 +58,8 @@
                 android:text="@string/profile_your_size"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_minimal_medium"
-                android:gravity="start|center"
+                android:layout_gravity="center_vertical"
+                android:gravity="start"
                 />
 
             <ImageView
@@ -66,6 +69,7 @@
                 android:layout_marginEnd="24dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_gravity="center_vertical"
                 />
         </TableRow>
 
@@ -90,12 +94,13 @@
         </TableRow>
 
         <TableRow
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:paddingTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{() -> bindingEvents.onYourTypeClick()"
+            android:onClick="@{() -> bindingEvents.onYourTypeClick()}"
+            android:background="?android:attr/selectableItemBackground"
             >
 
             <ImageView
@@ -104,6 +109,7 @@
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_your_color_type"
+                android:layout_gravity="center_vertical"
                 />
 
             <TextView
@@ -112,7 +118,8 @@
                 android:text="@string/profile_your_type"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_minimal_medium"
-                android:layout_gravity="start|center"
+                android:gravity="start"
+                android:layout_gravity="center_vertical"
                 />
 
             <ImageView
@@ -122,6 +129,7 @@
                 android:layout_marginEnd="24dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_gravity="center_vertical"
                 />
         </TableRow>
 
@@ -157,12 +165,13 @@
         <TableRow
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
+            android:paddingTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingBottom="16dp"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> bindingEvents.onOrdersHistoryClick()}"
+            android:background="?android:attr/selectableItemBackground"
             >
 
             <ImageView
@@ -171,6 +180,7 @@
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_orders_histroy"
                 android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
                 />
 
             <TextView
@@ -179,7 +189,8 @@
                 android:text="@string/profile_orders_history"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_minimal_medium"
-                android:gravity="start|center"
+                android:gravity="start"
+                android:layout_gravity="center_vertical"
                 />
 
             <ImageView
@@ -189,6 +200,7 @@
                 android:layout_marginEnd="24dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_gravity="center_vertical"
                 />
         </TableRow>
 
@@ -213,12 +225,13 @@
         </TableRow>
 
         <TableRow
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:paddingTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingBottom="16dp"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> bindingEvents.onOrdersReturnClick()}"
+            android:background="?android:attr/selectableItemBackground"
             >
 
             <ImageView
@@ -227,6 +240,7 @@
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_order_return"
+                android:layout_gravity="center_vertical"
                 />
 
             <TextView
@@ -235,7 +249,8 @@
                 android:text="@string/profile_orders_return"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_minimal_medium"
-                android:layout_gravity="start|center"
+                android:gravity="start"
+                android:layout_gravity="center_vertical"
                 />
 
             <ImageView
@@ -245,6 +260,7 @@
                 android:layout_marginEnd="24dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_gravity="center_vertical"
                 />
         </TableRow>
 
@@ -280,12 +296,13 @@
         <TableRow
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
+            android:paddingTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingBottom="16dp"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> bindingEvents.onLeaveFeedbackClick()}"
+            android:background="?android:attr/selectableItemBackground"
             >
 
             <ImageView
@@ -294,6 +311,7 @@
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_leave_feedback"
                 android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
                 />
 
             <TextView
@@ -302,7 +320,8 @@
                 android:text="@string/profile_leave_feedback"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_minimal_medium"
-                android:gravity="start|center"
+                android:gravity="start"
+                android:layout_gravity="center_vertical"
                 />
 
             <ImageView
@@ -312,6 +331,7 @@
                 android:layout_marginEnd="24dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_gravity="center_vertical"
                 />
 
         </TableRow>
@@ -348,12 +368,13 @@
         <TableRow
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
+            android:paddingTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingBottom="16dp"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> bindingEvents.onLogoutClick()}"
+            android:background="?android:attr/selectableItemBackground"
             >
 
             <ImageView
@@ -362,6 +383,7 @@
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_logout"
                 android:contentDescription="@null"
+                android:layout_gravity="center_vertical"
                 />
 
             <TextView
@@ -370,7 +392,8 @@
                 android:text="@string/profile_logout"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_minimal_medium"
-                android:gravity="start|center"
+                android:gravity="start"
+                android:layout_gravity="center_vertical"
                 />
 
             <ImageView
@@ -380,6 +403,7 @@
                 android:layout_marginEnd="24dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:layout_gravity="center_vertical"
                 />
 
         </TableRow>
