@@ -71,4 +71,10 @@
     <string name="item_info_load_error">Error</string>
     <string name="item_info_load_in_process">loading</string>
     <string name="no_internet_error">Нет подключения к сети. \nПроверьте соединение с интернетом</string>
+    <string name="profile_your_size">Ваши размеры</string>
+    <string name="profile_your_type">Ваш цветотип</string>
+    <string name="profile_orders_history">История заказов</string>
+    <string name="profile_orders_return">Возврат</string>
+    <string name="profile_leave_feedback">Оставить отзыв</string>
+    <string name="profile_logout">Выход</string>
 </resources>
