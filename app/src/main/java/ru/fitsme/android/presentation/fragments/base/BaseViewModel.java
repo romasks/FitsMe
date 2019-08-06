@@ -2,12 +2,9 @@ package ru.fitsme.android.presentation.fragments.base;
 
 import android.arch.lifecycle.ViewModel;
 
-import javax.inject.Inject;
-
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.presentation.main.AuthNavigation;
 import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 
 public abstract class BaseViewModel extends ViewModel implements IViewModel {

@@ -17,6 +17,7 @@ import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
+import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInViewModel;
@@ -54,6 +55,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new SplashViewModel((IAuthInteractor) interactor);
         } else if (modelClass.isAssignableFrom(MainProfileViewModel.class)) {
             return (T) new MainProfileViewModel((IProfileInteractor) interactor);
+        }  else if (modelClass.isAssignableFrom(SizeProfileViewModel.class)) {
+            return (T) new SizeProfileViewModel((IProfileInteractor) interactor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

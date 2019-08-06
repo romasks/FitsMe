@@ -13,33 +13,36 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
-import ru.fitsme.android.databinding.FragmentMainProfileBinding;
+import ru.fitsme.android.databinding.FragmentChangeSizeProfileBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
-import ru.fitsme.android.presentation.fragments.profile.events.MainProfileBindingEvents;
-import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
+import ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents;
+import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
-public class MainProfileFragment extends Fragment implements MainProfileBindingEvents {
+public class SizeProfileFragment extends Fragment implements SizeProfileBindingEvents {
 
-    FragmentMainProfileBinding binding;
+    FragmentChangeSizeProfileBinding binding;
 
     @Inject
     IProfileInteractor interactor;
-    private MainProfileViewModel viewModel;
+    private SizeProfileViewModel viewModel;
 
-    public MainProfileFragment() {
-        App.getInstance().getDi().inject(this);
+    public SizeProfileFragment(){
     }
 
-    public static MainProfileFragment newInstance() {
-        return new MainProfileFragment();
+    public static SizeProfileFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        SizeProfileFragment fragment = new SizeProfileFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_profile, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_size_profile, container, false);
         binding.setBindingEvents(this);
         return binding.getRoot();
     }
@@ -49,7 +52,7 @@ public class MainProfileFragment extends Fragment implements MainProfileBindingE
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(interactor)).get(MainProfileViewModel.class);
+                new ViewModelFactory(interactor)).get(SizeProfileViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
@@ -57,32 +60,7 @@ public class MainProfileFragment extends Fragment implements MainProfileBindingE
     }
 
     @Override
-    public void onYourSizeClick() {
-        viewModel.goToSizeProfile();
-    }
-
-    @Override
-    public void onYourTypeClick() {
-
-    }
-
-    @Override
-    public void onOrdersHistoryClick() {
-
-    }
-
-    @Override
-    public void onOrdersReturnClick() {
-
-    }
-
-    @Override
-    public void onLeaveFeedbackClick() {
-
-    }
-
-    @Override
-    public void onLogoutClick() {
-        viewModel.logout();
+    public void goBack() {
+        viewModel.goBack();
     }
 }

@@ -19,6 +19,7 @@ import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
@@ -141,7 +142,7 @@ public class MainFragment extends Fragment {
                     case NAV_MAIN_PROFILE:
                         return MainProfileFragment.newInstance();
                     case NAV_SIZE_PROFILE:
-                        break;
+                        return SizeProfileFragment.newInstance();
                     case NAV_TYPE_PROFILE:
                         break;
                     case NAV_ORDER_HISTORY_PROFILE:

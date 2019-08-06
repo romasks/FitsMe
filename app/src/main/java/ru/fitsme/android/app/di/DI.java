@@ -47,6 +47,8 @@ import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.orders.OrdersInteractor;
+import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
+import ru.fitsme.android.domain.interactors.profile.ProfileInteractor;
 import toothpick.Scope;
 import toothpick.Toothpick;
 import toothpick.config.Module;
@@ -82,6 +84,8 @@ public class DI {
             bind(IOrdersInteractor.class).to(OrdersInteractor.class);
             bind(IOrdersRepository.class).to(OrdersRepository.class);
             bind(IOrdersActionRepository.class).to(OrdersActionRepository.class);
+
+            bind(IProfileInteractor.class).to(ProfileInteractor.class);
         }});
     }
 
