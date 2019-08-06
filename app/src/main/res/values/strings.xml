@@ -77,4 +77,13 @@
     <string name="profile_orders_return">Возврат</string>
     <string name="profile_leave_feedback">Оставить отзыв</string>
     <string name="profile_logout">Выход</string>
+    <string name="fragment_change_size_title">Изменить размеры</string>
+    <string name="fragment_change_size_top_size_layout_title">Верх</string>
+    <string name="top_chest_size">Обхват груди</string>
+    <string name="top_waist_size">Обхват талии</string>
+    <string name="top_hips_size">Обхват бёдер</string>
+    <string name="top_sleeve_size">Длина рукава</string>
+    <string name="fragment_change_size_bottom_size_layout_title">Низ</string>
+    <string name="bottom_waist_size">Обхват талии</string>
+    <string name="bottom_hips_size">Обхват бёдер</string>
 </resources>
