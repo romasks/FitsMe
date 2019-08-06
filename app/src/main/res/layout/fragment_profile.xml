@@ -5,11 +5,11 @@
     <data>
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.profile.ProfileViewModel" />
+            type="ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel" />
 
         <variable
             name="bindingEvents"
-            type="ru.fitsme.android.presentation.fragments.profile.ProfileBindingEvents" />
+            type="ru.fitsme.android.presentation.fragments.profile.events.MainProfileBindingEvents" />
     </data>
 
     <TableLayout
@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="24dp"
         android:stretchColumns="1"
-        tools:context=".presentation.fragments.profile.ProfileFragment"
+        tools:context=".presentation.fragments.profile.view.MainProfileFragment"
         >
 
         <TableRow>

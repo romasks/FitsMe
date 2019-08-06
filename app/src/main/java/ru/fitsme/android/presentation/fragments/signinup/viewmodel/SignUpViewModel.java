@@ -3,7 +3,6 @@ package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.domain.entities.auth.SignInUpResult;
-import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.presentation.common.livedata.NonNullLiveData;
 import ru.fitsme.android.presentation.common.livedata.NonNullMutableLiveData;
@@ -35,7 +34,7 @@ public class SignUpViewModel extends BaseViewModel {
     private void onSignInUpResult(@NotNull SignInUpResult signInUpResult) {
         fieldsStateLiveData.setValue(new SignInUpState(signInUpResult, false));
         if (signInUpResult.isSuccess()) {
-            navigation.goToMainItem();
+            authNavigation.goToMainItem();
         }
     }
 

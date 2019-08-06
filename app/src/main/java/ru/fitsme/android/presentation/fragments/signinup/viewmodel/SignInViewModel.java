@@ -32,7 +32,7 @@ public class SignInViewModel extends BaseViewModel {
     private void onSignInResult(SignInUpResult signInUpResult) {
         stopLoading(signInUpResult);
         if (signInUpResult.isSuccess()) {
-            navigation.goToMainItem();
+            authNavigation.goToMainItem();
         }
     }
 

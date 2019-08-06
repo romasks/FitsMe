@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.profile;
+package ru.fitsme.android.presentation.fragments.profile.view;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -16,21 +16,23 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentProfileBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
-import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
+import ru.fitsme.android.presentation.fragments.main.MainNavigation;
+import ru.fitsme.android.presentation.fragments.profile.events.MainProfileBindingEvents;
+import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 
-public class ProfileFragment extends Fragment implements ProfileBindingEvents{
+public class MainProfileFragment extends Fragment implements MainProfileBindingEvents {
 
     FragmentProfileBinding binding;
 
     @Inject
     IProfileInteractor interactor;
-    private ProfileViewModel viewModel;
+    private MainProfileViewModel viewModel;
 
-    public ProfileFragment() {
+    public MainProfileFragment() {
     }
 
-    public static ProfileFragment newInstance() {
-        return new ProfileFragment();
+    public static MainProfileFragment newInstance() {
+        return new MainProfileFragment();
     }
 
 
@@ -47,7 +49,7 @@ public class ProfileFragment extends Fragment implements ProfileBindingEvents{
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(interactor)).get(ProfileViewModel.class);
+                new ViewModelFactory(interactor)).get(MainProfileViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

@@ -1,4 +1,4 @@
-package ru.fitsme.android.app;
+package ru.fitsme.android.presentation.main;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -9,7 +9,7 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
 @Singleton
-public class Navigation {
+public class AuthNavigation {
     public static final String NAV_SIGN_IN_UP = "SignInUp";
     public static final String NAV_SIGN_UP = "SignUp";
     public static final String NAV_SIGN_IN = "SignIn";
@@ -19,7 +19,7 @@ public class Navigation {
     private Cicerone<Router> cicerone;
 
     @Inject
-    public Navigation() {
+    public AuthNavigation() {
         cicerone = Cicerone.create();
     }
 

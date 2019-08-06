@@ -18,10 +18,10 @@ public class SignInUpViewModel extends BaseViewModel {
     }
 
     public void onSignUp() {
-        navigation.goSignUp();
+        authNavigation.goSignUp();
     }
 
     public void onSignIn() {
-        navigation.goSignIn();
+        authNavigation.goSignIn();
     }
 }

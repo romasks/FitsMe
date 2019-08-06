@@ -68,7 +68,7 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:$archLifecycleVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$archLifecycleVersion"
 
-    // Navigation
+    // AuthNavigation
     implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
 
     // Rx

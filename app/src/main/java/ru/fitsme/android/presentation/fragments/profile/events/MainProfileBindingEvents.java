@@ -1,6 +1,6 @@
-package ru.fitsme.android.presentation.fragments.profile;
+package ru.fitsme.android.presentation.fragments.profile.events;
 
-public interface ProfileBindingEvents {
+public interface MainProfileBindingEvents {
     void onYourSizeClick();
     void onYourTypeClick();
     void onOrdersHistoryClick();

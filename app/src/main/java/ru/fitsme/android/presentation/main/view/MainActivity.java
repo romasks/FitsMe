@@ -17,7 +17,7 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.app.Navigation;
+import ru.fitsme.android.presentation.main.AuthNavigation;
 import ru.fitsme.android.databinding.ActivityMainBinding;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
@@ -29,16 +29,16 @@ import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
-import static ru.fitsme.android.app.Navigation.NAV_MAIN_ITEM;
-import static ru.fitsme.android.app.Navigation.NAV_SIGN_IN;
-import static ru.fitsme.android.app.Navigation.NAV_SIGN_IN_UP;
-import static ru.fitsme.android.app.Navigation.NAV_SIGN_UP;
-import static ru.fitsme.android.app.Navigation.NAV_SPLASH;
+import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_MAIN_ITEM;
+import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_IN;
+import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_IN_UP;
+import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_UP;
+import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SPLASH;
 
 public class MainActivity extends AppCompatActivity {
 
     @Inject
-    Navigation navigation;
+    AuthNavigation authNavigation;
 
     private ActivityMainBinding binding;
     private Navigator navigator = getFragmentNavigator();
@@ -60,22 +60,22 @@ public class MainActivity extends AppCompatActivity {
                 .get(MainViewModel.class);
         binding.setViewModel(mainViewModel);
 
-        navigation.setNavigator(navigator);
-        navigation.goToSplash();
+        authNavigation.setNavigator(navigator);
+        authNavigation.goToSplash();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        navigation.setNavigator(navigator);
+        authNavigation.setNavigator(navigator);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        navigation.removeNavigator();
+        authNavigation.removeNavigator();
     }
 
     //передает TouchEvent в RateFragment, т.к. из-за ScrollView события автоматом не передаются

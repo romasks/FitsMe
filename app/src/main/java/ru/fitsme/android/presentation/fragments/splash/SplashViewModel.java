@@ -23,9 +23,9 @@ public class SplashViewModel extends BaseViewModel {
 
     private void onAuthInfoGotten(@NonNull AuthInfo authInfo) {
         if (authInfo.isAuth()){
-            navigation.goToMainItem();
+            authNavigation.goToMainItem();
         } else {
-            navigation.goSignInUp();
+            authNavigation.goSignInUp();
         }
     }
 
