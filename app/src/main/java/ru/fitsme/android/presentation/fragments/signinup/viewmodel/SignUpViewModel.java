@@ -2,16 +2,21 @@ package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
+
 import ru.fitsme.android.domain.entities.auth.SignInUpResult;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.presentation.common.livedata.NonNullLiveData;
 import ru.fitsme.android.presentation.common.livedata.NonNullMutableLiveData;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.entities.SignInUpState;
+import ru.fitsme.android.presentation.main.AuthNavigation;
 import timber.log.Timber;
 
 public class SignUpViewModel extends BaseViewModel {
 
+    @Inject
+    AuthNavigation authNavigation;
     private ISignInteractor signInteractor;
 
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();

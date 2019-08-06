@@ -2,11 +2,16 @@ package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
+
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.presentation.main.AuthNavigation;
 
 public class SignInUpViewModel extends BaseViewModel {
 
+    @Inject
+    AuthNavigation authNavigation;
     private IAuthInteractor authInteractor;
 
     public SignInUpViewModel(@NotNull IAuthInteractor authInteractor) {

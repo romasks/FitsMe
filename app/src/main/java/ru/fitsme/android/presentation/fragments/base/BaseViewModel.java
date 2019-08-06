@@ -12,9 +12,6 @@ import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 
 public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
-    @Inject
-    protected AuthNavigation authNavigation;
-
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     protected <T extends ViewModel> void inject(T instance) {
