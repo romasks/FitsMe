@@ -30,7 +30,7 @@ import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.utils.OrderStatus;
 
-class WebLoader {
+abstract class WebLoader {
 
     private ApiService apiService;
     private IAuthInteractor authInteractor;
@@ -209,23 +209,35 @@ class WebLoader {
                                 emitter::onError));
     }
 
-    public Single<OkResponse<Profile>> getProfile(){
-        return Single.create(emitter -> {
-            authInteractor.getAuthInfo()
-                    .subscribe(
-                            authInfo -> apiService.getProfile(TOKEN + authInfo.getToken())
-                            .subscribeOn(workThread)
-                            .subscribe(emitter::onSuccess, emitter::onError),
-                            emitter::onError
-                    );
-        });
-    }
-
     public Single<OkResponse<List<ClotheSize>>> getSizes(){
         return Single.create(emitter -> {
             authInteractor.getAuthInfo()
                     .subscribe(
                             authInfo -> apiService.getClotheSizes(TOKEN + authInfo.getToken())
+                                    .subscribeOn(workThread)
+                                    .subscribe(emitter::onSuccess, emitter::onError),
+                            emitter::onError
+                    );
+        });
+    }
+
+    public Single<OkResponse<Profile>> getProfile(){
+        return Single.create(emitter -> {
+            authInteractor.getAuthInfo()
+                    .subscribe(
+                            authInfo -> apiService.getProfile(TOKEN + authInfo.getToken())
+                                    .subscribeOn(workThread)
+                                    .subscribe(emitter::onSuccess, emitter::onError),
+                            emitter::onError
+                    );
+        });
+    }
+
+    public Single<OkResponse<Profile>> setProfile(Profile profile) {
+        return Single.create(emitter -> {
+            authInteractor.getAuthInfo()
+                    .subscribe(
+                            authInfo -> apiService.setProfile(TOKEN + authInfo.getToken(), profile)
                                     .subscribeOn(workThread)
                                     .subscribe(emitter::onSuccess, emitter::onError),
                             emitter::onError

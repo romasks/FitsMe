@@ -8,6 +8,15 @@ public class Profile {
     private int topSize;
     private int bottomSize;
 
+    public Profile(String tel, String street, String houseNumber, String apartment, int topSize, int bottomSize){
+        this.tel = tel;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.apartment = apartment;
+        this.topSize = topSize;
+        this.bottomSize = bottomSize;
+    }
+
     public String getTel() {
         return tel;
     }

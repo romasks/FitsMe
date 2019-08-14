@@ -1,7 +1,10 @@
 package ru.fitsme.android.domain.entities.clothes;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ClotheSize {
     private int id;
+    @SerializedName(value = "int")
     private String international;
     private int ru;
     private int eu;

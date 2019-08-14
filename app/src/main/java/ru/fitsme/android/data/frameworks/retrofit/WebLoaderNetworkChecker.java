@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
@@ -24,6 +25,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionExcep
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.fitsme.android.utils.OrderStatus;
@@ -41,13 +43,6 @@ public class WebLoaderNetworkChecker extends WebLoader {
     @Override
     public Single<AuthInfo> signIn(@NonNull SignInfo signInfo) {
         return checkNetwork(super.signIn(signInfo));
-//        if (NetworkStatus.isOnline()) {
-//            MainViewModel.isOnline.set(true);
-//            return super.signIn(signInfo);
-//        } else {
-//            MainViewModel.isOnline.set(false);
-//            return Single.error(new InternetConnectionException(App.getInstance().getString(R.string.internet_connection_error)));
-//        }
     }
 
     @Override
@@ -108,6 +103,11 @@ public class WebLoaderNetworkChecker extends WebLoader {
     @Override
     public Single<OkResponse<Order>> makeOrder(long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus) {
         return checkNetwork(super.makeOrder(orderId, phoneNumber, street, houseNumber, apartment, orderStatus));
+    }
+
+    @Override
+    public Single<OkResponse<Profile>> setProfile(Profile profile) {
+        return checkNetwork(super.setProfile(profile));
     }
 
     private Single checkNetwork(Single single){

@@ -1,5 +1,7 @@
 package ru.fitsme.android.data.repositories.clothes;
 
+import android.util.SparseArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,13 +77,17 @@ public class ClothesRepository implements IClothesRepository {
     }
 
     @Override
-    public Single<List<ClotheSize>> getSizes(){
+    public Single<SparseArray<ClotheSize>> getSizes(){
         return Single.create(emitter -> {
             webLoader.getSizes()
                     .subscribe(sizesOkResponse -> {
                         List<ClotheSize> clotheSizes = sizesOkResponse.getResponse();
                         if (clotheSizes != null){
-                            emitter.onSuccess(clotheSizes);
+                            SparseArray<ClotheSize> sparseArray = new SparseArray<>();
+                            for (int i = 0; i < clotheSizes.size(); i++) {
+                                sparseArray.put(clotheSizes.get(i).getId(), clotheSizes.get(i));
+                            }
+                            emitter.onSuccess(sparseArray);
                         } else {
                             UserException error = ErrorRepository.makeError(sizesOkResponse.getError());
                             emitter.onError(error);

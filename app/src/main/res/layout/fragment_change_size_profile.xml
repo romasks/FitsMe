@@ -80,8 +80,8 @@
 
             <Spinner
                 android:id="@+id/fragment_change_size_top_size_layout_size_type_spinner"
-                android:layout_width="wrap_content"
-                android:minWidth="200dp"
+                android:layout_width="0dp"
+                android:minWidth="150dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_12sp"
                 android:textColor="@color/thinBlackText"
@@ -109,7 +109,7 @@
 
             <Spinner
                 android:id="@+id/fragment_change_size_top_size_layout_size_value_spinner"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:paddingTop="8dp"
@@ -119,6 +119,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
                 app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_size_layout_title_tv"
+                android:selection="@{viewModel.currentTopSizeIndex}"
                 tools:entries="@array/example">
             </Spinner>
 
@@ -161,6 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
+                    android:text="@{viewModel.currentChestSize}"
                     tools:text="9-96 см"
                     />
             </RelativeLayout>
@@ -194,6 +196,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
+                    android:text="@{viewModel.currentTopWaistSize}"
                     tools:text="71-74 см"
                     />
             </RelativeLayout>
@@ -227,6 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
+                    android:text="@{viewModel.currentTopHipsSize}"
                     tools:text="98-101 см"
                     />
             </RelativeLayout>
@@ -261,6 +265,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
+                    android:text="@{viewModel.currentSleeveSize}"
                     tools:text="60-62 см"
                     />
             </RelativeLayout>
@@ -283,8 +288,8 @@
 
             <Spinner
                 android:id="@+id/fragment_change_size_bottom_size_layout_size_type_spinner"
-                android:layout_width="wrap_content"
-                android:minWidth="200dp"
+                android:layout_width="0dp"
+                android:minWidth="150dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_12sp"
                 android:textColor="@color/thinBlackText"
@@ -312,7 +317,7 @@
 
             <Spinner
                 android:id="@+id/fragment_change_size_bottom_size_layout_size_value_spinner"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:paddingTop="8dp"
@@ -322,6 +327,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
                 app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_title_tv"
+                android:selection="@{viewModel.currentBottomSizeIndex}"
                 tools:entries="@array/example">
             </Spinner>
 
@@ -365,6 +371,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
+                    android:text="@{viewModel.currentBottomWaistSize}"
                     tools:text="67-70 см"
                     />
             </RelativeLayout>
@@ -398,6 +405,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
+                    android:text="@{viewModel.currentBottomHipsSize}"
                     tools:text="98-101 см"
                     />
             </RelativeLayout>

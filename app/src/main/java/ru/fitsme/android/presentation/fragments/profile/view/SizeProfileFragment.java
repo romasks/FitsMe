@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
@@ -62,12 +64,15 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
             viewModel.init();
         }
         binding.setViewModel(viewModel);
-        setAdapter();
-        setOnClickListeners();
+        setAdapterToTypeSpinners();
+        setAdapterToTopSizeSpinner();
+        setAdapterToBottomSizeSpinner();
+        setOnSizeTypeSpinnersClickListeners();
+        setOnSizeValueSpinnersClickListeners();
     }
 
-    private void setAdapter() {
-        String[] array = makeArray();
+    private void setAdapterToTypeSpinners() {
+        String[] array = makeSizeTypeArray();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -75,11 +80,66 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
         binding.fragmentChangeSizeBottomSizeLayoutSizeTypeSpinner.setAdapter(adapter);
     }
 
-    private void setOnClickListeners() {
+    private void setAdapterToTopSizeSpinner(){
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_spinner_item, arrayList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.fragmentChangeSizeTopSizeLayoutSizeValueSpinner.setAdapter(adapter);
+        viewModel.getTopSizeArray().observe(this, list -> {
+            adapter.clear();
+            if (list != null) {
+                adapter.addAll(list);
+            }
+            adapter.notifyDataSetChanged();
+        });
+    }
+
+    private void setAdapterToBottomSizeSpinner(){
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_spinner_item, arrayList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.fragmentChangeSizeBottomSizeLayoutSizeValueSpinner.setAdapter(adapter);
+        viewModel.getBottomSizeArray().observe(this, list -> {
+            adapter.clear();
+            if (list != null) {
+                adapter.addAll(list);
+            }
+            adapter.notifyDataSetChanged();
+        });
+    }
+
+    private void setOnSizeValueSpinnersClickListeners() {
+        binding.fragmentChangeSizeTopSizeLayoutSizeValueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.onTopSizeValueSpinnerSelected(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        binding.fragmentChangeSizeBottomSizeLayoutSizeValueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.onBottomSizeValueSpinnerSelected(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void setOnSizeTypeSpinnersClickListeners() {
         binding.fragmentChangeSizeTopSizeLayoutSizeTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.onTopSizeItemSelected(position);
+                viewModel.onTopSizeTypeSpinnerSelected(position);
             }
 
             @Override
@@ -89,7 +149,7 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
         binding.fragmentChangeSizeBottomSizeLayoutSizeTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.onBottomSizeItemSelected(position);
+                viewModel.onBottomSizeTypeSpinnerSelected(position);
             }
 
             @Override
@@ -103,7 +163,7 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
         viewModel.goBack();
     }
 
-    private String[] makeArray(){
+    private String[] makeSizeTypeArray(){
         ClotheSizeType[] clotheSizeTypes = ClotheSizeType.values();
         String[] strings = new String[clotheSizeTypes.length];
         for (int i = 0; i < clotheSizeTypes.length; i++) {

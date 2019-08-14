@@ -1,5 +1,7 @@
 package ru.fitsme.android.domain.boundaries.clothes;
 
+import android.util.SparseArray;
+
 import java.util.List;
 
 import io.reactivex.Single;
@@ -14,7 +16,7 @@ public interface IClothesRepository {
 
     Single<List<ClotheInfo>> getClotheList();
 
-    Single<List<ClotheSize>> getSizes();
+    Single<SparseArray<ClotheSize>> getSizes();
 
     ClotheSizeType getSettingTopClothesSizeType();
 

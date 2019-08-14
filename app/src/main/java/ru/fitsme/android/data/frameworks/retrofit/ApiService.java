@@ -44,6 +44,9 @@ public interface ApiService {
     Single<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,
                                              @Query("page") int page);
 
+    @GET("clothes/sizes/")
+    Single<OkResponse<List<ClotheSize>>> getClotheSizes(@Header("Authorization") String token);
+
     @GET("viewed/")
     Single<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
                                                           @Query("page") int page);
@@ -80,6 +83,7 @@ public interface ApiService {
     @GET("profile/")
     Single<OkResponse<Profile>> getProfile(@Header("Authorization") String token);
 
-    @GET("clothes/sizes/")
-    Single<OkResponse<List<ClotheSize>>> getClotheSizes(@Header("Authorization") String token);
+    @PUT("profile/")
+    Single<OkResponse<Profile>> setProfile(@Header("Authorization") String token,
+                                            @Body Profile profile);
 }

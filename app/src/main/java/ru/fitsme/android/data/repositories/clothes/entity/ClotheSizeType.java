@@ -16,6 +16,7 @@ public enum ClotheSizeType {
 
     private final int value;
     private final String string;
+
     ClotheSizeType(int value, String string){
         this.value = value;
         this.string = string;

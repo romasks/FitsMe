@@ -33,4 +33,20 @@ public class ProfileRepository implements IProfileRepository {
                     }, emitter::onError);
         });
     }
+
+    @Override
+    public Single<Profile> setProfile(Profile profile) {
+        return Single.create(emitter -> {
+            webLoader.setProfile(profile)
+                    .subscribe(profileOkResponse -> {
+                Profile reply = profileOkResponse.getResponse();
+                if (reply != null){
+                    emitter.onSuccess(reply);
+                } else {
+                    UserException error = ErrorRepository.makeError(profileOkResponse.getError());
+                    emitter.onError(error);
+                }
+            }, emitter::onError);
+        });
+    }
 }
