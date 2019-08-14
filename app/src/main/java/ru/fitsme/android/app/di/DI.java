@@ -21,6 +21,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
+import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
+import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
+import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
+import ru.fitsme.android.data.frameworks.sharedpreferences.SettingsStorage;
 import ru.fitsme.android.data.repositories.auth.AuthRepository;
 import ru.fitsme.android.data.repositories.auth.SignRepository;
 import ru.fitsme.android.data.repositories.auth.TextValidator;
@@ -29,6 +33,7 @@ import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersActionRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
+import ru.fitsme.android.data.repositories.profile.ProfileRepository;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
@@ -37,6 +42,7 @@ import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepositor
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
+import ru.fitsme.android.domain.boundaries.profile.IProfileRepository;
 import ru.fitsme.android.domain.interactors.auth.AuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
@@ -86,6 +92,10 @@ public class DI {
             bind(IOrdersActionRepository.class).to(OrdersActionRepository.class);
 
             bind(IProfileInteractor.class).to(ProfileInteractor.class);
+            bind(IProfileRepository.class).to(ProfileRepository.class);
+
+            bind(IAuthInfoStorage.class).to(AuthInfoStorage.class);
+            bind(ISettingsStorage.class).to(SettingsStorage.class);
         }});
     }
 

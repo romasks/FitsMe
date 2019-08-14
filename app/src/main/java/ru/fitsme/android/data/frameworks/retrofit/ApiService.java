@@ -1,5 +1,7 @@
 package ru.fitsme.android.data.frameworks.retrofit;
 
+import java.util.List;
+
 import io.reactivex.Single;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -16,8 +18,10 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
+import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
@@ -72,4 +76,10 @@ public interface ApiService {
     Single<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
                                             @Path("id") long orderId,
                                             @Body OrderUpdate order);
+
+    @GET("profile/")
+    Single<OkResponse<Profile>> getProfile(@Header("Authorization") String token);
+
+    @GET("clothes/sizes/")
+    Single<OkResponse<List<ClotheSize>>> getClotheSizes(@Header("Authorization") String token);
 }

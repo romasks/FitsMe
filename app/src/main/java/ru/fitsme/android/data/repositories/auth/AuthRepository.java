@@ -15,7 +15,7 @@ public class AuthRepository implements IAuthRepository {
     private IAuthInfoStorage authInfoStorage;
 
     @Inject
-    public AuthRepository(AuthInfoStorage authInfoStorage) {
+    public AuthRepository(IAuthInfoStorage authInfoStorage) {
         this.authInfoStorage = authInfoStorage;
     }
 

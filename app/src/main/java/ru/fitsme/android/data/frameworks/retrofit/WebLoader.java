@@ -2,8 +2,7 @@ package ru.fitsme.android.data.frameworks.retrofit;
 
 import android.support.annotation.NonNull;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.util.List;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
@@ -16,8 +15,10 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
+import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
@@ -206,5 +207,29 @@ class WebLoader {
                                         .subscribeOn(workThread)
                                         .subscribe(emitter::onSuccess, emitter::onError),
                                 emitter::onError));
+    }
+
+    public Single<OkResponse<Profile>> getProfile(){
+        return Single.create(emitter -> {
+            authInteractor.getAuthInfo()
+                    .subscribe(
+                            authInfo -> apiService.getProfile(TOKEN + authInfo.getToken())
+                            .subscribeOn(workThread)
+                            .subscribe(emitter::onSuccess, emitter::onError),
+                            emitter::onError
+                    );
+        });
+    }
+
+    public Single<OkResponse<List<ClotheSize>>> getSizes(){
+        return Single.create(emitter -> {
+            authInteractor.getAuthInfo()
+                    .subscribe(
+                            authInfo -> apiService.getClotheSizes(TOKEN + authInfo.getToken())
+                                    .subscribeOn(workThread)
+                                    .subscribe(emitter::onSuccess, emitter::onError),
+                            emitter::onError
+                    );
+        });
     }
 }

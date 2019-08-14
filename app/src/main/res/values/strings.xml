@@ -86,4 +86,13 @@
     <string name="fragment_change_size_bottom_size_layout_title">Низ</string>
     <string name="bottom_waist_size">Обхват талии</string>
     <string name="bottom_hips_size">Обхват бёдер</string>
+
+    <string name="undefined_size_type">" "</string>
+    <string name="international_sie_type">Международные размеры</string>
+    <string name="russia_size_type">Российские размеры</string>
+    <string name="europe_size_type">Европейские размеры</string>
+    <string name="france_size_type">Французские размеры</string>
+    <string name="italy_size_type">Итальянские размеры</string>
+    <string name="usa_size_type">Размеры США</string>
+    <string name="uk_size_type">Размеры Великобритании</string>
 </resources>
