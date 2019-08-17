@@ -14,15 +14,14 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "ru.fitsme.android"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 15
-        versionName "2.2"
+        versionCode project.versionCode
+        versionName project.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
