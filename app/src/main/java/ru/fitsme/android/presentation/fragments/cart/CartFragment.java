@@ -81,6 +81,8 @@ public class CartFragment extends BaseFragment<CartViewModel>
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
 
+        viewModel.getCartIsEmpty().observe(this, this::onCartIsEmpty);
+
         ItemTouchHelper.SimpleCallback simpleCallback =
                 new CartRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.cartListRv);
@@ -93,6 +95,16 @@ public class CartFragment extends BaseFragment<CartViewModel>
             ((MainFragment) getParentFragment()).showBottomShadow(false);
         }
         adapter.submitList(pagedList);
+    }
+
+    private void onCartIsEmpty(Boolean b) {
+        if (b) {
+            binding.cartNoItemGroup.setVisibility(View.VISIBLE);
+            binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
+        } else {
+            binding.cartNoItemGroup.setVisibility(View.GONE);
+            binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

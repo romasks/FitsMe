@@ -1,6 +1,7 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PagedList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -19,7 +20,6 @@ public class CartViewModel extends BaseViewModel {
 
     public ObservableField<String> message;
     public ObservableInt totalPrice;
-    public ObservableBoolean cartIsEmpty;
 
     public CartViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
@@ -27,12 +27,15 @@ public class CartViewModel extends BaseViewModel {
 
     public void init() {
         message = ordersInteractor.getMessage();
-        cartIsEmpty = ordersInteractor.getCartIsEmpty();
         totalPrice = ordersInteractor.getTotalPrice();
     }
 
     LiveData<PagedList<OrderItem>> getPageLiveData() {
         return ordersInteractor.getPagedListLiveData();
+    }
+
+    LiveData<Boolean> getCartIsEmpty(){
+        return ordersInteractor.getCartIsEmpty();
     }
 
     public Single<OrderItem> removeItemFromOrder(int position) {

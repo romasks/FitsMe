@@ -1,6 +1,7 @@
 package ru.fitsme.android.domain.interactors.orders;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
@@ -42,7 +43,7 @@ public class OrdersInteractor implements IOrdersInteractor {
     private PagedList.Config config;
 
     private final ObservableBoolean checkOutIsLoading = new ObservableBoolean(true);
-    private final ObservableBoolean cartIsEmpty = new ObservableBoolean(false);
+    private MutableLiveData<Boolean> cartIsEmpty;
     private final ObservableInt totalPrice = new ObservableInt(0);
     private final static ObservableField<String> cartMessage =
             new ObservableField<String>(App.getInstance().getString(R.string.loading));
@@ -72,7 +73,7 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @Override
     public LiveData<PagedList<OrderItem>> getPagedListLiveData() {
-        cartIsEmpty.set(false);
+        cartIsEmpty = new MutableLiveData<>();
         totalPrice.set(0);
         restoredOrderClotheItemsIdList = new SparseIntArray();
         removedClotheIdList = new HashSet<>();
@@ -82,7 +83,7 @@ public class OrdersInteractor implements IOrdersInteractor {
                         .setBoundaryCallback(new PagedList.BoundaryCallback<OrderItem>() {
                             @Override
                             public void onZeroItemsLoaded() {
-                                cartIsEmpty.set(true);
+                                cartIsEmpty.setValue(true);
                             }
                         })
                         .build();
@@ -97,6 +98,7 @@ public class OrdersInteractor implements IOrdersInteractor {
 
                 @Override
                 public void onInserted(int position, int count) {
+                    cartIsEmpty.setValue(false);
                     updateTotalPrice();
                 }
 
@@ -185,7 +187,7 @@ public class OrdersInteractor implements IOrdersInteractor {
     }
 
     @Override
-    public ObservableBoolean getCartIsEmpty() {
+    public LiveData<Boolean> getCartIsEmpty() {
         return cartIsEmpty;
     }
 

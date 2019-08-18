@@ -50,8 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="cart_no_item_tv, cart_no_item_go_to_favourite_btn, cart_no_item_go_to_rate_item_btn"
-            android:visibility="@{viewModel.cartIsEmpty ? View.VISIBLE : View.GONE}"
-            tools:visibility="invisible"
+            android:visibility="gone"
+            tools:visibility="visible"
             />
 
         <TextView
@@ -105,7 +105,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:visibility="@{viewModel.cartIsEmpty ? View.GONE : View.VISIBLE}"
+            android:visibility="gone"
+            tools:visibility="visible"
             >
 
             <ImageView

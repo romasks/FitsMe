@@ -30,7 +30,7 @@ public interface IOrdersInteractor extends BaseInteractor{
 
     Single<Order> makeOrder(OrderModel orderModel);
 
-    ObservableBoolean getCartIsEmpty();
+    LiveData<Boolean> getCartIsEmpty();
 
     ObservableField<String> getMessage();
 
