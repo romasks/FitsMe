@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
-import ru.fitsme.android.databinding.FragmentChangeSizeProfileBinding;
+import ru.fitsme.android.databinding.FragmentProfileChangeSizeBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents;
@@ -27,7 +27,7 @@ import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileVie
 
 public class SizeProfileFragment extends Fragment implements SizeProfileBindingEvents {
 
-    FragmentChangeSizeProfileBinding binding;
+    FragmentProfileChangeSizeBinding binding;
 
     @Inject
     IProfileInteractor interactor;
@@ -49,7 +49,7 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_size_profile, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_change_size, container, false);
         binding.setBindingEvents(this);
         return binding.getRoot();
     }
