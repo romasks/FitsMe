@@ -54,6 +54,7 @@ public class MainProfileFragment extends Fragment implements MainProfileBindingE
             viewModel.init();
         }
         binding.setViewModel(viewModel);
+        viewModel.onViewCreated();
     }
 
     @Override

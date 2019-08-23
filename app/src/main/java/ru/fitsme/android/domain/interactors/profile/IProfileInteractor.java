@@ -43,7 +43,11 @@ public interface IProfileInteractor  extends BaseInteractor {
 
     ObservableInt getCurrentBottomSizeIndex();
 
+    ObservableField<String> getMessage();
+
     void setCurrentTopSizeIndex(int position);
 
     void setCurrentBottomSizeIndex(int position);
+
+    void updateInfo();
 }

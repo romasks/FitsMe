@@ -95,4 +95,8 @@
     <string name="italy_size_type">Итальянские размеры</string>
     <string name="usa_size_type">Размеры США</string>
     <string name="uk_size_type">Размеры Великобритании</string>
+    <string name="profile_message_to_user_set_bottom_size">Установите нижний размер</string>
+    <string name="profile_message_to_user_saving">Сохранение</string>
+    <string name="profile_message_to_user_saving_complete">Изменения сохранены</string>
+    <string name="profile_message_to_user_set_top_size">Установите верхний размер</string>
 </resources>

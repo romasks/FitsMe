@@ -16,7 +16,10 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import io.reactivex.Scheduler;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.ReplaySubject;
+import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.profile.IProfileRepository;
@@ -32,7 +35,7 @@ public class ProfileInteractor implements IProfileInteractor {
     private Scheduler workThread;
     private Scheduler mainThread;
 
-    private ReplaySubject<SparseArray<ClotheSize>> listReplaySubject = ReplaySubject.createWithSize(1);
+    private ReplaySubject<SparseArray<ClotheSize>> sizeListReplaySubject = ReplaySubject.createWithSize(1);
     private ReplaySubject<Profile> profileReplaySubject = ReplaySubject.createWithSize(1);
 
     private ObservableInt currentTopSizeTypeValue = new ObservableInt();
@@ -47,6 +50,7 @@ public class ProfileInteractor implements IProfileInteractor {
     private ObservableField<String> currentSleeveSize = new ObservableField<>();
     private ObservableField<String> currentBottomWeistSize = new ObservableField<>();
     private ObservableField<String> currentBottomHipsSize = new ObservableField<>();
+    private ObservableField<String> message = new ObservableField<>();
 
     private static final String MEASURE_UNIT = "см";
 
@@ -59,7 +63,11 @@ public class ProfileInteractor implements IProfileInteractor {
         this.profileRepository = profileRepository;
         this.workThread = workThread;
         this.mainThread = mainThread;
+    }
 
+
+    @Override
+    public void updateInfo() {
         currentTopSizeTypeValue.set(getSettingTopClothesSize().getValue());
         currentBottomSizeTypeValue.set(getSettingBottomClothesSize().getValue());
         getProfileFromRepo();
@@ -71,7 +79,7 @@ public class ProfileInteractor implements IProfileInteractor {
 
     @Override
     public ReplaySubject<SparseArray<ClotheSize>> getSizes(){
-        return listReplaySubject;
+        return sizeListReplaySubject;
     }
 
     @SuppressLint("CheckResult")
@@ -79,23 +87,24 @@ public class ProfileInteractor implements IProfileInteractor {
         clothesRepository.getSizes()
                 .observeOn(mainThread)
                 .subscribe(clotheSizes ->
-                        listReplaySubject.onNext(clotheSizes), Timber::e);
+                        sizeListReplaySubject.onNext(clotheSizes), Timber::e);
     }
 
     @SuppressLint("CheckResult")
     private void getProfileFromRepo(){
         profileRepository.getProfile()
                 .observeOn(mainThread)
-                .subscribe(profile -> {
-                    profileReplaySubject.onNext(profile);
-                }, Timber::e);
+                .subscribe(profile -> profileReplaySubject.onNext(profile), Timber::e);
     }
 
     @SuppressLint("CheckResult")
     private void setSizeFields(){
         profileReplaySubject.subscribe(profile -> {
-            listReplaySubject.subscribe(clotheSizes -> {
+            sizeListReplaySubject.subscribe(clotheSizes -> {
                 int topSizeId = profile.getTopSize();
+                if (topSizeId == 0){
+                    message.set(App.getInstance().getString(R.string.profile_message_to_user_set_top_size));
+                }
                 ClotheSize topClotheSize = clotheSizes.get(topSizeId);
                 currentChestSize.set(topClotheSize.getChestLow() +
                         "-" + topClotheSize.getChestHigh() + " " + MEASURE_UNIT);
@@ -120,28 +129,40 @@ public class ProfileInteractor implements IProfileInteractor {
 
     @SuppressLint("CheckResult")
     private void setTopClothesSize() {
-        profileReplaySubject.subscribe(profile -> {
-            listReplaySubject.subscribe(clotheSizes -> {
-                int topSizeId = profile.getTopSize();
-                int topSizeIndex = clotheSizes.indexOfKey(topSizeId);
-                currentTopSizeIndex.set(topSizeIndex);
-                List<String> topSizeArray = makeTopSizeArray(clotheSizes);
-                currentTopSizeArray.setValue(topSizeArray);
-            }, Timber::e);
-        }, Timber::e);
+        CompositeDisposable disposable = new CompositeDisposable();
+        disposable.add(
+                sizeListReplaySubject.subscribe(clotheSizes -> {
+                    disposable.add(
+                            profileReplaySubject.subscribe(profile -> {
+                                int topSizeId = profile.getTopSize();
+                                int topSizeIndex = clotheSizes.indexOfKey(topSizeId);
+                                currentTopSizeIndex.set(topSizeIndex);
+                                List<String> topSizeArray = makeTopSizeArray(clotheSizes);
+                                currentTopSizeArray.setValue(topSizeArray);
+                                disposable.dispose();
+                            }, Timber::e)
+                    );
+                }, Timber::e)
+        );
     }
 
     @SuppressLint("CheckResult")
     private void setBottomClothesSize() {
-        profileReplaySubject.subscribe(profile -> {
-            listReplaySubject.subscribe(clotheSizes -> {
-                int bottomSizeId = profile.getBottomSize();
-                int bottomSizeIndex = clotheSizes.indexOfKey(bottomSizeId);
-                currentBottomSizeIndex.set(bottomSizeIndex);
-                List<String> bottomSizeArray = makeBottomSizeArray(clotheSizes);
-                currentBottomSizeArray.setValue(bottomSizeArray);
-            }, Timber::e);
-        }, Timber::e);
+        CompositeDisposable disposable = new CompositeDisposable();
+        disposable.add(
+                sizeListReplaySubject.subscribe(clotheSizes -> {
+                    disposable.add(
+                            profileReplaySubject.subscribe(profile -> {
+                                int bottomSizeId = profile.getBottomSize();
+                                int bottomSizeIndex = clotheSizes.indexOfKey(bottomSizeId);
+                                currentBottomSizeIndex.set(bottomSizeIndex);
+                                List<String> bottomSizeArray = makeBottomSizeArray(clotheSizes);
+                                currentBottomSizeArray.setValue(bottomSizeArray);
+                                disposable.dispose();
+                            }, Timber::e)
+                    );
+                }, Timber::e)
+        );
     }
 
     private ClotheSizeType getSettingTopClothesSize(){
@@ -185,7 +206,9 @@ public class ProfileInteractor implements IProfileInteractor {
         for (int i = 0; i < clotheSizeArray.size(); i++) {
             ClotheSize clotheSize = clotheSizeArray.valueAt(i);
             String size = getNationalSize(clotheSize, currentTopSizeTypeValue.get());
-            topSizeArray.add(size);
+            if (size != null){
+                topSizeArray.add(size);
+            }
         }
         return topSizeArray;
     }
@@ -195,7 +218,9 @@ public class ProfileInteractor implements IProfileInteractor {
         for (int i = 0; i < clotheSizeArray.size(); i++) {
             ClotheSize clotheSize = clotheSizeArray.valueAt(i);
             String size = getNationalSize(clotheSize, currentBottomSizeTypeValue.get());
-            bottomSizeArray.add(size);
+            if (size != null){
+                bottomSizeArray.add(size);
+            }
         }
         return bottomSizeArray;
     }
@@ -203,7 +228,7 @@ public class ProfileInteractor implements IProfileInteractor {
     private String getNationalSize(ClotheSize clotheSize, int clotheTypeValue) {
         switch (getClotheSizeType(clotheTypeValue)){
             case Undefined:
-                return "";
+                return null;
             case International:
                 return clotheSize.getInternational();
             case Russia:
@@ -282,42 +307,66 @@ public class ProfileInteractor implements IProfileInteractor {
         return currentBottomSizeIndex;
     }
 
+    @Override
+    public ObservableField<String> getMessage() {
+        return message;
+    }
+
     @SuppressLint("CheckResult")
     @Override
     public void setCurrentTopSizeIndex(int position) {
-        Profile oldProfile = profileReplaySubject.getValue();
-        SparseArray<ClotheSize> array = listReplaySubject.getValue();
-        profileRepository.setProfile(
-                new Profile(
-                        oldProfile.getTel(),
-                        oldProfile.getStreet(),
-                        oldProfile.getHouseNumber(),
-                        oldProfile.getApartment(),
-                        array.keyAt(position),
-                        oldProfile.getBottomSize()
-                        ))
-                .observeOn(mainThread)
-                .subscribe(
-                        newProfile -> profileReplaySubject.onNext(newProfile), Timber::e);
+        if (currentTopSizeIndex.get() != position) {
+            Profile oldProfile = profileReplaySubject.getValue();
+            SparseArray<ClotheSize> sizeArray = sizeListReplaySubject.getValue();
+            String newTel = oldProfile.getTel();
+            String newStreet = oldProfile.getStreet();
+            String newHouseNumber = oldProfile.getHouseNumber();
+            String newApartment = oldProfile.getApartment();
+            int newTopSize = sizeArray.keyAt(position);
+            int newBottomSize = oldProfile.getBottomSize();
+            Profile newProfile = new Profile(newTel, newStreet, newHouseNumber, newApartment, newTopSize, newBottomSize);
+            if (newBottomSize == 0) {
+                message.set(App.getInstance().getString(R.string.profile_message_to_user_set_bottom_size));
+                profileReplaySubject.onNext(newProfile);
+            } else {
+                message.set(App.getInstance().getString(R.string.profile_message_to_user_saving));
+                profileRepository.setProfile(newProfile)
+                        .observeOn(mainThread)
+                        .subscribe(
+                                updatedProfile -> {
+                                    profileReplaySubject.onNext(updatedProfile);
+                                    message.set(App.getInstance().getString(R.string.profile_message_to_user_saving_complete));
+                                }, Timber::e);
+            }
+        }
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void setCurrentBottomSizeIndex(int position) {
-        Profile oldProfile = profileReplaySubject.getValue();
-        SparseArray<ClotheSize> array = listReplaySubject.getValue();
-        profileRepository.setProfile(
-                new Profile(
-                        oldProfile.getTel(),
-                        oldProfile.getStreet(),
-                        oldProfile.getHouseNumber(),
-                        oldProfile.getApartment(),
-                        oldProfile.getTopSize(),
-                        array.keyAt(position)
-                        ))
-                .observeOn(mainThread)
-                .subscribe(
-                        newProfile -> profileReplaySubject.onNext(newProfile), Timber::e);
-
+        if (currentBottomSizeIndex.get() != position){
+            Profile oldProfile = profileReplaySubject.getValue();
+            SparseArray<ClotheSize> sizeArray = sizeListReplaySubject.getValue();
+            String newTel = oldProfile.getTel();
+            String newStreet = oldProfile.getStreet();
+            String newHouseNumber = oldProfile.getHouseNumber();
+            String newApartment = oldProfile.getApartment();
+            int newBottomSize = sizeArray.keyAt(position);
+            int newTopSize = oldProfile.getTopSize();
+            Profile newProfile = new Profile(newTel, newStreet, newHouseNumber, newApartment, newTopSize, newBottomSize);
+            if (newTopSize == 0) {
+                message.set(App.getInstance().getString(R.string.profile_message_to_user_set_top_size));
+                profileReplaySubject.onNext(newProfile);
+            } else {
+                message.set(App.getInstance().getString(R.string.profile_message_to_user_saving));
+                profileRepository.setProfile(newProfile)
+                        .observeOn(mainThread)
+                        .subscribe(
+                                updatedProfile -> {
+                                    profileReplaySubject.onNext(updatedProfile);
+                                    message.set(App.getInstance().getString(R.string.profile_message_to_user_saving_complete));
+                                }, Timber::e);
+            }
+        }
     }
 }

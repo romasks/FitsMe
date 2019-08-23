@@ -30,6 +30,7 @@ public class SizeProfileViewModel extends BaseViewModel {
     public ObservableField<String> currentSleeveSize;
     public ObservableField<String> currentBottomWaistSize;
     public ObservableField<String> currentBottomHipsSize;
+    public ObservableField<String> message;
 
     @Inject
     MainNavigation navigation;
@@ -50,6 +51,7 @@ public class SizeProfileViewModel extends BaseViewModel {
         currentSleeveSize = profileInteractor.getCurrentSleeveSize();
         currentBottomWaistSize = profileInteractor.getCurrentBottomWaistSize();
         currentBottomHipsSize = profileInteractor.getCurrentBottomHipsSize();
+        message = profileInteractor.getMessage();
     }
 
     public void init() {

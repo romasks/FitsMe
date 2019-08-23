@@ -30,4 +30,8 @@ public class MainProfileViewModel extends BaseViewModel {
     public void goToSizeProfile() {
         navigation.goToSizeProfile();
     }
+
+    public void onViewCreated() {
+        profileInteractor.updateInfo();
+    }
 }
