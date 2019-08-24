@@ -13,20 +13,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemFavouriteBinding;
 import ru.fitsme.android.databinding.ItemFavouriteRemovedBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.InCartState;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NoMatchSize;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.InListItemState;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NormalState;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetSizeState;
 import timber.log.Timber;
 
 public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, FavouritesAdapter.FavouritesViewHolder> {
 
     private FavouritesViewModel viewModel;
 
-    private static final int NORMAL_TYPE = 1;
+    private static final int IN_LIST_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
 
     FavouritesAdapter(FavouritesViewModel viewModel) {
@@ -38,9 +42,9 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     @Override
     public FavouritesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        if (viewType == NORMAL_TYPE){
+        if (viewType == IN_LIST_TYPE){
             ItemFavouriteBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_favourite, parent, false);
-            return new NormalViewHolder(binding);
+            return new InListViewHolder(binding);
         } else if (viewType == REMOVED_TYPE){
             ItemFavouriteRemovedBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_favourite_removed, parent, false);
             return new RemovedViewHolder(binding);
@@ -57,7 +61,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         if (viewModel.itemIsRemoved(position)) {
             return REMOVED_TYPE;
         } else {
-            return NORMAL_TYPE;
+            return IN_LIST_TYPE;
         }
     }
 
@@ -70,38 +74,40 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     }
 
 
-    class NormalViewHolder extends FavouritesViewHolder {
+    public class InListViewHolder extends FavouritesViewHolder {
         final ViewDataBinding binding;
         final ImageView rightDeleteIcon;
         final ImageView leftDeleteIcon;
-        RelativeLayout viewBackground;
-        RelativeLayout viewForeground;
-        Button inCartBtn;
+        final RelativeLayout viewBackground;
+        final RelativeLayout viewForeground;
+        final public ImageView imageView;
+        final public TextView brandName;
+        final public TextView name;
+        final public TextView price;
+        final public Button button;
+        InListItemState state;
 
-        NormalViewHolder(ViewDataBinding binding) {
+        InListViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             viewBackground = binding.getRoot().findViewById(R.id.item_favourite_view_background);
             viewForeground = binding.getRoot().findViewById(R.id.item_favourite_view_foreground);
             rightDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_right);
             leftDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_left);
-            inCartBtn = binding.getRoot().findViewById(R.id.favourites_btn_to_cart);
+            imageView = binding.getRoot().findViewById(R.id.item_favourite_image);
+            brandName = binding.getRoot().findViewById(R.id.item_favourite_brand_name);
+            name = binding.getRoot().findViewById(R.id.item_favourite_name);
+            price = binding.getRoot().findViewById(R.id.item_favourite_price);
+            button = binding.getRoot().findViewById(R.id.item_favourite_btn);
         }
 
         @Override
         void bind(int position) {
             FavouritesItem favouritesItem = getItem(position);
             ClothesItem clothesItem = favouritesItem.getItem();
-            setButtonIsInCartState(favouritesItem.isInCart());
 
-            inCartBtn.setOnClickListener(view ->
-                    viewModel.addItemToCart(position)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(orderItem -> {
-                                if (orderItem.getId() != 0){
-                                    setButtonIsInCartState(true);
-                                }
-                            }, Timber::e));
+            setItemState(favouritesItem);
+            button.setOnClickListener(view -> state.onClick(viewModel, position));
 
             binding.setVariable(BR.clotheItem, clothesItem);
             binding.setVariable(BR.viewModel, viewModel);
@@ -109,18 +115,30 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             binding.executePendingBindings();
         }
 
-        private void setButtonIsInCartState(boolean b) {
-            if (b) {
-                inCartBtn.setBackgroundResource(R.drawable.bg_in_cart_btn);
-                inCartBtn.setEnabled(false);
-                inCartBtn.setText(R.string.clothe_in_cart);
-                inCartBtn.setTextColor(binding.getRoot().getResources().getColor(R.color.black));
+        private void setItemState(FavouritesItem favouritesItem) {
+            if (favouritesItem.isInCart()){
+                state = new InCartState(this);
             } else {
-                inCartBtn.setBackgroundResource(R.drawable.bg_to_cart_btn);
-                inCartBtn.setEnabled(true);
-                inCartBtn.setText(R.string.to_cart);
-                inCartBtn.setTextColor(binding.getRoot().getResources().getColor(R.color.white));
+                ClothesItem.SizeInStock sizeInStock = favouritesItem.getItem().getSizeInStock();
+                switch (sizeInStock){
+                    case UNDEFINED:{
+                        setItemState(new SetSizeState(this));
+                        break;
+                    }
+                    case YES:{
+                        setItemState(new NormalState(this));
+                        break;
+                    }
+                    case NO:{
+                        setItemState(new NoMatchSize(this));
+                        break;
+                    }
+                }
             }
+        }
+
+        public void setItemState(InListItemState state){
+            this.state = state;
         }
     }
 

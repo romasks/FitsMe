@@ -77,10 +77,12 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         if (pagedList != null && pagedList.size() > position) {
             FavouritesItem item = pagedList.get(position);
             if (item != null) {
-                return favouritesActionRepository.addItemToCart(item);
+                return favouritesActionRepository.addItemToCart(item)
+                        .observeOn(mainThread);
             }
         }
-        return Single.just(new OrderItem());
+        return Single.just(new OrderItem())
+                .observeOn(mainThread);
     }
 
     @Override

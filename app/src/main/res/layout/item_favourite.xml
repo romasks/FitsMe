@@ -66,7 +66,7 @@
 
 
             <ImageView
-                android:id="@+id/favourite_image"
+                android:id="@+id/item_favourite_image"
                 android:layout_width="98dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
@@ -81,10 +81,10 @@
                 />
 
             <TextView
-                android:id="@+id/favourites_brand_name"
+                android:id="@+id/item_favourite_brand_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/favourite_image"
+                android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
@@ -95,11 +95,11 @@
                 tools:text="@string/brand_name_hint_in_two_lines" />
 
             <TextView
-                android:id="@+id/favourites_name"
+                android:id="@+id/item_favourite_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/favourites_brand_name"
-                android:layout_toEndOf="@id/favourite_image"
+                android:layout_below="@id/item_favourite_brand_name"
+                android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.name}"
@@ -107,11 +107,11 @@
                 tools:text="@string/clothe_name_hint" />
 
             <TextView
-                android:id="@+id/favourites_price"
+                android:id="@+id/item_favourite_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/favourites_name"
-                android:layout_toEndOf="@id/favourite_image"
+                android:layout_below="@id/item_favourite_name"
+                android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{@string/cart_amount_tv(clotheItem.price)}"
@@ -120,13 +120,13 @@
                 tools:text="@string/clothe_price_hint" />
 
             <Button
-                android:id="@+id/favourites_btn_to_cart"
+                android:id="@+id/item_favourite_btn"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_margin= "8dp"
                 android:textAllCaps="false"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@id/favourite_image"
+                android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentEnd="true"
                 android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small"

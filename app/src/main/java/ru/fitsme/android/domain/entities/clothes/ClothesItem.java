@@ -51,8 +51,21 @@ public class ClothesItem {
         return clothe_type;
     }
 
-    public String getSizeInStock() {
-        return size_in_stock;
+    public SizeInStock getSizeInStock() {
+        switch (size_in_stock){
+            case "UNDEFINED":{
+                return SizeInStock.UNDEFINED;
+            }
+            case "NO":{
+                return SizeInStock.NO;
+            }
+            case "YES":{
+                return SizeInStock.YES;
+            }
+            default: {
+                throw new IllegalStateException("Unknown ClotheItem SizeInStock state");
+            }
+        }
     }
 
     public int getPrice() {
@@ -92,5 +105,10 @@ public class ClothesItem {
         result = 31 * result + getSizeInStock().hashCode();
         result = 31 * result + getPrice();
         return result;
+    }
+
+
+    public enum SizeInStock {
+        UNDEFINED, NO, YES
     }
 }

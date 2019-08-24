@@ -31,7 +31,7 @@ public class FavouritesRecyclerItemTouchHelper extends
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((FavouritesAdapter.NormalViewHolder) viewHolder).viewForeground;
+            final View foregroundView = ((FavouritesAdapter.InListViewHolder) viewHolder).viewForeground;
             getDefaultUIUtil().onSelected(foregroundView);
         }
     }
@@ -40,16 +40,16 @@ public class FavouritesRecyclerItemTouchHelper extends
     public void onChildDrawOver(@NotNull Canvas c, @NotNull RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((FavouritesAdapter.NormalViewHolder) viewHolder).viewForeground;
+        final View foregroundView = ((FavouritesAdapter.InListViewHolder) viewHolder).viewForeground;
         getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = ((FavouritesAdapter.NormalViewHolder) viewHolder).viewForeground;
-        final View rightDeleteIcon = ((FavouritesAdapter.NormalViewHolder) viewHolder).rightDeleteIcon;
-        final View leftDeleteIcon = ((FavouritesAdapter.NormalViewHolder) viewHolder).leftDeleteIcon;
+        final View foregroundView = ((FavouritesAdapter.InListViewHolder) viewHolder).viewForeground;
+        final View rightDeleteIcon = ((FavouritesAdapter.InListViewHolder) viewHolder).rightDeleteIcon;
+        final View leftDeleteIcon = ((FavouritesAdapter.InListViewHolder) viewHolder).leftDeleteIcon;
         rightDeleteIcon.setVisibility(View.INVISIBLE);
         leftDeleteIcon.setVisibility(View.INVISIBLE);
         foregroundView.setAlpha(1.0f);
@@ -60,9 +60,9 @@ public class FavouritesRecyclerItemTouchHelper extends
     public void onChildDraw(@NotNull Canvas c, @NotNull RecyclerView recyclerView,
                             @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-        final View foregroundView = ((FavouritesAdapter.NormalViewHolder) viewHolder).viewForeground;
-        final View rightDeleteIcon = ((FavouritesAdapter.NormalViewHolder) viewHolder).rightDeleteIcon;
-        final View leftDeleteIcon = ((FavouritesAdapter.NormalViewHolder) viewHolder).leftDeleteIcon;
+        final View foregroundView = ((FavouritesAdapter.InListViewHolder) viewHolder).viewForeground;
+        final View rightDeleteIcon = ((FavouritesAdapter.InListViewHolder) viewHolder).rightDeleteIcon;
+        final View leftDeleteIcon = ((FavouritesAdapter.InListViewHolder) viewHolder).leftDeleteIcon;
         if (isCurrentlyActive){
             if (dX > 0){
                 leftDeleteIcon.setVisibility(View.VISIBLE);

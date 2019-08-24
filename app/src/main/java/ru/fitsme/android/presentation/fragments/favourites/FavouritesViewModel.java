@@ -38,7 +38,7 @@ public class FavouritesViewModel extends BaseViewModel {
         return favouritesInteractor.removeFavouriteItem(position);
     }
 
-    Single<OrderItem> addItemToCart(Integer position) {
+    public Single<OrderItem> addItemToCart(Integer position) {
         return favouritesInteractor.addFavouritesItemToCart(position);
     }
 
