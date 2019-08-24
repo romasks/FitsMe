@@ -22,6 +22,7 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import timber.log.Timber;
@@ -31,6 +32,9 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     @Inject
     IFavouritesInteractor favouritesInteractor;
+
+    @Inject
+    IProfileInteractor profileInteractor;
 
     private FragmentFavouritesBinding binding;
     private FavouritesAdapter adapter;
@@ -65,7 +69,7 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(favouritesInteractor)).get(FavouritesViewModel.class);
+                new ViewModelFactory(favouritesInteractor, profileInteractor)).get(FavouritesViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
