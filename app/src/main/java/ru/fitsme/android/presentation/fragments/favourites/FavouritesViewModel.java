@@ -19,14 +19,11 @@ import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 public class FavouritesViewModel extends BaseViewModel {
 
     private final IFavouritesInteractor favouritesInteractor;
-    private final IProfileInteractor profileInteractor;
 
     public ObservableField<String> showMessage;
 
-    public FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor,
-                               @NotNull IProfileInteractor profileInteractor) {
+    public FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
-        this.profileInteractor = profileInteractor;
     }
 
     void init() {
@@ -51,12 +48,5 @@ public class FavouritesViewModel extends BaseViewModel {
 
     boolean itemIsRemoved(int position) {
         return favouritesInteractor.itemIsRemoved(position);
-    }
-
-    Map<String, Integer> getSizesFromProfile() {
-        Map<String, Integer> sizes = new HashMap<>();
-        sizes.put("top", profileInteractor.getCurrentTopSizeTypeValue().get());
-        sizes.put("bottom", profileInteractor.getCurrentBottomSizeTypeValue().get());
-        return sizes;
     }
 }

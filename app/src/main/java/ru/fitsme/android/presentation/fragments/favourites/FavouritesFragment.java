@@ -33,9 +33,6 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     @Inject
     IFavouritesInteractor favouritesInteractor;
 
-    @Inject
-    IProfileInteractor profileInteractor;
-
     private FragmentFavouritesBinding binding;
     private FavouritesAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
@@ -69,7 +66,7 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(favouritesInteractor, profileInteractor)).get(FavouritesViewModel.class);
+                new ViewModelFactory(favouritesInteractor)).get(FavouritesViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

@@ -27,16 +27,9 @@ import ru.fitsme.android.presentation.fragments.splash.SplashViewModel;
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private final BaseInteractor interactor;
-    private BaseInteractor interactor2 = null;
 
     public ViewModelFactory(@NotNull BaseInteractor interactor) {
         this.interactor = interactor;
-    }
-
-    public ViewModelFactory(@NotNull BaseInteractor interactor,
-                            @NotNull BaseInteractor interactor2) {
-        this.interactor = interactor;
-        this.interactor2 = interactor2;
     }
 
     @NotNull
@@ -47,7 +40,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         } else if (modelClass.isAssignableFrom(CheckoutViewModel.class)) {
             return (T) new CheckoutViewModel((IOrdersInteractor) interactor);
         } else if (modelClass.isAssignableFrom(FavouritesViewModel.class)) {
-            return (T) new FavouritesViewModel((IFavouritesInteractor) interactor, (IProfileInteractor) interactor2);
+            return (T) new FavouritesViewModel((IFavouritesInteractor) interactor);
         } else if (modelClass.isAssignableFrom(ItemInfoViewModel.class)) {
             return (T) new ItemInfoViewModel((IClothesInteractor) interactor);
         } else if (modelClass.isAssignableFrom(RateItemsViewModel.class)) {

@@ -13,9 +13,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Collections;
-import java.util.Map;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
@@ -95,8 +92,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         void bind(int position) {
             FavouritesItem favouritesItem = getItem(position);
             ClothesItem clothesItem = favouritesItem.getItem();
-
-            initButton(favouritesItem);
+            setButtonIsInCartState(favouritesItem.isInCart());
 
             inCartBtn.setOnClickListener(view ->
                     viewModel.addItemToCart(position)
@@ -111,30 +107,6 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();
-        }
-
-        private void initButton(FavouritesItem favouritesItem) {
-            ClothesItem clothesItem = favouritesItem.getItem();
-            Map<String, Integer> sizes = viewModel.getSizesFromProfile();
-
-            if (sizes.get("bottom") == 0 && sizes.get("top") == 0) {
-                inCartBtn.setBackgroundResource(R.drawable.bg_to_cart_btn);
-                inCartBtn.setEnabled(false);
-                inCartBtn.setText(R.string.set_your_size);
-                inCartBtn.setTextColor(binding.getRoot().getResources().getColor(R.color.white));
-
-            } else if (clothesItem.getAvailableSizesId() == null
-                    || clothesItem.getAvailableSizesId().size() == 0
-                    || sizes.get("bottom") < Collections.min(clothesItem.getAvailableSizesId())
-                    || sizes.get("top") > Collections.max(clothesItem.getAvailableSizesId())) {
-                inCartBtn.setBackgroundResource(R.drawable.bg_in_cart_btn);
-                inCartBtn.setEnabled(false);
-                inCartBtn.setText(R.string.no_match_size);
-                inCartBtn.setTextColor(binding.getRoot().getResources().getColor(R.color.black));
-
-            } else {
-                setButtonIsInCartState(favouritesItem.isInCart());
-            }
         }
 
         private void setButtonIsInCartState(boolean b) {
