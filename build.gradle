@@ -16,8 +16,6 @@ allprojects {
     }
 }
 
-apply from: 'version.gradle'
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
