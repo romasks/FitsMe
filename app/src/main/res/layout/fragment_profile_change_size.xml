@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel" />
@@ -11,9 +15,7 @@
             type="ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -42,12 +44,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto"
                     android:gravity="center"
                     android:text="@string/fragment_change_size_title"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_header"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/text_size_header" />
 
                 <View
                     android:layout_width="match_parent"
@@ -60,9 +62,9 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:clipChildren="false"
                 android:padding="@dimen/padding_medium"
-                android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_panel_layout">
@@ -256,71 +258,60 @@
 
                 <Spinner
                     android:id="@+id/fragment_change_size_top_size_layout_size_type_spinner"
+                    style="@style/SpinnerTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:minWidth="150dp"
-                    android:paddingTop="@dimen/padding_small"
-                    android:paddingBottom="@dimen/padding_small"
                     android:selection="@{viewModel.selectedTopType}"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/thinBlackText"
-                    android:textSize="@dimen/text_size_12sp"
                     app:layout_constraintEnd_toStartOf="@id/fragment_change_size_top_size_layout_size_value_spinner"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_size_layout_title_tv"
-                    tools:entries="@array/example"/>
+                    tools:entries="@array/example" />
 
                 <Spinner
                     android:id="@+id/fragment_change_size_top_size_layout_size_value_spinner"
-                    android:layout_width="wrap_content"
+                    style="@style/SpinnerTheme"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_medium"
-                    android:paddingTop="@dimen/padding_small"
-                    android:paddingBottom="@dimen/padding_small"
+                    android:gravity="start"
                     android:selection="@{viewModel.currentTopSizeIndex}"
-                    android:textColor="@color/thinBlackText"
-                    android:textSize="@dimen/text_size_12sp"
                     app:layout_constraintBottom_toBottomOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
-                    tools:entries="@array/example"/>
+                    tools:entries="@array/example" />
 
                 <Spinner
                     android:id="@+id/fragment_change_size_bottom_size_layout_size_type_spinner"
+                    style="@style/SpinnerTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:minWidth="150dp"
-                    android:paddingTop="@dimen/padding_small"
-                    android:paddingBottom="@dimen/padding_small"
                     android:selection="@{viewModel.selectedBottomType}"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/thinBlackText"
-                    android:textSize="@dimen/text_size_12sp"
                     app:layout_constraintEnd_toStartOf="@id/fragment_change_size_bottom_size_layout_size_value_spinner"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_title_tv"
-                    tools:entries="@array/example"/>
+                    tools:entries="@array/example" />
 
 
                 <Spinner
                     android:id="@+id/fragment_change_size_bottom_size_layout_size_value_spinner"
-                    android:layout_width="wrap_content"
+                    style="@style/SpinnerTheme"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_medium"
-                    android:paddingTop="@dimen/padding_small"
-                    android:paddingBottom="@dimen/padding_small"
+                    android:gravity="start"
                     android:selection="@{viewModel.currentBottomSizeIndex}"
-                    android:textColor="@color/thinBlackText"
-                    android:textSize="@dimen/text_size_12sp"
                     app:layout_constraintBottom_toBottomOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
-                    tools:entries="@array/example"/>
+                    tools:entries="@array/example" />
 
                 <TextView
                     android:id="@+id/fragment_change_size_top_size_layout_title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/courgette_regular"
                     android:paddingTop="@dimen/padding_small"
                     android:paddingBottom="@dimen/padding_medium"
                     android:text="@string/fragment_change_size_top_size_layout_title"
