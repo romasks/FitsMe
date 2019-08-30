@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,33 +18,23 @@ import java.util.List;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.databinding.FragmentProfileChangeSizeBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
-public class SizeProfileFragment extends Fragment implements SizeProfileBindingEvents {
-
-    FragmentProfileChangeSizeBinding binding;
+public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> implements SizeProfileBindingEvents {
 
     @Inject
     IProfileInteractor interactor;
-    private SizeProfileViewModel viewModel;
 
-    public SizeProfileFragment(){
-        App.getInstance().getDi().inject(this);
-    }
+    private FragmentProfileChangeSizeBinding binding;
 
     public static SizeProfileFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        SizeProfileFragment fragment = new SizeProfileFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new SizeProfileFragment();
     }
 
     @Override

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -15,59 +14,56 @@
             type="ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents" />
     </data>
 
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
-        <android.support.constraint.ConstraintLayout
-
+        <RelativeLayout
+            android:id="@+id/fragment_change_size_top_panel_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <RelativeLayout
-                android:id="@+id/fragment_change_size_top_panel_layout"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/padding_extra_medium"
+                android:onClick="@{() -> bindingEvents.goBack()}"
+                android:src="@drawable/ic_back_arrow_black_24dp"
+                tools:ignore="ContentDescription" />
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/fragment_change_size_title"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_header" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/padding_extra_medium"
-                    android:onClick="@{() -> bindingEvents.goBack()}"
-                    android:src="@drawable/ic_back_arrow_black_24dp"
-                    tools:ignore="ContentDescription" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/black" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:text="@string/fragment_change_size_title"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_header" />
+        </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/black" />
-
-            </RelativeLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_panel_layout">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:clipChildren="false"
-                android:padding="@dimen/padding_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_panel_layout">
+                android:padding="@dimen/padding_medium">
 
                 <RelativeLayout
                     android:id="@+id/fragment_change_size_top_chest_size_layout"
@@ -311,7 +307,6 @@
                     android:id="@+id/fragment_change_size_top_size_layout_title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/courgette_regular"
                     android:paddingTop="@dimen/padding_small"
                     android:paddingBottom="@dimen/padding_medium"
                     android:text="@string/fragment_change_size_top_size_layout_title"
@@ -391,8 +386,8 @@
 
             </android.support.constraint.ConstraintLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </android.support.constraint.ConstraintLayout>
 
 </layout>
