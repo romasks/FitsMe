@@ -74,12 +74,13 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
     private void setAdapterToTopSizeSpinner(){
         ArrayList<String> arrayList = new ArrayList<>();
         SpinnerAdapter<String> adapter = new SpinnerAdapter<String>(
-                getActivity(), R.layout.custom_spinner_item, arrayList);
-        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+                getActivity(), android.R.layout.simple_spinner_item, arrayList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.fragmentChangeSizeTopSizeLayoutSizeValueSpinner.setAdapter(adapter);
         viewModel.getTopSizeArray().observe(this, list -> {
             adapter.clear();
             if (list != null) {
+                if (list.isEmpty()) list.add("");
                 adapter.addAll(list);
             }
             adapter.notifyDataSetChanged();
@@ -90,11 +91,12 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
         ArrayList<String> arrayList = new ArrayList<>();
         SpinnerAdapter<String> adapter = new SpinnerAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, arrayList);
-        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.fragmentChangeSizeBottomSizeLayoutSizeValueSpinner.setAdapter(adapter);
         viewModel.getBottomSizeArray().observe(this, list -> {
             adapter.clear();
             if (list != null) {
+                if (list.isEmpty()) list.add("");
                 adapter.addAll(list);
             }
             adapter.notifyDataSetChanged();

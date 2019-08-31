@@ -101,7 +101,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/padding_medium"
                     android:background="@drawable/rounded_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_change_size_top_chest_size_layout"
@@ -163,7 +162,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/padding_medium"
                     android:background="@drawable/rounded_layout"
                     android:clipChildren="false"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -226,7 +224,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/padding_medium"
                     android:background="@drawable/rounded_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_change_size_bottom_waist_size_layout"
@@ -254,7 +251,7 @@
 
                 <Spinner
                     android:id="@+id/fragment_change_size_top_size_layout_size_type_spinner"
-                    style="@style/SpinnerTheme"
+                    style="@style/SpinnerDropdownTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:minWidth="150dp"
@@ -267,7 +264,7 @@
 
                 <Spinner
                     android:id="@+id/fragment_change_size_top_size_layout_size_value_spinner"
-                    style="@style/SpinnerTheme"
+                    style="@style/SpinnerDropdownTheme"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_medium"
@@ -281,7 +278,7 @@
 
                 <Spinner
                     android:id="@+id/fragment_change_size_bottom_size_layout_size_type_spinner"
-                    style="@style/SpinnerTheme"
+                    style="@style/SpinnerDropdownTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:minWidth="150dp"
@@ -295,7 +292,7 @@
 
                 <Spinner
                     android:id="@+id/fragment_change_size_bottom_size_layout_size_value_spinner"
-                    style="@style/SpinnerTheme"
+                    style="@style/SpinnerDropdownTheme"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding_medium"
