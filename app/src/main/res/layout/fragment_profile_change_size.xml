@@ -16,7 +16,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/white">
 
         <RelativeLayout
@@ -259,6 +259,7 @@
                     android:layout_height="wrap_content"
                     android:minWidth="150dp"
                     android:selection="@{viewModel.selectedTopType}"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintEnd_toStartOf="@id/fragment_change_size_top_size_layout_size_value_spinner"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_size_layout_title_tv"
@@ -272,6 +273,7 @@
                     android:layout_marginStart="@dimen/padding_medium"
                     android:gravity="start"
                     android:selection="@{viewModel.currentTopSizeIndex}"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
@@ -284,6 +286,7 @@
                     android:layout_height="wrap_content"
                     android:minWidth="150dp"
                     android:selection="@{viewModel.selectedBottomType}"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintEnd_toStartOf="@id/fragment_change_size_bottom_size_layout_size_value_spinner"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_title_tv"
@@ -298,6 +301,7 @@
                     android:layout_marginStart="@dimen/padding_medium"
                     android:gravity="start"
                     android:selection="@{viewModel.currentBottomSizeIndex}"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
