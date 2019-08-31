@@ -16,6 +16,17 @@
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="colorPrimaryDark">@color/colorBackground</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="SpinnerDropdownTheme" parent="android:Widget.Spinner.DropDown">
+        <item name="android:background">@drawable/bg_spinner</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
+        <item name="android:textColor">@color/thinBlackText</item>
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+        <item name="android:dropDownSelector">@color/colorGreyButton</item>
+        <item name="android:popupBackground">@color/white</item>
     </style>
 
 </resources>

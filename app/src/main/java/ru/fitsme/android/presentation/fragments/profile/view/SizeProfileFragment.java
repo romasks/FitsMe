@@ -1,11 +1,11 @@
 package ru.fitsme.android.presentation.fragments.profile.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,37 +13,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.databinding.FragmentProfileChangeSizeBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
-public class SizeProfileFragment extends Fragment implements SizeProfileBindingEvents {
-
-    FragmentProfileChangeSizeBinding binding;
+public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> implements SizeProfileBindingEvents {
 
     @Inject
     IProfileInteractor interactor;
-    private SizeProfileViewModel viewModel;
 
-    public SizeProfileFragment(){
-        App.getInstance().getDi().inject(this);
-    }
+    private FragmentProfileChangeSizeBinding binding;
 
     public static SizeProfileFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        SizeProfileFragment fragment = new SizeProfileFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new SizeProfileFragment();
     }
 
     @Override
@@ -73,7 +64,7 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
 
     private void setAdapterToTypeSpinners() {
         String[] array = makeSizeTypeArray();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        SpinnerAdapter<String> adapter = new SpinnerAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.fragmentChangeSizeTopSizeLayoutSizeTypeSpinner.setAdapter(adapter);
@@ -82,13 +73,14 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
 
     private void setAdapterToTopSizeSpinner(){
         ArrayList<String> arrayList = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        SpinnerAdapter<String> adapter = new SpinnerAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.fragmentChangeSizeTopSizeLayoutSizeValueSpinner.setAdapter(adapter);
         viewModel.getTopSizeArray().observe(this, list -> {
             adapter.clear();
             if (list != null) {
+                if (list.isEmpty()) list.add("");
                 adapter.addAll(list);
             }
             adapter.notifyDataSetChanged();
@@ -97,13 +89,14 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
 
     private void setAdapterToBottomSizeSpinner(){
         ArrayList<String> arrayList = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        SpinnerAdapter<String> adapter = new SpinnerAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.fragmentChangeSizeBottomSizeLayoutSizeValueSpinner.setAdapter(adapter);
         viewModel.getBottomSizeArray().observe(this, list -> {
             adapter.clear();
             if (list != null) {
+                if (list.isEmpty()) list.add("");
                 adapter.addAll(list);
             }
             adapter.notifyDataSetChanged();
@@ -170,5 +163,24 @@ public class SizeProfileFragment extends Fragment implements SizeProfileBindingE
             strings[i] = clotheSizeTypes[i].getString();
         }
         return strings;
+    }
+
+    private class SpinnerAdapter<T> extends ArrayAdapter<T> {
+
+        SpinnerAdapter(@NonNull Context context, int resource, @NonNull T[] objects) {
+            super(context, resource, objects);
+        }
+
+        SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<T> objects) {
+            super(context, resource, objects);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View view = super.getView(position, convertView, parent);
+            view.setPadding(0, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
+            return view;
+        }
     }
 }

@@ -10,6 +10,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
     </style>
 
     <style name="AppTheme.Launcher">
@@ -19,7 +20,7 @@
     </style>
 
     <style name="SpinnerDropdownTheme" parent="android:Widget.Spinner.DropDown">
-        <item name="android:background">@drawable/bg_spinner</item>
+        <item name="android:background">@drawable/bg_spinner_v23</item>
         <item name="android:paddingTop">@dimen/padding_small</item>
         <item name="android:paddingBottom">@dimen/padding_small</item>
         <item name="android:textColor">@color/thinBlackText</item>
