@@ -16,13 +16,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
@@ -93,26 +86,15 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         String brandName = clothesItem.getBrand();
         String name = clothesItem.getName();
         String description = clothesItem.getDescription();
-        List<String> contentList = clothesItem.getMaterial();
-        String content = contentList.toString();
         String url = clothesItem.getPics().get(0).getUrl();
 
-        Map<String, String> clotheContent = new HashMap<>();
         StringBuilder clotheContentStr = new StringBuilder();
-        try {
-            JSONObject uniObject = new JSONObject(clothesItem.getMaterialPercentage());
-            for (String material : contentList) {
-                Timber.d("material: %s", material);
-                String perc = uniObject.has(material) ? uniObject.getString(material) : "0";
-                Timber.d("percent: %s", perc);
-                clotheContent.put(material, perc);
-
-                clotheContentStr.append(perc).append("% ").append(material).append("\n");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        String itemsString = clothesItem.getMaterialPercentage().replaceAll("[{}]", "");
+        for (String item : itemsString.split(",")) {
+            String material = item.split(":")[0].replace("'", "").trim();
+            String percent = item.split(":")[1].trim();
+            clotheContentStr.append(percent).append("% ").append(material).append("\n");
         }
-
 
         binding.itemInfoBrandNameTv.setText(brandName);
         binding.itemInfoItemNameTv.setText(name);
