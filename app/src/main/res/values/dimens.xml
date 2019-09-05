@@ -24,5 +24,6 @@
     <dimen name="item_favourite_height">172dp</dimen>
     <dimen name="item_info_card_radius">10dp</dimen>
     <dimen name="item_info_card_padding">16dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
 
 </resources>
