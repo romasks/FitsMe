@@ -5,8 +5,8 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesAdapter;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 
-public class NoMatchSize extends InListItemState {
-    public NoMatchSize(FavouritesAdapter.InListViewHolder viewHolder) {
+public class NoMatchSizeState extends InListItemState {
+    public NoMatchSizeState(FavouritesAdapter.InListViewHolder viewHolder) {
         super(viewHolder);
         this.viewHolder.imageView.setAlpha(0.5f);
         this.viewHolder.brandName.setAlpha(0.5f);

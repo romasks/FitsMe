@@ -20,7 +20,7 @@ import ru.fitsme.android.databinding.ItemFavouriteRemovedBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.InCartState;
-import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NoMatchSize;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NoMatchSizeState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.InListItemState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NormalState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetSizeState;
@@ -130,7 +130,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
                         break;
                     }
                     case NO:{
-                        setItemState(new NoMatchSize(this));
+                        setItemState(new NoMatchSizeState(this));
                         break;
                     }
                 }
