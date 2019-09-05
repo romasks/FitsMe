@@ -62,8 +62,8 @@
 
     <string name="currency_sign">P</string>
     <string name="like">like</string>
-    <string name="item_info_item_description_text">Описание</string>
-    <string name="item_info_item_content_text">Состав</string>
+    <string name="item_info_item_description_text">Описание:</string>
+    <string name="item_info_item_content_text">Состав:</string>
     <string name="item_info_brand_name_text">Название бренда</string>
     <string name="item_info_item_name_text">Название товара</string>
     <string name="end_of_not_viewed_list">Список вещей закончился</string>

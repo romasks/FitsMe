@@ -16,8 +16,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
@@ -30,9 +28,10 @@ import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
+import timber.log.Timber;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
-            implements BindingEventsClickListener{
+        implements BindingEventsClickListener {
 
     @Inject
     IClothesInteractor clothesInteractor;
@@ -69,7 +68,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             viewModel.init();
         }
 
-        if (clotheInfo.getClothe() == null){
+        if (clotheInfo.getClothe() == null) {
             onError(clotheInfo.getError());
         } else if (clotheInfo.getClothe() instanceof ClothesItem) {
             onClothesItem((ClothesItem) clotheInfo.getClothe());
@@ -83,34 +82,40 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     private void onClothesItem(ClothesItem clothesItem) {
-            binding.tvIndex.setText(getString(R.string.loading));
-            String brandName = clothesItem.getBrand();
-            String name = clothesItem.getName();
-            String description = clothesItem.getDescription();
-            List<String> contentList = clothesItem.getMaterial();
-            String content = contentList.toString();
-            String url = clothesItem.getPics().get(0).getUrl();
+        binding.tvIndex.setText(getString(R.string.loading));
+        String brandName = clothesItem.getBrand();
+        String name = clothesItem.getName();
+        String description = clothesItem.getDescription();
+        String url = clothesItem.getPics().get(0).getUrl();
 
-            binding.itemInfoBrandNameTv.setText(brandName);
-            binding.itemInfoItemNameTv.setText(name);
-            binding.itemInfoItemDescriptionTv.setText(description);
-            binding.itemInfoItemContentTv.setText(content);
-            Glide.with(binding.ivPhoto.getContext())
-                    .load(url)
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            binding.tvIndex.setText(App.getInstance().getString(R.string.image_loading_error));
-                            return false;
-                        }
+        StringBuilder clotheContentStr = new StringBuilder();
+        String itemsString = clothesItem.getMaterialPercentage().replaceAll("[{}]", "");
+        for (String item : itemsString.split(",")) {
+            String material = item.split(":")[0].replace("'", "").trim();
+            String percent = item.split(":")[1].trim();
+            clotheContentStr.append(percent).append("% ").append(material).append("\n");
+        }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            binding.tvIndex.setText("");
-                            return false;
-                        }
-                    })
-                    .into(binding.ivPhoto);
+        binding.itemInfoBrandNameTv.setText(brandName);
+        binding.itemInfoItemNameTv.setText(name);
+        binding.itemInfoItemDescriptionTv.setText(description);
+        binding.itemInfoItemContentTv.setText(clotheContentStr.toString());
+        Glide.with(binding.ivPhoto.getContext())
+                .load(url)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        binding.tvIndex.setText(App.getInstance().getString(R.string.image_loading_error));
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        binding.tvIndex.setText("");
+                        return false;
+                    }
+                })
+                .into(binding.ivPhoto);
     }
 
     private void onLikedClothesItem() {
@@ -119,15 +124,15 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     @Override
     public void onClickBrandName() {
-        if(binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE){
+        if (binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE) {
             setFullState(true);
         } else {
             setFullState(false);
         }
     }
 
-    public void showYes(boolean b){
-        if (b){
+    public void showYes(boolean b) {
+        if (b) {
             binding.rateItemsYes.setVisibility(View.VISIBLE);
             showNo(false);
         } else {
@@ -135,8 +140,8 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
     }
 
-    public void showNo(boolean b){
-        if (b){
+    public void showNo(boolean b) {
+        if (b) {
             binding.rateItemsNo.setVisibility(View.VISIBLE);
             showYes(false);
         } else {
@@ -144,14 +149,14 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
     }
 
-    private void setFullState(boolean b){
-        if (b){
+    private void setFullState(boolean b) {
+        if (b) {
             isFullState = true;
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
-            binding.itemInfoItemInfoContainer.setPadding(0,0,0,0);
+            binding.itemInfoItemInfoContainer.setPadding(0, 0, 0, 0);
             binding.itemInfoItemInfoCard.setRadius(0);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 binding.itemInfoItemInfoCard.setElevation(0);
