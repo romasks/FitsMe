@@ -4,25 +4,25 @@
 
     <item
         android:id="@+id/rate_items_action_return"
-        android:icon="@drawable/rate_items_return_normal"
+        android:icon="@drawable/rate_items_return_image_normal_v17"
         android:title="@string/menu_rate_items_return"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/rate_items_action_dislike"
-        android:icon="@drawable/rate_items_dislike_normal"
+        android:icon="@drawable/rate_items_dislike_image_normal_v17"
         android:title="@string/menu_rate_items_dislike"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/rate_items_action_like"
-        android:icon="@drawable/rate_items_like_pressed"
+        android:icon="@drawable/rate_items_like_image_pressed_v17"
         android:title="@string/menu_rate_items_like"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/rate_items_action_filter"
-        android:icon="@drawable/rate_items_filter_pressed"
+        android:icon="@drawable/rate_items_filter_image_pressed_v17"
         android:title="@string/menu_rate_items_filter"
         app:showAsAction="always" />
 
