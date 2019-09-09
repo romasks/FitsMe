@@ -1,11 +1,16 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.Constraints;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +65,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setMargins();
         setFullState(isFullState);
 
         viewModel = ViewModelProviders.of(this,
@@ -74,6 +80,25 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             onClothesItem((ClothesItem) clotheInfo.getClothe());
         } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
             onLikedClothesItem();
+        }
+    }
+
+    private void setMargins() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            float topMerge = -3.0f;
+
+            Resources r = getResources();
+            int px = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    topMerge,
+                    r.getDisplayMetrics()
+            );
+
+            Constraints.LayoutParams params = new Constraints.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, px, 0, 0);
         }
     }
 
@@ -156,12 +181,11 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
-            binding.itemInfoItemInfoContainer.setPadding(0, 0, 0, 0);
+            int padding = 0;
+            binding.itemInfoItemInfoContainer.setPadding(padding, padding, padding, padding);
             binding.itemInfoItemInfoCard.setRadius(0);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                binding.itemInfoItemInfoCard.setElevation(0);
-                binding.itemInfoBrandNameCard.setElevation(0);
-            }
+            binding.itemInfoItemInfoCard.setCardElevation(0);
+            binding.itemInfoBrandNameCard.setCardElevation(0);
         } else {
             isFullState = false;
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
@@ -170,11 +194,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(false);
             int paddingVal = App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding);
             binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
-            binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                binding.itemInfoItemInfoCard.setElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
-                binding.itemInfoBrandNameCard.setElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
-            }
+            binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.item_info_card_radius));
+            binding.itemInfoItemInfoCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+            binding.itemInfoBrandNameCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
         }
     }
 }
