@@ -31,7 +31,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="3"
                     />
             </TableRow>
@@ -92,7 +92,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="2"
                     >
                 </View>
@@ -142,7 +142,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="3"
                     >
                 </View>
@@ -162,7 +162,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="3"
                     />
             </TableRow>
@@ -223,7 +223,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="2"
                     >
                 </View>
@@ -273,7 +273,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="3"
                     >
                 </View>
@@ -293,7 +293,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="3"
                     />
             </TableRow>
@@ -345,7 +345,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="3"
                     >
                 </View>
@@ -365,7 +365,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="3"
                     />
             </TableRow>
@@ -417,7 +417,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
-                    android:background="@color/colorStatusBar"
+                    android:background="@color/colorDivideLine"
                     android:layout_span="3"
                     >
                 </View>
