@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#940235</color>
     <color name="colorAccent">#000000</color>
     <color name="colorStatusBar">#969696</color>
+    <color name="colorDivideLine">#AAAAAAAA</color>
     <color name="colorRed">#ff0000</color>
     <color name="colorGreyButton">#EFEFEF</color>
     <color name="colorBackground">#ffffff</color>

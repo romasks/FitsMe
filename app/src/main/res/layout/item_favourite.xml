@@ -62,22 +62,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:padding="@dimen/padding_medium">
-
+            android:paddingTop="@dimen/margin_12dp"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            >
 
             <ImageView
                 android:id="@+id/item_favourite_image"
-                android:layout_width="98dp"
+                android:layout_width="104dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
-                android:layout_marginEnd="@dimen/padding_medium"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="@dimen/padding_small"
+                android:layout_marginBottom="@dimen/margin_12dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 app:defaultImage="@{@drawable/placeholder}"
                 app:imageUrl="@{clotheItem.pics[0].url}"
                 android:contentDescription="@null"
-                tools:src="@drawable/placeholder"
+                tools:src="@drawable/clothe_example"
                 />
 
             <TextView
@@ -87,9 +91,10 @@
                 android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/padding_small"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.brand}"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_lower_medium"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 tools:text="@string/brand_name_hint_in_two_lines" />
@@ -101,6 +106,7 @@
                 android:layout_below="@id/item_favourite_brand_name"
                 android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/padding_small"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.name}"
                 android:textColor="@color/black"
@@ -113,6 +119,7 @@
                 android:layout_below="@id/item_favourite_name"
                 android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/padding_small"
                 android:paddingBottom="4dp"
                 android:text="@{@string/cart_amount_tv(clotheItem.price)}"
                 android:textColor="@color/black"
@@ -123,13 +130,14 @@
                 android:id="@+id/item_favourite_btn"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_margin= "8dp"
+                android:layout_marginStart="@dimen/padding_small"
+                android:layout_marginBottom="@dimen/margin_12dp"
+                android:paddingTop="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_small"
                 android:textAllCaps="false"
                 android:layout_alignParentBottom="true"
                 android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentEnd="true"
-                android:paddingTop="@dimen/padding_small"
-                android:paddingBottom="@dimen/padding_small"
                 tools:text="@string/to_cart"
                 />
 
@@ -138,7 +146,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/colorStatusBar"/>
+            android:background="@color/colorDivideLine"/>
 
     </FrameLayout>
 

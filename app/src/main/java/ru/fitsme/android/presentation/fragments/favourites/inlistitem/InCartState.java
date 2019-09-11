@@ -12,6 +12,7 @@ public class InCartState extends InListItemState {
         this.viewHolder.brandName.setAlpha(1f);
         this.viewHolder.name.setAlpha(1f);
         this.viewHolder.price.setAlpha(1f);
+        this.viewHolder.button.setAlpha(1f);
         this.viewHolder.button.setBackgroundResource(R.drawable.bg_in_cart_btn);
         this.viewHolder.button.setEnabled(false);
         this.viewHolder.button.setText(R.string.clothe_in_cart);

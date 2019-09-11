@@ -13,6 +13,7 @@ public class SetSizeState extends InListItemState {
         this.viewHolder.brandName.setAlpha(0.5f);
         this.viewHolder.name.setAlpha(0.5f);
         this.viewHolder.price.setAlpha(0.5f);
+        this.viewHolder.button.setAlpha(1f);
         this.viewHolder.button.setBackgroundResource(R.drawable.bg_to_cart_btn);
         this.viewHolder.button.setEnabled(true);
         this.viewHolder.button.setText(R.string.set_your_size);
