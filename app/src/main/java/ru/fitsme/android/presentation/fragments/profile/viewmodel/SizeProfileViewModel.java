@@ -55,6 +55,7 @@ public class SizeProfileViewModel extends BaseViewModel {
     }
 
     public void init() {
+        profileInteractor.updateInfo();
     }
 
     public void goBack() {

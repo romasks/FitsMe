@@ -23,6 +23,7 @@
     <string name="to_cart">В корзину</string>
     <string name="clothe_in_cart">Товар в корзине</string>
     <string name="set_your_size">Укажите ваш размер</string>
+    <string name="set_your_sizes">Укажите ваши размеры</string>
     <string name="no_match_size">Нет вашего размера</string>
     <string name="no_items_in_favourites">Нет товаров в избранном</string>
     <string name="no_items_in_cart">В корзине нет товаров</string>
@@ -101,4 +102,7 @@
     <string name="profile_message_to_user_saving">Сохранение</string>
     <string name="profile_message_to_user_saving_complete">Изменения сохранены</string>
     <string name="profile_message_to_user_set_top_size">Установите верхний размер</string>
+    <string name="dialog_fragment_rate_item_set_size_hint">Так вы сможете просматривать только подходящие по размеру вещи</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
 </resources>

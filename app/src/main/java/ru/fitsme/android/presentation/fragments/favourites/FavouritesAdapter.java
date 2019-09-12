@@ -75,7 +75,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
 
     public class InListViewHolder extends FavouritesViewHolder {
-        final ViewDataBinding binding;
+        final public ViewDataBinding binding;
         final ImageView rightDeleteIcon;
         final ImageView leftDeleteIcon;
         final RelativeLayout viewBackground;
