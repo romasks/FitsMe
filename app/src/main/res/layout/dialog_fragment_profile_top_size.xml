@@ -10,7 +10,7 @@
             type="ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/dialog_fragment_profile_top_size_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,9 +26,9 @@
             android:textSize="@dimen/text_size_medium"
             android:textColor="@color/black"
             android:paddingBottom="22dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             />
 
         <TextView
@@ -38,9 +38,10 @@
             android:textSize="@dimen/text_size_12sp"
             android:textColor="@color/black"
             android:paddingBottom="48dp"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_title_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_below="@id/dialog_fragment_profile_top_size_title_tv"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/dialog_fragment_rate_item_set_size_hint"
             tools:text="@string/dialog_fragment_rate_item_set_size_hint"
             />
 
@@ -52,9 +53,9 @@
             android:minWidth="140dp"
             android:selection="@{viewModel.selectedTopType}"
             android:spinnerMode="dropdown"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_hint_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/dialog_fragment_profile_top_size_value_spinner"
+            android:layout_below="@id/dialog_fragment_profile_top_size_hint_tv"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/dialog_fragment_profile_top_size_value_spinner"
             tools:entries="@array/example" />
 
         <Spinner
@@ -66,30 +67,27 @@
             android:gravity="start"
             android:selection="@{viewModel.currentTopSizeIndex}"
             android:spinnerMode="dropdown"
-            app:layout_constraintBottom_toBottomOf="@id/dialog_fragment_profile_top_size_type_spinner"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_top_size_type_spinner"
+            android:layout_alignBottom="@id/dialog_fragment_profile_top_size_type_spinner"
+            android:layout_alignParentEnd="true"
             tools:entries="@array/example" />
 
         <View
             android:id="@+id/dialog_fragment_profile_top_size_type_line"
             android:layout_width="0dp"
             android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
             android:background="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_type_spinner"
-            app:layout_constraintEnd_toEndOf="@id/dialog_fragment_profile_top_size_type_spinner"
-            app:layout_constraintStart_toStartOf="@id/dialog_fragment_profile_top_size_type_spinner"
+            android:layout_alignStart="@id/dialog_fragment_profile_top_size_type_spinner"
+            android:layout_alignEnd="@id/dialog_fragment_profile_top_size_type_spinner"
+            android:layout_alignBottom="@id/dialog_fragment_profile_top_size_type_spinner"
             />
 
         <View
             android:layout_width="0dp"
             android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
             android:background="@color/black"
-            app:layout_constraintEnd_toEndOf="@id/dialog_fragment_profile_top_size_value_spinner"
-            app:layout_constraintStart_toStartOf="@id/dialog_fragment_profile_top_size_value_spinner"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_value_spinner"
+            android:layout_alignStart="@id/dialog_fragment_profile_top_size_value_spinner"
+            android:layout_alignEnd="@id/dialog_fragment_profile_top_size_value_spinner"
+            android:layout_alignBottom="@id/dialog_fragment_profile_top_size_value_spinner"
             />
 
         <RelativeLayout
@@ -97,11 +95,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_small"
             android:background="@drawable/rounded_layout"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_type_line"
-            app:layout_constraintEnd_toStartOf="@id/dialog_fragment_profile_top_waist_size_layout"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_below="@id/dialog_fragment_profile_top_size_type_line"
+            android:layout_toStartOf="@id/dialog_fragment_profile_top_size_view_1"
+            android:layout_alignParentStart="true"
             >
 
             <TextView
@@ -126,15 +124,23 @@
                 />
         </RelativeLayout>
 
+        <View
+            android:id="@+id/dialog_fragment_profile_top_size_view_1"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_below="@id/dialog_fragment_profile_top_size_type_line"
+            android:layout_centerHorizontal="true"/>
+
         <RelativeLayout
             android:id="@+id/dialog_fragment_profile_top_waist_size_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/padding_small"
             android:background="@drawable/rounded_layout"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_type_line"
-            app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_top_chest_size_layout"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_below="@id/dialog_fragment_profile_top_size_type_line"
+            android:layout_toEndOf="@id/dialog_fragment_profile_top_size_view_1"
+            android:layout_alignParentEnd="true"
             >
 
             <TextView
@@ -164,11 +170,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_small"
             android:background="@drawable/rounded_layout"
-            app:layout_constraintEnd_toStartOf="@id/dialog_fragment_profile_top_sleeve_size_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_chest_size_layout"
+            android:layout_below="@id/dialog_fragment_profile_top_chest_size_layout"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/dialog_fragment_profile_top_size_view_1"
             >
 
             <TextView
@@ -197,12 +203,12 @@
             android:id="@+id/dialog_fragment_profile_top_sleeve_size_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/padding_small"
             android:background="@drawable/rounded_layout"
             android:clipChildren="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_top_hips_size_layout"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_chest_size_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/dialog_fragment_profile_top_hips_size_layout"
+            android:layout_toEndOf="@id/dialog_fragment_profile_top_size_view_1"
             >
 
             <TextView
@@ -236,8 +242,8 @@
             android:background="@null"
             android:paddingTop="24dp"
             android:paddingBottom="24dp"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_hips_size_layout"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_below="@id/dialog_fragment_profile_top_hips_size_layout"
+            android:layout_alignParentEnd="true"
             />
 
         <Button
@@ -250,9 +256,9 @@
             android:background="@null"
             android:paddingTop="24dp"
             android:paddingBottom="24dp"
-            app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_hips_size_layout"
-            app:layout_constraintEnd_toStartOf="@id/dialog_fragment_profile_top_ok_btn"
+            android:layout_alignTop="@id/dialog_fragment_profile_top_ok_btn"
+            android:layout_toStartOf="@id/dialog_fragment_profile_top_ok_btn"
             />
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 </layout>

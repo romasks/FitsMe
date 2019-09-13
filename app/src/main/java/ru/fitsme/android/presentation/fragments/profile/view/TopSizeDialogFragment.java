@@ -4,11 +4,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.Constraints;
 import android.support.v4.app.DialogFragment;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -50,7 +48,6 @@ public class TopSizeDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.dialog_fragment_profile_top_size, container, false);
-        setMargins();
         return binding.getRoot();
     }
 
@@ -68,6 +65,12 @@ public class TopSizeDialogFragment extends DialogFragment {
         setAdapterToTopSizeSpinner();
         setOnSizeTypeSpinnerClickListener();
         setOnSizeValueSpinnerClickListener();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setMargins();
     }
 
     private void setAdapterToTypeSpinners() {
@@ -130,28 +133,23 @@ public class TopSizeDialogFragment extends DialogFragment {
         return strings;
     }
 
-
     private void setMargins() {
-        float leftRightMerge = 24.0f;
-        float topBottomMerge = 120.0f;
+        float width = 344.0f;
+        float height = 500.0f;
 
         Resources r = getResources();
-        int leftRightMergePx = (int) TypedValue.applyDimension(
+        int widthPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                leftRightMerge,
+                width,
                 r.getDisplayMetrics()
         );
-        int topBottomMergePx = (int) TypedValue.applyDimension(
+        int heightPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                topBottomMerge,
+                height,
                 r.getDisplayMetrics()
         );
 
-        int minWidth = r.getDisplayMetrics().widthPixels - 2 * leftRightMergePx;
-        int minHeght = r.getDisplayMetrics().heightPixels - 2 * topBottomMergePx;
-
-        binding.dialogFragmentProfileTopSizeLayout.setMinWidth(minWidth);
-        binding.dialogFragmentProfileTopSizeLayout.setMinHeight(minHeght);
+        getDialog().getWindow().setLayout(widthPx, heightPx);
     }
 
     private class SpinnerAdapter<T> extends ArrayAdapter<T> {
