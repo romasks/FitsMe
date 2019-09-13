@@ -53,35 +53,43 @@ public class ClotheSize {
         return uk;
     }
 
-    public String getChestLow() {
-        return chestLow;
+    public Integer getChestLow() {
+        Float f = Float.valueOf(chestLow);
+        return f.intValue();
     }
 
-    public String getWaistLow() {
-        return waistLow;
+    public Integer getWaistLow() {
+        Float f = Float.valueOf(waistLow);
+        return f.intValue();
     }
 
-    public String getHipsLow() {
-        return hipsLow;
+    public Integer getHipsLow() {
+        Float f = Float.valueOf(hipsLow);
+        return f.intValue();
     }
 
-    public String getSleeveLow() {
-        return sleeveLow;
+    public Integer getSleeveLow() {
+        Float f = Float.valueOf(sleeveLow);
+        return f.intValue();
     }
 
-    public String getChestHigh() {
-        return chestHigh;
+    public Integer getChestHigh() {
+        Float f = Float.valueOf(chestHigh);
+        return f.intValue();
     }
 
-    public String getWaistHigh() {
-        return waistHigh;
+    public Integer getWaistHigh() {
+        Float f = Float.valueOf(waistHigh);
+        return f.intValue();
     }
 
-    public String getHipsHigh() {
-        return hipsHigh;
+    public Integer getHipsHigh() {
+        Float f = Float.valueOf(hipsHigh);
+        return f.intValue();
     }
 
-    public String getSleeveHigh() {
-        return sleeveHigh;
+    public Integer getSleeveHigh() {
+        Float f = Float.valueOf(sleeveHigh);
+        return f.intValue();
     }
 }
