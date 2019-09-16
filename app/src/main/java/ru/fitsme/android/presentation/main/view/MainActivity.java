@@ -17,10 +17,10 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.main.AuthNavigation;
 import ru.fitsme.android.databinding.ActivityMainBinding;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
-import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private Navigator navigator = getFragmentNavigator();
-    private WeakReference<RateItemsFragment.MyOnSwipeTouchListener> weakSwipeTouchListener;
+    private WeakReference<RateItemTouchListener> weakReference;
 
     public MainActivity() {
         App.getInstance().getDi().inject(this);
@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean isDispatch = super.dispatchTouchEvent(ev);
-        if (weakSwipeTouchListener != null && weakSwipeTouchListener.get() != null){
-            weakSwipeTouchListener.get().onTouch(new TextView(this), ev);
+        if (weakReference != null && weakReference.get() != null){
+            weakReference.get().onTouch(new TextView(this), ev);
         }
         return isDispatch;
     }
@@ -120,11 +120,11 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    public void observeSwipe(RateItemsFragment.MyOnSwipeTouchListener swipeTouchListener) {
-        this.weakSwipeTouchListener = new WeakReference<>(swipeTouchListener);
+    public void observeTouch(RateItemTouchListener rateItemTouchListener) {
+        this.weakReference = new WeakReference<>(rateItemTouchListener);
     }
 
     public void unsubscribe() {
-        weakSwipeTouchListener.clear();
+        weakReference.clear();
     }
 }

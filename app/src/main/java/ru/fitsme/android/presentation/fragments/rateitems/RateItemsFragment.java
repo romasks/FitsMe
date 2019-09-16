@@ -1,5 +1,7 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -65,9 +67,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MyOnSwipeTouchListener swipeTouchListener = new MyOnSwipeTouchListener(getContext());
-        view.setOnTouchListener(swipeTouchListener);
-        ((MainActivity) getActivity()).observeSwipe(swipeTouchListener);
+        RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this, binding);
+        view.setOnTouchListener(rateItemTouchListener);
+        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
@@ -93,19 +95,21 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 
-        switch (rateItemsState.getAnimationType()) {
-            case RIGHT:
-                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_right);
-                break;
-            case LEFT:
-                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_left);
-                break;
-            case SIMPLE:
-                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_simple);
-                break;
-        }
+
+//        switch (rateItemsState.getAnimationType()) {
+//            case RIGHT:
+//                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_right);
+//                break;
+//            case LEFT:
+//                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_left);
+//                break;
+//            case SIMPLE:
+//                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_simple);
+//                break;
+//        }
         transaction.replace(R.id.fragment_rate_items_container, currentFragment)
                 .commit();
+        resetContainerView();
     }
 
     @Override
@@ -128,18 +132,82 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         Timber.d("onClickFilter()");
     }
 
-    private void likeItem() {
-        currentFragment.showYes(true);
-        if (currentFragment != null) {
-            viewModel.likeClothesItem(true, IOnSwipeListener.AnimationType.RIGHT);
-        }
+    void maybeLikeItem(float alpha){
+        currentFragment.showYes(true, alpha);
     }
 
-    private void dislikeItem() {
+    void likeItem() {
+        currentFragment.showYes(true);
+        ObjectAnimator animator =
+                ObjectAnimator.ofFloat(binding.fragmentRateItemsContainer,
+                        "translationX", 1500f);
+        animator.setDuration(500);
+        animator.start();
+        animator.addListener(new Animator.AnimatorListener(){
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (currentFragment != null) {
+                    viewModel.likeClothesItem(true, IOnSwipeListener.AnimationType.RIGHT);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    void maybeDislikeItem(float alpha){
+        currentFragment.showNo(true, alpha);
+    }
+
+    void dislikeItem() {
         currentFragment.showNo(true);
-        if (currentFragment != null) {
-            viewModel.likeClothesItem(false, IOnSwipeListener.AnimationType.LEFT);
-        }
+        ObjectAnimator animator =
+                ObjectAnimator.ofFloat(binding.fragmentRateItemsContainer,
+                        "translationX", -1500f);
+        animator.setDuration(500);
+        animator.start();
+        animator.addListener(new Animator.AnimatorListener(){
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (currentFragment != null) {
+                    viewModel.likeClothesItem(false, IOnSwipeListener.AnimationType.LEFT);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    void resetContainerView(){
+        binding.fragmentRateItemsContainer.setX(0);
+        binding.fragmentRateItemsContainer.setY(0);
+        binding.fragmentRateItemsContainer.setRotation(0);
     }
 
     public void setFullItemInfoState(boolean b) {
@@ -186,5 +254,4 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             dislikeItem();
         }
     }
-
 }

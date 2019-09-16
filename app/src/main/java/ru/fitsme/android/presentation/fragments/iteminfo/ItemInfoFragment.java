@@ -156,8 +156,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
     }
 
-    public void showYes(boolean b) {
+    public void showYes(boolean b, float alpha) {
         if (b) {
+            binding.rateItemsYes.setAlpha(alpha);
             binding.rateItemsYes.setVisibility(View.VISIBLE);
             showNo(false);
         } else {
@@ -165,13 +166,27 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
     }
 
-    public void showNo(boolean b) {
+    public void showYes(boolean b){
+        showYes(b, 1.0f);
+    }
+
+    public void showNo(boolean b, float alpha) {
         if (b) {
             binding.rateItemsNo.setVisibility(View.VISIBLE);
+            binding.rateItemsNo.setAlpha(alpha);
             showYes(false);
         } else {
             binding.rateItemsNo.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public void showNo(boolean b){
+        showNo(b, 1.0f);
+    }
+
+    public void clearYesNo() {
+        binding.rateItemsNo.setVisibility(View.INVISIBLE);
+        binding.rateItemsYes.setVisibility(View.INVISIBLE);
     }
 
     private void setFullState(boolean b) {
