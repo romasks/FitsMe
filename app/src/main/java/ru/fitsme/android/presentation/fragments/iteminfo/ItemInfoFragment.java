@@ -108,6 +108,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     private void onClothesItem(ClothesItem clothesItem) {
         binding.tvIndex.setText(getString(R.string.loading));
+        binding.itemInfoItemInfoCard.setVisibility(View.INVISIBLE);
         String brandName = clothesItem.getBrand();
         String name = clothesItem.getName();
         String description = clothesItem.getDescription();
@@ -137,6 +138,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         binding.tvIndex.setText("");
+                        binding.itemInfoItemInfoCard.setVisibility(View.VISIBLE);
                         return false;
                     }
                 })
@@ -182,11 +184,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     public void showNo(boolean b){
         showNo(b, 1.0f);
-    }
-
-    public void clearYesNo() {
-        binding.rateItemsNo.setVisibility(View.INVISIBLE);
-        binding.rateItemsYes.setVisibility(View.INVISIBLE);
     }
 
     private void setFullState(boolean b) {
