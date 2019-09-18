@@ -36,8 +36,8 @@ public class RateItemsViewModel extends BaseViewModel {
         RateItemsState rateItemsState = rateItemsStateLiveData.getValue();
         ClothesItem clothesItem = (ClothesItem) rateItemsState.getClotheInfo().getClothe();
         if (rateItemsState != null && clothesItem!= null){
-            clothesInteractor.setLikeToClothesItem(clothesItem, liked)
-                    .subscribe(clotheInfo -> clothesInteractor.getNext(), Timber::e);
+            addDisposable(clothesInteractor.setLikeToClothesItem(clothesItem, liked)
+                    .subscribe(clotheInfo -> clothesInteractor.getNext(), Timber::e));
         }
     }
 
