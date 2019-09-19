@@ -1,10 +1,9 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import javax.inject.Inject;
@@ -33,7 +33,6 @@ import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
-import timber.log.Timber;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         implements BindingEventsClickListener {
@@ -43,13 +42,18 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     private static ClotheInfo clotheInfo;
     private static boolean isFullState;
+    private static int containerHeight;
+    private static int containerWidth;
     private FragmentItemInfoBinding binding;
 
-    public static ItemInfoFragment newInstance(ClotheInfo item, boolean isFullItemInfoState) {
+    public static ItemInfoFragment newInstance(ClotheInfo item, boolean isFullItemInfoState,
+                                               int containerHeight, int containerWidth) {
         ItemInfoFragment fragment = new ItemInfoFragment();
 
-        clotheInfo = item;
-        isFullState = isFullItemInfoState;
+        ItemInfoFragment.clotheInfo = item;
+        ItemInfoFragment.isFullState = isFullItemInfoState;
+        ItemInfoFragment.containerHeight = containerHeight;
+        ItemInfoFragment.containerWidth = containerWidth;
         return fragment;
     }
 
@@ -126,23 +130,46 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         binding.itemInfoItemNameTv.setText(name);
         binding.itemInfoItemDescriptionTv.setText(description);
         binding.itemInfoItemContentTv.setText(clotheContentStr.toString());
+
+        TargetBitmapSize targetBitmapSize = new TargetBitmapSize();
         Glide.with(binding.ivPhoto.getContext())
+                .asBitmap()
                 .load(url)
-                .listener(new RequestListener<Drawable>() {
+                .listener(new RequestListener<Bitmap>() {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                         binding.tvIndex.setText(App.getInstance().getString(R.string.image_loading_error));
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        calculateRatio(resource, targetBitmapSize);
+
                         binding.tvIndex.setText("");
                         binding.itemInfoItemInfoCard.setVisibility(View.VISIBLE);
+                        binding.itemInfoBrandNameCard.setVisibility(View.VISIBLE);
                         return false;
                     }
                 })
+                .apply(new RequestOptions().override(
+                        targetBitmapSize.getWidth(), targetBitmapSize.getHeight()))
                 .into(binding.ivPhoto);
+    }
+
+    private void calculateRatio(Bitmap resource, TargetBitmapSize targetBitmapSize) {
+        int width = resource.getWidth();
+        int height = resource.getHeight();
+
+        if (containerHeight != 0 && containerWidth != 0 && width != 0 && height != 0) {
+            if (containerWidth / containerHeight < width / height) {
+                targetBitmapSize.setWidth(containerWidth);
+                targetBitmapSize.setHeight(height * containerWidth / width);
+            } else {
+                targetBitmapSize.setHeight(containerHeight);
+                targetBitmapSize.setWidth(width * containerHeight / height);
+            }
+        }
     }
 
     private void onLikedClothesItem() {
@@ -193,8 +220,8 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
             ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
-            int padding = 0;
-            binding.itemInfoItemInfoContainer.setPadding(padding, padding, padding, padding);
+            int paddingVal = 0;
+            binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
             binding.itemInfoItemInfoCard.setRadius(0);
             binding.itemInfoItemInfoCard.setCardElevation(0);
             binding.itemInfoBrandNameCard.setCardElevation(0);
@@ -209,6 +236,28 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.item_info_card_radius));
             binding.itemInfoItemInfoCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
             binding.itemInfoBrandNameCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+        }
+    }
+
+
+    private class TargetBitmapSize {
+        private Integer width = 0;
+        private Integer height = 0;
+
+        Integer getWidth() {
+            return width;
+        }
+
+        void setWidth(Integer width) {
+            this.width = width;
+        }
+
+        Integer getHeight() {
+            return height;
+        }
+
+        void setHeight(Integer height) {
+            this.height = height;
         }
     }
 }

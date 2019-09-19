@@ -38,7 +38,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/item_info_item_info_card"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="@dimen/item_info_card_radius"
                 app:cardElevation="@dimen/items_info_elevation"
                 app:layout_constraintTop_toTopOf="parent"
@@ -49,121 +49,125 @@
 
                 <ImageView
                     android:id="@+id/iv_photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:contentDescription="@null"
-                    android:scaleType="fitCenter"
                     tools:src="@drawable/clothe_example" />
 
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/item_info_brand_name_card"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/rate_items_no"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    app:cardBackgroundColor="@color/transparentBackground"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="@dimen/items_info_elevation"
-                    android:layout_gravity="bottom"
-                    >
+                    android:layout_gravity="top|end"
+                    android:background="@drawable/ic_rate_items_no"
+                    android:visibility="invisible"
+                    android:elevation="@dimen/items_info_elevation"
+                    tools:visibility="visible"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@null"
+                    />
 
-                    <android.support.constraint.ConstraintLayout
-                        android:id="@+id/item_info_brand_name_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="14dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:onClick="@{() -> bindingEvents.onClickBrandName()}"
-                        >
-
-                        <TextView
-                            android:id="@+id/item_info_brand_name_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_lower_medium"
-                            android:textColor="@color/black"
-                            android:layout_marginBottom="8dp"
-                            android:text="@string/item_info_brand_name_text"
-                            tools:text="Название бренда"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/item_info_item_name_tv"
-                            />
-
-                        <TextView
-                            android:id="@+id/item_info_item_name_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_lower_medium"
-                            android:textColor="@color/darkGrey"
-                            android:text="@string/item_info_item_name_text"
-                            tools:text="Название товара"
-                            app:layout_constraintTop_toBottomOf="@id/item_info_brand_name_tv"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            />
-
-                        <ImageView
-                            android:id="@+id/item_info_brand_field_down_arrow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:contentDescription="@null"
-                            />
-
-                        <ImageView
-                            android:id="@+id/item_info_brand_field_up_arrow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ic_keyboard_arrow_up_black_24dp"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:visibility="invisible"
-                            android:contentDescription="@null"
-                            />
-
-                    </android.support.constraint.ConstraintLayout>
-
-                </android.support.v7.widget.CardView>
+                <ImageView
+                    android:id="@+id/rate_items_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|top"
+                    android:layout_margin="32dp"
+                    android:background="@drawable/ic_rate_items_yes"
+                    android:visibility="invisible"
+                    android:elevation="@dimen/items_info_elevation"
+                    tools:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@null"
+                    />
 
             </android.support.v7.widget.CardView>
 
-            <ImageView
-                android:id="@+id/rate_items_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_rate_items_no"
-                android:visibility="invisible"
-                android:elevation="@dimen/items_info_elevation"
-                tools:visibility="visible"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@null"
-                />
 
-            <ImageView
-                android:id="@+id/rate_items_yes"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:id="@+id/item_info_brand_name_card"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="32dp"
-                android:background="@drawable/ic_rate_items_yes"
+                android:layout_margin="16dp"
+                app:cardBackgroundColor="@color/transparentBackground"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="@dimen/items_info_elevation"
+                app:layout_constraintBottom_toBottomOf="@id/item_info_item_info_card"
+                app:layout_constraintStart_toStartOf="@id/item_info_item_info_card"
+                app:layout_constraintEnd_toEndOf="@id/item_info_item_info_card"
                 android:visibility="invisible"
-                android:elevation="@dimen/items_info_elevation"
                 tools:visibility="visible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@null"
-                />
+                >
 
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/item_info_brand_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="14dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> bindingEvents.onClickBrandName()}"
+                    >
+
+                    <TextView
+                        android:id="@+id/item_info_brand_name_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_lower_medium"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/item_info_brand_name_text"
+                        tools:text="Название бренда"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/item_info_item_name_tv"
+                        />
+
+                    <TextView
+                        android:id="@+id/item_info_item_name_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_lower_medium"
+                        android:textColor="@color/darkGrey"
+                        android:text="@string/item_info_item_name_text"
+                        tools:text="Название товара"
+                        app:layout_constraintTop_toBottomOf="@id/item_info_brand_name_tv"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                    <ImageView
+                        android:id="@+id/item_info_brand_field_down_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="@null"
+                        />
+
+                    <ImageView
+                        android:id="@+id/item_info_brand_field_up_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_keyboard_arrow_up_black_24dp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:visibility="invisible"
+                        android:contentDescription="@null"
+                        />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
 
             <TableLayout
                 android:id="@+id/item_info_item_description_layout"

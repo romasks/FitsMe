@@ -38,6 +38,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private FragmentRateItemsBinding binding;
     private boolean isFullItemInfoState;
 
+    private int containerWidth;
+    private int containerHeight;
+
     public static RateItemsFragment newInstance() {
         return new RateItemsFragment();
     }
@@ -67,6 +70,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //передаю в ItemInfoFragment для расчета размера карточки
+        containerWidth = binding.fragmentRateItemsContainer.getWidth();
+        containerHeight = binding.fragmentRateItemsContainer.getHeight();
+
         RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this, binding);
         view.setOnTouchListener(rateItemTouchListener);
         ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
@@ -91,22 +98,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void onChange(RateItemsState rateItemsState) {
-        currentFragment = ItemInfoFragment.newInstance(rateItemsState.getClotheInfo(), isFullItemInfoState);
+        currentFragment = ItemInfoFragment.newInstance(
+                rateItemsState.getClotheInfo(), isFullItemInfoState, containerHeight, containerWidth);
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-
-
-//        switch (rateItemsState.getAnimationType()) {
-//            case RIGHT:
-//                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_right);
-//                break;
-//            case LEFT:
-//                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_left);
-//                break;
-//            case SIMPLE:
-//                transaction.setCustomAnimations(R.anim.clothes_item_enter, R.anim.clothes_item_exit_simple);
-//                break;
-//        }
         transaction.replace(R.id.fragment_rate_items_container, currentFragment)
                 .commit();
         resetContainerView();
