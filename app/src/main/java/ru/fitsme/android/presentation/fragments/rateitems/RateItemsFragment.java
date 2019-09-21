@@ -3,7 +3,6 @@ package ru.fitsme.android.presentation.fragments.rateitems;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -67,20 +67,12 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setListeners(view);
-
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
         viewModel.init();
 
         viewModel.getRateItemsStateLiveData()
                 .observe(this, this::onChange);
-    }
-
-    private void setListeners(@NonNull View view) {
-        RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this, binding);
-        view.setOnTouchListener(rateItemTouchListener);
-        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
     }
 
     @Override
@@ -226,9 +218,18 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         set.clone(binding.rateItemsLayout);
         if (b) {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
+            binding.fragmentRateItemsContainer.setOnTouchListener(null);
+            ((MainActivity) getActivity()).unsubscribe();
         } else {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_buttons_group, ConstraintSet.TOP);
+            setOnTouchListener();
         }
         set.applyTo(binding.rateItemsLayout);
+    }
+
+    private void setOnTouchListener() {
+        RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this, binding);
+        binding.fragmentRateItemsContainer.setOnTouchListener(rateItemTouchListener);
+        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
     }
 }

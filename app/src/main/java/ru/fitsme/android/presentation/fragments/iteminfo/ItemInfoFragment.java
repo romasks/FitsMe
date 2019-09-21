@@ -206,7 +206,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoItemInfoCard.setRadius(0);
             binding.itemInfoItemInfoCard.setCardElevation(0);
             binding.itemInfoBrandNameCard.setCardElevation(0);
-            binding.itemInfoItemInfoCard.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
             binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
             binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
             binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
@@ -221,11 +220,10 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                     r.getDisplayMetrics()
             );
 
-            binding.itemInfoItemInfoCard.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
-            binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
             binding.ivPhoto.getLayoutParams().height = containerHeight - px;
             binding.ivPhoto.getLayoutParams().width = containerWidth - px;
             binding.ivPhoto.requestLayout();
+//            binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
