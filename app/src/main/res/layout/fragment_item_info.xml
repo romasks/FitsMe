@@ -10,16 +10,20 @@
             type="ru.fitsme.android.presentation.fragments.iteminfo.BindingEventsClickListener" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:background="@color/colorRed"
+        >
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/item_info_item_info_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:clipToPadding="false"
             android:padding="@dimen/item_info_card_padding"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             >
 
             <TextView
@@ -238,4 +242,6 @@
             </TableLayout>
 
         </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 </layout>

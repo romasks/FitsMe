@@ -13,12 +13,12 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import javax.inject.Inject;
@@ -131,7 +131,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         binding.itemInfoItemDescriptionTv.setText(description);
         binding.itemInfoItemContentTv.setText(clotheContentStr.toString());
 
-        TargetBitmapSize targetBitmapSize = new TargetBitmapSize();
         Glide.with(binding.ivPhoto.getContext())
                 .asBitmap()
                 .load(url)
@@ -144,32 +143,13 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
                     @Override
                     public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        calculateRatio(resource, targetBitmapSize);
-
                         binding.tvIndex.setText("");
                         binding.itemInfoItemInfoCard.setVisibility(View.VISIBLE);
                         binding.itemInfoBrandNameCard.setVisibility(View.VISIBLE);
                         return false;
                     }
                 })
-                .apply(new RequestOptions().override(
-                        targetBitmapSize.getWidth(), targetBitmapSize.getHeight()))
                 .into(binding.ivPhoto);
-    }
-
-    private void calculateRatio(Bitmap resource, TargetBitmapSize targetBitmapSize) {
-        int width = resource.getWidth();
-        int height = resource.getHeight();
-
-        if (containerHeight != 0 && containerWidth != 0 && width != 0 && height != 0) {
-            if (containerWidth / containerHeight < width / height) {
-                targetBitmapSize.setWidth(containerWidth);
-                targetBitmapSize.setHeight(height * containerWidth / width);
-            } else {
-                targetBitmapSize.setHeight(containerHeight);
-                targetBitmapSize.setWidth(width * containerHeight / height);
-            }
-        }
     }
 
     private void onLikedClothesItem() {
@@ -216,6 +196,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     private void setFullState(boolean b) {
         if (b) {
             isFullState = true;
+
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
@@ -225,8 +206,26 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoItemInfoCard.setRadius(0);
             binding.itemInfoItemInfoCard.setCardElevation(0);
             binding.itemInfoBrandNameCard.setCardElevation(0);
+            binding.itemInfoItemInfoCard.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
+            binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
+            binding.ivPhoto.requestLayout();
         } else {
             isFullState = false;
+
+            Resources r = getResources();
+            int px = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding),
+                    r.getDisplayMetrics()
+            );
+
+            binding.itemInfoItemInfoCard.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
+            binding.ivPhoto.getLayoutParams().height = containerHeight - px;
+            binding.ivPhoto.getLayoutParams().width = containerWidth - px;
+            binding.ivPhoto.requestLayout();
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
@@ -236,28 +235,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.item_info_card_radius));
             binding.itemInfoItemInfoCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
             binding.itemInfoBrandNameCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
-        }
-    }
-
-
-    private class TargetBitmapSize {
-        private Integer width = 0;
-        private Integer height = 0;
-
-        Integer getWidth() {
-            return width;
-        }
-
-        void setWidth(Integer width) {
-            this.width = width;
-        }
-
-        Integer getHeight() {
-            return height;
-        }
-
-        void setHeight(Integer height) {
-            this.height = height;
         }
     }
 }

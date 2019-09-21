@@ -38,9 +38,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private FragmentRateItemsBinding binding;
     private boolean isFullItemInfoState;
 
-    private int containerWidth;
-    private int containerHeight;
-
     public static RateItemsFragment newInstance() {
         return new RateItemsFragment();
     }
@@ -70,13 +67,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //передаю в ItemInfoFragment для расчета размера карточки
-        containerWidth = binding.fragmentRateItemsContainer.getWidth();
-        containerHeight = binding.fragmentRateItemsContainer.getHeight();
-
-        RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this, binding);
-        view.setOnTouchListener(rateItemTouchListener);
-        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
+        setListeners(view);
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
@@ -84,6 +75,12 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
         viewModel.getRateItemsStateLiveData()
                 .observe(this, this::onChange);
+    }
+
+    private void setListeners(@NonNull View view) {
+        RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this, binding);
+        view.setOnTouchListener(rateItemTouchListener);
+        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
     }
 
     @Override
@@ -98,6 +95,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void onChange(RateItemsState rateItemsState) {
+        int containerWidth = binding.fragmentRateItemsContainer.getWidth();
+        int containerHeight = binding.fragmentRateItemsContainer.getHeight();
+
         currentFragment = ItemInfoFragment.newInstance(
                 rateItemsState.getClotheInfo(), isFullItemInfoState, containerHeight, containerWidth);
 
@@ -230,23 +230,5 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_buttons_group, ConstraintSet.TOP);
         }
         set.applyTo(binding.rateItemsLayout);
-    }
-
-
-    public class MyOnSwipeTouchListener extends OnSwipeTouchListener{
-
-        MyOnSwipeTouchListener(Context ctx) {
-            super(ctx);
-        }
-
-        @Override
-        public void onSwipeRight() {
-            likeItem();
-        }
-
-        @Override
-        public void onSwipeLeft() {
-            dislikeItem();
-        }
     }
 }
