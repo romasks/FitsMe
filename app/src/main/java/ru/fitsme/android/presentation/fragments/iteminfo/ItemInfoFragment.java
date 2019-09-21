@@ -131,9 +131,17 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         binding.itemInfoItemDescriptionTv.setText(description);
         binding.itemInfoItemContentTv.setText(clotheContentStr.toString());
 
+        Resources r = getResources();
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding),
+                r.getDisplayMetrics()
+        );
+
         Glide.with(binding.ivPhoto.getContext())
                 .asBitmap()
                 .load(url)
+                .override(containerWidth - px, containerHeight - px)
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -213,17 +221,10 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         } else {
             isFullState = false;
 
-            Resources r = getResources();
-            int px = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding),
-                    r.getDisplayMetrics()
-            );
-
-            binding.ivPhoto.getLayoutParams().height = containerHeight - px;
-            binding.ivPhoto.getLayoutParams().width = containerWidth - px;
+            binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
             binding.ivPhoto.requestLayout();
-//            binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
+            binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);

@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:background="@color/colorRed"
         >
 
         <android.support.constraint.ConstraintLayout
@@ -58,6 +57,7 @@
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:contentDescription="@null"
+                    android:background="@color/colorRed"
                     tools:src="@drawable/clothe_example" />
 
                 <ImageView
