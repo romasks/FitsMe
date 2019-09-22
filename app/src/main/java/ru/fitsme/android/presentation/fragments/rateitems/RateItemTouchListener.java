@@ -57,29 +57,20 @@ public class RateItemTouchListener implements View.OnTouchListener {
 
                 if (deltaX >= 0) {
                     binding.fragmentRateItemsContainer.setRotation((float) (deltaX * (Math.PI / 64)));
-                    if (Math.abs(deltaX) > windowWidth / 8) {
-                        fragment.maybeLikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
-                        if (Math.abs(deltaX) > windowWidth / 4){
-                            fragment.maybeLikeItem(1.0f);
-                            liked = Rating.LIKED;
-                        }
-                        else {
-                            liked = Rating.RESET;
-                        }
-                    } else {
+                    fragment.maybeLikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
+                    if (Math.abs(deltaX) > windowWidth / 4){
+                        fragment.maybeLikeItem(1.0f);
+                        liked = Rating.LIKED;
+                    }
+                    else {
                         liked = Rating.RESET;
                     }
                 } else {
                     binding.fragmentRateItemsContainer.setRotation((float) (deltaX * (Math.PI / 64)));
-                    if (Math.abs(deltaX) > windowWidth / 8){
-
-                        fragment.maybeDislikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
-                        if (Math.abs(deltaX) > windowWidth / 4){
-                            fragment.maybeDislikeItem(1.0f);
-                            liked = Rating.DISLIKED;
-                        } else {
-                            liked = Rating.RESET;
-                        }
+                    fragment.maybeDislikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
+                    if (Math.abs(deltaX) > windowWidth / 4){
+                        fragment.maybeDislikeItem(1.0f);
+                        liked = Rating.DISLIKED;
                     } else {
                         liked = Rating.RESET;
                     }

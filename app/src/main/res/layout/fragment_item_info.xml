@@ -66,9 +66,8 @@
                     android:background="@drawable/ic_rate_items_no"
                     android:visibility="invisible"
                     android:elevation="@dimen/items_info_elevation"
+                    android:layout_gravity="start|top"
                     tools:visibility="visible"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:contentDescription="@null"
                     />
 
@@ -80,9 +79,8 @@
                     android:background="@drawable/ic_rate_items_yes"
                     android:visibility="invisible"
                     android:elevation="@dimen/items_info_elevation"
+                    android:layout_gravity="end|top"
                     tools:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:contentDescription="@null"
                     />
 
