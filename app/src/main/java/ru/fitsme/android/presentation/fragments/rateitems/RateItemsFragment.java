@@ -196,9 +196,22 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     void resetContainerView(){
-        binding.fragmentRateItemsContainer.setX(0);
-        binding.fragmentRateItemsContainer.setY(0);
-        binding.fragmentRateItemsContainer.setRotation(0);
+        binding.fragmentRateItemsContainer.animate()
+                .rotation(0)
+                .translationX(0)
+                .translationY(0)
+                .setDuration(300)
+                .start();
+
+//        ObjectAnimator animator =
+//                ObjectAnimator.ofFloat(binding.fragmentRateItemsContainer,
+//                        "translationX", 0f);
+//        animator.setDuration(500);
+//        animator.start();
+
+//        binding.fragmentRateItemsContainer.setX(0);
+//        binding.fragmentRateItemsContainer.setY(0);
+//        binding.fragmentRateItemsContainer.setRotation(0);
     }
 
     public void setFullItemInfoState(boolean b) {
