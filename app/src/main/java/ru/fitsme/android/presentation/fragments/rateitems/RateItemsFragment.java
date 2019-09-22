@@ -27,7 +27,7 @@ import ru.fitsme.android.presentation.main.view.MainActivity;
 import timber.log.Timber;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
-        implements IOnSwipeListener, BindingEventsClickListener {
+        implements BindingEventsClickListener {
 
     private static final String KEY_ITEM_INFO_STATE = "state";
 
@@ -80,10 +80,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         super.onDestroyView();
         ((MainActivity) getActivity()).unsubscribe();
         viewModel.clearDisposables();
-    }
-
-    @Override
-    public void onSwipe(AnimationType animationType) {
     }
 
     private void onChange(RateItemsState rateItemsState) {
