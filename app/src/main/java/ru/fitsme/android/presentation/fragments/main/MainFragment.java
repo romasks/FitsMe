@@ -117,6 +117,10 @@ public class MainFragment extends Fragment {
         }
     }
 
+    public int getBottomNavigationSize(){
+        return binding.bnvMainFrNavigation.getHeight();
+    }
+
     public void showBottomShadow(boolean b){
         if (b){
             binding.fragmentMainBottomShadow.setVisibility(View.VISIBLE);

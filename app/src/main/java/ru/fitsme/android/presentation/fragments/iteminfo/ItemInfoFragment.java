@@ -107,11 +107,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     private void onError(UserException error) {
-        binding.tvIndex.setText(error.getMessage());
+        binding.itemInfoMessage.setText(error.getMessage());
     }
 
     private void onClothesItem(ClothesItem clothesItem) {
-        binding.tvIndex.setText(getString(R.string.loading));
+        binding.itemInfoMessage.setText(getString(R.string.loading));
+        binding.itemInfoMessage.requestLayout();
         binding.itemInfoItemInfoCard.setVisibility(View.INVISIBLE);
         String brandName = clothesItem.getBrand();
         String name = clothesItem.getName();
@@ -145,13 +146,14 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        binding.tvIndex.setText(App.getInstance().getString(R.string.image_loading_error));
+                        binding.itemInfoMessage.setText(App.getInstance().getString(R.string.image_loading_error));
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        binding.tvIndex.setText("");
+                        binding.itemInfoMessage.setText("");
+
                         binding.itemInfoItemInfoCard.setVisibility(View.VISIBLE);
                         binding.itemInfoBrandNameCard.setVisibility(View.VISIBLE);
                         return false;

@@ -125,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void unsubscribe() {
-        weakReference.clear();
+        if (weakReference != null) {
+            weakReference.clear();
+        }
     }
 }

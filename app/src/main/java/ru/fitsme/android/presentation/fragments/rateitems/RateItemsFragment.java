@@ -87,8 +87,16 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void onChange(RateItemsState rateItemsState) {
-        int containerWidth = binding.fragmentRateItemsContainer.getWidth();
-        int containerHeight = binding.fragmentRateItemsContainer.getHeight();
+        int containerWidth = binding.fragmentRateItemsContainer.getWidth();;
+        int containerHeight;
+
+        if (isFullItemInfoState){
+            int px = binding.fragmentRateItemsButtonsGroup.getHeight();
+            int bottomPx = ((MainFragment) getParentFragment()).getBottomNavigationSize();
+            containerHeight = binding.fragmentRateItemsContainer.getHeight() - px - bottomPx;
+        } else {
+            containerHeight = binding.fragmentRateItemsContainer.getHeight();
+        }
 
         currentFragment = ItemInfoFragment.newInstance(
                 rateItemsState.getClotheInfo(), isFullItemInfoState, containerHeight, containerWidth);

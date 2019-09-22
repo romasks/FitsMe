@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_rate_items_buttons_group"
+            app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_buttons_group"
             />
 
         <android.support.constraint.ConstraintLayout
