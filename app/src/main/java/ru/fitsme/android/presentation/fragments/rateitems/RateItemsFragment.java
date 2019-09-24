@@ -1,7 +1,5 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,7 +24,7 @@ import ru.fitsme.android.presentation.main.view.MainActivity;
 import timber.log.Timber;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
-        implements BindingEventsClickListener {
+        implements BindingEventsClickListener, RateItemTouchListener.Callback, RateItemAnimation.Callback {
 
     private static final String KEY_ITEM_INFO_STATE = "state";
 
@@ -36,6 +33,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     private ItemInfoFragment currentFragment;
     private FragmentRateItemsBinding binding;
+    private RateItemAnimation itemAnimation;
     private boolean isFullItemInfoState;
 
     public static RateItemsFragment newInstance() {
@@ -60,6 +58,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rate_items, container, false);
         binding.setBindingEvents(this);
+        itemAnimation = new RateItemAnimation(this, binding);
         return binding.getRoot();
     }
 
@@ -83,16 +82,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void onChange(RateItemsState rateItemsState) {
-        int containerWidth = binding.fragmentRateItemsContainer.getWidth();;
-        int containerHeight;
-
-        if (isFullItemInfoState){
-            int px = binding.fragmentRateItemsButtonsGroup.getHeight();
-            int bottomPx = ((MainFragment) getParentFragment()).getBottomNavigationSize();
-            containerHeight = binding.fragmentRateItemsContainer.getHeight() - px - bottomPx;
-        } else {
-            containerHeight = binding.fragmentRateItemsContainer.getHeight();
-        }
+        int containerWidth = binding.fragmentRateItemsContainer.getWidth();
+        int containerHeight = getContainerHeight();
 
         currentFragment = ItemInfoFragment.newInstance(
                 rateItemsState.getClotheInfo(), isFullItemInfoState, containerHeight, containerWidth);
@@ -103,9 +94,21 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         resetContainerView();
     }
 
+    private int getContainerHeight() {
+        int containerHeight;
+        if (isFullItemInfoState){
+            int px = binding.fragmentRateItemsButtonsGroup.getHeight();
+            int bottomPx = ((MainFragment) getParentFragment()).getBottomNavigationSize();
+            containerHeight = binding.fragmentRateItemsContainer.getHeight() - px - bottomPx;
+        } else {
+            containerHeight = binding.fragmentRateItemsContainer.getHeight();
+        }
+        return containerHeight;
+    }
+
     @Override
     public void onClickLikeItem() {
-        likeItem();
+        startToLikeItem();
     }
 
     @Override
@@ -115,103 +118,12 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void onClickDislikeItem() {
-        dislikeItem();
+        startToDislikeItem();
     }
 
     @Override
     public void onClickFilter() {
         Timber.d("onClickFilter()");
-    }
-
-    void maybeLikeItem(float alpha){
-        currentFragment.showYes(true, alpha);
-    }
-
-    void likeItem() {
-        currentFragment.showYes(true);
-        ObjectAnimator animator =
-                ObjectAnimator.ofFloat(binding.fragmentRateItemsContainer,
-                        "translationX", 1500f);
-        animator.setDuration(500);
-        animator.start();
-        animator.addListener(new Animator.AnimatorListener(){
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (currentFragment != null) {
-                    viewModel.likeClothesItem(true, IOnSwipeListener.AnimationType.RIGHT);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-    }
-
-    void maybeDislikeItem(float alpha){
-        currentFragment.showNo(true, alpha);
-    }
-
-    void dislikeItem() {
-        currentFragment.showNo(true);
-        ObjectAnimator animator =
-                ObjectAnimator.ofFloat(binding.fragmentRateItemsContainer,
-                        "translationX", -1500f);
-        animator.setDuration(500);
-        animator.start();
-        animator.addListener(new Animator.AnimatorListener(){
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (currentFragment != null) {
-                    viewModel.likeClothesItem(false, IOnSwipeListener.AnimationType.LEFT);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-    }
-
-    void resetContainerView(){
-        binding.fragmentRateItemsContainer.animate()
-                .rotation(0)
-                .translationX(0)
-                .translationY(0)
-                .setDuration(300)
-                .start();
-
-//        ObjectAnimator animator =
-//                ObjectAnimator.ofFloat(binding.fragmentRateItemsContainer,
-//                        "translationX", 0f);
-//        animator.setDuration(500);
-//        animator.start();
-
-//        binding.fragmentRateItemsContainer.setX(0);
-//        binding.fragmentRateItemsContainer.setY(0);
-//        binding.fragmentRateItemsContainer.setRotation(0);
     }
 
     public void setFullItemInfoState(boolean b) {
@@ -245,8 +157,64 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void setOnTouchListener() {
-        RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this, binding);
+        RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this);
         binding.fragmentRateItemsContainer.setOnTouchListener(rateItemTouchListener);
         ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
+    }
+
+    @Override
+    public void maybeLikeItem(float alpha){
+        currentFragment.showYes(true, alpha);
+    }
+
+    @Override
+    public void startToLikeItem() {
+        currentFragment.showYes(true);
+        itemAnimation.moveViewOutOfScreenToRight();
+    }
+
+    @Override
+    public void maybeDislikeItem(float alpha){
+        currentFragment.showNo(true, alpha);
+    }
+
+    @Override
+    public void startToDislikeItem() {
+        currentFragment.showNo(true);
+        itemAnimation.moveViewOutOfScreenToLeft();
+    }
+
+    @Override
+    public void moveViewToXY(int deltaX, int deltaY) {
+        itemAnimation.moveViewToXY(deltaX, deltaY);
+    }
+
+    @Override
+    public void rotateView(float degrees) {
+        itemAnimation.rotateView(degrees);
+    }
+
+    @Override
+    public void resetContainerViewWithAnimation() {
+        itemAnimation.resetContainerViewWithAnimation();
+    }
+
+    @Override
+    public void resetContainerView() {
+        itemAnimation.resetContainerView();
+    }
+
+    @Override
+    public void likeItem() {
+        if (currentFragment != null) {
+            viewModel.likeClothesItem(true, IOnSwipeListener.AnimationType.RIGHT);
+        }
+    }
+
+    @Override
+    public void dislikeItem() {
+        if (currentFragment != null) {
+            viewModel.likeClothesItem(false, IOnSwipeListener.AnimationType.LEFT);
+        }
     }
 }

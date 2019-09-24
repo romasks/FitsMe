@@ -4,11 +4,8 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
-import ru.fitsme.android.databinding.FragmentRateItemsBinding;
-
 public class RateItemTouchListener implements View.OnTouchListener {
-    private RateItemsFragment fragment;
-    private FragmentRateItemsBinding binding;
+    private Callback callback;
 
     private Rating liked = Rating.RESET;
 
@@ -24,9 +21,8 @@ public class RateItemTouchListener implements View.OnTouchListener {
     private int deltaX;
     private int deltaY;
 
-    RateItemTouchListener(RateItemsFragment fragment, FragmentRateItemsBinding binding){
-        this.fragment = fragment;
-        this.binding = binding;
+    RateItemTouchListener(RateItemsFragment fragment){
+        this.callback = (Callback) fragment;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         windowWidth = displayMetrics.widthPixels;
@@ -37,9 +33,6 @@ public class RateItemTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        touchX = (int) event.getRawX();
-        touchY = (int) event.getRawY();
-
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 firstTouchX = (int) event.getRawX();
@@ -52,24 +45,22 @@ public class RateItemTouchListener implements View.OnTouchListener {
                 deltaX = touchX - firstTouchX;
                 deltaY = touchY - firstTouchY;
 
-                binding.fragmentRateItemsContainer.setX(deltaX);
-                binding.fragmentRateItemsContainer.setY(deltaY);
+                callback.moveViewToXY(deltaX, deltaY);
+                callback.rotateView((float) (deltaX * (Math.PI / 64)));
 
                 if (deltaX >= 0) {
-                    binding.fragmentRateItemsContainer.setRotation((float) (deltaX * (Math.PI / 64)));
-                    fragment.maybeLikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
+                    callback.maybeLikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
                     if (Math.abs(deltaX) > windowWidth / 4){
-                        fragment.maybeLikeItem(1.0f);
+                        callback.maybeLikeItem(1.0f);
                         liked = Rating.LIKED;
                     }
                     else {
                         liked = Rating.RESET;
                     }
                 } else {
-                    binding.fragmentRateItemsContainer.setRotation((float) (deltaX * (Math.PI / 64)));
-                    fragment.maybeDislikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
+                    callback.maybeDislikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
                     if (Math.abs(deltaX) > windowWidth / 4){
-                        fragment.maybeDislikeItem(1.0f);
+                        callback.maybeDislikeItem(1.0f);
                         liked = Rating.DISLIKED;
                     } else {
                         liked = Rating.RESET;
@@ -78,12 +69,12 @@ public class RateItemTouchListener implements View.OnTouchListener {
                 break;
             case MotionEvent.ACTION_UP:
                 if (liked == Rating.RESET){
-                    fragment.maybeLikeItem(0);
-                    fragment.resetContainerView();
+                    callback.maybeLikeItem(0);
+                    callback.resetContainerViewWithAnimation();
                 } else if (liked == Rating.DISLIKED){
-                    fragment.dislikeItem();
+                    callback.startToDislikeItem();
                 } else if (liked == Rating.LIKED){
-                    fragment.likeItem();
+                    callback.startToLikeItem();
                 }
                 break;
             default:
@@ -94,5 +85,24 @@ public class RateItemTouchListener implements View.OnTouchListener {
 
     enum Rating{
         RESET, DISLIKED, LIKED
+    }
+
+    interface Callback {
+
+        void moveViewToXY(int deltaX, int deltaY);
+
+        void rotateView(float degrees);
+
+        void maybeLikeItem(float alpha);
+
+        void maybeDislikeItem(float alpha);
+
+        void startToLikeItem();
+
+        void startToDislikeItem();
+
+        void resetContainerViewWithAnimation();
+
+        void resetContainerView();
     }
 }
