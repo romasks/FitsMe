@@ -11,8 +11,8 @@ import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 import timber.log.Timber;
 
-public class SetSizeState extends InListItemState {
-    public SetSizeState(FavouritesAdapter.InListViewHolder button) {
+public class SetTopSizeState extends InListItemState {
+    public SetTopSizeState(FavouritesAdapter.InListViewHolder button) {
         super(button);
         this.viewHolder.imageView.setAlpha(0.5f);
         this.viewHolder.brandName.setAlpha(0.5f);
@@ -27,7 +27,6 @@ public class SetSizeState extends InListItemState {
 
     @Override
     public void onClick(FavouritesViewModel viewModel, int position) {
-        Timber.d("Set size state. onClick()");
         DialogFragment dialogFragment = new TopSizeDialogFragment();
         FragmentManager fm = ((AppCompatActivity) viewHolder.binding.getRoot().getContext()).getSupportFragmentManager();
         dialogFragment.show(fm, "topSizeDf");

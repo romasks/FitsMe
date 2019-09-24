@@ -8,8 +8,17 @@ public class ClotheType {
         return title;
     }
 
-    public String getType() {
-        return type;
+    public Type getType() {
+        switch (type){
+            case "TOP":{
+                return Type.TOP;
+            }
+            case "BOT":{
+                return Type.BOTTOM;
+            }
+            default:
+                throw new IllegalStateException("Unknown Type ClotheType state");
+        }
     }
 
     @Override
@@ -27,5 +36,9 @@ public class ClotheType {
         result = 31 * result + title.hashCode();
         result = 31 * result + type.hashCode();
         return result;
+    }
+
+    public enum Type {
+        TOP, BOTTOM
     }
 }

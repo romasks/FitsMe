@@ -5,10 +5,10 @@ public class Profile {
     private String street;
     private String houseNumber;
     private String apartment;
-    private int topSize;
-    private int bottomSize;
+    private Integer topSize;
+    private Integer bottomSize;
 
-    public Profile(String tel, String street, String houseNumber, String apartment, int topSize, int bottomSize){
+    public Profile(String tel, String street, String houseNumber, String apartment, Integer topSize, Integer bottomSize){
         this.tel = tel;
         this.street = street;
         this.houseNumber = houseNumber;
@@ -33,11 +33,11 @@ public class Profile {
         return apartment;
     }
 
-    public int getTopSize() {
+    public Integer getTopSize() {
         return topSize;
     }
 
-    public int getBottomSize() {
+    public Integer getBottomSize() {
         return bottomSize;
     }
 }

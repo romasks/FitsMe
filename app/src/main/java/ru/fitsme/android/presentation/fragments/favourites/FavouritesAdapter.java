@@ -17,13 +17,15 @@ import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemFavouriteBinding;
 import ru.fitsme.android.databinding.ItemFavouriteRemovedBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.InCartState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NoMatchSizeState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.InListItemState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NormalState;
-import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetSizeState;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetBottomSizeState;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetTopSizeState;
 import timber.log.Timber;
 
 public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, FavouritesAdapter.FavouritesViewHolder> {
@@ -122,7 +124,11 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
                 ClothesItem.SizeInStock sizeInStock = favouritesItem.getItem().getSizeInStock();
                 switch (sizeInStock){
                     case UNDEFINED:{
-                        setItemState(new SetSizeState(this));
+                        if (favouritesItem.getItem().getClotheType().getType() == ClotheType.Type.TOP){
+                            setItemState(new SetTopSizeState(this));
+                        } else if (favouritesItem.getItem().getClotheType().getType() == ClotheType.Type.BOTTOM) {
+                            setItemState(new SetBottomSizeState(this));
+                        }
                         break;
                     }
                     case YES:{

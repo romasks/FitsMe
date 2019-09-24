@@ -101,28 +101,36 @@ public class ProfileInteractor implements IProfileInteractor {
     private void setSizeFields(){
         profileReplaySubject.subscribe(profile -> {
             sizeListReplaySubject.subscribe(clotheSizes -> {
-                int topSizeId = profile.getTopSize();
-                if (topSizeId == 0){
+                Integer topSizeId = profile.getTopSize();
+                if (topSizeId == null || topSizeId == 0){
                     message.set(App.getInstance().getString(R.string.profile_message_to_user_set_top_size));
+                } else {
+                    ClotheSize topClotheSize = clotheSizes.get(topSizeId);
+                    currentChestSize.set(topClotheSize.getChestLow() +
+                            "-" + topClotheSize.getChestHigh() + " " + MEASURE_UNIT);
+                    currentTopWaistSize.set(topClotheSize.getWaistLow() +
+                            "-" + topClotheSize.getWaistHigh() + " " + MEASURE_UNIT);
+                    currentTopHipsSize.set(topClotheSize.getHipsLow() +
+                            "-" + topClotheSize.getHipsHigh() + " " + MEASURE_UNIT);
+                    currentSleeveSize.set(topClotheSize.getSleeveLow() +
+                            "-" + topClotheSize.getSleeveHigh() + " " + MEASURE_UNIT);
                 }
-                ClotheSize topClotheSize = clotheSizes.get(topSizeId);
-                currentChestSize.set(topClotheSize.getChestLow() +
-                        "-" + topClotheSize.getChestHigh() + " " + MEASURE_UNIT);
-                currentTopWaistSize.set(topClotheSize.getWaistLow() +
-                        "-" + topClotheSize.getWaistHigh() + " " + MEASURE_UNIT);
-                currentTopHipsSize.set(topClotheSize.getHipsLow() +
-                        "-" + topClotheSize.getHipsHigh() + " " + MEASURE_UNIT);
-                currentSleeveSize.set(topClotheSize.getSleeveLow() +
-                        "-" + topClotheSize.getSleeveHigh() + " " + MEASURE_UNIT);
-
-                int bottomSizeId = profile.getBottomSize();
-                ClotheSize bottomClotheSize = clotheSizes.get(bottomSizeId);
-                int bottomSizeIndex = clotheSizes.indexOfKey(bottomSizeId);
-                currentBottomSizeIndex.set(bottomSizeIndex);
-                currentBottomWeistSize.set(bottomClotheSize.getWaistLow() +
-                        "-" + bottomClotheSize.getWaistHigh() + " " + MEASURE_UNIT);
-                currentBottomHipsSize.set(bottomClotheSize.getHipsLow() +
-                        "-" + bottomClotheSize.getHipsHigh() + " " + MEASURE_UNIT);
+                Integer bottomSizeId = profile.getBottomSize();
+                if (bottomSizeId == null || bottomSizeId == 0){
+                    if (topSizeId != null){
+                        if (topSizeId != 0) {
+                            message.set(App.getInstance().getString(R.string.profile_message_to_user_set_bottom_size));
+                        }
+                    }
+                } else {
+                    ClotheSize bottomClotheSize = clotheSizes.get(bottomSizeId);
+                    int bottomSizeIndex = clotheSizes.indexOfKey(bottomSizeId);
+                    currentBottomSizeIndex.set(bottomSizeIndex);
+                    currentBottomWeistSize.set(bottomClotheSize.getWaistLow() +
+                            "-" + bottomClotheSize.getWaistHigh() + " " + MEASURE_UNIT);
+                    currentBottomHipsSize.set(bottomClotheSize.getHipsLow() +
+                            "-" + bottomClotheSize.getHipsHigh() + " " + MEASURE_UNIT);
+                }
             }, Timber::e);
         }, Timber::e);
     }
@@ -134,7 +142,12 @@ public class ProfileInteractor implements IProfileInteractor {
                 sizeListReplaySubject.subscribe(clotheSizes -> {
                     disposable.add(
                             profileReplaySubject.subscribe(profile -> {
-                                int topSizeId = profile.getTopSize();
+                                Integer topSizeId;
+                                if (profile.getTopSize() == null){
+                                    topSizeId = 0;
+                                } else {
+                                    topSizeId = profile.getTopSize();
+                                }
                                 int topSizeIndex = clotheSizes.indexOfKey(topSizeId);
                                 currentTopSizeIndex.set(topSizeIndex);
                                 List<String> topSizeArray = makeTopSizeArray(clotheSizes);
@@ -153,7 +166,12 @@ public class ProfileInteractor implements IProfileInteractor {
                 sizeListReplaySubject.subscribe(clotheSizes -> {
                     disposable.add(
                             profileReplaySubject.subscribe(profile -> {
-                                int bottomSizeId = profile.getBottomSize();
+                                Integer bottomSizeId;
+                                if (profile.getBottomSize() == null){
+                                    bottomSizeId = 0;
+                                } else {
+                                    bottomSizeId = profile.getBottomSize();
+                                }
                                 int bottomSizeIndex = clotheSizes.indexOfKey(bottomSizeId);
                                 currentBottomSizeIndex.set(bottomSizeIndex);
                                 List<String> bottomSizeArray = makeBottomSizeArray(clotheSizes);
@@ -322,22 +340,21 @@ public class ProfileInteractor implements IProfileInteractor {
             String newStreet = oldProfile.getStreet();
             String newHouseNumber = oldProfile.getHouseNumber();
             String newApartment = oldProfile.getApartment();
-            int newTopSize = sizeArray.keyAt(position);
-            int newBottomSize = oldProfile.getBottomSize();
+            Integer newTopSize = sizeArray.keyAt(position);
+            Integer newBottomSize = oldProfile.getBottomSize();
             Profile newProfile = new Profile(newTel, newStreet, newHouseNumber, newApartment, newTopSize, newBottomSize);
-            if (newBottomSize == 0) {
+            if (newBottomSize == null || newBottomSize == 0) {
                 message.set(App.getInstance().getString(R.string.profile_message_to_user_set_bottom_size));
-                profileReplaySubject.onNext(newProfile);
-            } else {
-                message.set(App.getInstance().getString(R.string.profile_message_to_user_saving));
-                profileRepository.setProfile(newProfile)
-                        .observeOn(mainThread)
-                        .subscribe(
-                                updatedProfile -> {
-                                    profileReplaySubject.onNext(updatedProfile);
-                                    message.set(App.getInstance().getString(R.string.profile_message_to_user_saving_complete));
-                                }, Timber::e);
             }
+            message.set(App.getInstance().getString(R.string.profile_message_to_user_saving));
+            profileRepository.setProfile(newProfile)
+                    .observeOn(mainThread)
+                    .subscribe(
+                            updatedProfile -> {
+                                profileReplaySubject.onNext(updatedProfile);
+                                message.set(App.getInstance().getString(R.string.profile_message_to_user_saving_complete));
+                            }, Timber::e);
+
         }
     }
 
@@ -351,22 +368,20 @@ public class ProfileInteractor implements IProfileInteractor {
             String newStreet = oldProfile.getStreet();
             String newHouseNumber = oldProfile.getHouseNumber();
             String newApartment = oldProfile.getApartment();
-            int newBottomSize = sizeArray.keyAt(position);
-            int newTopSize = oldProfile.getTopSize();
+            Integer newBottomSize = sizeArray.keyAt(position);
+            Integer newTopSize = oldProfile.getTopSize();
             Profile newProfile = new Profile(newTel, newStreet, newHouseNumber, newApartment, newTopSize, newBottomSize);
-            if (newTopSize == 0) {
+            if (newTopSize == null || newTopSize == 0) {
                 message.set(App.getInstance().getString(R.string.profile_message_to_user_set_top_size));
-                profileReplaySubject.onNext(newProfile);
-            } else {
-                message.set(App.getInstance().getString(R.string.profile_message_to_user_saving));
-                profileRepository.setProfile(newProfile)
-                        .observeOn(mainThread)
-                        .subscribe(
-                                updatedProfile -> {
-                                    profileReplaySubject.onNext(updatedProfile);
-                                    message.set(App.getInstance().getString(R.string.profile_message_to_user_saving_complete));
-                                }, Timber::e);
             }
+            message.set(App.getInstance().getString(R.string.profile_message_to_user_saving));
+            profileRepository.setProfile(newProfile)
+                    .observeOn(mainThread)
+                    .subscribe(
+                            updatedProfile -> {
+                                profileReplaySubject.onNext(updatedProfile);
+                                message.set(App.getInstance().getString(R.string.profile_message_to_user_saving_complete));
+                            }, Timber::e);
         }
     }
 }
