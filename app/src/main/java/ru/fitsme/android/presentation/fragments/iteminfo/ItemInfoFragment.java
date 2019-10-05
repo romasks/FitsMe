@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -156,10 +157,34 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
                         binding.itemInfoItemInfoCard.setVisibility(View.VISIBLE);
                         binding.itemInfoBrandNameCard.setVisibility(View.VISIBLE);
+
+                        createUpperPictureCountIndicator(clothesItem.getPics().size(), resource.getWidth());
                         return false;
                     }
                 })
                 .into(binding.ivPhoto);
+    }
+
+    private void createUpperPictureCountIndicator(int size, int layoutWidth) {
+        binding.itemInfoUpperPicCountIndicatorLl.getLayoutParams().width = layoutWidth;
+        binding.itemInfoUpperPicCountIndicatorLl.requestLayout();
+        for (int i = 0; i < size; i++) {
+            View view = new View(getContext());
+            Resources r = getResources();
+            view.setBackgroundColor(r.getColor(R.color.lightGrey));
+            int endMerge = 4;
+            int px = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    endMerge,
+                    r.getDisplayMetrics()
+            );
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            if (i != size - 1) {
+                params.setMarginEnd(px);
+            }
+            view.setLayoutParams(params);
+            binding.itemInfoUpperPicCountIndicatorLl.addView(view);
+        }
     }
 
     private void onLikedClothesItem() {
