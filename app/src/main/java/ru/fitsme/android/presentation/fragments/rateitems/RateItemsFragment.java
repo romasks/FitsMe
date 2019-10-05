@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
@@ -18,6 +20,7 @@ import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.main.view.MainActivity;
@@ -70,7 +73,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
         viewModel.init();
 
-        viewModel.getRateItemsStateLiveData()
+        viewModel.getClotheInfoListLiveData()
                 .observe(this, this::onChange);
     }
 
@@ -81,12 +84,12 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         viewModel.clearDisposables();
     }
 
-    private void onChange(RateItemsState rateItemsState) {
+    private void onChange(List<ClotheInfo> clotheInfoList) {
         int containerWidth = binding.fragmentRateItemsContainer.getWidth();
         int containerHeight = getContainerHeight();
 
         currentFragment = ItemInfoFragment.newInstance(
-                rateItemsState.getClotheInfo(), isFullItemInfoState, containerHeight, containerWidth);
+                clotheInfoList.get(0), isFullItemInfoState, containerHeight, containerWidth);
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_rate_items_container, currentFragment)
@@ -207,14 +210,14 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void likeItem() {
         if (currentFragment != null) {
-            viewModel.likeClothesItem(true, IOnSwipeListener.AnimationType.RIGHT);
+            viewModel.likeClothesItem(true);
         }
     }
 
     @Override
     public void dislikeItem() {
         if (currentFragment != null) {
-            viewModel.likeClothesItem(false, IOnSwipeListener.AnimationType.LEFT);
+            viewModel.likeClothesItem(false);
         }
     }
 }

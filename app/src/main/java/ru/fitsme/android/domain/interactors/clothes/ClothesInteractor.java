@@ -1,7 +1,10 @@
 package ru.fitsme.android.domain.interactors.clothes;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
+import java.util.List;
 import java.util.ListIterator;
 
 import javax.inject.Inject;
@@ -24,6 +27,8 @@ public class ClothesInteractor implements IClothesInteractor {
     private final Scheduler workThread;
     private final Scheduler mainThread;
 
+    private final MutableLiveData<List<ClotheInfo>> clotheInfoListLiveData = new MutableLiveData<>();
+
     private ListIterator<ClotheInfo> clothesListIterator;
     private Subject<ClotheInfo> itemInfoStateSubject = PublishSubject.create();
 
@@ -34,22 +39,22 @@ public class ClothesInteractor implements IClothesInteractor {
         this.clothesRepository = clothesRepository;
         this.workThread = workThread;
         this.mainThread = mainThread;
+
+        getClothesList();
     }
 
-    @NonNull
-    @Override
-    public Subject<ClotheInfo> getItemInfoState() {
-        getClothesList();
-        return itemInfoStateSubject;
-    }
+//    @NonNull
+//    @Override
+//    public Subject<ClotheInfo> getItemInfoState() {
+//        getClothesList();
+//        return itemInfoStateSubject;
+//    }
 
     private void getClothesList() {
         clothesRepository.getClotheList()
                 .observeOn(mainThread)
-                .subscribe(clotheInfoList -> {
-                    clothesListIterator = clotheInfoList.listIterator();
-                    getNext();
-                }, Timber::e);
+                .subscribe(clotheInfoList ->
+                        clotheInfoListLiveData.setValue(clotheInfoList), Timber::e);
     }
 
     @NonNull
@@ -60,16 +65,21 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public void getNext() {
-        if (clothesListIterator.hasNext()) {
-            itemInfoStateSubject.onNext(clothesListIterator.next());
-        } else {
-            getClothesList();
-        }
+    public LiveData<List<ClotheInfo>> getClotheInfoListLiveData(){
+        return clotheInfoListLiveData;
     }
 
-    @Override
-    public void updateList(){
-        getClothesList();
-    }
+//    @Override
+//    public void getNext() {
+//        if (clothesListIterator.hasNext()) {
+//            itemInfoStateSubject.onNext(clothesListIterator.next());
+//        } else {
+//            getClothesList();
+//        }
+//    }
+
+//    @Override
+//    public void updateList(){
+//        getClothesList();
+//    }
 }
