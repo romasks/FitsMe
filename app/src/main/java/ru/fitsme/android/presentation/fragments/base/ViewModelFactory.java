@@ -12,6 +12,7 @@ import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
+import ru.fitsme.android.domain.interactors.returns.favourites.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.cart.CartViewModel;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
@@ -19,6 +20,7 @@ import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
+import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignUpViewModel;
@@ -57,6 +59,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new MainProfileViewModel((IProfileInteractor) interactor);
         }  else if (modelClass.isAssignableFrom(SizeProfileViewModel.class)) {
             return (T) new SizeProfileViewModel((IProfileInteractor) interactor);
+        } else if (modelClass.isAssignableFrom(ReturnsViewModel.class)) {
+            return (T) new ReturnsViewModel((IReturnsInteractor) interactor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

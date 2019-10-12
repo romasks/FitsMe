@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel" />
+
+        <variable
+            name="returnsItem"
+            type="ru.fitsme.android.domain.entities.returns.ReturnsItem" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <RelativeLayout
+            android:id="@+id/item_return_view_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:padding="@dimen/padding_medium">
+
+            <TextView
+                android:id="@+id/item_return_number"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@{@string/returns_number_tv(returnsItem.number)}"
+                android:textSize="@dimen/text_size_lower_medium"
+                android:textStyle="bold"
+                tools:text="Заказ #123"/>
+
+            <TextView
+                android:id="@+id/item_return_status_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_return_number"
+                android:layout_alignParentStart="true"
+                android:paddingBottom="12dp"
+                android:text="@string/returns_status_title"
+                android:textColor="#8A000000"
+                tools:text="Статус: " />
+
+            <TextView
+                android:id="@+id/item_return_status_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_return_number"
+                android:layout_toRightOf="@id/item_return_status_title"
+                android:paddingBottom="12dp"
+                android:text="@{returnsItem.status}"
+                android:textColor="#8A000000"
+                tools:text="черновик" />
+
+            <TextView
+                android:id="@+id/item_return_date"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:text="@{returnsItem.date}"
+                tools:text="31.12.2018" />
+
+            <TextView
+                android:id="@+id/item_return_amount_text"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_below="@id/item_return_status_title"
+                android:layout_alignParentStart="true"
+                android:text="@string/returns_amount_title" />
+
+            <TextView
+                android:id="@+id/item_return_amount"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_below="@id/item_return_status_title"
+                android:layout_alignParentEnd="true"
+                android:text="@{@string/returns_amount_value(returnsItem.amount)}"
+                tools:text="2 шт"/>
+
+            <TextView
+                android:id="@+id/item_return_price_text"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_below="@id/item_return_amount_text"
+                android:layout_alignParentStart="true"
+                android:text="@string/returns_price_title" />
+
+            <TextView
+                android:id="@+id/item_return_price"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_below="@id/item_return_amount"
+                android:layout_alignParentEnd="true"
+                android:text="@{@string/returns_price_value(returnsItem.price)}"
+                tools:text="6000 руб" />
+
+            <TextView
+                android:id="@+id/item_return_calculation_method_text"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_below="@id/item_return_price_text"
+                android:layout_alignParentStart="true"
+                android:text="@string/returns_calculation_methos_title" />
+
+            <TextView
+                android:id="@+id/item_return_calculation_method"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_below="@id/item_return_price"
+                android:layout_alignParentEnd="true"
+                android:text="@{returnsItem.calculationMethod}"
+                tools:text="Банковская карта" />
+
+            <TextView
+                android:id="@+id/item_return_days_for_return_text"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_below="@id/item_return_calculation_method_text"
+                android:layout_alignParentStart="true"
+                android:text="@string/returns_days_for_returns_title" />
+
+            <TextView
+                android:id="@+id/item_return_days_for_return"
+                style="@style/ReturnsItemTextStyle"
+                android:layout_below="@id/item_return_calculation_method"
+                android:layout_alignParentEnd="true"
+                android:text="@{@string/returns_days_for_returns_value(returnsItem.daysForReturn)}"
+                tools:text="6 дней"/>
+
+            <Button
+                android:id="@+id/item_returns_btn"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:paddingTop="@dimen/padding_small"
+                android:paddingBottom="@dimen/padding_small"
+                android:textAllCaps="false"
+                tools:text="Просмотреть детали" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#AAAAAAAA" />
+
+    </FrameLayout>
+
+</layout>

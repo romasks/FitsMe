@@ -21,6 +21,7 @@ import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
+import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
@@ -105,7 +106,12 @@ public class MainFragment extends Fragment {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_items);
     }
 
+    public void goToMainProfile(){
+        navigation.goToMainProfile();
+    }
+
     public void goToCheckout() {
+        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_cart);
         navigation.goToCheckout();
     }
 
@@ -152,7 +158,7 @@ public class MainFragment extends Fragment {
                     case NAV_ORDER_HISTORY_PROFILE:
                         break;
                     case NAV_ORDER_RETURN_PROFILE:
-                        break;
+                        return ReturnsFragment.newInstance();
                 }
                 throw new RuntimeException("Unknown screen key");
             }

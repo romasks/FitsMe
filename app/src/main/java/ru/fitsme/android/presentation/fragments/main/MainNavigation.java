@@ -72,6 +72,10 @@ public class MainNavigation {
         goNavigate(NAV_SIZE_PROFILE);
     }
 
+    public void goToOrdersReturn(){
+        goNavigate(NAV_ORDER_RETURN_PROFILE);
+    }
+
     public void goToTypeProfile(){
         goNavigate(NAV_TYPE_PROFILE);
     }

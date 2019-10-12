@@ -105,4 +105,18 @@
     <string name="dialog_fragment_rate_item_set_size_hint">Так вы сможете просматривать только подходящие по размеру вещи</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
+
+    <!--returns-->
+    <string name="screen_title_orders_return">Список возвратов</string>
+    <string name="returns_empty_list_title">Вы не оформляли возврат</string>
+    <string name="returns_empty_list_message">Товар, заказанный на FitsMe и не подошедший по каким-либо причинам (форма, габариты, фасон, расцветка, размер и комплектация), может быть возвращен в течение 14 дней, не считая дня покупки </string>
+    <string name="returns_number_tv">Заказ #%1$s</string>
+    <string name="returns_status_title">Статус: </string>
+    <string name="returns_amount_title">Количество товаров:</string>
+    <string name="returns_amount_value">%1$s шт</string>
+    <string name="returns_price_title">Сумма:</string>
+    <string name="returns_price_value">%1$s руб.</string>
+    <string name="returns_calculation_methos_title">Метод расчёта:</string>
+    <string name="returns_days_for_returns_title">Время на возврат:</string>
+    <string name="returns_days_for_returns_value">%1$s дней</string>
 </resources>

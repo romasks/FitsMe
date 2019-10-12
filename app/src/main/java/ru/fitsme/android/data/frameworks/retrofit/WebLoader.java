@@ -15,6 +15,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
@@ -102,6 +103,16 @@ abstract class WebLoader {
         return Single.create(emitter -> {
             authInteractor.getAuthInfo()
                     .subscribe(authInfo -> apiService.getFavouritesClothes(TOKEN + authInfo.getToken(), page)
+                            .subscribeOn(workThread)
+                            .subscribe(emitter::onSuccess, emitter::onError),
+                            emitter::onError);
+        });
+    }
+
+    public Single<OkResponse<ReturnsPage>> getReturnsClothesPage(int page){
+        return Single.create(emitter -> {
+            authInteractor.getAuthInfo()
+                    .subscribe(authInfo -> apiService.getReturnsClothes(TOKEN + authInfo.getToken(), page)
                             .subscribeOn(workThread)
                             .subscribe(emitter::onSuccess, emitter::onError),
                             emitter::onError);

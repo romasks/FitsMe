@@ -17,6 +17,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
+import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
@@ -63,6 +64,11 @@ public class WebLoaderNetworkChecker extends WebLoader {
     @Override
     public Single<OkResponse<FavouritesPage>> getFavouritesClothesPage(int page) {
         return checkNetwork(super.getFavouritesClothesPage(page));
+    }
+
+    @Override
+    public Single<OkResponse<ReturnsPage>> getReturnsClothesPage(int page) {
+        return checkNetwork(super.getReturnsClothesPage(page));
     }
 
     @Override

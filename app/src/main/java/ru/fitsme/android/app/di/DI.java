@@ -34,6 +34,7 @@ import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersActionRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.repositories.profile.ProfileRepository;
+import ru.fitsme.android.data.repositories.returns.ReturnsRepository;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
@@ -43,6 +44,7 @@ import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.boundaries.profile.IProfileRepository;
+import ru.fitsme.android.domain.boundaries.retunrs.IReturnsRepository;
 import ru.fitsme.android.domain.interactors.auth.AuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
@@ -55,6 +57,8 @@ import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.orders.OrdersInteractor;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.domain.interactors.profile.ProfileInteractor;
+import ru.fitsme.android.domain.interactors.returns.favourites.IReturnsInteractor;
+import ru.fitsme.android.domain.interactors.returns.favourites.ReturnsInteractor;
 import toothpick.Scope;
 import toothpick.Toothpick;
 import toothpick.config.Module;
@@ -96,6 +100,9 @@ public class DI {
 
             bind(IAuthInfoStorage.class).to(AuthInfoStorage.class);
             bind(ISettingsStorage.class).to(SettingsStorage.class);
+
+            bind(IReturnsInteractor.class).to(ReturnsInteractor.class);
+            bind(IReturnsRepository.class).to(ReturnsRepository.class);
         }});
     }
 

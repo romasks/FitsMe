@@ -74,7 +74,7 @@ public class MainProfileFragment extends Fragment implements MainProfileBindingE
 
     @Override
     public void onOrdersReturnClick() {
-
+        viewModel.goToOrdersReturn();
     }
 
     @Override

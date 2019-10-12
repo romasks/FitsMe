@@ -18,6 +18,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
@@ -86,4 +87,8 @@ public interface ApiService {
     @PUT("profile/")
     Single<OkResponse<Profile>> setProfile(@Header("Authorization") String token,
                                             @Body Profile profile);
+
+    @GET("returns/")
+    Single<OkResponse<ReturnsPage>> getReturnsClothes(@Header("Authorization") String token,
+                                                      @Query("page") int page);
 }
