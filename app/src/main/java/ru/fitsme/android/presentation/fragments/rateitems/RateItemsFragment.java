@@ -22,6 +22,7 @@ import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
+import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoTouchListener;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.main.view.MainActivity;
 import timber.log.Timber;
@@ -38,6 +39,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private FragmentRateItemsBinding binding;
     private RateItemAnimation itemAnimation;
     private boolean isFullItemInfoState;
+    private ItemInfoTouchListener itemInfoTouchListener;
+    private RateItemTouchListener rateItemTouchListener;
 
     public static RateItemsFragment newInstance() {
         return new RateItemsFragment();
@@ -80,7 +83,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ((MainActivity) getActivity()).unsubscribe();
+        ((MainActivity) getActivity()).disposeTouch();
         viewModel.clearDisposables();
     }
 
@@ -151,7 +154,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         if (b) {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
             binding.fragmentRateItemsContainer.setOnTouchListener(null);
-            ((MainActivity) getActivity()).unsubscribe();
+//            ((MainActivity) getActivity()).disposeTouch(rateItemTouchListener);
         } else {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_buttons_group, ConstraintSet.TOP);
             setOnTouchListener();
@@ -160,9 +163,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void setOnTouchListener() {
-        RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this);
+        rateItemTouchListener = new RateItemTouchListener(this);
         binding.fragmentRateItemsContainer.setOnTouchListener(rateItemTouchListener);
-        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
+//        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
     }
 
     @Override
@@ -219,5 +222,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         if (currentFragment != null) {
             viewModel.likeClothesItem(false);
         }
+    }
+
+    public void setListener(ItemInfoTouchListener itemInfoTouchListener) {
+        this.itemInfoTouchListener = itemInfoTouchListener;
+        ((MainActivity) getActivity()).observeTouch(itemInfoTouchListener);
     }
 }

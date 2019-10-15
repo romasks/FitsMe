@@ -76,6 +76,7 @@ public class RateItemTouchListener implements View.OnTouchListener {
                 } else if (liked == Rating.LIKED){
                     callback.startToLikeItem();
                 }
+                v.performClick();
                 break;
             default:
                 break;

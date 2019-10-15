@@ -8,10 +8,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.inject.Inject;
 
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private Navigator navigator = getFragmentNavigator();
-    private WeakReference<RateItemTouchListener> weakReference;
+    private HashSet<WeakReference<View.OnTouchListener>> weakReferencesSet = new HashSet<>();
 
     public MainActivity() {
         App.getInstance().getDi().inject(this);
@@ -82,9 +85,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean isDispatch = super.dispatchTouchEvent(ev);
-        if (weakReference != null && weakReference.get() != null){
-            weakReference.get().onTouch(new TextView(this), ev);
-        }
+//        Iterator iterator = weakReferencesSet.iterator();
+//        while (iterator.hasNext()){
+//            WeakReference<View.OnTouchListener> weakReference = (WeakReference<View.OnTouchListener>) iterator.next();
+//            if (weakReference != null && weakReference.get() != null){
+//                weakReference.get().onTouch(new TextView(this), ev);
+//            }
+//        }
         return isDispatch;
     }
 
@@ -120,13 +127,15 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    public void observeTouch(RateItemTouchListener rateItemTouchListener) {
-        this.weakReference = new WeakReference<>(rateItemTouchListener);
+    public void observeTouch(View.OnTouchListener touchListener) {
+        this.weakReferencesSet.add(new WeakReference<>(touchListener));
     }
 
-    public void unsubscribe() {
-        if (weakReference != null) {
-            weakReference.clear();
-        }
+    public void disposeTouch() {
+        weakReferencesSet.clear();
+    }
+
+    public void disposeTouch(RateItemTouchListener listener) {
+        weakReferencesSet.remove(listener);
     }
 }
