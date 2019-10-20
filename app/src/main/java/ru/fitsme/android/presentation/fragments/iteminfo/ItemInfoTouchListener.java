@@ -31,7 +31,18 @@ public class ItemInfoTouchListener implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:{
                 firstTouchX = (int) event.getRawX();
                 firstTouchY = (int) event.getRawY();
-                break;
+                return false;
+            }
+            case MotionEvent.ACTION_MOVE:{
+                int touchX = (int) event.getRawX();
+                int touchY = (int) event.getRawY();
+
+                int deltaX = touchX - firstTouchX;
+                int deltaY = touchY - firstTouchY;
+
+                int TOUCH_SENSITIVITY = 32;
+
+                return Math.abs(deltaX) < windowWidth / TOUCH_SENSITIVITY;
             }
             case MotionEvent.ACTION_UP:{
                 int touchX = (int) event.getRawX();
@@ -51,9 +62,11 @@ public class ItemInfoTouchListener implements View.OnTouchListener {
                     }
                 }
                 v.performClick();
+                return true;
             }
+            default:
+                return false;
         }
-        return true;
     }
 
 

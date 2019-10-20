@@ -10,7 +10,7 @@
             type="ru.fitsme.android.presentation.fragments.iteminfo.BindingEventsClickListener" />
     </data>
 
-    <ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoScrollView
+    <ScrollView
         android:id="@+id/item_info_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -258,6 +258,6 @@
 
         </android.support.constraint.ConstraintLayout>
 
-    </ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoScrollView>
+    </ScrollView>
 
 </layout>

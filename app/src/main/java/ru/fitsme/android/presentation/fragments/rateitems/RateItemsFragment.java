@@ -28,7 +28,9 @@ import ru.fitsme.android.presentation.main.view.MainActivity;
 import timber.log.Timber;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
-        implements BindingEventsClickListener, RateItemTouchListener.Callback, RateItemAnimation.Callback {
+        implements BindingEventsClickListener,
+        RateItemTouchListener.Callback,
+        RateItemAnimation.Callback {
 
     private static final String KEY_ITEM_INFO_STATE = "state";
 
@@ -208,6 +210,16 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void resetContainerView() {
         itemAnimation.resetContainerView();
+    }
+
+    @Override
+    public void previousPicture() {
+        currentFragment.previousPicture();
+    }
+
+    @Override
+    public void nextPicture() {
+        currentFragment.nextPicture();
     }
 
     @Override
