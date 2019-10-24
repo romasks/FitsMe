@@ -21,7 +21,7 @@ import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileVie
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
-import ru.fitsme.android.presentation.fragments.returns.processing.first.HowToReturnViewModel;
+import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignUpViewModel;

@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.returns.processing.first;
+package ru.fitsme.android.presentation.fragments.returns.processing.one;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;

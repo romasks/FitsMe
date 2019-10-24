@@ -8,11 +8,11 @@
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.returns.processing.first.HowToReturnViewModel" />
+            type="ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnViewModel" />
 
         <variable
             name="bindingEvents"
-            type="ru.fitsme.android.presentation.fragments.returns.processing.first.HowToReturnBindingEvents" />
+            type="ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnBindingEvents" />
     </data>
 
     <FrameLayout

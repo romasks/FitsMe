@@ -22,7 +22,7 @@ import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
-import ru.fitsme.android.presentation.fragments.returns.processing.first.HowToReturnFragment;
+import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnFragment;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
