@@ -98,4 +98,9 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
     public void goBack() {
         ((MainFragment) getParentFragment()).goToMainProfile();
     }
+
+    @Override
+    public void goToCreatingNewReturn() {
+        viewModel.goToReturnsHowTo();
+    }
 }

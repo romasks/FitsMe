@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/padding_medium"
                 android:onClick="@{() -> bindingEvents.goBack()}"
-                android:src="@drawable/ic_back_returns"
+                android:src="@drawable/ic_back_arrow"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/padding_medium"
                 android:layout_alignParentEnd="true"
-                android:onClick="@{() -> bindingEvents.goBack()}"
+                android:onClick="@{() -> bindingEvents.goToCreatingNewReturn()}"
                 android:src="@drawable/ic_add_returns"
                 tools:ignore="ContentDescription" />
 

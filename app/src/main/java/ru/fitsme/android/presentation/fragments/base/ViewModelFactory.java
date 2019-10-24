@@ -21,6 +21,7 @@ import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileVie
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
+import ru.fitsme.android.presentation.fragments.returns.processing.first.HowToReturnViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignUpViewModel;
@@ -61,6 +62,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new SizeProfileViewModel((IProfileInteractor) interactor);
         } else if (modelClass.isAssignableFrom(ReturnsViewModel.class)) {
             return (T) new ReturnsViewModel((IReturnsInteractor) interactor);
+        } else if (modelClass.isAssignableFrom(HowToReturnViewModel.class)) {
+            return (T) new HowToReturnViewModel((IReturnsInteractor) interactor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

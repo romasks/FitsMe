@@ -119,4 +119,10 @@
     <string name="returns_calculation_methos_title">Метод расчёта:</string>
     <string name="returns_days_for_returns_title">Время на возврат:</string>
     <string name="returns_days_for_returns_value">%1$s дней</string>
+
+    <string name="returns_how_to_header">Как оформить возврат</string>
+    <string name="returns_how_to_header_text">Товар, заказанный на FitsMe и не подошедший по каким-либо причинам (форма, габариты, фасон, расцветка, размер и комплектация), может быть возвращен в течение 14 дней, не считая дня покупки.</string>
+    <string name="returns_how_to_text_with_list">Для осуществления возврата нужно выполнить следующие действия:\n\n1. Выберите заказ из списка;\n\n2. Отметьте вещи, которые хотите вернуть;\n\n3. Отправьте товар;\n\n4. Укажите код отслеживания полученный в отделении почты;\n\n5. Укажите реквизиты для платежа;\n\n6. Ожидайте уведомление о поступлении товара на склад. После этого денежные средства будут возмещены на вашу банковскую карту.</string>
+    <string name="returns_how_to_button_text">Оформить возврат</string>
+
 </resources>

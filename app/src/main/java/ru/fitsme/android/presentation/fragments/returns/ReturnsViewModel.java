@@ -20,6 +20,7 @@ public class ReturnsViewModel extends BaseViewModel {
 
     public ReturnsViewModel(@NotNull IReturnsInteractor returnsInteractor) {
         this.returnsInteractor = returnsInteractor;
+        inject(this);
     }
 
     void init(MainFragment mainFragment) {
@@ -31,15 +32,15 @@ public class ReturnsViewModel extends BaseViewModel {
         return returnsInteractor.getPagedListLiveData();
     }
 
-    LiveData<Boolean> getReturnsIsEmpty(){
+    LiveData<Boolean> getReturnsIsEmpty() {
         return returnsInteractor.getReturnsIsEmpty();
-    }
-
-    boolean itemIsInCart(int position) {
-        return returnsInteractor.itemIsInCart(position);
     }
 
     public void goToCheckout() {
         mainFragment.goToCheckout();
+    }
+
+    public void goToReturnsHowTo() {
+        navigation.goToReturnsHowTo();
     }
 }

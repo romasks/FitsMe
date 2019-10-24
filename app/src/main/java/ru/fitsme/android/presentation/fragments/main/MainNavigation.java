@@ -20,6 +20,12 @@ public class MainNavigation {
     public static final String NAV_TYPE_PROFILE = "TypeProfile";
     public static final String NAV_ORDER_HISTORY_PROFILE = "OrderProfile";
     public static final String NAV_ORDER_RETURN_PROFILE = "ReturnProfile";
+    public static final String NAV_RETURNS_HOW_TO = "ReturnsHowTo";
+    public static final String NAV_RETURNS_CHOOSE_ORDER = "ReturnsChooseOrder";
+    public static final String NAV_RETURNS_CHOOSE_ITEMS = "ReturnsChooseItems";
+    public static final String NAV_RETURNS_INDICATE_NUMBER = "ReturnsIndicateNumber";
+    public static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
+    public static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
 
     private Cicerone<Router> cicerone;
 
@@ -40,6 +46,10 @@ public class MainNavigation {
         getRouter().navigateTo(navigationKey);
     }
 
+    private void backNavigate(String navigationKey) {
+        getRouter().backTo(navigationKey);
+    }
+
     public void setNavigator(Navigator navigator) {
         getNavigatorHolder().setNavigator(navigator);
     }
@@ -48,43 +58,91 @@ public class MainNavigation {
         getNavigatorHolder().removeNavigator();
     }
 
-    public void goToRateItems(){
+    public void goToRateItems() {
         goNavigate(NAV_RATE_ITEMS);
     }
 
-    public void goToFavourites(){
+    public void goToFavourites() {
         goNavigate(NAV_FAVOURITES);
     }
 
-    public void goToCart(){
+    public void goToCart() {
         goNavigate(NAV_CART);
     }
 
-    public void goToCheckout(){
+    public void goToCheckout() {
         goNavigate(NAV_CHECKOUT);
     }
 
-    public void goToMainProfile(){
+    public void goToMainProfile() {
         goNavigate(NAV_MAIN_PROFILE);
     }
 
-    public void goToSizeProfile(){
+    public void goToSizeProfile() {
         goNavigate(NAV_SIZE_PROFILE);
     }
 
-    public void goToOrdersReturn(){
+    public void goToOrdersReturn() {
         goNavigate(NAV_ORDER_RETURN_PROFILE);
     }
 
-    public void goToTypeProfile(){
+    public void goToTypeProfile() {
         goNavigate(NAV_TYPE_PROFILE);
     }
 
-    public void goToOrderHistoryProfile(){
+    public void goToOrderHistoryProfile() {
         goNavigate(NAV_ORDER_HISTORY_PROFILE);
     }
 
-    public void goToOrderReturnProfile(){
+    public void goToOrderReturnProfile() {
         goNavigate(NAV_ORDER_RETURN_PROFILE);
+    }
+
+    public void goToReturnsHowTo() {
+        goNavigate(NAV_RETURNS_HOW_TO);
+    }
+
+    public void goToReturnsChooseOrder() {
+        goNavigate(NAV_RETURNS_CHOOSE_ORDER);
+    }
+
+    public void goToReturnsChooseItems() {
+        goNavigate(NAV_RETURNS_CHOOSE_ITEMS);
+    }
+
+    public void goToReturnsIndicateNumber() {
+        goNavigate(NAV_RETURNS_INDICATE_NUMBER);
+    }
+
+    public void goToReturnsBillingInfo() {
+        goNavigate(NAV_RETURNS_BILLING_INFO);
+    }
+
+    public void goToReturnsVerifyData() {
+        goNavigate(NAV_RETURNS_VERIFY_DATA);
+    }
+
+    public void backToOrdersReturn() {
+        backNavigate(NAV_ORDER_RETURN_PROFILE);
+    }
+
+    public void backToReturnsHowTo() {
+        backNavigate(NAV_RETURNS_HOW_TO);
+    }
+
+    public void backToReturnsChooseOrder() {
+        backNavigate(NAV_RETURNS_CHOOSE_ORDER);
+    }
+
+    public void backToReturnsChooseItems() {
+        backNavigate(NAV_RETURNS_CHOOSE_ITEMS);
+    }
+
+    public void backToReturnsIndicateNumber() {
+        backNavigate(NAV_RETURNS_INDICATE_NUMBER);
+    }
+
+    public void backToReturnsBillingInfo() {
+        backNavigate(NAV_RETURNS_BILLING_INFO);
     }
 }

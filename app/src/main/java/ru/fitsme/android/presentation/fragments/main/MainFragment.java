@@ -22,6 +22,7 @@ import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
+import ru.fitsme.android.presentation.fragments.returns.processing.first.HowToReturnFragment;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
@@ -32,6 +33,12 @@ import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_M
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_HISTORY_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_RETURN_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RATE_ITEMS;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_BILLING_INFO;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_CHOOSE_ITEMS;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_CHOOSE_ORDER;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_HOW_TO;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_INDICATE_NUMBER;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_VERIFY_DATA;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_SIZE_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_TYPE_PROFILE;
 
@@ -159,6 +166,18 @@ public class MainFragment extends Fragment {
                         break;
                     case NAV_ORDER_RETURN_PROFILE:
                         return ReturnsFragment.newInstance();
+                    case NAV_RETURNS_HOW_TO:
+                        return HowToReturnFragment.newInstance();
+                    case NAV_RETURNS_CHOOSE_ORDER:
+                        break;
+                    case NAV_RETURNS_CHOOSE_ITEMS:
+                        break;
+                    case NAV_RETURNS_INDICATE_NUMBER:
+                        break;
+                    case NAV_RETURNS_BILLING_INFO:
+                        break;
+                    case NAV_RETURNS_VERIFY_DATA:
+                        break;
                 }
                 throw new RuntimeException("Unknown screen key");
             }
