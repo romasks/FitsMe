@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.databinding.FragmentHowToReturnBinding;
+import ru.fitsme.android.databinding.FragmentReturnHowToBinding;
 import ru.fitsme.android.domain.interactors.returns.favourites.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
@@ -24,7 +24,7 @@ public class HowToReturnFragment extends BaseFragment<HowToReturnViewModel> impl
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private FragmentHowToReturnBinding binding;
+    private FragmentReturnHowToBinding binding;
 
     public static HowToReturnFragment newInstance() {
         return new HowToReturnFragment();
@@ -33,7 +33,7 @@ public class HowToReturnFragment extends BaseFragment<HowToReturnViewModel> impl
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_how_to_return, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_how_to, container, false);
         binding.setBindingEvents(this);
         return binding.getRoot();
     }

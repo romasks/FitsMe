@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.returns;
+package ru.fitsme.android.presentation.fragments.returns.processing.two;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
@@ -17,20 +17,19 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.databinding.FragmentReturnsBinding;
+import ru.fitsme.android.databinding.FragmentReturnChooseOrderBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.favourites.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
-import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
-public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements ReturnsBindingEvents {
+public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnViewModel> implements ChooseOrderReturnBindingEvents {
 
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private FragmentReturnsBinding binding;
-    private ReturnsAdapter adapter;
+    private FragmentReturnChooseOrderBinding binding;
+    private ReturnOrdersAdapter adapter;
 
     public static DiffUtil.ItemCallback<ReturnsItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ReturnsItem>() {
 
@@ -45,14 +44,14 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
         }
     };
 
-    public static ReturnsFragment newInstance() {
-        return new ReturnsFragment();
+    public static ChooseOrderReturnFragment newInstance() {
+        return new ChooseOrderReturnFragment();
     }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_returns, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_choose_order, container, false);
         binding.setBindingEvents(this);
         return binding.getRoot();
     }
@@ -62,43 +61,33 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(ReturnsViewModel.class);
+                new ViewModelFactory(returnsInteractor)).get(ChooseOrderReturnViewModel.class);
         if (savedInstanceState == null) {
-            viewModel.init((MainFragment) getParentFragment());
+            viewModel.init();
         }
         binding.setViewModel(viewModel);
 
-        adapter = new ReturnsAdapter(viewModel);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        adapter = new ReturnOrdersAdapter(viewModel);
 
-        binding.returnsListRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.returnsListRv.setHasFixedSize(true);
-        binding.returnsListRv.setAdapter(adapter);
+        binding.returnOrdersListRv.setLayoutManager(linearLayoutManager);
+        binding.returnOrdersListRv.setHasFixedSize(true);
+        binding.returnOrdersListRv.setAdapter(adapter);
 
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
-
-        viewModel.getReturnsIsEmpty().observe(this, this::onReturnsIsEmpty);
     }
 
     private void onLoadPage(PagedList<ReturnsItem> pagedList) {
         adapter.submitList(pagedList);
     }
 
-    private void onReturnsIsEmpty(Boolean b) {
-        binding.returnsNoItemGroup.setVisibility(b ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onClickGoToCheckout() {
-        ((MainFragment) getParentFragment()).goToCheckout();
-    }
-
     @Override
     public void goBack() {
-        ((MainFragment) getParentFragment()).goToMainProfile();
+        viewModel.backToReturnsHowTo();
     }
 
     @Override
-    public void goToCreatingNewReturn() {
-        viewModel.goToReturnsHowTo();
+    public void onNext() {
+        viewModel.goToReturnsChooseItems();
     }
 }

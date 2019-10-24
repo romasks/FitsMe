@@ -23,6 +23,7 @@ import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnFragment;
+import ru.fitsme.android.presentation.fragments.returns.processing.two.ChooseOrderReturnFragment;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
@@ -169,7 +170,7 @@ public class MainFragment extends Fragment {
                     case NAV_RETURNS_HOW_TO:
                         return HowToReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ORDER:
-                        break;
+                        return ChooseOrderReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ITEMS:
                         break;
                     case NAV_RETURNS_INDICATE_NUMBER:

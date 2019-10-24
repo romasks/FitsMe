@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.returns.processing.two.ChooseOrderReturnViewModel" />
+
+        <variable
+            name="returnsItem"
+            type="ru.fitsme.android.domain.entities.returns.ReturnsItem" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/return_order_item"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{v -> viewModel.goToReturnsChooseItems()}"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/item_return_order_view_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@id/right_arrow"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_medium">
+
+            <TextView
+                android:id="@+id/item_return_number"
+                style="@style/ReturnsItemTextStyle"
+                android:text="@{@string/returns_number_tv(returnsItem.number)}"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Заказ #123" />
+
+            <TextView
+                android:id="@+id/item_return_date"
+                style="@style/ReturnsItemTextStyle"
+                android:text="@{@string/returns_order_date(returnsItem.date)}"
+                android:textSize="12sp"
+                tools:text="Дата заказа: 31.12.2018" />
+
+            <TextView
+                android:id="@+id/item_return_days_for_return_text"
+                style="@style/ReturnsItemTextStyle"
+                android:text="@{@string/returns_order_days_for_returns(returnsItem.daysForReturn)}"
+                android:textSize="12sp"
+                tools:text="Время на возврат: 6 дней" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#AAAAAAAA" />
+
+    </RelativeLayout>
+
+</layout>

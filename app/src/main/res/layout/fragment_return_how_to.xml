@@ -107,7 +107,7 @@
                 android:layout_margin="@dimen/padding_large"
                 android:background="@drawable/bg_to_cart_btn"
                 android:onClick="@{() -> bindingEvents.onNext()}"
-                android:text="@string/returns_how_to_button_text"
+                android:text="@string/returns_button_formalize_return"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_lower_medium" />
