@@ -133,6 +133,8 @@
     <string name="returns_order_date">Дата заказа: %1$s</string>
     <string name="returns_order_days_for_returns">Время на возврат: %1$s дней</string>
 
+    <string name="returns_order_item_price">%1$s руб.</string>
+
     <string name="returns_button_formalize_return">Оформить возврат</string>
     <string name="returns_button_next">Далее</string>
     <string name="returns_button_to_returns">К списку возвратов</string>

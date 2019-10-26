@@ -4,7 +4,7 @@ import android.databinding.ObservableBoolean;
 
 import org.jetbrains.annotations.NotNull;
 
-import ru.fitsme.android.domain.interactors.returns.favourites.IReturnsInteractor;
+import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
 public class HowToReturnViewModel extends BaseViewModel {

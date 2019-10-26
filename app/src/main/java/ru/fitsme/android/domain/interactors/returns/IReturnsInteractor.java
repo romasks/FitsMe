@@ -1,4 +1,4 @@
-package ru.fitsme.android.domain.interactors.returns.favourites;
+package ru.fitsme.android.domain.interactors.returns;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.paging.PagedList;

@@ -15,6 +15,15 @@ public class ClothesItem {
     private String size_in_stock;
     private int price;
 
+    ClothesItem() {
+    }
+
+    public ClothesItem(String brand, String name, int price) {
+        this.brand = brand;
+        this.name = name;
+        this.price = price;
+    }
+
     public int getId() {
         return id;
     }

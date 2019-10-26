@@ -27,6 +27,8 @@ public class MainNavigation {
     public static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
     public static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
 
+    public int position;
+
     private Cicerone<Router> cicerone;
 
     @Inject
@@ -106,7 +108,8 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItems() {
+    public void goToReturnsChooseItems(int position) {
+        this.position = position;
         goNavigate(NAV_RETURNS_CHOOSE_ITEMS);
     }
 

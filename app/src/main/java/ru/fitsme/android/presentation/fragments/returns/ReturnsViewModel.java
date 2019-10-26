@@ -7,7 +7,7 @@ import android.databinding.ObservableField;
 import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
-import ru.fitsme.android.domain.interactors.returns.favourites.IReturnsInteractor;
+import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 

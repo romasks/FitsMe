@@ -1,5 +1,9 @@
 package ru.fitsme.android.domain.entities.returns;
 
+import java.util.List;
+
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+
 public class ReturnsItem {
     private int id;
     private long number;
@@ -10,12 +14,13 @@ public class ReturnsItem {
     private String calculationMethod;
     private int daysForReturn;
     private boolean inCart;
+    private List<ClothesItem> items;
 
     ReturnsItem() {
     }
 
     public ReturnsItem(long number, String status, String date, int amount, int price,
-                String calculationMethod, int daysForReturn, boolean inCart) {
+                String calculationMethod, int daysForReturn, boolean inCart, List<ClothesItem> items) {
         this.number = number;
         this.status = status;
         this.date = date;
@@ -24,6 +29,7 @@ public class ReturnsItem {
         this.calculationMethod = calculationMethod;
         this.daysForReturn = daysForReturn;
         this.inCart = inCart;
+        this.items = items;
     }
 
     public int getId() {
@@ -62,6 +68,10 @@ public class ReturnsItem {
         return inCart;
     }
 
+    public List<ClothesItem> getItems() {
+        return items;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,7 +85,8 @@ public class ReturnsItem {
                 isInCart() == that.isInCart() &&
                 getStatus().equals(that.getStatus()) &&
                 getCalculationMethod().equals(that.getCalculationMethod()) &&
-                getDate().equals(that.getDate());
+                getDate().equals(that.getDate()) &&
+                getItems().equals(that.getItems());
     }
 
     @Override
@@ -90,6 +101,7 @@ public class ReturnsItem {
         result = 31 * result + getStatus().hashCode();
         result = 31 * result + getDate().hashCode();
         result = 31 * result + getCalculationMethod().hashCode();
+        result = 31 * result + getItems().hashCode();
         return result;
     }
 }

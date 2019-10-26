@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnsBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
-import ru.fitsme.android.domain.interactors.returns.favourites.IReturnsInteractor;
+import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;

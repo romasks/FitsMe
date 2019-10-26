@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.returns.processing.two;
+package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,41 +16,35 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.databinding.FragmentReturnChooseOrderBinding;
+import ru.fitsme.android.databinding.FragmentReturnChooseItemBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
-public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnViewModel> implements ChooseOrderReturnBindingEvents {
+public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewModel> implements ChooseItemReturnBindingEvents {
 
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private FragmentReturnChooseOrderBinding binding;
-    private ReturnOrdersAdapter adapter;
+    public static final String KEY_POSITION = "POSITION";
 
-    public static DiffUtil.ItemCallback<ReturnsItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ReturnsItem>() {
+    private FragmentReturnChooseItemBinding binding;
+    private ReturnOrderItemsAdapter adapter;
+    private int orderPosition;
 
-        @Override
-        public boolean areItemsTheSame(@NonNull ReturnsItem oldItem, @NonNull ReturnsItem newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull ReturnsItem oldItem, @NonNull ReturnsItem newItem) {
-            return oldItem.equals(newItem);
-        }
-    };
-
-    public static ChooseOrderReturnFragment newInstance() {
-        return new ChooseOrderReturnFragment();
+    public static ChooseItemReturnFragment newInstance(int position) {
+        Bundle args = new Bundle();
+        args.putInt(KEY_POSITION, position);
+        ChooseItemReturnFragment fragment = new ChooseItemReturnFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_choose_order, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_choose_item, container, false);
         binding.setBindingEvents(this);
         return binding.getRoot();
     }
@@ -60,29 +53,39 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getArguments() != null) {
+            orderPosition = getArguments().getInt(KEY_POSITION, 0);
+        }
+
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(ChooseOrderReturnViewModel.class);
+                new ViewModelFactory(returnsInteractor)).get(ChooseItemReturnViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
         binding.setViewModel(viewModel);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        adapter = new ReturnOrdersAdapter(viewModel);
+        adapter = new ReturnOrderItemsAdapter(viewModel);
 
-        binding.returnOrdersListRv.setLayoutManager(linearLayoutManager);
-        binding.returnOrdersListRv.setHasFixedSize(true);
-        binding.returnOrdersListRv.setAdapter(adapter);
+        binding.returnOrderItemsListRv.setLayoutManager(linearLayoutManager);
+        binding.returnOrderItemsListRv.setHasFixedSize(true);
+        binding.returnOrderItemsListRv.setAdapter(adapter);
 
         viewModel.getPageLiveData().observe(this, this::onLoadPage);
     }
 
     private void onLoadPage(PagedList<ReturnsItem> pagedList) {
-        adapter.submitList(pagedList);
+        adapter.setItems(viewModel.clothesList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void goBack() {
-        viewModel.backToReturnsHowTo();
+        viewModel.backToReturnsChooseOrder();
+    }
+
+    @Override
+    public void onNext() {
+        viewModel.goToReturnsIndicateNumber();
     }
 }
