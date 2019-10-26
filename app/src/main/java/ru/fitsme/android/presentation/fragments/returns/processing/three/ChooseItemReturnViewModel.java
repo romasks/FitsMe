@@ -28,6 +28,7 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
 
     void init() {
         isLoading.set(false);
+        clothesList.clear();
         clothesList.add(new ClothesItem("Adidas", "Кроссовки", 325));
         clothesList.add(new ClothesItem("Dolce Gabana", "Платье", 2130));
         clothesList.add(new ClothesItem("Nike", "Кепка", 210));

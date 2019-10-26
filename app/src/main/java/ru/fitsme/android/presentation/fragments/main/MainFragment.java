@@ -22,6 +22,8 @@ import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
+import ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnFragment;
+import ru.fitsme.android.presentation.fragments.returns.processing.four.IndicateNumberReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.three.ChooseItemReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.two.ChooseOrderReturnFragment;
@@ -175,9 +177,9 @@ public class MainFragment extends Fragment {
                     case NAV_RETURNS_CHOOSE_ITEMS:
                         return ChooseItemReturnFragment.newInstance(navigation.position);
                     case NAV_RETURNS_INDICATE_NUMBER:
-                        break;
+                        return IndicateNumberReturnFragment.newInstance();
                     case NAV_RETURNS_BILLING_INFO:
-                        break;
+                        return BillingInfoReturnFragment.newInstance();
                     case NAV_RETURNS_VERIFY_DATA:
                         break;
                 }

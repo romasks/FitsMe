@@ -135,6 +135,11 @@
 
     <string name="returns_order_item_price">%1$s руб.</string>
 
+    <string name="returns_indicate_number_text">Отправьте вещи для возврата Почтой России. Там выполучите трек-номер для отслеживания — он указан на чеке.</string>
+
+    <string name="returns_billing_info_header_text">Номер банковской карты</string>
+    <string name="returns_billing_info_text">Как только вещи поступят на наш склад, денежные средства будут возмещены на вашу банковскую карту.</string>
+
     <string name="returns_button_formalize_return">Оформить возврат</string>
     <string name="returns_button_next">Далее</string>
     <string name="returns_button_to_returns">К списку возвратов</string>
