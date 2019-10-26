@@ -155,7 +155,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         set.clone(binding.rateItemsLayout);
         if (b) {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
-            binding.fragmentRateItemsContainer.setOnTouchListener(null);
+            currentFragment.setOnTouchListener(null);
+//            binding.fragmentRateItemsContainer.setOnTouchListener(null);
 //            ((MainActivity) getActivity()).disposeTouch(rateItemTouchListener);
         } else {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_buttons_group, ConstraintSet.TOP);
@@ -166,7 +167,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     private void setOnTouchListener() {
         rateItemTouchListener = new RateItemTouchListener(this);
-        binding.fragmentRateItemsContainer.setOnTouchListener(rateItemTouchListener);
+        currentFragment.setOnTouchListener(rateItemTouchListener);
+//        binding.fragmentRateItemsContainer.setOnTouchListener(rateItemTouchListener);
 //        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
     }
 

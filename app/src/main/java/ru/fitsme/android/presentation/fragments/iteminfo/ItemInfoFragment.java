@@ -26,6 +26,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
@@ -85,9 +86,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         setOnBrandNameTouchListener();
     }
 
-    private void setOnTouchListener() {
-        ItemInfoTouchListener itemInfoTouchListener = new ItemInfoTouchListener(this);
-        binding.itemInfoItemInfoCard.setOnTouchListener(itemInfoTouchListener);
+    public void setOnTouchListener(RateItemTouchListener touchListener) {
+//        ItemInfoTouchListener itemInfoTouchListener = new ItemInfoTouchListener(this);
+        binding.itemInfoScrollView.setListener(touchListener);
 //        ((RateItemsFragment) getParentFragment()).setListener(itemInfoTouchListener);
     }
 

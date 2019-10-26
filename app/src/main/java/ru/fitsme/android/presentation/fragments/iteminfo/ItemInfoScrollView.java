@@ -4,8 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
+import android.widget.TextView;
+
+import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 
 public class ItemInfoScrollView extends ScrollView {
+
+    private RateItemTouchListener listener;
 
     public ItemInfoScrollView(Context context) {
         super(context);
@@ -25,20 +30,25 @@ public class ItemInfoScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()){
-            case MotionEvent.ACTION_DOWN:{
-                break;
-            }
-            case MotionEvent.ACTION_UP:{
-                performClick();
-                break;
-            }
+        if (listener != null){
+            listener.onTouch(this, ev);
         }
-        return true;
+        return super.onTouchEvent(ev);
     }
 
+
+
     @Override
-    public boolean performClick() {
-        return super.performClick();
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    public void setListener(RateItemTouchListener listener) {
+        this.listener = listener;
+    }
+
+    public void clearListener(){
+        this.listener = null;
     }
 }
