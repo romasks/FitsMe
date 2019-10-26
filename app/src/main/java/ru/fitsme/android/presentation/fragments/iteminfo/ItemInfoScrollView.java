@@ -34,7 +34,7 @@ public class ItemInfoScrollView extends ScrollView {
                 break;
             }
         }
-        return false;
+        return true;
     }
 
     @Override

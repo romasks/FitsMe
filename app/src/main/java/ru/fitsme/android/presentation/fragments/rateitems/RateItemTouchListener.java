@@ -68,12 +68,19 @@ public class RateItemTouchListener implements View.OnTouchListener {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (liked == Rating.RESET){
+                if (Math.abs(deltaX) < windowWidth / 32 && Math.abs(deltaY) < windowHeight / 32){
+                    if (touchX < screenHorizontalCenter){
+                        callback.previousPicture();
+                    } else {
+                        callback.nextPicture();
+                    }
+                }
+                if (liked == Rating.RESET) {
                     callback.maybeLikeItem(0);
                     callback.resetContainerViewWithAnimation();
-                } else if (liked == Rating.DISLIKED){
+                } else if (liked == Rating.DISLIKED) {
                     callback.startToDislikeItem();
-                } else if (liked == Rating.LIKED){
+                } else if (liked == Rating.LIKED) {
                     callback.startToLikeItem();
                 }
                 v.performClick();
@@ -105,5 +112,9 @@ public class RateItemTouchListener implements View.OnTouchListener {
         void resetContainerViewWithAnimation();
 
         void resetContainerView();
+
+        void previousPicture();
+
+        void nextPicture();
     }
 }

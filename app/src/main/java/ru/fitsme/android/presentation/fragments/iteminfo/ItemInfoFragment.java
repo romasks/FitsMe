@@ -81,7 +81,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             onLikedClothesItem();
         }
 
-        setOnTouchListener();
+//        setOnTouchListener();
         setOnBrandNameTouchListener();
     }
 
