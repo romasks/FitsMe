@@ -15,7 +15,7 @@ public class ClothesItem {
     private String size_in_stock;
     private int price;
 
-    ClothesItem() {
+    public ClothesItem() {
     }
 
     public ClothesItem(String brand, String name, int price) {

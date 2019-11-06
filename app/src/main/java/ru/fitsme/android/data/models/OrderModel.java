@@ -1,7 +1,7 @@
 package ru.fitsme.android.data.models;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.domain.entities.order.Order;

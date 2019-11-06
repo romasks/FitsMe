@@ -8,6 +8,7 @@ import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.main.AuthNavigation;
 
+@SuppressWarnings("Injectable")
 public class SignInUpViewModel extends BaseViewModel {
 
     @Inject

@@ -1,16 +1,17 @@
 package ru.fitsme.android.presentation.fragments.profile.view;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,17 +64,19 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
     }
 
     private void setAdapterToTypeSpinners() {
+        if (getActivity() == null) return;
         String[] array = makeSizeTypeArray();
-        SpinnerAdapter<String> adapter = new SpinnerAdapter<String>(
+        SpinnerAdapter<String> adapter = new SpinnerAdapter<>(
                 getActivity(), android.R.layout.simple_spinner_item, array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.fragmentChangeSizeTopSizeLayoutSizeTypeSpinner.setAdapter(adapter);
         binding.fragmentChangeSizeBottomSizeLayoutSizeTypeSpinner.setAdapter(adapter);
     }
 
-    private void setAdapterToTopSizeSpinner(){
+    private void setAdapterToTopSizeSpinner() {
+        if (getActivity() == null) return;
         ArrayList<String> arrayList = new ArrayList<>();
-        SpinnerAdapter<String> adapter = new SpinnerAdapter<String>(
+        SpinnerAdapter<String> adapter = new SpinnerAdapter<>(
                 getActivity(), android.R.layout.simple_spinner_item, arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.fragmentChangeSizeTopSizeLayoutSizeValueSpinner.setAdapter(adapter);
@@ -87,9 +90,10 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
         });
     }
 
-    private void setAdapterToBottomSizeSpinner(){
+    private void setAdapterToBottomSizeSpinner() {
+        if (getActivity() == null) return;
         ArrayList<String> arrayList = new ArrayList<>();
-        SpinnerAdapter<String> adapter = new SpinnerAdapter<String>(
+        SpinnerAdapter<String> adapter = new SpinnerAdapter<>(
                 getActivity(), android.R.layout.simple_spinner_item, arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.fragmentChangeSizeBottomSizeLayoutSizeValueSpinner.setAdapter(adapter);
@@ -156,7 +160,7 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
         viewModel.goBack();
     }
 
-    private String[] makeSizeTypeArray(){
+    private String[] makeSizeTypeArray() {
         ClotheSizeType[] clotheSizeTypes = ClotheSizeType.values();
         String[] strings = new String[clotheSizeTypes.length];
         for (int i = 0; i < clotheSizeTypes.length; i++) {

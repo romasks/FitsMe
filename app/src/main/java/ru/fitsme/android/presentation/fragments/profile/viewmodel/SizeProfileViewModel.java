@@ -1,8 +1,8 @@
 package ru.fitsme.android.presentation.fragments.profile.viewmodel;
 
-import android.arch.lifecycle.LiveData;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
+import androidx.lifecycle.LiveData;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +15,7 @@ import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.main.MainNavigation;
 
+@SuppressWarnings("Injectable")
 public class SizeProfileViewModel extends BaseViewModel {
 
     public ObservableInt selectedTopType;

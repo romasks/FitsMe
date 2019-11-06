@@ -1,6 +1,8 @@
 package ru.fitsme.android.domain.interactors.clothes;
 
-import android.support.annotation.NonNull;
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
 
 import java.util.ListIterator;
 
@@ -43,6 +45,7 @@ public class ClothesInteractor implements IClothesInteractor {
         return itemInfoStateSubject;
     }
 
+    @SuppressLint("CheckResult")
     private void getClothesList() {
         clothesRepository.getClotheList()
                 .observeOn(mainThread)
@@ -69,7 +72,7 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public void updateList(){
+    public void updateList() {
         getClothesList();
     }
 }

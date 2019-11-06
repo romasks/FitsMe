@@ -1,19 +1,15 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.PagedList;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
-import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
 public class FavouritesViewModel extends BaseViewModel {
@@ -42,7 +38,7 @@ public class FavouritesViewModel extends BaseViewModel {
         return favouritesInteractor.addFavouritesItemToCart(position);
     }
 
-    Single<FavouritesItem> restoreItem(int position){
+    Single<FavouritesItem> restoreItem(int position) {
         return favouritesInteractor.restoreItemToFavourites(position);
     }
 

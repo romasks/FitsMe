@@ -1,6 +1,6 @@
 package ru.fitsme.android.data.repositories.auth;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import javax.inject.Inject;
 
@@ -15,19 +15,19 @@ public class SignRepository implements ISignRepository {
     private WebLoaderNetworkChecker webLoader;
 
     @Inject
-    public SignRepository(WebLoaderNetworkChecker webLoader) {
+    SignRepository(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 
     @NonNull
     @Override
-    public Single<AuthInfo> signIn(@NonNull SignInfo signInfo){
+    public Single<AuthInfo> signIn(@NonNull SignInfo signInfo) {
         return webLoader.signIn(signInfo);
     }
 
     @NonNull
     @Override
-    public Single<AuthInfo> signUp(@NonNull SignInfo signInfo){
+    public Single<AuthInfo> signUp(@NonNull SignInfo signInfo) {
         return webLoader.signUp(signInfo);
     }
 }

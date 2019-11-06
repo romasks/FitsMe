@@ -1,15 +1,17 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintSet;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import javax.inject.Inject;
 
@@ -43,7 +45,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null){
+        if (getArguments() != null) {
             isFullItemInfoState = getArguments().getBoolean(KEY_ITEM_INFO_STATE);
         } else {
             isFullItemInfoState = false;
@@ -77,7 +79,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ((MainActivity) getActivity()).unsubscribe();
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).unsubscribe();
+        }
         viewModel.clearDisposables();
     }
 
@@ -96,9 +100,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     private int getContainerHeight() {
         int containerHeight;
-        if (isFullItemInfoState){
+        if (isFullItemInfoState) {
             int px = binding.fragmentRateItemsButtonsGroup.getHeight();
-            int bottomPx = ((MainFragment) getParentFragment()).getBottomNavigationSize();
+            int bottomPx = getParentFragment() == null ? 0 : ((MainFragment) getParentFragment()).getBottomNavigationSize();
             containerHeight = binding.fragmentRateItemsContainer.getHeight() - px - bottomPx;
         } else {
             containerHeight = binding.fragmentRateItemsContainer.getHeight();
@@ -128,27 +132,36 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     public void setFullItemInfoState(boolean b) {
         isFullItemInfoState = b;
-        getArguments().putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
-        if (b){
+        if (getArguments() != null) {
+            getArguments().putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
+        }
+        if (b) {
             binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
-            ((MainFragment) getParentFragment()).showBottomNavigation(false);
+            if (getParentFragment() != null) {
+                ((MainFragment) getParentFragment()).showBottomNavigation(false);
+            }
             setConstraintToFullState(true);
         } else {
             binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
-            ((MainFragment) getParentFragment()).showBottomNavigation(true);
+            if (getParentFragment() != null) {
+                ((MainFragment) getParentFragment()).showBottomNavigation(true);
+            }
             setConstraintToFullState(false);
         }
     }
 
-    private void setConstraintToFullState(boolean b){
+    @SuppressLint("ClickableViewAccessibility")
+    private void setConstraintToFullState(boolean b) {
         ConstraintSet set = new ConstraintSet();
         set.clone(binding.rateItemsLayout);
         if (b) {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
             binding.fragmentRateItemsContainer.setOnTouchListener(null);
-            ((MainActivity) getActivity()).unsubscribe();
+            if (getActivity() != null) {
+                ((MainActivity) getActivity()).unsubscribe();
+            }
         } else {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_buttons_group, ConstraintSet.TOP);
             setOnTouchListener();
@@ -156,14 +169,17 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         set.applyTo(binding.rateItemsLayout);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setOnTouchListener() {
         RateItemTouchListener rateItemTouchListener = new RateItemTouchListener(this);
         binding.fragmentRateItemsContainer.setOnTouchListener(rateItemTouchListener);
-        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
+        }
     }
 
     @Override
-    public void maybeLikeItem(float alpha){
+    public void maybeLikeItem(float alpha) {
         currentFragment.showYes(true, alpha);
     }
 
@@ -174,7 +190,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     @Override
-    public void maybeDislikeItem(float alpha){
+    public void maybeDislikeItem(float alpha) {
         currentFragment.showNo(true, alpha);
     }
 

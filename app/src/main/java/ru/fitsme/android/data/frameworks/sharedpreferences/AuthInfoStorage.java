@@ -24,8 +24,7 @@ public class AuthInfoStorage implements IAuthInfoStorage {
     public AuthInfo getAuthInfo() {
         String login = sharedPreferences.getString(LOGIN_KEY, null);
         String token = sharedPreferences.getString(TOKEN_KEY, null);
-        AuthInfo authInfo = new AuthInfo(login, token);
-        return authInfo;
+        return new AuthInfo(login, token);
     }
 
     @Override

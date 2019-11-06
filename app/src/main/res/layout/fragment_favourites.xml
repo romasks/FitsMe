@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -16,14 +16,13 @@
         android:layout_height="match_parent"
         tools:context=".presentation.fragments.favourites.FavouritesFragment">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favourites_list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:orientation="vertical"
             android:background="@color/white"
-            />
+            android:clipToPadding="false"
+            android:orientation="vertical" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,8 +30,7 @@
             android:layout_gravity="center"
             android:text="@{viewModel.showMessage}"
             android:textSize="@dimen/text_size_lower_medium"
-            tools:visibility="invisible"
-            />
+            tools:visibility="invisible" />
 
     </FrameLayout>
 </layout>

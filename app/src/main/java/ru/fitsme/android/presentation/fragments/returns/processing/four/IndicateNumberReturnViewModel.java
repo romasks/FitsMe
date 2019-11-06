@@ -1,6 +1,6 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.four;
 
-import android.databinding.ObservableBoolean;
+import androidx.databinding.ObservableBoolean;
 
 import org.jetbrains.annotations.NotNull;
 

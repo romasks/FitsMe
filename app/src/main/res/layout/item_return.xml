@@ -36,7 +36,7 @@
                 android:text="@{@string/returns_number_tv(returnsItem.number)}"
                 android:textSize="@dimen/text_size_lower_medium"
                 android:textStyle="bold"
-                tools:text="Заказ #123"/>
+                tools:text="Заказ #123" />
 
             <TextView
                 android:id="@+id/item_return_status_title"
@@ -81,7 +81,7 @@
                 android:layout_below="@id/item_return_status_title"
                 android:layout_alignParentEnd="true"
                 android:text="@{@string/returns_amount_value(returnsItem.amount)}"
-                tools:text="2 шт"/>
+                tools:text="2 шт" />
 
             <TextView
                 android:id="@+id/item_return_price_text"
@@ -126,7 +126,7 @@
                 android:layout_below="@id/item_return_calculation_method"
                 android:layout_alignParentEnd="true"
                 android:text="@{@string/returns_days_for_returns_value(returnsItem.daysForReturn)}"
-                tools:text="6 дней"/>
+                tools:text="6 дней" />
 
             <Button
                 android:id="@+id/item_returns_btn"

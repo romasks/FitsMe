@@ -1,7 +1,9 @@
 package ru.fitsme.android.data.repositories.favourites;
 
-import android.arch.paging.PageKeyedDataSource;
-import android.support.annotation.NonNull;
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+import androidx.paging.PageKeyedDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +31,14 @@ public class FavouritesRepository extends PageKeyedDataSource<Integer, Favourite
         this.webLoader = webLoader;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, FavouritesItem> callback) {
         FavouritesInteractor.setFavouriteMessage(App.getInstance().getString(R.string.loading));
         webLoader.getFavouritesClothesPage(1)
                 .subscribe(favouritesPageOkResponse -> {
                     FavouritesPage favouritesPage = favouritesPageOkResponse.getResponse();
-                    if (favouritesPage != null){
+                    if (favouritesPage != null) {
                         callback.onResult(favouritesPage.getItems(), null, favouritesPage.getNext());
                     } else {
                         UserException error = ErrorRepository.makeError(favouritesPageOkResponse.getError());
@@ -50,12 +53,13 @@ public class FavouritesRepository extends PageKeyedDataSource<Integer, Favourite
                 });
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, FavouritesItem> callback) {
         webLoader.getFavouritesClothesPage(params.key)
                 .subscribe(favouritesPageOkResponse -> {
                     FavouritesPage favouritesPage = favouritesPageOkResponse.getResponse();
-                    if (favouritesPage != null){
+                    if (favouritesPage != null) {
                         callback.onResult(favouritesPage.getItems(), favouritesPage.getPrevious());
                     } else {
                         UserException error = ErrorRepository.makeError(favouritesPageOkResponse.getError());
@@ -69,12 +73,13 @@ public class FavouritesRepository extends PageKeyedDataSource<Integer, Favourite
                 });
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, FavouritesItem> callback) {
         webLoader.getFavouritesClothesPage(params.key)
                 .subscribe(favouritesPageOkResponse -> {
                     FavouritesPage favouritesPage = favouritesPageOkResponse.getResponse();
-                    if (favouritesPage != null){
+                    if (favouritesPage != null) {
                         callback.onResult(favouritesPage.getItems(), favouritesPage.getNext());
                     } else {
                         UserException error = ErrorRepository.makeError(favouritesPageOkResponse.getError());

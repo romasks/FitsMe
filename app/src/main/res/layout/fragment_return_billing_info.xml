@@ -82,7 +82,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -90,7 +90,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/card_example" />
 
-            <android.support.v7.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/card_number"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

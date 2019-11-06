@@ -1,9 +1,8 @@
 package ru.fitsme.android.domain.interactors.favourites;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.PagedList;
-import android.databinding.ObservableField;
-import android.support.annotation.NonNull;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;

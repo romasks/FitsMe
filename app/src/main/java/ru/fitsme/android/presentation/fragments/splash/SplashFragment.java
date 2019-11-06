@@ -1,13 +1,14 @@
 package ru.fitsme.android.presentation.fragments.splash;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import javax.inject.Inject;
 
@@ -45,7 +46,7 @@ public class SplashFragment extends BaseFragment<SplashViewModel> {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(authInteractor)).get(SplashViewModel .class);
+                new ViewModelFactory(authInteractor)).get(SplashViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

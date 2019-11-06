@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="clotheItem"
             type="ru.fitsme.android.domain.entities.clothes.ClothesItem" />
@@ -29,21 +30,19 @@
                 android:layout_marginEnd="@dimen/padding_extra_medium"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_delete_24dp"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/item_cart_delete_icon_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/padding_extra_medium"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_delete_24dp"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
         </RelativeLayout>
 
@@ -57,24 +56,23 @@
                 android:id="@+id/item_cart_image"
                 android:layout_width="98dp"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:layout_marginEnd="@dimen/padding_medium"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/padding_medium"
+                android:contentDescription="@null"
+                android:scaleType="centerInside"
                 app:defaultImage="@{@drawable/placeholder}"
                 app:imageUrl="@{clotheItem.pics[0].url}"
-                android:contentDescription="@null"
-                tools:src="@drawable/placeholder"
-                />
+                tools:src="@drawable/placeholder" />
 
             <TextView
                 android:id="@+id/item_cart_brand_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/padding_medium"
                 android:layout_toEndOf="@id/item_cart_image"
-                android:layout_alignParentEnd="true"
                 android:lines="2"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.brand}"
@@ -88,9 +86,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_cart_brand_name"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/padding_medium"
                 android:layout_toEndOf="@id/item_cart_image"
-                android:layout_alignParentEnd="true"
                 android:lines="2"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.name}"
@@ -102,9 +100,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_cart_name"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/padding_medium"
                 android:layout_toEndOf="@id/item_cart_image"
-                android:layout_alignParentEnd="true"
                 android:paddingBottom="4dp"
                 android:text="@{@string/cart_amount_tv(clotheItem.price)}"
                 android:textColor="@color/black"

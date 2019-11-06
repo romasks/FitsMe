@@ -11,21 +11,21 @@ import ru.terrakok.cicerone.Router;
 @Singleton
 public class MainNavigation {
 
-    public static final String NAV_RATE_ITEMS = "RateItems";
-    public static final String NAV_FAVOURITES = "Favourites";
-    public static final String NAV_CART = "Cart";
-    public static final String NAV_CHECKOUT = "Checkout";
-    public static final String NAV_MAIN_PROFILE = "MainProfile";
-    public static final String NAV_SIZE_PROFILE = "SizeProfile";
-    public static final String NAV_TYPE_PROFILE = "TypeProfile";
-    public static final String NAV_ORDER_HISTORY_PROFILE = "OrderProfile";
-    public static final String NAV_ORDER_RETURN_PROFILE = "ReturnProfile";
-    public static final String NAV_RETURNS_HOW_TO = "ReturnsHowTo";
-    public static final String NAV_RETURNS_CHOOSE_ORDER = "ReturnsChooseOrder";
-    public static final String NAV_RETURNS_CHOOSE_ITEMS = "ReturnsChooseItems";
-    public static final String NAV_RETURNS_INDICATE_NUMBER = "ReturnsIndicateNumber";
-    public static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
-    public static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
+    static final String NAV_RATE_ITEMS = "RateItems";
+    static final String NAV_FAVOURITES = "Favourites";
+    static final String NAV_CART = "Cart";
+    static final String NAV_CHECKOUT = "Checkout";
+    static final String NAV_MAIN_PROFILE = "MainProfile";
+    static final String NAV_SIZE_PROFILE = "SizeProfile";
+    static final String NAV_TYPE_PROFILE = "TypeProfile";
+    static final String NAV_ORDER_HISTORY_PROFILE = "OrderProfile";
+    static final String NAV_ORDER_RETURN_PROFILE = "ReturnProfile";
+    static final String NAV_RETURNS_HOW_TO = "ReturnsHowTo";
+    static final String NAV_RETURNS_CHOOSE_ORDER = "ReturnsChooseOrder";
+    static final String NAV_RETURNS_CHOOSE_ITEMS = "ReturnsChooseItems";
+    static final String NAV_RETURNS_INDICATE_NUMBER = "ReturnsIndicateNumber";
+    static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
+    static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
 
     public int position;
 

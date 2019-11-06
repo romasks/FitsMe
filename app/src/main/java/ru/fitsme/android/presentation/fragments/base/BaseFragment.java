@@ -1,7 +1,6 @@
 package ru.fitsme.android.presentation.fragments.base;
 
-import android.support.v4.app.Fragment;
-import android.widget.Toast;
+import androidx.fragment.app.Fragment;
 
 import ru.fitsme.android.app.App;
 

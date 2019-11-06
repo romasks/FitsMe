@@ -1,15 +1,16 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,7 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    public static final String KEY_POSITION = "POSITION";
+    private static final String KEY_POSITION = "POSITION";
 
     private FragmentReturnChooseItemBinding binding;
     private ReturnOrderItemsAdapter adapter;

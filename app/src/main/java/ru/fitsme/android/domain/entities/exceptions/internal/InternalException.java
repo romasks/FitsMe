@@ -6,10 +6,10 @@ public class InternalException extends AppException {
 
     public static final int CODE = 900001;
 
-    public InternalException(String message) {
+    InternalException(String message) {
         super(message);
     }
 
-    public InternalException() {
+    InternalException() {
     }
 }

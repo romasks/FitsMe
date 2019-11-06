@@ -3,16 +3,13 @@ package ru.fitsme.android.app;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.provider.Settings;
 
 
-public class NetworkStatus
-{
+public class NetworkStatus {
     private static final String TAG = "NetworkStatus";
 
-    public enum Status
-    {
+    public enum Status {
         WIFI,
         MOBILE,
         ETHERNET,
@@ -21,41 +18,33 @@ public class NetworkStatus
 
     private static Status currentStatus = Status.OFFLINE;
 
-    private static boolean isAirplane()
-    {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return Settings.System.getInt(App.getInstance().getContentResolver(),
-                    Settings.System.AIRPLANE_MODE_ON, 0) != 0;
-        } else {
-            return Settings.Global.getInt(App.getInstance().getContentResolver(),
-                    Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-        }
+    private static boolean isAirplane() {
+        return Settings.Global.getInt(App.getInstance().getContentResolver(),
+                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
 
     public static Status getStatus() {
         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        NetworkInfo activeNetwork = null;
+        if (cm != null) {
+            activeNetwork = cm.getActiveNetworkInfo();
+        }
         if (null != activeNetwork) {
-            if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
-            {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
                 //Log.d(TAG, "Network changed to Wi-Fi");
                 currentStatus = Status.WIFI;
             }
 
-            if(activeNetwork.getType() == ConnectivityManager.TYPE_ETHERNET)
-            {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_ETHERNET) {
                 //Log.d(TAG, "Network changed to Ethernet");
                 currentStatus = Status.ETHERNET;
             }
 
-            if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
-            {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
                 //Log.d(TAG, "Network changed to mobile");
                 currentStatus = Status.MOBILE;
             }
-        }
-        else
-        {
+        } else {
             currentStatus = Status.OFFLINE;
         }
 
@@ -65,29 +54,24 @@ public class NetworkStatus
     }
 
 
-    public static boolean isOnline()
-    {
+    public static boolean isOnline() {
         getStatus();
         return currentStatus.equals(Status.WIFI) || currentStatus.equals(Status.MOBILE) || currentStatus.equals(Status.ETHERNET);
     }
 
-    public static boolean isWifi()
-    {
+    public static boolean isWifi() {
         return getStatus().equals(Status.WIFI);
     }
 
-    public static boolean isEthernet()
-    {
+    public static boolean isEthernet() {
         return getStatus().equals(Status.ETHERNET);
     }
 
-    public static boolean isMobile()
-    {
+    public static boolean isMobile() {
         return getStatus().equals(Status.MOBILE);
     }
 
-    public static boolean isOffline()
-    {
+    public static boolean isOffline() {
         return getStatus().equals(Status.OFFLINE);
     }
 }

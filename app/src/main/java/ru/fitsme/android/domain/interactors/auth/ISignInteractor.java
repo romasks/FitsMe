@@ -1,7 +1,7 @@
 package ru.fitsme.android.domain.interactors.auth;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.auth.SignInUpResult;

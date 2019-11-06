@@ -1,16 +1,17 @@
 package ru.fitsme.android.presentation.fragments.returns;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +33,7 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
     private FragmentReturnsBinding binding;
     private ReturnsAdapter adapter;
 
-    public static DiffUtil.ItemCallback<ReturnsItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ReturnsItem>() {
+    static DiffUtil.ItemCallback<ReturnsItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ReturnsItem>() {
 
         @Override
         public boolean areItemsTheSame(@NonNull ReturnsItem oldItem, @NonNull ReturnsItem newItem) {
@@ -89,12 +90,16 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
 
     @Override
     public void onClickGoToCheckout() {
-        ((MainFragment) getParentFragment()).goToCheckout();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToCheckout();
+        }
     }
 
     @Override
     public void goBack() {
-        ((MainFragment) getParentFragment()).goToMainProfile();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToMainProfile();
+        }
     }
 
     @Override

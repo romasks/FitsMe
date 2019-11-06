@@ -1,15 +1,14 @@
 package ru.fitsme.android.presentation.fragments.favourites.inlistitem;
 
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesAdapter;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
-import timber.log.Timber;
 
 public class SetTopSizeState extends InListItemState {
     public SetTopSizeState(FavouritesAdapter.InListViewHolder button) {

@@ -1,6 +1,6 @@
 package ru.fitsme.android.domain.interactors.clothes;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import io.reactivex.Single;
 import io.reactivex.subjects.Subject;

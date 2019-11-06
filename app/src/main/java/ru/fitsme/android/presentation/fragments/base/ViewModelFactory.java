@@ -1,7 +1,7 @@
 package ru.fitsme.android.presentation.fragments.base;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -62,7 +62,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new SplashViewModel((IAuthInteractor) interactor);
         } else if (modelClass.isAssignableFrom(MainProfileViewModel.class)) {
             return (T) new MainProfileViewModel((IProfileInteractor) interactor);
-        }  else if (modelClass.isAssignableFrom(SizeProfileViewModel.class)) {
+        } else if (modelClass.isAssignableFrom(SizeProfileViewModel.class)) {
             return (T) new SizeProfileViewModel((IProfileInteractor) interactor);
         } else if (modelClass.isAssignableFrom(ReturnsViewModel.class)) {
             return (T) new ReturnsViewModel((IReturnsInteractor) interactor);

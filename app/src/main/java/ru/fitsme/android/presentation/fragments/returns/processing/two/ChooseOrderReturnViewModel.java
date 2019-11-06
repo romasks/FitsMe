@@ -1,8 +1,8 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.two;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.PagedList;
-import android.databinding.ObservableBoolean;
+import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
 import org.jetbrains.annotations.NotNull;
 

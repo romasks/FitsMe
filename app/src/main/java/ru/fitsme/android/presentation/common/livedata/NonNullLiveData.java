@@ -1,7 +1,7 @@
 package ru.fitsme.android.presentation.common.livedata;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 
 public interface NonNullLiveData<T> {
     void observe(@NonNull LifecycleOwner lifecycleOwner,

@@ -1,14 +1,15 @@
 package ru.fitsme.android.presentation.fragments.main;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import javax.inject.Inject;
 
@@ -72,7 +73,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navigator  = getFragmentNavigator();
+        navigator = getFragmentNavigator();
         initBottomNavigation(view);
     }
 
@@ -113,11 +114,11 @@ public class MainFragment extends Fragment {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_likes);
     }
 
-    public void goToRateItems(){
+    public void goToRateItems() {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_items);
     }
 
-    public void goToMainProfile(){
+    public void goToMainProfile() {
         navigation.goToMainProfile();
     }
 
@@ -126,20 +127,20 @@ public class MainFragment extends Fragment {
         navigation.goToCheckout();
     }
 
-    public void showBottomNavigation(boolean b){
-        if (b){
+    public void showBottomNavigation(boolean b) {
+        if (b) {
             binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
         } else {
             binding.bnvMainFrNavigation.setVisibility(View.GONE);
         }
     }
 
-    public int getBottomNavigationSize(){
+    public int getBottomNavigationSize() {
         return binding.bnvMainFrNavigation.getHeight();
     }
 
-    public void showBottomShadow(boolean b){
-        if (b){
+    public void showBottomShadow(boolean b) {
+        if (b) {
             binding.fragmentMainBottomShadow.setVisibility(View.VISIBLE);
         } else {
             binding.fragmentMainBottomShadow.setVisibility(View.GONE);
@@ -193,7 +194,7 @@ public class MainFragment extends Fragment {
 
             @Override
             protected void exit() {
-                getActivity().finish();
+                if (getActivity() != null) getActivity().finish();
             }
         };
     }

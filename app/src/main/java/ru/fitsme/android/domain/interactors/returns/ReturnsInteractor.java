@@ -1,11 +1,11 @@
 package ru.fitsme.android.domain.interactors.returns;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
-import android.arch.paging.LivePagedListBuilder;
-import android.arch.paging.PagedList;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import java.util.concurrent.Executors;
 

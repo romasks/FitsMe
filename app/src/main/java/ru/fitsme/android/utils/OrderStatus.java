@@ -1,5 +1,7 @@
 package ru.fitsme.android.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum OrderStatus {
     FM("FM"),
     ACP("ACP"),
@@ -19,6 +21,7 @@ public enum OrderStatus {
     }
 
 
+    @NotNull
     @Override
     public String toString() {
         return this.status;
