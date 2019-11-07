@@ -28,8 +28,6 @@ public class MainNavigation {
     static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
     static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
 
-    public ReturnsItem returnsItem;
-
     private Cicerone<Router> cicerone;
 
     @Inject
@@ -47,6 +45,10 @@ public class MainNavigation {
 
     private void goNavigate(String navigationKey) {
         getRouter().navigateTo(navigationKey);
+    }
+
+    private void goNavigate(String navigationKey, ReturnsItem returnsItem) {
+        getRouter().navigateTo(navigationKey, returnsItem);
     }
 
     private void backNavigate(String navigationKey) {
@@ -110,8 +112,7 @@ public class MainNavigation {
     }
 
     public void goToReturnsChooseItems(ReturnsItem returnsItem) {
-        this.returnsItem = returnsItem;
-        goNavigate(NAV_RETURNS_CHOOSE_ITEMS);
+        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, returnsItem);
     }
 
     public void goToReturnsIndicateNumber() {

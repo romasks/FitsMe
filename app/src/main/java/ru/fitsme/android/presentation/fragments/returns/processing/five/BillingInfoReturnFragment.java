@@ -5,22 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnBillingInfoBinding;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
+import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
-public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnViewModel> implements BillingInfoReturnBindingEvents {
+public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnViewModel> implements BillingInfoReturnBindingEvents, BackClickListener {
 
     @Inject
     IReturnsInteractor returnsInteractor;
@@ -36,6 +36,8 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_billing_info, container, false);
         binding.setBindingEvents(this);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getString(R.string.returns_billing_info_header));
         return binding.getRoot();
     }
 

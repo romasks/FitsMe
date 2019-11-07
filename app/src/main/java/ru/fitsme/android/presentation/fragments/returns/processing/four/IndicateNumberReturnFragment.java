@@ -5,22 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnIndicateNumberBinding;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
+import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
-public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberReturnViewModel> implements IndicateNumberReturnBindingEvents {
+public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberReturnViewModel> implements IndicateNumberReturnBindingEvents, BackClickListener {
 
     @Inject
     IReturnsInteractor returnsInteractor;
@@ -36,6 +36,8 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_indicate_number, container, false);
         binding.setBindingEvents(this);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getString(R.string.returns_indicate_number_header));
         return binding.getRoot();
     }
 

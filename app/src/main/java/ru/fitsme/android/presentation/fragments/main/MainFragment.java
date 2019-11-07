@@ -6,16 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
+import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
@@ -176,7 +176,7 @@ public class MainFragment extends Fragment {
                     case NAV_RETURNS_CHOOSE_ORDER:
                         return ChooseOrderReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ITEMS:
-                        return ChooseItemReturnFragment.newInstance(navigation.returnsItem);
+                        return ChooseItemReturnFragment.newInstance((ReturnsItem) data);
                     case NAV_RETURNS_INDICATE_NUMBER:
                         return IndicateNumberReturnFragment.newInstance();
                     case NAV_RETURNS_BILLING_INFO:

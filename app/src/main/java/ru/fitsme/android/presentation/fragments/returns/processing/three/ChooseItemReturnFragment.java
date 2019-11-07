@@ -18,10 +18,11 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseItemBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
+import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
-public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewModel> implements ChooseItemReturnBindingEvents {
+public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewModel> implements ChooseItemReturnBindingEvents, BackClickListener {
 
     @Inject
     IReturnsInteractor returnsInteractor;
@@ -45,6 +46,8 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_choose_item, container, false);
         binding.setBindingEvents(this);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getResources().getString(R.string.returns_choose_items_header));
         return binding.getRoot();
     }
 
@@ -54,6 +57,7 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
 
         if (getArguments() != null) {
             returnsItem = getArguments().getParcelable(KEY_RETURN_ITEM);
+            binding.setReturnsItem(returnsItem);
         }
 
         viewModel = ViewModelProviders.of(this,

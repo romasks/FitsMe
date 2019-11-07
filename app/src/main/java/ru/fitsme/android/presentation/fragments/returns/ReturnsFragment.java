@@ -21,11 +21,12 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnsBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
+import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
-public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements ReturnsBindingEvents {
+public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements ReturnsBindingEvents, BackClickListener {
 
     @Inject
     IReturnsInteractor returnsInteractor;
@@ -55,6 +56,8 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_returns, container, false);
         binding.setBindingEvents(this);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getString(R.string.screen_title_orders_return));
         return binding.getRoot();
     }
 
