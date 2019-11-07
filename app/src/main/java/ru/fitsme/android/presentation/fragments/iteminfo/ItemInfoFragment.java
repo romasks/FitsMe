@@ -1,19 +1,20 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Resources;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.Constraints;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Constraints;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -88,7 +89,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     private void setMargins() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             float topMerge = -3.0f;
 
             Resources r = getResources();
@@ -185,7 +186,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
     }
 
-    public void showYes(boolean b){
+    public void showYes(boolean b) {
         showYes(b, 1.0f);
     }
 
@@ -199,7 +200,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
     }
 
-    public void showNo(boolean b){
+    public void showNo(boolean b) {
         showNo(b, 1.0f);
     }
 
@@ -210,7 +211,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
-            ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
+            if (getParentFragment() != null) {
+                ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
+            }
             int paddingVal = 0;
             binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
             binding.itemInfoItemInfoCard.setRadius(0);
@@ -230,7 +233,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
             binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
             binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
-            ((RateItemsFragment) getParentFragment()).setFullItemInfoState(false);
+            if (getParentFragment() != null) {
+                ((RateItemsFragment) getParentFragment()).setFullItemInfoState(false);
+            }
             int paddingVal = App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding);
             binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
             binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.item_info_card_radius));

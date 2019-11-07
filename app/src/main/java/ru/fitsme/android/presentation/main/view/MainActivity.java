@@ -1,15 +1,16 @@
 package ru.fitsme.android.presentation.main.view;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.lang.ref.WeakReference;
 
@@ -17,14 +18,14 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
-import ru.fitsme.android.presentation.main.AuthNavigation;
 import ru.fitsme.android.databinding.ActivityMainBinding;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
 import ru.fitsme.android.presentation.fragments.splash.SplashFragment;
+import ru.fitsme.android.presentation.main.AuthNavigation;
 import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean isDispatch = super.dispatchTouchEvent(ev);
-        if (weakReference != null && weakReference.get() != null){
+        if (weakReference != null && weakReference.get() != null) {
             weakReference.get().onTouch(new TextView(this), ev);
         }
         return isDispatch;

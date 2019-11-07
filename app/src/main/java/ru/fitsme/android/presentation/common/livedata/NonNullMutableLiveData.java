@@ -1,8 +1,8 @@
 package ru.fitsme.android.presentation.common.livedata;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 
 public class NonNullMutableLiveData<T> implements NonNullLiveData<T> {
     private MutableLiveData<T> mutableLiveData = new MutableLiveData<>();

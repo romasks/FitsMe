@@ -14,7 +14,7 @@
             type="ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -59,7 +59,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_panel_layout">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipChildren="false"
@@ -385,10 +385,10 @@
                     app:layout_constraintStart_toStartOf="@id/fragment_change_size_bottom_size_layout_size_value_spinner"
                     app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_size_value_spinner" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

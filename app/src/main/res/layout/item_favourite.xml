@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -39,21 +38,19 @@
                 android:layout_marginEnd="@dimen/padding_extra_medium"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_delete_24dp"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/item_favourite_delete_icon_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/padding_extra_medium"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_delete_24dp"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
         </RelativeLayout>
 
@@ -62,41 +59,39 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:paddingTop="@dimen/margin_12dp"
             android:paddingStart="@dimen/padding_medium"
-            android:paddingEnd="@dimen/padding_medium"
-            >
+            android:paddingTop="@dimen/margin_12dp"
+            android:paddingEnd="@dimen/padding_medium">
 
             <ImageView
                 android:id="@+id/item_favourite_image"
                 android:layout_width="104dp"
                 android:layout_height="match_parent"
-                android:scaleType="centerInside"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="@dimen/padding_small"
-                android:layout_marginBottom="@dimen/margin_12dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="@dimen/padding_small"
+                android:layout_marginBottom="@dimen/margin_12dp"
+                android:contentDescription="@null"
+                android:scaleType="centerInside"
                 app:defaultImage="@{@drawable/placeholder}"
                 app:imageUrl="@{clotheItem.pics[0].url}"
-                android:contentDescription="@null"
-                tools:src="@drawable/clothe_example"
-                />
+                tools:src="@drawable/clothe_example" />
 
             <TextView
                 android:id="@+id/item_favourite_brand_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/padding_small"
+                android:layout_toEndOf="@id/item_favourite_image"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.brand}"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_lower_medium"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 tools:text="@string/brand_name_hint_in_two_lines" />
 
             <TextView
@@ -104,9 +99,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_favourite_brand_name"
-                android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/padding_small"
+                android:layout_toEndOf="@id/item_favourite_image"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.name}"
                 android:textColor="@color/black"
@@ -117,9 +112,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_favourite_name"
-                android:layout_toEndOf="@id/item_favourite_image"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/padding_small"
+                android:layout_toEndOf="@id/item_favourite_image"
                 android:paddingBottom="4dp"
                 android:text="@{@string/cart_amount_tv(clotheItem.price)}"
                 android:textColor="@color/black"
@@ -130,23 +125,22 @@
                 android:id="@+id/item_favourite_btn"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginStart="@dimen/padding_small"
                 android:layout_marginBottom="@dimen/margin_12dp"
+                android:layout_toEndOf="@id/item_favourite_image"
                 android:paddingTop="@dimen/padding_small"
                 android:paddingBottom="@dimen/padding_small"
                 android:textAllCaps="false"
-                android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@id/item_favourite_image"
-                android:layout_alignParentEnd="true"
-                tools:text="@string/to_cart"
-                />
+                tools:text="@string/to_cart" />
 
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/colorDivideLine"/>
+            android:background="@color/colorDivideLine" />
 
     </FrameLayout>
 

@@ -1,10 +1,11 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.graphics.Canvas;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -63,11 +64,11 @@ public class FavouritesRecyclerItemTouchHelper extends
         final View foregroundView = ((FavouritesAdapter.InListViewHolder) viewHolder).viewForeground;
         final View rightDeleteIcon = ((FavouritesAdapter.InListViewHolder) viewHolder).rightDeleteIcon;
         final View leftDeleteIcon = ((FavouritesAdapter.InListViewHolder) viewHolder).leftDeleteIcon;
-        if (isCurrentlyActive){
-            if (dX > 0){
+        if (isCurrentlyActive) {
+            if (dX > 0) {
                 leftDeleteIcon.setVisibility(View.VISIBLE);
             }
-            if (dX < 0){
+            if (dX < 0) {
                 rightDeleteIcon.setVisibility(View.VISIBLE);
             }
             foregroundView.setAlpha(0.6f);

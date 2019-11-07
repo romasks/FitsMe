@@ -1,5 +1,7 @@
 package ru.fitsme.android.presentation.fragments.favourites.inlistitem;
 
+import android.annotation.SuppressLint;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesAdapter;
@@ -20,6 +22,7 @@ public class NormalState extends InListItemState {
         this.viewHolder.button.setTextColor(App.getInstance().getResources().getColor(R.color.white));
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onClick(FavouritesViewModel viewModel, int position) {
         viewModel.addItemToCart(position)

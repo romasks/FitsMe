@@ -1,7 +1,9 @@
 package ru.fitsme.android.data.repositories.returns;
 
-import android.arch.paging.PageKeyedDataSource;
-import android.support.annotation.NonNull;
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+import androidx.paging.PageKeyedDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ public class ReturnsRepository extends PageKeyedDataSource<Integer, ReturnsItem>
         this.webLoader = webLoader;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ReturnsItem> callback) {
         ReturnsInteractor.setFavouriteMessage(App.getInstance().getString(R.string.loading));
@@ -78,6 +81,7 @@ public class ReturnsRepository extends PageKeyedDataSource<Integer, ReturnsItem>
                 });
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReturnsItem> callback) {
         webLoader.getReturnsClothesPage(params.key)
@@ -97,6 +101,7 @@ public class ReturnsRepository extends PageKeyedDataSource<Integer, ReturnsItem>
                 });
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReturnsItem> callback) {
         webLoader.getReturnsClothesPage(params.key)

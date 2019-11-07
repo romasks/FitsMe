@@ -2,7 +2,7 @@ package ru.fitsme.android.presentation.fragments.rateitems;
 
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
-public class RateItemsState {
+class RateItemsState {
     private ClotheInfo clotheInfo;
     private IOnSwipeListener.AnimationType animationType;
 
@@ -15,7 +15,7 @@ public class RateItemsState {
         return animationType;
     }
 
-    public ClotheInfo getClotheInfo() {
+    ClotheInfo getClotheInfo() {
         return clotheInfo;
     }
 }

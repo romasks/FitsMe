@@ -1,7 +1,9 @@
 package ru.fitsme.android.data.repositories.orders;
 
-import android.arch.paging.PageKeyedDataSource;
-import android.support.annotation.NonNull;
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+import androidx.paging.PageKeyedDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import ru.fitsme.android.domain.interactors.orders.OrdersInteractor;
 import timber.log.Timber;
 
 public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
-    implements IOrdersRepository {
+        implements IOrdersRepository {
 
     private final WebLoaderNetworkChecker webLoader;
 
@@ -30,13 +32,14 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
         this.webLoader = webLoader;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, OrderItem> callback) {
         OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.loading));
         webLoader.getOrdersPage(1)
                 .subscribe(ordersPageOkResponse -> {
                     OrdersPage ordersPage = ordersPageOkResponse.getResponse();
-                    if (ordersPage != null){
+                    if (ordersPage != null) {
                         List<Order> ordersList = ordersPage.getOrdersList();
                         List<OrderItem> orderItemList;
                         if (ordersList.size() == 0) {
@@ -63,13 +66,14 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
 
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, OrderItem> callback) {
         OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.loading));
         webLoader.getOrdersPage(params.key)
                 .subscribe(ordersPageOkResponse -> {
                     OrdersPage ordersPage = ordersPageOkResponse.getResponse();
-                    if (ordersPage != null){
+                    if (ordersPage != null) {
                         List<Order> ordersList = ordersPage.getOrdersList();
                         List<OrderItem> orderItemList;
                         if (ordersList.size() == 0) {

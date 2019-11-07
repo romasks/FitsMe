@@ -1,10 +1,7 @@
 package ru.fitsme.android.presentation.fragments.checkout;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
@@ -78,9 +80,11 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
 
     @Override
     public void goBack() {
-        getParentFragment().getChildFragmentManager().beginTransaction()
-                .replace(R.id.fragment_main_container, CartFragment.newInstance())
-                .commit();
+        if (getParentFragment() != null) {
+            getParentFragment().getChildFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_main_container, CartFragment.newInstance())
+                    .commit();
+        }
     }
 
     @Override
@@ -91,11 +95,12 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
     }
 
 
-    void initPhoneFieldListener(EditText phoneField) {
+    private void initPhoneFieldListener(EditText phoneField) {
         final MaskedTextChangedListener phoneListener = new MaskedTextChangedListener(
                 RU_PHONE_MASK, phoneField,
                 (maskFilled, extractedValue) -> isMaskFilled = maskFilled
         ) {
+            @SuppressLint("SetTextI18n")
             @Override
             public void afterTextChanged(@Nullable Editable edit) {
                 super.afterTextChanged(edit);
@@ -120,7 +125,6 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
                     phoneField.setCursorVisible(true);
                 });
             } else {
-                if (phoneField == null) return;
                 phoneField.removeTextChangedListener(phoneListener);
 
                 if (!isMaskFilled)

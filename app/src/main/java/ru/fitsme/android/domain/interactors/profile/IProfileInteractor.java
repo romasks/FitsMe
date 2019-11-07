@@ -1,9 +1,10 @@
 package ru.fitsme.android.domain.interactors.profile;
 
-import android.arch.lifecycle.LiveData;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
 import android.util.SparseArray;
+
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 
-public interface IProfileInteractor  extends BaseInteractor {
+public interface IProfileInteractor extends BaseInteractor {
     ReplaySubject<SparseArray<ClotheSize>> getSizes();
 
     void setTopClothesSizeType(ClotheSizeType clothesSizeType);

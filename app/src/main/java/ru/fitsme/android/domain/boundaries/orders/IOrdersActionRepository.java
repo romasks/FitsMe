@@ -1,10 +1,9 @@
 package ru.fitsme.android.domain.boundaries.orders;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import io.reactivex.Single;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
-import ru.fitsme.android.domain.entities.exceptions.AppException;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.utils.OrderStatus;

@@ -8,6 +8,7 @@ import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.main.MainNavigation;
 
+@SuppressWarnings("Injectable")
 public class MainProfileViewModel extends BaseViewModel {
 
     @Inject

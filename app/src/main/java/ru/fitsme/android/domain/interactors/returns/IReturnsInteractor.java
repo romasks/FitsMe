@@ -1,8 +1,8 @@
 package ru.fitsme.android.domain.interactors.returns;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.PagedList;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.BaseInteractor;

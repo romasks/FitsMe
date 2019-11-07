@@ -1,8 +1,8 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
@@ -34,8 +34,8 @@ public class RateItemsViewModel extends BaseViewModel {
     void likeClothesItem(boolean liked, IOnSwipeListener.AnimationType animationType) {
         this.animationType = animationType;
         RateItemsState rateItemsState = rateItemsStateLiveData.getValue();
-        ClothesItem clothesItem = (ClothesItem) rateItemsState.getClotheInfo().getClothe();
-        if (rateItemsState != null && clothesItem!= null){
+        ClothesItem clothesItem = rateItemsState != null ? (ClothesItem) rateItemsState.getClotheInfo().getClothe() : null;
+        if (rateItemsState != null && clothesItem != null) {
             addDisposable(clothesInteractor.setLikeToClothesItem(clothesItem, liked)
                     .subscribe(clotheInfo -> clothesInteractor.getNext(), Timber::e));
         }

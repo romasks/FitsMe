@@ -1,6 +1,6 @@
 package ru.fitsme.android.presentation.fragments.splash;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import javax.inject.Inject;
 
@@ -10,24 +10,25 @@ import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.main.AuthNavigation;
 import timber.log.Timber;
 
+@SuppressWarnings("Injectable")
 public class SplashViewModel extends BaseViewModel {
 
     @Inject
     AuthNavigation authNavigation;
     private final IAuthInteractor authInteractor;
 
-    public SplashViewModel(@NonNull IAuthInteractor authInteractor){
+    public SplashViewModel(@NonNull IAuthInteractor authInteractor) {
         this.authInteractor = authInteractor;
         inject(this);
     }
 
     public void init() {
-                    addDisposable(authInteractor.getAuthInfo()
-                            .subscribe(this ::onAuthInfoGotten, this::onError));
+        addDisposable(authInteractor.getAuthInfo()
+                .subscribe(this::onAuthInfoGotten, this::onError));
     }
 
     private void onAuthInfoGotten(@NonNull AuthInfo authInfo) {
-        if (authInfo.isAuth()){
+        if (authInfo.isAuth()) {
             authNavigation.goToMainItem();
         } else {
             authNavigation.goSignInUp();

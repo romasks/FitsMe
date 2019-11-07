@@ -1,6 +1,6 @@
 package ru.fitsme.android.domain.boundaries.auth;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;

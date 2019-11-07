@@ -1,7 +1,9 @@
 package ru.fitsme.android.data.repositories.returns;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.DataSource;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -16,10 +18,11 @@ public class ReturnsDataSourceFactory extends DataSource.Factory<Integer, Return
     private ReturnsRepository latestSource = null;
 
     @Inject
-    public ReturnsDataSourceFactory(WebLoaderNetworkChecker webLoader) {
+    ReturnsDataSourceFactory(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 
+    @NotNull
     @Override
     public DataSource<Integer, ReturnsItem> create() {
         latestSource = new ReturnsRepository(webLoader);

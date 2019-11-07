@@ -1,9 +1,11 @@
 package ru.fitsme.android.presentation.common.binding;
 
-import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.TextInputLayout;
 import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import ru.fitsme.android.app.GlideApp;
 
@@ -16,7 +18,7 @@ public class BindingAdapterUtils {
     }
 
     // FavouriteItem ImageView setImage
-    @BindingAdapter({"app:imageUrl", "app:defaultImage"})
+    @BindingAdapter({"imageUrl", "defaultImage"})
     public static void loadImage(ImageView imageView, String imageUrl, Drawable defaultImage) {
         GlideApp.with(imageView.getContext())
                 .load(imageUrl)

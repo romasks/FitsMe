@@ -1,11 +1,12 @@
 package ru.fitsme.android.domain.interactors.profile;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
 import android.util.SparseArray;
+
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ProfileInteractor implements IProfileInteractor {
     private ObservableInt currentTopSizeIndex = new ObservableInt();
     private ObservableInt currentBottomSizeIndex = new ObservableInt();
     private MutableLiveData<List<String>> currentTopSizeArray = new MutableLiveData<>();
-    private MutableLiveData<List<String>> currentBottomSizeArray  = new MutableLiveData<>();
+    private MutableLiveData<List<String>> currentBottomSizeArray = new MutableLiveData<>();
     private ObservableField<String> currentChestSize = new ObservableField<>();
     private ObservableField<String> currentTopWaistSize = new ObservableField<>();
     private ObservableField<String> currentTopHipsSize = new ObservableField<>();
@@ -58,7 +59,7 @@ public class ProfileInteractor implements IProfileInteractor {
     ProfileInteractor(IClothesRepository clothesRepository,
                       IProfileRepository profileRepository,
                       @Named("work") Scheduler workThread,
-                      @Named("main") Scheduler mainThread){
+                      @Named("main") Scheduler mainThread) {
         this.clothesRepository = clothesRepository;
         this.profileRepository = profileRepository;
         this.workThread = workThread;
@@ -78,12 +79,12 @@ public class ProfileInteractor implements IProfileInteractor {
     }
 
     @Override
-    public ReplaySubject<SparseArray<ClotheSize>> getSizes(){
+    public ReplaySubject<SparseArray<ClotheSize>> getSizes() {
         return sizeListReplaySubject;
     }
 
     @SuppressLint("CheckResult")
-    private void getSizesFromRepo(){
+    private void getSizesFromRepo() {
         clothesRepository.getSizes()
                 .observeOn(mainThread)
                 .subscribe(clotheSizes ->
@@ -91,18 +92,18 @@ public class ProfileInteractor implements IProfileInteractor {
     }
 
     @SuppressLint("CheckResult")
-    private void getProfileFromRepo(){
+    private void getProfileFromRepo() {
         profileRepository.getProfile()
                 .observeOn(mainThread)
                 .subscribe(profile -> profileReplaySubject.onNext(profile), Timber::e);
     }
 
     @SuppressLint("CheckResult")
-    private void setSizeFields(){
+    private void setSizeFields() {
         profileReplaySubject.subscribe(profile -> {
             sizeListReplaySubject.subscribe(clotheSizes -> {
                 Integer topSizeId = profile.getTopSize();
-                if (topSizeId == null || topSizeId == 0){
+                if (topSizeId == null || topSizeId == 0) {
                     message.set(App.getInstance().getString(R.string.profile_message_to_user_set_top_size));
                 } else {
                     ClotheSize topClotheSize = clotheSizes.get(topSizeId);
@@ -116,8 +117,8 @@ public class ProfileInteractor implements IProfileInteractor {
                             "-" + topClotheSize.getSleeveHigh() + " " + MEASURE_UNIT);
                 }
                 Integer bottomSizeId = profile.getBottomSize();
-                if (bottomSizeId == null || bottomSizeId == 0){
-                    if (topSizeId != null){
+                if (bottomSizeId == null || bottomSizeId == 0) {
+                    if (topSizeId != null) {
                         if (topSizeId != 0) {
                             message.set(App.getInstance().getString(R.string.profile_message_to_user_set_bottom_size));
                         }
@@ -143,7 +144,7 @@ public class ProfileInteractor implements IProfileInteractor {
                     disposable.add(
                             profileReplaySubject.subscribe(profile -> {
                                 Integer topSizeId;
-                                if (profile.getTopSize() == null){
+                                if (profile.getTopSize() == null) {
                                     topSizeId = 0;
                                 } else {
                                     topSizeId = profile.getTopSize();
@@ -167,7 +168,7 @@ public class ProfileInteractor implements IProfileInteractor {
                     disposable.add(
                             profileReplaySubject.subscribe(profile -> {
                                 Integer bottomSizeId;
-                                if (profile.getBottomSize() == null){
+                                if (profile.getBottomSize() == null) {
                                     bottomSizeId = 0;
                                 } else {
                                     bottomSizeId = profile.getBottomSize();
@@ -183,16 +184,16 @@ public class ProfileInteractor implements IProfileInteractor {
         );
     }
 
-    private ClotheSizeType getSettingTopClothesSize(){
+    private ClotheSizeType getSettingTopClothesSize() {
         return clothesRepository.getSettingTopClothesSizeType();
     }
 
-    private ClotheSizeType getSettingBottomClothesSize(){
+    private ClotheSizeType getSettingBottomClothesSize() {
         return clothesRepository.getSettingsBottomClothesSizeType();
     }
 
     @Override
-    public void setTopClothesSizeType(ClotheSizeType clothesSizeType){
+    public void setTopClothesSizeType(ClotheSizeType clothesSizeType) {
         if (currentTopSizeTypeValue.get() != clothesSizeType.getValue()) {
             currentTopSizeTypeValue.set(clothesSizeType.getValue());
             clothesRepository.setSettingsTopClothesSizeType(clothesSizeType);
@@ -201,7 +202,7 @@ public class ProfileInteractor implements IProfileInteractor {
     }
 
     @Override
-    public void setBottomClotheSizeType(ClotheSizeType clothesSizeType){
+    public void setBottomClotheSizeType(ClotheSizeType clothesSizeType) {
         if (currentBottomSizeTypeValue.get() != clothesSizeType.getValue()) {
             currentBottomSizeTypeValue.set(clothesSizeType.getValue());
             clothesRepository.setSettingsBottomClothesSizeType(clothesSizeType);
@@ -210,33 +211,33 @@ public class ProfileInteractor implements IProfileInteractor {
     }
 
     @Override
-    public ObservableInt getCurrentTopSizeTypeValue(){
+    public ObservableInt getCurrentTopSizeTypeValue() {
         return currentTopSizeTypeValue;
     }
 
     @Override
-    public ObservableInt getCurrentBottomSizeTypeValue(){
+    public ObservableInt getCurrentBottomSizeTypeValue() {
         return currentBottomSizeTypeValue;
     }
 
-    private List<String> makeTopSizeArray(SparseArray<ClotheSize> clotheSizeArray){
+    private List<String> makeTopSizeArray(SparseArray<ClotheSize> clotheSizeArray) {
         List<String> topSizeArray = new ArrayList<String>();
         for (int i = 0; i < clotheSizeArray.size(); i++) {
             ClotheSize clotheSize = clotheSizeArray.valueAt(i);
             String size = getNationalSize(clotheSize, currentTopSizeTypeValue.get());
-            if (size != null){
+            if (size != null) {
                 topSizeArray.add(size);
             }
         }
         return topSizeArray;
     }
 
-    private List<String> makeBottomSizeArray(SparseArray<ClotheSize> clotheSizeArray){
+    private List<String> makeBottomSizeArray(SparseArray<ClotheSize> clotheSizeArray) {
         List<String> bottomSizeArray = new ArrayList<String>();
         for (int i = 0; i < clotheSizeArray.size(); i++) {
             ClotheSize clotheSize = clotheSizeArray.valueAt(i);
             String size = getNationalSize(clotheSize, currentBottomSizeTypeValue.get());
-            if (size != null){
+            if (size != null) {
                 bottomSizeArray.add(size);
             }
         }
@@ -244,7 +245,7 @@ public class ProfileInteractor implements IProfileInteractor {
     }
 
     private String getNationalSize(ClotheSize clotheSize, int clotheTypeValue) {
-        switch (getClotheSizeType(clotheTypeValue)){
+        switch (getClotheSizeType(clotheTypeValue)) {
             case Undefined:
                 return null;
             case International:
@@ -361,7 +362,7 @@ public class ProfileInteractor implements IProfileInteractor {
     @SuppressLint("CheckResult")
     @Override
     public void setCurrentBottomSizeIndex(int position) {
-        if (currentBottomSizeIndex.get() != position){
+        if (currentBottomSizeIndex.get() != position) {
             Profile oldProfile = profileReplaySubject.getValue();
             SparseArray<ClotheSize> sizeArray = sizeListReplaySubject.getValue();
             String newTel = oldProfile.getTel();

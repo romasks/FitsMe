@@ -15,15 +15,17 @@ class RateItemAnimation {
     private static final int OUT_OF_SCREEN_DURATION = 300;
 
 
-    RateItemAnimation(RateItemsFragment fragment, FragmentRateItemsBinding binding){
-        this.callback = (Callback) fragment;
+    RateItemAnimation(RateItemsFragment fragment, FragmentRateItemsBinding binding) {
+        this.callback = fragment;
         this.binding = binding;
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        if (fragment.getActivity() != null) {
+            fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        }
         screenWidth = displayMetrics.widthPixels;
     }
 
-    void resetContainerViewWithAnimation(){
+    void resetContainerViewWithAnimation() {
         binding.fragmentRateItemsContainer.animate()
                 .rotation(0)
                 .translationX(0)
@@ -38,14 +40,14 @@ class RateItemAnimation {
         binding.fragmentRateItemsContainer.setRotation(0);
     }
 
-    void moveViewOutOfScreenToRight(){
-        float moveDistance = (float) screenWidth / 2  + binding.fragmentRateItemsContainer.getHeight();
+    void moveViewOutOfScreenToRight() {
+        float moveDistance = (float) screenWidth / 2 + binding.fragmentRateItemsContainer.getHeight();
         ObjectAnimator animator =
                 ObjectAnimator.ofFloat(binding.fragmentRateItemsContainer,
                         "translationX", moveDistance);
         animator.setDuration(OUT_OF_SCREEN_DURATION);
         animator.start();
-        animator.addListener(new Animator.AnimatorListener(){
+        animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -68,14 +70,14 @@ class RateItemAnimation {
         });
     }
 
-    void moveViewOutOfScreenToLeft(){
-        float moveDistance = - ((float) screenWidth / 2  + binding.fragmentRateItemsContainer.getHeight());
+    void moveViewOutOfScreenToLeft() {
+        float moveDistance = -((float) screenWidth / 2 + binding.fragmentRateItemsContainer.getHeight());
         ObjectAnimator animator =
                 ObjectAnimator.ofFloat(binding.fragmentRateItemsContainer,
                         "translationX", moveDistance);
         animator.setDuration(OUT_OF_SCREEN_DURATION);
         animator.start();
-        animator.addListener(new Animator.AnimatorListener(){
+        animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -109,6 +111,7 @@ class RateItemAnimation {
 
     interface Callback {
         void likeItem();
+
         void dislikeItem();
     }
 }

@@ -1,11 +1,5 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
-import android.arch.paging.PagedList;
-import android.arch.paging.PagedListAdapter;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +7,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
@@ -40,13 +37,14 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
     @Override
     public CartAdapter.CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        if (viewType == NORMAL_TYPE){
+        if (viewType == NORMAL_TYPE) {
             ItemCartBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_cart, parent, false);
             return new NormalViewHolder(binding);
-        } else if (viewType == REMOVED_TYPE){
+        } else if (viewType == REMOVED_TYPE) {
             ItemCartRemovedBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_cart_removed, parent, false);
             return new RemovedViewHolder(binding);
-        } else throw new IllegalArgumentException("Can't create view holder from view type " + viewType);
+        } else
+            throw new IllegalArgumentException("Can't create view holder from view type " + viewType);
     }
 
     @Override
@@ -56,14 +54,14 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
     @Override
     public int getItemViewType(int position) {
-        if (viewModel.itemIsRemoved(position)){
+        if (viewModel.itemIsRemoved(position)) {
             return REMOVED_TYPE;
         } else {
             return NORMAL_TYPE;
         }
     }
 
-    abstract class CartViewHolder extends RecyclerView.ViewHolder{
+    abstract class CartViewHolder extends RecyclerView.ViewHolder {
         CartViewHolder(@NonNull View itemView) {
             super(itemView);
         }
@@ -89,7 +87,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
         void bind(int position) {
             OrderItem orderItem = getItem(position);
-            ClothesItem clothesItem = orderItem.getClothe();
+            ClothesItem clothesItem = orderItem == null ? new ClothesItem() : orderItem.getClothe();
 
             binding.setVariable(BR.clotheItem, clothesItem);
             binding.executePendingBindings();
@@ -100,7 +98,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
     private class RemovedViewHolder extends CartViewHolder {
         final ViewDataBinding binding;
 
-        public RemovedViewHolder(ViewDataBinding binding) {
+        RemovedViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -108,13 +106,12 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
         @Override
         void bind(int position) {
             TextView undoButton = binding.getRoot().findViewById(R.id.item_cart_removed_back_tv);
-            undoButton.setOnClickListener(v -> {
-                viewModel.restoreItemToOrder(position)
-                        .subscribe(orderItem -> {
-                            if (orderItem.getId() != 0) {
-                                notifyItemChanged(position);
-                            }}, Timber::e);
-            });
+            undoButton.setOnClickListener(v -> viewModel.restoreItemToOrder(position)
+                    .subscribe(orderItem -> {
+                        if (orderItem.getId() != 0) {
+                            notifyItemChanged(position);
+                        }
+                    }, Timber::e));
         }
     }
 }

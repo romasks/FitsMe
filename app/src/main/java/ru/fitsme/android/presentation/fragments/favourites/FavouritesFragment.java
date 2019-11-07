@@ -1,18 +1,20 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
-import android.databinding.DataBindingUtil;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +24,6 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
-import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import timber.log.Timber;
@@ -37,7 +38,7 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     private FavouritesAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
 
-    public static DiffUtil.ItemCallback<FavouritesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<FavouritesItem>() {
+    static DiffUtil.ItemCallback<FavouritesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<FavouritesItem>() {
 
         @Override
         public boolean areItemsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
@@ -91,12 +92,13 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         adapter.submitList(pagedList);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (position != RecyclerView.NO_POSITION) {
             viewModel.removeItem(position)
                     .subscribe(removedItem -> {
-                        if (removedItem.getId() != 0){
+                        if (removedItem.getId() != 0) {
                             adapter.notifyItemChanged(position);
                         }
                     }, Timber::e);

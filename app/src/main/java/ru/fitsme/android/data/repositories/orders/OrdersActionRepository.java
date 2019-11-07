@@ -1,6 +1,6 @@
 package ru.fitsme.android.data.repositories.orders;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import javax.inject.Inject;
 
@@ -26,30 +26,27 @@ public class OrdersActionRepository implements IOrdersActionRepository {
 
     @NonNull
     @Override
-    public Single<OrdersPage> getOrders(OrderStatus status){
-        return Single.create(emitter -> {
-            webLoader.getOrders(status)
-                    .subscribe(ordersPageOkResponse -> {
-                        OrdersPage ordersPage = ordersPageOkResponse.getResponse();
-                        if (ordersPage != null){
-                            emitter.onSuccess(ordersPage);
-                        } else {
-                            UserException error = ErrorRepository.makeError(ordersPageOkResponse.getError());
-                            Timber.e(error);
-                            emitter.onSuccess(new OrdersPage());
-                        }
-                    }, error -> {
+    public Single<OrdersPage> getOrders(OrderStatus status) {
+        return Single.create(emitter -> webLoader.getOrders(status)
+                .subscribe(ordersPageOkResponse -> {
+                    OrdersPage ordersPage = ordersPageOkResponse.getResponse();
+                    if (ordersPage != null) {
+                        emitter.onSuccess(ordersPage);
+                    } else {
+                        UserException error = ErrorRepository.makeError(ordersPageOkResponse.getError());
                         Timber.e(error);
                         emitter.onSuccess(new OrdersPage());
-                    });
-
-        });
+                    }
+                }, error -> {
+                    Timber.e(error);
+                    emitter.onSuccess(new OrdersPage());
+                }));
     }
 
     @Override
     public Single<Order> makeOrder(
             long orderId, String phoneNumber, String street, String houseNumber,
-            String apartment, OrderStatus orderStatus){
+            String apartment, OrderStatus orderStatus) {
         return Single.create(emitter ->
                 webLoader.makeOrder(orderId, phoneNumber, street, houseNumber, apartment, orderStatus)
                         .subscribe(orderOkResponse -> {
@@ -69,39 +66,35 @@ public class OrdersActionRepository implements IOrdersActionRepository {
 
     @Override
     public Single<OrderItem> removeItemFromOrder(OrderItem item) {
-        return Single.create(emitter -> {
-            webLoader.removeItemFromOrder(item)
-                    .subscribe(response -> {
-                                    if (response.isSuccessful()){
-                                        emitter.onSuccess(item);
-                                    } else {
-                                        Timber.e(response.toString());
-                                        emitter.onSuccess(new OrderItem());
-                                    }
-                            }, error -> {
-                                Timber.e(error);
-                                emitter.onSuccess(new OrderItem());
-                            });
-        });
+        return Single.create(emitter -> webLoader.removeItemFromOrder(item)
+                .subscribe(response -> {
+                    if (response.isSuccessful()) {
+                        emitter.onSuccess(item);
+                    } else {
+                        Timber.e(response.toString());
+                        emitter.onSuccess(new OrderItem());
+                    }
+                }, error -> {
+                    Timber.e(error);
+                    emitter.onSuccess(new OrderItem());
+                }));
     }
 
     @Override
-    public Single<OrderItem> restoreItemToOrder(OrderItem item){
-        return Single.create(emitter -> {
-            webLoader.restoreItemToOrder(item)
-                    .subscribe(orderItemOkResponse -> {
-                        OrderItem restoredItem = orderItemOkResponse.getResponse();
-                        if (restoredItem != null){
-                            emitter.onSuccess(restoredItem);
-                        } else {
-                            UserException error = ErrorRepository.makeError(orderItemOkResponse.getError());
-                            Timber.e(error);
-                            emitter.onSuccess(new OrderItem());
-                        }
-                    }, error -> {
+    public Single<OrderItem> restoreItemToOrder(OrderItem item) {
+        return Single.create(emitter -> webLoader.restoreItemToOrder(item)
+                .subscribe(orderItemOkResponse -> {
+                    OrderItem restoredItem = orderItemOkResponse.getResponse();
+                    if (restoredItem != null) {
+                        emitter.onSuccess(restoredItem);
+                    } else {
+                        UserException error = ErrorRepository.makeError(orderItemOkResponse.getError());
                         Timber.e(error);
                         emitter.onSuccess(new OrderItem());
-                    });
-        });
+                    }
+                }, error -> {
+                    Timber.e(error);
+                    emitter.onSuccess(new OrderItem());
+                }));
     }
 }

@@ -5,7 +5,7 @@ public abstract class AppException extends Exception {
         super(message);
     }
 
-    public AppException() {
+    protected AppException() {
 
     }
 }

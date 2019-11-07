@@ -16,9 +16,9 @@ public class AuthInteractor implements IAuthInteractor {
     private Scheduler workThread;
 
     @Inject
-    public AuthInteractor(IAuthRepository authRepository,
-                          @Named("main") Scheduler mainThread,
-                          @Named("work") Scheduler workThread) {
+    AuthInteractor(IAuthRepository authRepository,
+                   @Named("main") Scheduler mainThread,
+                   @Named("work") Scheduler workThread) {
         this.authRepository = authRepository;
         this.mainThread = mainThread;
         this.workThread = workThread;

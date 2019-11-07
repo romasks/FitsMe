@@ -5,6 +5,5 @@ import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 
 public interface IAuthInteractor extends BaseInteractor {
-
     Single<AuthInfo> getAuthInfo();
 }

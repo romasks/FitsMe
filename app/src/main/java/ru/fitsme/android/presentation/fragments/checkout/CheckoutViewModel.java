@@ -1,9 +1,11 @@
 package ru.fitsme.android.presentation.fragments.checkout;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import android.annotation.SuppressLint;
+
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,11 +47,13 @@ public class CheckoutViewModel extends BaseViewModel {
         loadOrder();
     }
 
+    @SuppressLint("CheckResult")
     private void loadOrder() {
         ordersInteractor.getSingleOrder(OrderStatus.FM)
                 .subscribe(this::onOrder, Timber::e);
     }
 
+    @SuppressLint("CheckResult")
     void onClickMakeOrder() {
         ordersInteractor.makeOrder(orderModel.get())
                 .subscribe(this::onMakeOrder, Timber::e);

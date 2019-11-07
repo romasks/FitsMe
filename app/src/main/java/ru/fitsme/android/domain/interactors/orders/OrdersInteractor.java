@@ -1,15 +1,16 @@
 package ru.fitsme.android.domain.interactors.orders;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
-import android.arch.paging.LivePagedListBuilder;
-import android.arch.paging.PagedList;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
-import android.support.annotation.NonNull;
 import android.util.SparseIntArray;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import java.util.HashSet;
 import java.util.concurrent.Executors;
@@ -22,8 +23,8 @@ import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.data.models.OrderModel;
+import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -114,26 +115,26 @@ public class OrdersInteractor implements IOrdersInteractor {
     @NonNull
     @Override
     public Single<OrderItem> removeItemFromOrder(int position) {
-            PagedList<OrderItem> pagedList = pagedListLiveData.getValue();
-            if (pagedList != null && pagedList.size() > position) {
-                OrderItem item = pagedList.get(position);
-                if (item != null) {
-                    int clotheId = item.getClothe().getId();
-                    if (restoredOrderClotheItemsIdList.get(clotheId) != 0){
-                        int restoredOrderItemId = restoredOrderClotheItemsIdList.get(clotheId);
-                        item.setId(restoredOrderItemId);
-                    }
-                    return ordersActionRepository.removeItemFromOrder(item)
-                            .map(removedOrderItem -> {
-                                if (removedOrderItem.getId() != 0){
-                                    updateTotalPrice();
-                                    removedClotheIdList.add(removedOrderItem.getClothe().getId());
-                                }
-                                return removedOrderItem;
-                            });
+        PagedList<OrderItem> pagedList = pagedListLiveData.getValue();
+        if (pagedList != null && pagedList.size() > position) {
+            OrderItem item = pagedList.get(position);
+            if (item != null) {
+                int clotheId = item.getClothe().getId();
+                if (restoredOrderClotheItemsIdList.get(clotheId) != 0) {
+                    int restoredOrderItemId = restoredOrderClotheItemsIdList.get(clotheId);
+                    item.setId(restoredOrderItemId);
                 }
+                return ordersActionRepository.removeItemFromOrder(item)
+                        .map(removedOrderItem -> {
+                            if (removedOrderItem.getId() != 0) {
+                                updateTotalPrice();
+                                removedClotheIdList.add(removedOrderItem.getClothe().getId());
+                            }
+                            return removedOrderItem;
+                        });
             }
-            return Single.just(new OrderItem());
+        }
+        return Single.just(new OrderItem());
     }
 
     @NonNull
@@ -170,19 +171,19 @@ public class OrdersInteractor implements IOrdersInteractor {
                             } else {
                                 emitter.onSuccess(new Order());
                             }
-                            }, emitter::onError));
+                        }, emitter::onError));
     }
 
     @NonNull
     @Override
     public Single<Order> makeOrder(OrderModel orderModel) {
         return ordersActionRepository.makeOrder(
-                    orderModel.getOrderId(),
-                    orderModel.getPhoneNumber().replaceAll("[^\\d]", ""),
-                    orderModel.getStreet(),
-                    orderModel.getHouseNumber(),
-                    orderModel.getApartment(),
-                    OrderStatus.FM)
+                orderModel.getOrderId(),
+                orderModel.getPhoneNumber().replaceAll("[^\\d]", ""),
+                orderModel.getStreet(),
+                orderModel.getHouseNumber(),
+                orderModel.getApartment(),
+                OrderStatus.FM)
                 .observeOn(mainThread);
     }
 
@@ -192,7 +193,7 @@ public class OrdersInteractor implements IOrdersInteractor {
     }
 
     @Override
-    public ObservableField<String> getMessage(){
+    public ObservableField<String> getMessage() {
         return cartMessage;
     }
 
@@ -233,7 +234,7 @@ public class OrdersInteractor implements IOrdersInteractor {
         return checkOutIsLoading;
     }
 
-    public static void setCartMessage(String string){
+    public static void setCartMessage(String string) {
         cartMessage.set(string);
     }
 }

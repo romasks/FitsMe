@@ -1,17 +1,19 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
-import android.databinding.DataBindingUtil;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import javax.inject.Inject;
 
@@ -26,7 +28,7 @@ import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class CartFragment extends BaseFragment<CartViewModel>
-        implements CartBindingEvents, CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener  {
+        implements CartBindingEvents, CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     @Inject
     IOrdersInteractor ordersInteractor;
@@ -34,7 +36,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
     private FragmentCartBinding binding;
     private CartAdapter adapter;
 
-    public static DiffUtil.ItemCallback<OrderItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<OrderItem>() {
+    static DiffUtil.ItemCallback<OrderItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<OrderItem>() {
         @Override
         public boolean areItemsTheSame(@NonNull OrderItem oldItem, @NonNull OrderItem newItem) {
             return oldItem.getId() == newItem.getId();
@@ -89,10 +91,12 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
     private void onLoadPage(PagedList<OrderItem> pagedList) {
-        if (pagedList == null || pagedList.size() == 0) {
-            ((MainFragment) getParentFragment()).showBottomShadow(true);
-        } else {
-            ((MainFragment) getParentFragment()).showBottomShadow(false);
+        if (getParentFragment() != null) {
+            if (pagedList == null || pagedList.size() == 0) {
+                ((MainFragment) getParentFragment()).showBottomShadow(true);
+            } else {
+                ((MainFragment) getParentFragment()).showBottomShadow(false);
+            }
         }
         adapter.submitList(pagedList);
     }
@@ -109,31 +113,40 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void onClickGoToCheckout() {
-        ((MainFragment) getParentFragment()).goToCheckout();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToCheckout();
+        }
     }
 
     @Override
     public void onClickGoToFavourites() {
-        ((MainFragment) getParentFragment()).goToFavourites();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToFavourites();
+        }
     }
 
     @Override
     public void onClickGoToRateItems() {
-        ((MainFragment) getParentFragment()).goToRateItems();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToRateItems();
+        }
     }
 
     @Override
     public void onDestroyView() {
-        ((MainFragment) getParentFragment()).showBottomShadow(true);
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).showBottomShadow(true);
+        }
         super.onDestroyView();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (position != RecyclerView.NO_POSITION) {
             viewModel.removeItemFromOrder(position)
                     .subscribe(removedOrderItem -> {
-                        if (removedOrderItem.getId() != 0){
+                        if (removedOrderItem.getId() != 0) {
                             adapter.notifyItemChanged(position);
                         }
                     }, Timber::e);

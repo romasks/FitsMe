@@ -1,12 +1,11 @@
 package ru.fitsme.android.domain.interactors.favourites;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.LivePagedListBuilder;
-import android.arch.paging.PagedList;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
@@ -18,7 +17,6 @@ import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.favourites.FavouritesDataSourceFactory;
-import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -36,7 +34,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     private LiveData<PagedList<FavouritesItem>> pagedListLiveData;
     private PagedList.Config config;
 
-    private final static ObservableField<String> showMessage  =
+    private final static ObservableField<String> showMessage =
             new ObservableField<String>(App.getInstance().getString(R.string.loading));
 
     private HashSet<Integer> removedFavouriteItemsIdList = new HashSet<>();
@@ -134,7 +132,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
         return false;
     }
 
-    public static void setFavouriteMessage(String string){
+    public static void setFavouriteMessage(String string) {
         showMessage.set(string);
     }
 }

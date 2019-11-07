@@ -1,14 +1,12 @@
 package ru.fitsme.android.data.frameworks.retrofit;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 import retrofit2.Response;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
@@ -116,7 +114,7 @@ public class WebLoaderNetworkChecker extends WebLoader {
         return checkNetwork(super.setProfile(profile));
     }
 
-    private Single checkNetwork(Single single){
+    private Single checkNetwork(Single single) {
         if (NetworkStatus.isOnline()) {
             MainViewModel.isOnline.set(true);
             return single;

@@ -1,15 +1,16 @@
 package ru.fitsme.android.presentation.fragments.returns;
 
-import android.arch.paging.PagedListAdapter;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
@@ -67,16 +68,18 @@ public class ReturnsAdapter extends PagedListAdapter<ReturnsItem, ReturnsAdapter
         void bind(int position) {
             ReturnsItem returnsItem = getItem(position);
 
-            setItemState(returnsItem);
             button.setOnClickListener(view -> state.onClick(viewModel, position));
 
-            returnStatus.setTextColor(binding.getRoot().getResources().getColor(
-                    returnsItem.getStatus().equals("выполнено") ?
-                            android.R.color.holo_green_dark :
-                            returnsItem.getStatus().equals("отказ") ?
-                                    android.R.color.holo_red_dark :
-                                    android.R.color.black
-            ));
+            if (returnsItem != null) {
+                setItemState(returnsItem);
+                returnStatus.setTextColor(binding.getRoot().getResources().getColor(
+                        returnsItem.getStatus().equals("выполнено") ?
+                                android.R.color.holo_green_dark :
+                                returnsItem.getStatus().equals("отказ") ?
+                                        android.R.color.holo_red_dark :
+                                        android.R.color.black
+                ));
+            }
 
             binding.setVariable(BR.returnsItem, returnsItem);
             binding.setVariable(BR.viewModel, viewModel);

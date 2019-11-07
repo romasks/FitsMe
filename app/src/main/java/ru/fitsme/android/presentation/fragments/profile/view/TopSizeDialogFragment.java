@@ -1,19 +1,20 @@
 package ru.fitsme.android.presentation.fragments.profile.view;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.res.Resources;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +31,13 @@ import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileVie
 
 public class TopSizeDialogFragment extends DialogFragment {
 
-    DialogFragmentProfileTopSizeBinding binding;
-    SizeProfileViewModel viewModel;
+    private DialogFragmentProfileTopSizeBinding binding;
+    private SizeProfileViewModel viewModel;
 
     @Inject
     IProfileInteractor interactor;
 
-    public TopSizeDialogFragment(){
+    public TopSizeDialogFragment() {
         App.getInstance().getDi().inject(this);
     }
 
@@ -74,16 +75,18 @@ public class TopSizeDialogFragment extends DialogFragment {
     }
 
     private void setAdapterToTypeSpinners() {
+        if (getActivity() == null) return;
         String[] array = makeSizeTypeArray();
-        TopSizeDialogFragment.SpinnerAdapter<String> adapter = new TopSizeDialogFragment.SpinnerAdapter<String>(
+        TopSizeDialogFragment.SpinnerAdapter<String> adapter = new TopSizeDialogFragment.SpinnerAdapter<>(
                 getActivity(), android.R.layout.simple_spinner_item, array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.dialogFragmentProfileTopSizeTypeSpinner.setAdapter(adapter);
     }
 
-    private void setAdapterToTopSizeSpinner(){
+    private void setAdapterToTopSizeSpinner() {
+        if (getActivity() == null) return;
         ArrayList<String> arrayList = new ArrayList<>();
-        TopSizeDialogFragment.SpinnerAdapter<String> adapter = new TopSizeDialogFragment.SpinnerAdapter<String>(
+        TopSizeDialogFragment.SpinnerAdapter<String> adapter = new TopSizeDialogFragment.SpinnerAdapter<>(
                 getActivity(), android.R.layout.simple_spinner_item, arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.dialogFragmentProfileTopSizeValueSpinner.setAdapter(adapter);
@@ -124,7 +127,7 @@ public class TopSizeDialogFragment extends DialogFragment {
         });
     }
 
-    private String[] makeSizeTypeArray(){
+    private String[] makeSizeTypeArray() {
         ClotheSizeType[] clotheSizeTypes = ClotheSizeType.values();
         String[] strings = new String[clotheSizeTypes.length];
         for (int i = 0; i < clotheSizeTypes.length; i++) {
@@ -149,6 +152,7 @@ public class TopSizeDialogFragment extends DialogFragment {
                 r.getDisplayMetrics()
         );
 
+        if (getDialog() == null || getDialog().getWindow() == null) return;
         getDialog().getWindow().setLayout(widthPx, heightPx);
     }
 

@@ -1,10 +1,5 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
-import android.arch.paging.PagedListAdapter;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +7,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
@@ -21,8 +23,8 @@ import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.InCartState;
-import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NoMatchSizeState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.InListItemState;
+import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NoMatchSizeState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NormalState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetBottomSizeState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetTopSizeState;
@@ -44,13 +46,14 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     @Override
     public FavouritesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        if (viewType == IN_LIST_TYPE){
+        if (viewType == IN_LIST_TYPE) {
             ItemFavouriteBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_favourite, parent, false);
             return new InListViewHolder(binding);
-        } else if (viewType == REMOVED_TYPE){
+        } else if (viewType == REMOVED_TYPE) {
             ItemFavouriteRemovedBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_favourite_removed, parent, false);
             return new RemovedViewHolder(binding);
-        } else throw new IllegalArgumentException("Can't create view holder from view type " + viewType);
+        } else
+            throw new IllegalArgumentException("Can't create view holder from view type " + viewType);
     }
 
     @Override
@@ -67,7 +70,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         }
     }
 
-    abstract class FavouritesViewHolder extends RecyclerView.ViewHolder{
+    abstract class FavouritesViewHolder extends RecyclerView.ViewHolder {
         FavouritesViewHolder(@NonNull View itemView) {
             super(itemView);
         }
@@ -106,7 +109,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         @Override
         void bind(int position) {
             FavouritesItem favouritesItem = getItem(position);
-            ClothesItem clothesItem = favouritesItem.getItem();
+            ClothesItem clothesItem = favouritesItem == null ? new ClothesItem() : favouritesItem.getItem();
 
             setItemState(favouritesItem);
             button.setOnClickListener(view -> state.onClick(viewModel, position));
@@ -117,25 +120,26 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             binding.executePendingBindings();
         }
 
-        private void setItemState(FavouritesItem favouritesItem) {
-            if (favouritesItem.isInCart()){
+        private void setItemState(@Nullable FavouritesItem favouritesItem) {
+            if (favouritesItem == null) return;
+            if (favouritesItem.isInCart()) {
                 state = new InCartState(this);
             } else {
                 ClothesItem.SizeInStock sizeInStock = favouritesItem.getItem().getSizeInStock();
-                switch (sizeInStock){
-                    case UNDEFINED:{
-                        if (favouritesItem.getItem().getClotheType().getType() == ClotheType.Type.TOP){
+                switch (sizeInStock) {
+                    case UNDEFINED: {
+                        if (favouritesItem.getItem().getClotheType().getType() == ClotheType.Type.TOP) {
                             setItemState(new SetTopSizeState(this));
                         } else if (favouritesItem.getItem().getClotheType().getType() == ClotheType.Type.BOTTOM) {
                             setItemState(new SetBottomSizeState(this));
                         }
                         break;
                     }
-                    case YES:{
+                    case YES: {
                         setItemState(new NormalState(this));
                         break;
                     }
-                    case NO:{
+                    case NO: {
                         setItemState(new NoMatchSizeState(this));
                         break;
                     }
@@ -143,7 +147,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             }
         }
 
-        public void setItemState(InListItemState state){
+        public void setItemState(InListItemState state) {
             this.state = state;
         }
     }
@@ -160,14 +164,13 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         @Override
         void bind(int position) {
             TextView undoButton = binding.getRoot().findViewById(R.id.item_favourite_removed_back_tv);
-            undoButton.setOnClickListener(v -> {
-                viewModel.restoreItem(position)
-                        .subscribe(favouritesItem -> {
-                            if (favouritesItem.getId() != 0) {
-                                notifyItemChanged(position);
-                            }},
-                                Timber::e);
-            });
+            undoButton.setOnClickListener(v -> viewModel.restoreItem(position)
+                    .subscribe(favouritesItem -> {
+                                if (favouritesItem.getId() != 0) {
+                                    notifyItemChanged(position);
+                                }
+                            },
+                            Timber::e));
         }
     }
 }

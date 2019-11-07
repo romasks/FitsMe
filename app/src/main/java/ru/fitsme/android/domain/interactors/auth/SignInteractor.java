@@ -1,7 +1,9 @@
 package ru.fitsme.android.domain.interactors.auth;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,11 +28,11 @@ public class SignInteractor implements ISignInteractor {
     private Scheduler workThread;
 
     @Inject
-    public SignInteractor(IAuthRepository authRepository,
-                          ISignRepository signRepository,
-                          ITextValidator textValidator,
-                          @Named("main") Scheduler mainThread,
-                          @Named("work") Scheduler workThread){
+    SignInteractor(IAuthRepository authRepository,
+                   ISignRepository signRepository,
+                   ITextValidator textValidator,
+                   @Named("main") Scheduler mainThread,
+                   @Named("work") Scheduler workThread) {
         this.authRepository = authRepository;
         this.signRepository = signRepository;
         this.textValidator = textValidator;
@@ -38,17 +40,18 @@ public class SignInteractor implements ISignInteractor {
         this.workThread = workThread;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     @NonNull
     public Single<SignInUpResult> signIn(@Nullable String login, @Nullable String password) {
         return Single.create(emitter -> {
             SignInUpResult signInUpResult = SignInUpResult.build();
             checkLoginAndPass(signInUpResult, login, password);
-            if (signInUpResult.isSuccess()){
+            if (signInUpResult.isSuccess()) {
                 signRepository
                         .signIn(new SignInfo(login, password))
                         .subscribe(authInfo -> {
-                            if (authInfo.isAuth()){
+                            if (authInfo.isAuth()) {
                                 authRepository.setAuthInfo(authInfo);
                             } else {
                                 UserException error = authInfo.getError();
@@ -65,17 +68,18 @@ public class SignInteractor implements ISignInteractor {
                 .cast(SignInUpResult.class);
     }
 
+    @SuppressLint("CheckResult")
     @NonNull
     @Override
     public Single<SignInUpResult> signUp(@Nullable String login, @Nullable String password) {
         return Single.create(emitter -> {
             SignInUpResult signInUpResult = SignInUpResult.build();
             checkLoginAndPass(signInUpResult, login, password);
-            if (signInUpResult.isSuccess()){
+            if (signInUpResult.isSuccess()) {
                 signRepository
                         .signUp(new SignInfo(login, password))
                         .subscribe(authInfo -> {
-                            if (authInfo.isAuth()){
+                            if (authInfo.isAuth()) {
                                 authRepository.setAuthInfo(authInfo);
                             } else {
                                 UserException error = authInfo.getError();
@@ -83,8 +87,7 @@ public class SignInteractor implements ISignInteractor {
                             }
                             emitter.onSuccess(signInUpResult);
                         }, emitter::onError);
-            }
-            else {
+            } else {
                 emitter.onSuccess(signInUpResult);
             }
         })
@@ -93,11 +96,11 @@ public class SignInteractor implements ISignInteractor {
                 .cast(SignInUpResult.class);
     }
 
-    private void checkLoginAndPass(SignInUpResult signInUpResult, String login, String password){
-        if (!textValidator.checkLogin(login)){
+    private void checkLoginAndPass(SignInUpResult signInUpResult, String login, String password) {
+        if (!textValidator.checkLogin(login)) {
             String string = App.getInstance().getResources().getString(R.string.login_incorrect_error);
             signInUpResult.setLoginError(string);
-        } else if (!textValidator.checkPassword(password)){
+        } else if (!textValidator.checkPassword(password)) {
             String string = App.getInstance().getResources().getString(R.string.password_incorrect_error);
             signInUpResult.setPasswordError(string);
         }

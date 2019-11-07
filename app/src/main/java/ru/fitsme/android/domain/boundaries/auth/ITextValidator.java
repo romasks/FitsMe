@@ -1,6 +1,6 @@
 package ru.fitsme.android.domain.boundaries.auth;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public interface ITextValidator {
 

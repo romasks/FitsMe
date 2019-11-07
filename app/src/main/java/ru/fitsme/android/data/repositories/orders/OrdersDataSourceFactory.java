@@ -1,7 +1,7 @@
 package ru.fitsme.android.data.repositories.orders;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.DataSource;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
 
 import javax.inject.Inject;
 
@@ -16,7 +16,7 @@ public class OrdersDataSourceFactory extends DataSource.Factory<Integer, OrderIt
     private OrdersRepository latestSource = null;
 
     @Inject
-    public OrdersDataSourceFactory(WebLoaderNetworkChecker webLoader) {
+    OrdersDataSourceFactory(WebLoaderNetworkChecker webLoader) {
         this.webLoader = webLoader;
     }
 

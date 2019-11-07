@@ -21,10 +21,12 @@ public class RateItemTouchListener implements View.OnTouchListener {
     private int deltaX;
     private int deltaY;
 
-    RateItemTouchListener(RateItemsFragment fragment){
-        this.callback = (Callback) fragment;
+    RateItemTouchListener(RateItemsFragment fragment) {
+        this.callback = fragment;
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        if (fragment.getActivity() != null) {
+            fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        }
         windowWidth = displayMetrics.widthPixels;
         windowHeight = displayMetrics.heightPixels;
         screenHorizontalCenter = windowWidth / 2;
@@ -33,7 +35,7 @@ public class RateItemTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 firstTouchX = (int) event.getRawX();
                 firstTouchY = (int) event.getRawY();
@@ -50,16 +52,15 @@ public class RateItemTouchListener implements View.OnTouchListener {
 
                 if (deltaX >= 0) {
                     callback.maybeLikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
-                    if (Math.abs(deltaX) > windowWidth / 4){
+                    if (Math.abs(deltaX) > windowWidth / 4) {
                         callback.maybeLikeItem(1.0f);
                         liked = Rating.LIKED;
-                    }
-                    else {
+                    } else {
                         liked = Rating.RESET;
                     }
                 } else {
                     callback.maybeDislikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
-                    if (Math.abs(deltaX) > windowWidth / 4){
+                    if (Math.abs(deltaX) > windowWidth / 4) {
                         callback.maybeDislikeItem(1.0f);
                         liked = Rating.DISLIKED;
                     } else {
@@ -68,12 +69,12 @@ public class RateItemTouchListener implements View.OnTouchListener {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (liked == Rating.RESET){
+                if (liked == Rating.RESET) {
                     callback.maybeLikeItem(0);
                     callback.resetContainerViewWithAnimation();
-                } else if (liked == Rating.DISLIKED){
+                } else if (liked == Rating.DISLIKED) {
                     callback.startToDislikeItem();
-                } else if (liked == Rating.LIKED){
+                } else if (liked == Rating.LIKED) {
                     callback.startToLikeItem();
                 }
                 break;
@@ -83,7 +84,7 @@ public class RateItemTouchListener implements View.OnTouchListener {
         return true;
     }
 
-    enum Rating{
+    enum Rating {
         RESET, DISLIKED, LIKED
     }
 

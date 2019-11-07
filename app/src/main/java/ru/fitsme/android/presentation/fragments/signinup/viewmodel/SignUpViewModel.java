@@ -13,6 +13,7 @@ import ru.fitsme.android.presentation.fragments.signinup.entities.SignInUpState;
 import ru.fitsme.android.presentation.main.AuthNavigation;
 import timber.log.Timber;
 
+@SuppressWarnings("Injectable")
 public class SignUpViewModel extends BaseViewModel {
 
     @Inject
