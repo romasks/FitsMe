@@ -29,8 +29,8 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
         return returnsInteractor.getPagedListLiveData();
     }
 
-    public void goToReturnsChooseItems(int position) {
-        navigation.goToReturnsChooseItems(position);
+    public void goToReturnsChooseItems(ReturnsItem returnsItem) {
+        navigation.goToReturnsChooseItems(returnsItem);
     }
 
     public void backToReturnsHowTo() {

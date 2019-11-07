@@ -1,6 +1,9 @@
 package ru.fitsme.android.domain.entities.clothes;
 
-public class Picture {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Picture implements Parcelable {
     private long id;
     private String url;
 
@@ -27,5 +30,31 @@ public class Picture {
         result = 31 * result + (int)(getId() ^ (getId() >>> 32));
         result = 31 * result + url.hashCode();
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int i) {
+        out.writeLong(id);
+        out.writeString(url);
+    }
+
+    public static final Parcelable.Creator<Picture> CREATOR = new Parcelable.Creator<Picture>() {
+        public Picture createFromParcel(Parcel in) {
+            return new Picture(in);
+        }
+
+        public Picture[] newArray(int size) {
+            return new Picture[size];
+        }
+    };
+
+    private Picture(Parcel in) {
+        id = in.readLong();
+        url = in.readString();
     }
 }

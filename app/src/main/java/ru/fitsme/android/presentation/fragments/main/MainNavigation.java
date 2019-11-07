@@ -3,6 +3,7 @@ package ru.fitsme.android.presentation.fragments.main;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -27,7 +28,7 @@ public class MainNavigation {
     static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
     static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
 
-    public int position;
+    public ReturnsItem returnsItem;
 
     private Cicerone<Router> cicerone;
 
@@ -108,8 +109,8 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItems(int position) {
-        this.position = position;
+    public void goToReturnsChooseItems(ReturnsItem returnsItem) {
+        this.returnsItem = returnsItem;
         goNavigate(NAV_RETURNS_CHOOSE_ITEMS);
     }
 

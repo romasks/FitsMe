@@ -176,7 +176,7 @@ public class MainFragment extends Fragment {
                     case NAV_RETURNS_CHOOSE_ORDER:
                         return ChooseOrderReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ITEMS:
-                        return ChooseItemReturnFragment.newInstance(navigation.position);
+                        return ChooseItemReturnFragment.newInstance(navigation.returnsItem);
                     case NAV_RETURNS_INDICATE_NUMBER:
                         return IndicateNumberReturnFragment.newInstance();
                     case NAV_RETURNS_BILLING_INFO:

@@ -5,17 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseItemBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
@@ -28,15 +26,15 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private static final String KEY_POSITION = "POSITION";
+    private static final String KEY_RETURN_ITEM = "RETURN_ITEM";
 
     private FragmentReturnChooseItemBinding binding;
     private ReturnOrderItemsAdapter adapter;
-    private int orderPosition;
+    private ReturnsItem returnsItem;
 
-    public static ChooseItemReturnFragment newInstance(int position) {
+    public static ChooseItemReturnFragment newInstance(ReturnsItem returnsItem) {
         Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
+        args.putParcelable(KEY_RETURN_ITEM, returnsItem);
         ChooseItemReturnFragment fragment = new ChooseItemReturnFragment();
         fragment.setArguments(args);
         return fragment;
@@ -55,7 +53,7 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            orderPosition = getArguments().getInt(KEY_POSITION, 0);
+            returnsItem = getArguments().getParcelable(KEY_RETURN_ITEM);
         }
 
         viewModel = ViewModelProviders.of(this,
@@ -72,12 +70,7 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         binding.returnOrderItemsListRv.setHasFixedSize(true);
         binding.returnOrderItemsListRv.setAdapter(adapter);
 
-        viewModel.getPageLiveData().observe(this, this::onLoadPage);
-    }
-
-    private void onLoadPage(PagedList<ReturnsItem> pagedList) {
-        adapter.setItems(viewModel.clothesList);
-        adapter.notifyDataSetChanged();
+        adapter.setItems(returnsItem.getItems());
     }
 
     @Override

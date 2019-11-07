@@ -1,8 +1,11 @@
 package ru.fitsme.android.domain.entities.clothes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class ClothesItem {
+public class ClothesItem implements Parcelable {
     private int id;
     private String brand;
     private String name;
@@ -116,6 +119,49 @@ public class ClothesItem {
         return result;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(id);
+        out.writeString(brand);
+        out.writeString(name);
+        out.writeString(description);
+        out.writeList(material);
+        out.writeString(material_percentage);
+        out.writeList(pics);
+        out.writeList(available_sizes_id);
+        out.writeParcelable(clothe_type, flags);
+        out.writeString(size_in_stock);
+        out.writeInt(price);
+    }
+
+    public static final Parcelable.Creator<ClothesItem> CREATOR = new Parcelable.Creator<ClothesItem>() {
+        public ClothesItem createFromParcel(Parcel in) {
+            return new ClothesItem(in);
+        }
+
+        public ClothesItem[] newArray(int size) {
+            return new ClothesItem[size];
+        }
+    };
+
+    private ClothesItem(Parcel in) {
+        id = in.readInt();
+        brand = in.readString();
+        name = in.readString();
+        description = in.readString();
+        in.readList(material, String.class.getClassLoader());
+        material_percentage = in.readString();
+        in.readList(pics, Picture.class.getClassLoader());
+        in.readList(available_sizes_id, Integer.class.getClassLoader());
+        clothe_type = in.readParcelable(ClotheType.class.getClassLoader());
+        size_in_stock = in.readString();
+        price = in.readInt();
+    }
 
     public enum SizeInStock {
         UNDEFINED, NO, YES
