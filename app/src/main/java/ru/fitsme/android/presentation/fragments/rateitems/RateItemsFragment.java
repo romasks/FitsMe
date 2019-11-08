@@ -22,9 +22,7 @@ import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
-import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoTouchListener;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
-import ru.fitsme.android.presentation.main.view.MainActivity;
 import timber.log.Timber;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
@@ -41,7 +39,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private FragmentRateItemsBinding binding;
     private RateItemAnimation itemAnimation;
     private boolean isFullItemInfoState;
-    private ItemInfoTouchListener itemInfoTouchListener;
     private RateItemTouchListener rateItemTouchListener;
 
     public static RateItemsFragment newInstance() {
@@ -85,7 +82,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ((MainActivity) getActivity()).disposeTouch();
         viewModel.clearDisposables();
     }
 
@@ -93,8 +89,13 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         int containerWidth = binding.fragmentRateItemsContainer.getWidth();
         int containerHeight = getContainerHeight();
 
+        rateItemTouchListener = new RateItemTouchListener(this);
         currentFragment = ItemInfoFragment.newInstance(
-                clotheInfoList.get(0), isFullItemInfoState, containerHeight, containerWidth);
+                clotheInfoList.get(0),
+                isFullItemInfoState,
+                containerHeight, containerWidth,
+                rateItemTouchListener
+        );
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_rate_items_container, currentFragment)
@@ -138,11 +139,13 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         isFullItemInfoState = b;
         getArguments().putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
         if (b){
+            rateItemTouchListener.setFullState(true);
             binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
             ((MainFragment) getParentFragment()).showBottomNavigation(false);
             setConstraintToFullState(true);
         } else {
+            rateItemTouchListener.setFullState(false);
             binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
             ((MainFragment) getParentFragment()).showBottomNavigation(true);
@@ -155,21 +158,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         set.clone(binding.rateItemsLayout);
         if (b) {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
-            currentFragment.setOnTouchListener(null);
-//            binding.fragmentRateItemsContainer.setOnTouchListener(null);
-//            ((MainActivity) getActivity()).disposeTouch(rateItemTouchListener);
         } else {
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_buttons_group, ConstraintSet.TOP);
-            setOnTouchListener();
         }
         set.applyTo(binding.rateItemsLayout);
-    }
-
-    private void setOnTouchListener() {
-        rateItemTouchListener = new RateItemTouchListener(this);
-        currentFragment.setOnTouchListener(rateItemTouchListener);
-//        binding.fragmentRateItemsContainer.setOnTouchListener(rateItemTouchListener);
-//        ((MainActivity) getActivity()).observeTouch(rateItemTouchListener);
     }
 
     @Override
@@ -236,10 +228,5 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         if (currentFragment != null) {
             viewModel.likeClothesItem(false);
         }
-    }
-
-    public void setListener(ItemInfoTouchListener itemInfoTouchListener) {
-        this.itemInfoTouchListener = itemInfoTouchListener;
-        ((MainActivity) getActivity()).observeTouch(itemInfoTouchListener);
     }
 }

@@ -30,7 +30,7 @@ import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
-        implements BindingEventsClickListener, ItemInfoTouchListener.Callback {
+        implements BindingEventsClickListener{
 
     @Inject
     IClothesInteractor clothesInteractor;
@@ -42,8 +42,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     private FragmentItemInfoBinding binding;
     private ItemInfoPictureHelper pictureHelper;
 
+    private static RateItemTouchListener rateItemTouchListener;
+
     public static ItemInfoFragment newInstance(ClotheInfo item, boolean isFullItemInfoState,
-                                               int containerHeight, int containerWidth) {
+                                               int containerHeight, int containerWidth,
+                                               RateItemTouchListener rateItemTouchListener) {
+        ItemInfoFragment.rateItemTouchListener = rateItemTouchListener;
         ItemInfoFragment fragment = new ItemInfoFragment();
 
         ItemInfoFragment.clotheInfo = item;
@@ -82,14 +86,8 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             onLikedClothesItem();
         }
 
-//        setOnTouchListener();
+        binding.itemInfoScrollView.setListener(rateItemTouchListener);
         setOnBrandNameTouchListener();
-    }
-
-    public void setOnTouchListener(RateItemTouchListener touchListener) {
-//        ItemInfoTouchListener itemInfoTouchListener = new ItemInfoTouchListener(this);
-        binding.itemInfoScrollView.setListener(touchListener);
-//        ((RateItemsFragment) getParentFragment()).setListener(itemInfoTouchListener);
     }
 
     private void setMargins() {
@@ -238,12 +236,10 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         }
     }
 
-    @Override
     public void nextPicture() {
         pictureHelper.setNextPicture();
     }
 
-    @Override
     public void previousPicture() {
         pictureHelper.setPreviousPicture();
     }
