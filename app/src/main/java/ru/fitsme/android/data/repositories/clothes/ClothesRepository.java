@@ -3,6 +3,7 @@ package ru.fitsme.android.data.repositories.clothes;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
 public class ClothesRepository implements IClothesRepository {
@@ -33,7 +35,17 @@ public class ClothesRepository implements IClothesRepository {
         this.storage = storage;
     }
 
-    public Single<ClotheInfo> likeItem(ClothesItem clothesItem, boolean liked){
+    @Override
+    public Single<ClotheInfo> likeItem(ClotheInfo clotheInfo, boolean liked){
+        ClothesItem clothesItem;
+        if (clotheInfo.getClothe() instanceof ClothesItem) {
+           clothesItem = (ClothesItem) clotheInfo.getClothe();
+        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
+            LikedClothesItem likedClothesItem = (LikedClothesItem) clotheInfo.getClothe();
+            clothesItem = likedClothesItem.getClothe();
+        } else {
+            throw new TypeNotPresentException(clotheInfo.toString(), null);
+        }
         return Single.create(emitter -> {
             webLoader.likeItem(clothesItem, liked)
                     .subscribe(likedClothesItemOkResponse -> {
@@ -54,7 +66,7 @@ public class ClothesRepository implements IClothesRepository {
                 webLoader.getClothesPage(page)
                         .subscribe(clothesPageOkResponse -> {
                             ClothesPage clothePage = clothesPageOkResponse.getResponse();
-                            List<ClotheInfo> clotheInfoList = new ArrayList<>();
+                            List<ClotheInfo> clotheInfoList = new LinkedList<>();
                             if (clothePage != null){
                                 List<ClothesItem> clothesItemList = clothePage.getItems();
                                 if (clothesItemList.size() == 0){

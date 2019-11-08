@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
@@ -40,6 +38,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private RateItemAnimation itemAnimation;
     private boolean isFullItemInfoState;
     private RateItemTouchListener rateItemTouchListener;
+    private ClotheInfo currentClotheInfo;
+
 
     public static RateItemsFragment newInstance() {
         return new RateItemsFragment();
@@ -75,7 +75,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                 new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
         viewModel.init();
 
-        viewModel.getClotheInfoListLiveData()
+        viewModel.getClotheInfoLiveData()
                 .observe(this, this::onChange);
     }
 
@@ -85,13 +85,18 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         viewModel.clearDisposables();
     }
 
-    private void onChange(List<ClotheInfo> clotheInfoList) {
+    private void onChange(ClotheInfo clotheInfo) {
+        currentClotheInfo = clotheInfo;
+        setClotheInfo(clotheInfo);
+    }
+
+    private void setClotheInfo(ClotheInfo clotheInfo) {
         int containerWidth = binding.fragmentRateItemsContainer.getWidth();
         int containerHeight = getContainerHeight();
 
         rateItemTouchListener = new RateItemTouchListener(this);
         currentFragment = ItemInfoFragment.newInstance(
-                clotheInfoList.get(0),
+                clotheInfo,
                 isFullItemInfoState,
                 containerHeight, containerWidth,
                 rateItemTouchListener
@@ -102,6 +107,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                 .commit();
         resetContainerView();
     }
+
 
     private int getContainerHeight() {
         int containerHeight;
@@ -121,8 +127,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     @Override
-    public void onClickRefresh() {
-        Timber.d("onClickRefresh()");
+    public void onClickReturn() {
+        viewModel.onReturnClicked(currentClotheInfo);
     }
 
     @Override
@@ -219,14 +225,14 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void likeItem() {
         if (currentFragment != null) {
-            viewModel.likeClothesItem(true);
+            viewModel.likeClothesItem(currentClotheInfo, true);
         }
     }
 
     @Override
     public void dislikeItem() {
         if (currentFragment != null) {
-            viewModel.likeClothesItem(false);
+            viewModel.likeClothesItem(currentClotheInfo, false);
         }
     }
 }

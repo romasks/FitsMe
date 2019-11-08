@@ -2,21 +2,15 @@ package ru.fitsme.android.domain.interactors.clothes;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 
-import java.util.List;
-import java.util.ListIterator;
+import java.util.LinkedList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import timber.log.Timber;
 
@@ -27,10 +21,10 @@ public class ClothesInteractor implements IClothesInteractor {
     private final Scheduler workThread;
     private final Scheduler mainThread;
 
-    private final MutableLiveData<List<ClotheInfo>> clotheInfoListLiveData = new MutableLiveData<>();
+    private MutableLiveData<ClotheInfo> clotheInfoMutableLiveData = new MutableLiveData<>();
 
-    private ListIterator<ClotheInfo> clothesListIterator;
-    private Subject<ClotheInfo> itemInfoStateSubject = PublishSubject.create();
+    private LinkedList<ClotheInfo> clotheInfoList;
+    private PreviousClotheInfoList previousItemInfoList = new PreviousClotheInfoList();
 
     @Inject
     ClothesInteractor(IClothesRepository clothesRepository,
@@ -40,46 +34,49 @@ public class ClothesInteractor implements IClothesInteractor {
         this.workThread = workThread;
         this.mainThread = mainThread;
 
-        getClothesList();
+        updateClothesList();
     }
 
-//    @NonNull
-//    @Override
-//    public Subject<ClotheInfo> getItemInfoState() {
-//        getClothesList();
-//        return itemInfoStateSubject;
-//    }
-
-    private void getClothesList() {
+    @Override
+    public void updateClothesList() {
         clothesRepository.getClotheList()
                 .observeOn(mainThread)
-                .subscribe(clotheInfoList ->
-                        clotheInfoListLiveData.setValue(clotheInfoList), Timber::e);
+                .subscribe(clotheInfoList -> {
+                    this.clotheInfoList = (LinkedList<ClotheInfo>) clotheInfoList;
+                    clotheInfoMutableLiveData.setValue(this.clotheInfoList.pollFirst());
+                }, Timber::e);
     }
 
-    @NonNull
+    public void setNextClotheInfo() {
+        ClotheInfo clotheInfo = clotheInfoList.pollFirst();
+        if (clotheInfo != null) {
+            clotheInfoMutableLiveData.setValue(clotheInfo);
+        } else {
+            updateClothesList();
+        }
+    }
+
     @Override
-    public Single<ClotheInfo> setLikeToClothesItem(ClothesItem clothesItem, boolean liked) {
-        return clothesRepository.likeItem(clothesItem, liked)
-                .observeOn(mainThread);
+    public void setPreviousClotheInfo(ClotheInfo current) {
+        if (previousItemInfoList.hasPrevious()){
+            clotheInfoList.addFirst(current);
+            ClotheInfo clotheInfo = previousItemInfoList.peekLast();
+            clotheInfoMutableLiveData.setValue(clotheInfo);
+        }
     }
 
     @Override
-    public LiveData<List<ClotheInfo>> getClotheInfoListLiveData(){
-        return clotheInfoListLiveData;
+    public void setLikeToClothesItem(ClotheInfo clotheInfo, boolean liked) {
+        clothesRepository.likeItem(clotheInfo, liked)
+                .observeOn(mainThread)
+                .subscribe(callback -> {
+                    setNextClotheInfo();
+                    previousItemInfoList.add(callback);
+                });
     }
 
-//    @Override
-//    public void getNext() {
-//        if (clothesListIterator.hasNext()) {
-//            itemInfoStateSubject.onNext(clothesListIterator.next());
-//        } else {
-//            getClothesList();
-//        }
-//    }
-
-//    @Override
-//    public void updateList(){
-//        getClothesList();
-//    }
+    @Override
+    public LiveData<ClotheInfo> getClotheInfoLiveData(){
+        return clotheInfoMutableLiveData;
+    }
 }
