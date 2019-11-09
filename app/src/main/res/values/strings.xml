@@ -117,6 +117,7 @@
     <string name="returns_price_title">Сумма:</string>
     <string name="returns_price_value">%1$s руб.</string>
     <string name="returns_calculation_methos_title">Метод расчёта:</string>
+    <string name="returns_requisites_title">Реквизиты:</string>
     <string name="returns_days_for_returns_title">Время на возврат:</string>
     <string name="returns_days_for_returns_value">%1$s дней</string>
 
@@ -139,9 +140,13 @@
 
     <string name="returns_billing_info_header_text">Номер банковской карты</string>
     <string name="returns_billing_info_text">Как только вещи поступят на наш склад, денежные средства будут возмещены на вашу банковскую карту.</string>
+    <string name="warning_indicate_number_is_not_filled">Трек-номер не заполнен</string>
+    <string name="warning_card_number_is_not_filled">Номер карточки не заполнен</string>
 
     <string name="returns_button_formalize_return">Оформить возврат</string>
     <string name="returns_button_next">Далее</string>
     <string name="returns_button_to_returns">К списку возвратов</string>
+
+    <string name="returns_list_text">Список товаров:</string>
 
 </resources>

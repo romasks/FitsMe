@@ -29,8 +29,8 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
         isLoading.set(false);
     }
 
-    public void goToReturnsIndicateNumber() {
-        navigation.goToReturnsIndicateNumber();
+    public void goToReturnsIndicateNumber(ReturnsItem returnsItem) {
+        navigation.goToReturnsIndicateNumber(returnsItem);
     }
 
     public void backToReturnsChooseOrder() {

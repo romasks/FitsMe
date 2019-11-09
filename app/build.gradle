@@ -112,6 +112,7 @@ dependencies {
 
     // Masked text
     implementation 'com.redmadrobot:inputmask:4.0.0'
+    implementation "ru.tinkoff.decoro:decoro:1.1.1"
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50'
 }

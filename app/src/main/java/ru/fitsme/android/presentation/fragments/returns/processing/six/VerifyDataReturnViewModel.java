@@ -1,20 +1,19 @@
-package ru.fitsme.android.presentation.fragments.returns.processing.four;
-
-import androidx.databinding.ObservableBoolean;
+package ru.fitsme.android.presentation.fragments.returns.processing.six;
 
 import org.jetbrains.annotations.NotNull;
 
+import androidx.databinding.ObservableBoolean;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
-public class IndicateNumberReturnViewModel extends BaseViewModel {
+public class VerifyDataReturnViewModel extends BaseViewModel {
 
     private final IReturnsInteractor returnsInteractor;
 
     public ObservableBoolean isLoading = new ObservableBoolean(true);
 
-    public IndicateNumberReturnViewModel(@NotNull IReturnsInteractor returnsInteractor) {
+    public VerifyDataReturnViewModel(@NotNull IReturnsInteractor returnsInteractor) {
         this.returnsInteractor = returnsInteractor;
         inject(this);
     }
@@ -23,11 +22,11 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
         isLoading.set(false);
     }
 
-    public void goToReturnsBillingInfo(ReturnsItem returnsItem) {
-        navigation.goToReturnsBillingInfo(returnsItem);
+    public void sendReturnOrder(ReturnsItem returnsItem) {
+        returnsInteractor.sendReturnOrder(returnsItem);
     }
 
-    public void backToReturnsChooseItems() {
-        navigation.backToReturnsChooseItems();
+    public void backToReturnsBillingInfo() {
+        navigation.backToReturnsBillingInfo();
     }
 }

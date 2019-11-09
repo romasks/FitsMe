@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +16,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnIndicateNumberBinding;
+import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -25,10 +27,17 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private FragmentReturnIndicateNumberBinding binding;
+    private static final String KEY_RETURN_ITEM = "RETURN_ITEM";
 
-    public static IndicateNumberReturnFragment newInstance() {
-        return new IndicateNumberReturnFragment();
+    private FragmentReturnIndicateNumberBinding binding;
+    private ReturnsItem returnsItem;
+
+    public static IndicateNumberReturnFragment newInstance(ReturnsItem returnsItem) {
+        Bundle args = new Bundle();
+        args.putParcelable(KEY_RETURN_ITEM, returnsItem);
+        IndicateNumberReturnFragment fragment = new IndicateNumberReturnFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -45,6 +54,10 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getArguments() != null) {
+            returnsItem = getArguments().getParcelable(KEY_RETURN_ITEM);
+        }
+
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(returnsInteractor)).get(IndicateNumberReturnViewModel.class);
         if (savedInstanceState == null) {
@@ -60,6 +73,11 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
 
     @Override
     public void onNext() {
-        viewModel.goToReturnsBillingInfo();
+        if (binding.indicateNumber.length() < 13) {
+            Toast.makeText(getContext(), R.string.warning_indicate_number_is_not_filled, Toast.LENGTH_SHORT).show();
+        } else {
+            returnsItem.setIndicationNumber(String.valueOf(binding.indicateNumber.getText()));
+            viewModel.goToReturnsBillingInfo(returnsItem);
+        }
     }
 }

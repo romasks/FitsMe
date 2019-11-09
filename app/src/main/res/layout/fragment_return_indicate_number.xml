@@ -49,6 +49,7 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/indicate_number"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_margin="@dimen/padding_medium"
@@ -75,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="40dp"
                     android:src="@drawable/invoice_example" />
 
             </LinearLayout>

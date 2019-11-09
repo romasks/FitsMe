@@ -26,6 +26,7 @@ import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.four.IndicateNumberReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnFragment;
+import ru.fitsme.android.presentation.fragments.returns.processing.six.VerifyDataReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.three.ChooseItemReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.two.ChooseOrderReturnFragment;
 import ru.terrakok.cicerone.Navigator;
@@ -178,11 +179,11 @@ public class MainFragment extends Fragment {
                     case NAV_RETURNS_CHOOSE_ITEMS:
                         return ChooseItemReturnFragment.newInstance((ReturnsItem) data);
                     case NAV_RETURNS_INDICATE_NUMBER:
-                        return IndicateNumberReturnFragment.newInstance();
+                        return IndicateNumberReturnFragment.newInstance((ReturnsItem) data);
                     case NAV_RETURNS_BILLING_INFO:
-                        return BillingInfoReturnFragment.newInstance();
+                        return BillingInfoReturnFragment.newInstance((ReturnsItem) data);
                     case NAV_RETURNS_VERIFY_DATA:
-                        break;
+                        return VerifyDataReturnFragment.newInstance((ReturnsItem) data);
                 }
                 throw new RuntimeException("Unknown screen key");
             }

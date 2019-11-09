@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.returns.processing.six.VerifyDataReturnViewModel" />
+
+        <variable
+            name="clothesItem"
+            type="ru.fitsme.android.domain.entities.clothes.ClothesItem" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/return_order_item"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/item_return_order_view_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="24dp"
+            android:layout_toStartOf="@id/right_arrow"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_return_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{clothesItem.brand}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Название бренда" />
+
+            <TextView
+                android:id="@+id/item_return_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{clothesItem.name}"
+                android:textSize="12sp"
+                tools:text="Название товара" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:gravity="center"
+            android:text="@{@string/returns_order_item_price(clothesItem.price)}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="1000 руб." />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="#AAAAAAAA" />
+
+    </RelativeLayout>
+
+</layout>

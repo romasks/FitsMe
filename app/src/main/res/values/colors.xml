@@ -18,4 +18,5 @@
     <color name="navbarItemActive">#940235</color>
     <color name="navbarItemInactive">#88000000</color>
     <color name="transparentBackground">#DEFFFFFF</color>
+    <color name="creditCartBackground">#D8D2DA</color>
 </resources>

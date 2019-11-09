@@ -19,12 +19,14 @@ public class ReturnsItem implements Parcelable {
     private int daysForReturn;
     private boolean inCart;
     private List<ClothesItem> items;
+    private String indicationNumber = "";
+    private String cardNumber = "";
 
     ReturnsItem() {
     }
 
     public ReturnsItem(long number, String status, String date, int amount, int price,
-                String calculationMethod, int daysForReturn, boolean inCart, List<ClothesItem> items) {
+                       String calculationMethod, int daysForReturn, boolean inCart, List<ClothesItem> items) {
         this.number = number;
         this.status = status;
         this.date = date;
@@ -76,6 +78,27 @@ public class ReturnsItem implements Parcelable {
         return items;
     }
 
+    public String getIndicationNumber() {
+        return indicationNumber;
+    }
+
+    public void setIndicationNumber(String indicationNumber) {
+        this.indicationNumber = indicationNumber;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public String getHiddenCardNumber() {
+        String lastQuarter = cardNumber.split("-")[3];
+        return "**** **** **** " + lastQuarter;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,7 +113,9 @@ public class ReturnsItem implements Parcelable {
                 getStatus().equals(that.getStatus()) &&
                 getCalculationMethod().equals(that.getCalculationMethod()) &&
                 getDate().equals(that.getDate()) &&
-                getItems().equals(that.getItems());
+                getItems().equals(that.getItems()) &&
+                getIndicationNumber().equals(that.getIndicationNumber()) &&
+                getCardNumber().equals(that.getCardNumber());
     }
 
     @Override
@@ -106,6 +131,8 @@ public class ReturnsItem implements Parcelable {
         result = 31 * result + getDate().hashCode();
         result = 31 * result + getCalculationMethod().hashCode();
         result = 31 * result + getItems().hashCode();
+        result = 31 * result + getIndicationNumber().hashCode();
+        result = 31 * result + getCardNumber().hashCode();
         return result;
     }
 
@@ -130,6 +157,8 @@ public class ReturnsItem implements Parcelable {
             out.writeByte((byte) (inCart ? 1 : 0));
         }
         out.writeList(items);
+        out.writeString(indicationNumber);
+        out.writeString(cardNumber);
     }
 
     public static final Parcelable.Creator<ReturnsItem> CREATOR = new Parcelable.Creator<ReturnsItem>() {
@@ -157,5 +186,7 @@ public class ReturnsItem implements Parcelable {
             inCart = in.readByte() != 0;
         }
         in.readList(items, ClothesItem.class.getClassLoader());
+        indicationNumber = in.readString();
+        cardNumber = in.readString();
     }
 }

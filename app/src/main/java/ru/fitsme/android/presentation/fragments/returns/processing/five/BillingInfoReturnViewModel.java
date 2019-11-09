@@ -1,9 +1,9 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.five;
 
-import androidx.databinding.ObservableBoolean;
-
 import org.jetbrains.annotations.NotNull;
 
+import androidx.databinding.ObservableBoolean;
+import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
@@ -22,11 +22,11 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
         isLoading.set(false);
     }
 
-    public void goToReturnsVerifyData() {
-//        navigation.goToReturnsVerifyData();
+    public void goToReturnsVerifyData(ReturnsItem returnsItem) {
+        navigation.goToReturnsVerifyData(returnsItem);
     }
 
-    public void backToReturnsIndicateNumber() {
-        navigation.backToReturnsIndicateNumber();
+    public void backToReturnsChooseItems() {
+        navigation.backToReturnsChooseItems();
     }
 }

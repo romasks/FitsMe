@@ -30,5 +30,6 @@
     <dimen name="item_info_card_radius">10dp</dimen>
     <dimen name="item_info_card_padding">16dp</dimen>
 
+    <dimen name="item_credit_card_radius">16dp</dimen>
 
 </resources>

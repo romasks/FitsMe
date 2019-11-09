@@ -100,6 +100,11 @@ public class ReturnsInteractor implements IReturnsInteractor {
         return false;
     }
 
+    @Override
+    public void sendReturnOrder(ReturnsItem returnsItem) {
+
+    }
+
     public static void setFavouriteMessage(String string) {
         showMessage.set(string);
     }

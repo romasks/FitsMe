@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -14,79 +15,115 @@
             type="ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnBindingEvents" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <include
             android:id="@+id/app_bar"
             layout="@layout/layout_app_bar" />
 
-        <TextView
-            android:id="@+id/fragment_checkout_loading_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_bar"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:text="@string/loading"
-            android:textSize="@dimen/text_size_lower_medium"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_bar"
-            android:layout_margin="@dimen/padding_medium"
-            android:text="@string/returns_billing_info_header_text"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/card"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@id/title"
-            android:layout_gravity="center"
-            android:src="@drawable/card_example" />
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/card_number"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@id/title"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="125dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/bg_rounded_corners_with_stroke"
-            android:gravity="center"
-            android:hint="0000   0000   0000   0000"
-            android:inputType="number"
-            android:maxLength="12"
-            android:padding="@dimen/padding_small"
-            android:textColor="@color/black"
-            android:textColorHint="@color/colorDivideLine"
-            android:textSize="20sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/card"
-            android:layout_margin="@dimen/padding_medium"
-            android:text="@string/returns_billing_info_text"
-            android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/loading_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="@string/loading"
+                    android:textSize="@dimen/text_size_lower_medium"
+                    android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="@dimen/padding_medium"
+                    android:text="@string/returns_billing_info_header_text"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/title"
+                    android:layout_margin="@dimen/padding_medium"
+                    android:padding="@dimen/padding_small"
+                    app:cardBackgroundColor="@color/creditCartBackground"
+                    app:cardCornerRadius="@dimen/item_credit_card_radius"
+                    app:cardElevation="@dimen/items_info_elevation">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="@dimen/padding_small"
+                        android:layout_marginTop="@dimen/padding_small"
+                        android:src="@drawable/ic_card_dots" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="240dp"
+                        android:layout_height="240dp"
+                        android:layout_gravity="center"
+                        android:paddingTop="@dimen/padding_small"
+                        android:src="@drawable/ic_logo_on_card" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/padding_medium"
+                        android:layout_marginEnd="@dimen/padding_small"
+                        android:src="@drawable/ic_card_visa" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/card_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="@dimen/padding_medium"
+                        android:layout_marginEnd="@dimen/padding_medium"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/bg_rounded_corners_with_stroke"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:hint="0000-0000-0000-0000"
+                        android:maxLength="19"
+                        android:padding="@dimen/padding_small"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/colorDivideLine"
+                        android:textSize="20sp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/card_view"
+                    android:layout_margin="@dimen/padding_medium"
+                    android:text="@string/returns_billing_info_text"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </ScrollView>
 
         <Button
             android:id="@+id/btn_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/padding_large"
             android:background="@drawable/bg_to_cart_btn"
             android:onClick="@{() -> bindingEvents.onNext()}"
@@ -94,5 +131,5 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_lower_medium" />
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

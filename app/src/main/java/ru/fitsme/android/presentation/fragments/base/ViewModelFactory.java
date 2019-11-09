@@ -24,6 +24,7 @@ import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.four.IndicateNumberReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnViewModel;
+import ru.fitsme.android.presentation.fragments.returns.processing.six.VerifyDataReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.three.ChooseItemReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.two.ChooseOrderReturnViewModel;
 import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewModel;
@@ -76,6 +77,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new IndicateNumberReturnViewModel((IReturnsInteractor) interactor);
         } else if (modelClass.isAssignableFrom(BillingInfoReturnViewModel.class)) {
             return (T) new BillingInfoReturnViewModel((IReturnsInteractor) interactor);
+        } else if (modelClass.isAssignableFrom(VerifyDataReturnViewModel.class)) {
+            return (T) new VerifyDataReturnViewModel((IReturnsInteractor) interactor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
