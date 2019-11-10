@@ -108,5 +108,8 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
     @Override
     public void goToCreatingNewReturn() {
         viewModel.goToReturnsHowTo();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).hideBottomNavbar();
+        }
     }
 }

@@ -21,6 +21,7 @@ import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewModel> implements VerifyDataReturnBindingEvents, BackClickListener {
 
@@ -85,5 +86,8 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
     @Override
     public void onNext() {
         viewModel.sendReturnOrder(returnsItem);
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).showBottomNavbar();
+        }
     }
 }

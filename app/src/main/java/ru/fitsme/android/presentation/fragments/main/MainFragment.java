@@ -199,4 +199,12 @@ public class MainFragment extends Fragment {
             }
         };
     }
+
+    public void hideBottomNavbar() {
+        binding.bnvMainFrNavigation.setVisibility(View.GONE);
+    }
+
+    public void showBottomNavbar() {
+        binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
+    }
 }

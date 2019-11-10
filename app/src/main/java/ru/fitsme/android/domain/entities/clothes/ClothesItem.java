@@ -1,5 +1,6 @@
 package ru.fitsme.android.domain.entities.clothes;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -17,6 +18,8 @@ public class ClothesItem implements Parcelable {
     private ClotheType clothe_type;
     private String size_in_stock;
     private int price;
+    // TODO: change it:
+    private boolean isCheckedForReturn;
 
     public ClothesItem() {
     }
@@ -84,6 +87,14 @@ public class ClothesItem implements Parcelable {
         return price;
     }
 
+    public boolean isCheckedForReturn() {
+        return isCheckedForReturn;
+    }
+
+    public void setCheckedForReturn(boolean checkedForReturn) {
+        isCheckedForReturn = checkedForReturn;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,7 +110,8 @@ public class ClothesItem implements Parcelable {
                 getAvailableSizesId().equals(that.getAvailableSizesId()) &&
                 getClotheType().equals(that.getClotheType()) &&
                 getSizeInStock().equals(that.getSizeInStock()) &&
-                getPrice() == that.getPrice();
+                getPrice() == that.getPrice() &&
+                isCheckedForReturn() == that.isCheckedForReturn();
     }
 
     @Override
@@ -116,6 +128,7 @@ public class ClothesItem implements Parcelable {
         result = 31 * result + getClotheType().hashCode();
         result = 31 * result + getSizeInStock().hashCode();
         result = 31 * result + getPrice();
+        result = 31 * result + (isCheckedForReturn() ? 1231 : 1237);
         return result;
     }
 
@@ -137,6 +150,11 @@ public class ClothesItem implements Parcelable {
         out.writeParcelable(clothe_type, flags);
         out.writeString(size_in_stock);
         out.writeInt(price);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            out.writeBoolean(isCheckedForReturn);
+        } else {
+            out.writeByte((byte) (isCheckedForReturn ? 1 : 0));
+        }
     }
 
     public static final Parcelable.Creator<ClothesItem> CREATOR = new Parcelable.Creator<ClothesItem>() {
@@ -161,6 +179,11 @@ public class ClothesItem implements Parcelable {
         clothe_type = in.readParcelable(ClotheType.class.getClassLoader());
         size_in_stock = in.readString();
         price = in.readInt();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            isCheckedForReturn = in.readBoolean();
+        } else {
+            isCheckedForReturn = in.readByte() != 0;
+        }
     }
 
     public enum SizeInStock {

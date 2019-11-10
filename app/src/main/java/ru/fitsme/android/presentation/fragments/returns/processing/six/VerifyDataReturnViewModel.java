@@ -24,6 +24,7 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
 
     public void sendReturnOrder(ReturnsItem returnsItem) {
         returnsInteractor.sendReturnOrder(returnsItem);
+        navigation.goToOrdersReturn();
     }
 
     public void backToReturnsBillingInfo() {

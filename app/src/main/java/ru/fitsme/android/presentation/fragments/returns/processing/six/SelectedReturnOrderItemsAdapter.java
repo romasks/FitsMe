@@ -3,6 +3,7 @@ package ru.fitsme.android.presentation.fragments.returns.processing.six;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -42,7 +43,13 @@ public class SelectedReturnOrderItemsAdapter extends RecyclerView.Adapter<Select
     }
 
     void setItems(List<ClothesItem> items) {
-        this.items = items;
+        List<ClothesItem> selectedItemsList = new ArrayList<>();
+        for (ClothesItem item : items) {
+            if (item.isCheckedForReturn()) {
+                selectedItemsList.add(item);
+            }
+        }
+        this.items = selectedItemsList;
     }
 
     private ClothesItem getItem(int position) {

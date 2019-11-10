@@ -2,6 +2,7 @@ package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -59,6 +60,10 @@ public class ReturnOrderItemsAdapter extends RecyclerView.Adapter<ReturnOrderIte
         }
 
         void bind(int position) {
+            ((CheckBox) binding.getRoot().findViewById(R.id.cb)).setOnCheckedChangeListener((compoundButton, b) -> {
+                getItem(position).setCheckedForReturn(b);
+            });
+
             binding.setVariable(BR.clothesItem, getItem(position));
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
