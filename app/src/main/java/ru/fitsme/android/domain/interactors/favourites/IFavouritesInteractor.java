@@ -22,4 +22,6 @@ public interface IFavouritesInteractor extends BaseInteractor {
     ObservableField<String> getShowMessage();
 
     boolean itemIsRemoved(int position);
+
+    LiveData<Boolean> getFavouritesIsEmpty();
 }

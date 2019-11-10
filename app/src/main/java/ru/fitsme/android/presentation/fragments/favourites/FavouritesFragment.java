@@ -26,10 +26,11 @@ import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
-        implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+        implements FavouritesBindingEvents, FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     @Inject
     IFavouritesInteractor favouritesInteractor;
@@ -59,6 +60,7 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favourites, container, false);
+        binding.setBindingEvents(this);
         return binding.getRoot();
     }
 
@@ -83,6 +85,8 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         viewModel.getPageLiveData().observe(
                 this, this::onLoadPage);
 
+        viewModel.getFavouritesIsEmpty().observe(this, this::onFavouritesIsEmpty);
+
         ItemTouchHelper.SimpleCallback simpleCallback =
                 new FavouritesRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.favouritesListRv);
@@ -90,6 +94,14 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     private void onLoadPage(PagedList<FavouritesItem> pagedList) {
         adapter.submitList(pagedList);
+    }
+
+    private void onFavouritesIsEmpty(Boolean b) {
+        if (b) {
+            binding.favouritesNoItemsGroup.setVisibility(View.VISIBLE);
+        } else {
+            binding.favouritesNoItemsGroup.setVisibility(View.GONE);
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -102,6 +114,13 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
                             adapter.notifyItemChanged(position);
                         }
                     }, Timber::e);
+        }
+    }
+
+    @Override
+    public void onClickGoToRateItems() {
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToRateItems();
         }
     }
 }

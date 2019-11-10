@@ -2,6 +2,8 @@ package ru.fitsme.android.domain.interactors.favourites;
 
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
@@ -34,6 +36,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     private LiveData<PagedList<FavouritesItem>> pagedListLiveData;
     private PagedList.Config config;
 
+    private MutableLiveData<Boolean> favouritesIsEmpty;
     private final static ObservableField<String> showMessage =
             new ObservableField<String>(App.getInstance().getString(R.string.loading));
 
@@ -57,16 +60,37 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     @Override
     public LiveData<PagedList<FavouritesItem>> getPagedListLiveData() {
-        return pagedListLiveData =
+        favouritesIsEmpty = new MutableLiveData<>();
+        pagedListLiveData =
                 new LivePagedListBuilder<>(this.favouritesDataSourceFactory, config)
                         .setFetchExecutor(Executors.newSingleThreadExecutor())
                         .setBoundaryCallback(new PagedList.BoundaryCallback<FavouritesItem>() {
                             @Override
                             public void onZeroItemsLoaded() {
-                                showMessage.set(App.getInstance().getString(R.string.no_items_in_favourites));
+                                favouritesIsEmpty.setValue(true);
+                                //showMessage.set(App.getInstance().getString(R.string.no_items_in_favourites));
                             }
                         })
                         .build();
+
+        return Transformations.map(pagedListLiveData, pagedList -> {
+            pagedList.addWeakCallback(null, new PagedList.Callback() {
+
+                @Override
+                public void onChanged(int position, int count) {
+                }
+
+                @Override
+                public void onInserted(int position, int count) {
+                    favouritesIsEmpty.setValue(false);
+                }
+
+                @Override
+                public void onRemoved(int position, int count) {
+                }
+            });
+            return pagedList;
+        });
     }
 
     @Override
@@ -134,5 +158,10 @@ public class FavouritesInteractor implements IFavouritesInteractor {
 
     public static void setFavouriteMessage(String string) {
         showMessage.set(string);
+    }
+
+    @Override
+    public LiveData<Boolean> getFavouritesIsEmpty() {
+        return favouritesIsEmpty;
     }
 }

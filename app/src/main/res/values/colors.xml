@@ -14,7 +14,7 @@
     <color name="darkGrey">#787878</color>
     <color name="lightGrey">#AAAAAA</color>
     <color name="toCartButton">#940235</color>
-    <color name="inCartButton">#55552727</color>
+    <color name="inCartButton">#424F4F4F</color>
     <color name="navbarItemActive">#940235</color>
     <color name="navbarItemInactive">#88000000</color>
     <color name="transparentBackground">#DEFFFFFF</color>
