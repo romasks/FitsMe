@@ -3,10 +3,13 @@ package ru.fitsme.android.presentation.fragments.main;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
+
+import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_IN_UP;
 
 @Singleton
 public class MainNavigation {
@@ -27,8 +30,6 @@ public class MainNavigation {
     static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
     static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
 
-    public int position;
-
     private Cicerone<Router> cicerone;
 
     @Inject
@@ -48,6 +49,10 @@ public class MainNavigation {
         getRouter().navigateTo(navigationKey);
     }
 
+    private void goNavigate(String navigationKey, ReturnsItem returnsItem) {
+        getRouter().navigateTo(navigationKey, returnsItem);
+    }
+
     private void backNavigate(String navigationKey) {
         getRouter().backTo(navigationKey);
     }
@@ -58,6 +63,10 @@ public class MainNavigation {
 
     public void removeNavigator() {
         getNavigatorHolder().removeNavigator();
+    }
+
+    public void goSignInUp() {
+        getRouter().newRootScreen(NAV_SIGN_IN_UP);
     }
 
     public void goToRateItems() {
@@ -108,21 +117,20 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItems(int position) {
-        this.position = position;
-        goNavigate(NAV_RETURNS_CHOOSE_ITEMS);
+    public void goToReturnsChooseItems(ReturnsItem returnsItem) {
+        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, returnsItem);
     }
 
-    public void goToReturnsIndicateNumber() {
-        goNavigate(NAV_RETURNS_INDICATE_NUMBER);
+    public void goToReturnsIndicateNumber(ReturnsItem returnsItem) {
+        goNavigate(NAV_RETURNS_INDICATE_NUMBER, returnsItem);
     }
 
-    public void goToReturnsBillingInfo() {
-        goNavigate(NAV_RETURNS_BILLING_INFO);
+    public void goToReturnsBillingInfo(ReturnsItem returnsItem) {
+        goNavigate(NAV_RETURNS_BILLING_INFO, returnsItem);
     }
 
-    public void goToReturnsVerifyData() {
-        goNavigate(NAV_RETURNS_VERIFY_DATA);
+    public void goToReturnsVerifyData(ReturnsItem returnsItem) {
+        goNavigate(NAV_RETURNS_VERIFY_DATA, returnsItem);
     }
 
     public void backToOrdersReturn() {

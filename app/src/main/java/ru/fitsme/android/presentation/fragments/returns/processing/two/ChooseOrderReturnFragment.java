@@ -21,10 +21,11 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseOrderBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
+import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
-public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnViewModel> implements ChooseOrderReturnBindingEvents {
+public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnViewModel> implements ChooseOrderReturnBindingEvents, BackClickListener {
 
     @Inject
     IReturnsInteractor returnsInteractor;
@@ -54,6 +55,8 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_choose_order, container, false);
         binding.setBindingEvents(this);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getResources().getString(R.string.returns_choose_order_header));
         return binding.getRoot();
     }
 

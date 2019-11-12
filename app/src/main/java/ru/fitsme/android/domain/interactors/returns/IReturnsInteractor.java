@@ -16,4 +16,6 @@ public interface IReturnsInteractor extends BaseInteractor {
     ObservableField<String> getShowMessage();
 
     boolean itemIsInCart(int position);
+
+    void sendReturnOrder(ReturnsItem returnsItem);
 }

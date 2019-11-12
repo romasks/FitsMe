@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.returns.processing.three;
+package ru.fitsme.android.presentation.fragments.returns.processing.six;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,28 +15,29 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.fitsme.android.R;
-import ru.fitsme.android.databinding.FragmentReturnChooseItemBinding;
+import ru.fitsme.android.databinding.FragmentReturnVerifyDataBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
-public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewModel> implements ChooseItemReturnBindingEvents, BackClickListener {
+public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewModel> implements VerifyDataReturnBindingEvents, BackClickListener {
 
     @Inject
     IReturnsInteractor returnsInteractor;
 
     private static final String KEY_RETURN_ITEM = "RETURN_ITEM";
 
-    private FragmentReturnChooseItemBinding binding;
-    private ReturnOrderItemsAdapter adapter;
+    private FragmentReturnVerifyDataBinding binding;
+    private SelectedReturnOrderItemsAdapter adapter;
     private ReturnsItem returnsItem;
 
-    public static ChooseItemReturnFragment newInstance(ReturnsItem returnsItem) {
+    public static VerifyDataReturnFragment newInstance(ReturnsItem returnsItem) {
         Bundle args = new Bundle();
         args.putParcelable(KEY_RETURN_ITEM, returnsItem);
-        ChooseItemReturnFragment fragment = new ChooseItemReturnFragment();
+        VerifyDataReturnFragment fragment = new VerifyDataReturnFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,10 +45,10 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_choose_item, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_verify_data, container, false);
         binding.setBindingEvents(this);
         binding.appBar.setBackClickListener(this);
-        binding.appBar.setTitle(getResources().getString(R.string.returns_choose_items_header));
+        binding.appBar.setTitle(getResources().getString(R.string.returns_verify_data_header));
         return binding.getRoot();
     }
 
@@ -61,14 +62,14 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         }
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(ChooseItemReturnViewModel.class);
+                new ViewModelFactory(returnsInteractor)).get(VerifyDataReturnViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
         binding.setViewModel(viewModel);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        adapter = new ReturnOrderItemsAdapter(viewModel);
+        adapter = new SelectedReturnOrderItemsAdapter(viewModel);
 
         binding.returnOrderItemsListRv.setLayoutManager(linearLayoutManager);
         binding.returnOrderItemsListRv.setHasFixedSize(true);
@@ -79,11 +80,14 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
 
     @Override
     public void goBack() {
-        viewModel.backToReturnsChooseOrder();
+        viewModel.backToReturnsBillingInfo();
     }
 
     @Override
     public void onNext() {
-        viewModel.goToReturnsIndicateNumber(returnsItem);
+        viewModel.sendReturnOrder(returnsItem);
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).showBottomNavbar();
+        }
     }
 }

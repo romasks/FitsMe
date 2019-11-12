@@ -6,16 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
+import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
@@ -26,6 +26,7 @@ import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.four.IndicateNumberReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnFragment;
+import ru.fitsme.android.presentation.fragments.returns.processing.six.VerifyDataReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.three.ChooseItemReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.two.ChooseOrderReturnFragment;
 import ru.terrakok.cicerone.Navigator;
@@ -176,13 +177,13 @@ public class MainFragment extends Fragment {
                     case NAV_RETURNS_CHOOSE_ORDER:
                         return ChooseOrderReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ITEMS:
-                        return ChooseItemReturnFragment.newInstance(navigation.position);
+                        return ChooseItemReturnFragment.newInstance((ReturnsItem) data);
                     case NAV_RETURNS_INDICATE_NUMBER:
-                        return IndicateNumberReturnFragment.newInstance();
+                        return IndicateNumberReturnFragment.newInstance((ReturnsItem) data);
                     case NAV_RETURNS_BILLING_INFO:
-                        return BillingInfoReturnFragment.newInstance();
+                        return BillingInfoReturnFragment.newInstance((ReturnsItem) data);
                     case NAV_RETURNS_VERIFY_DATA:
-                        break;
+                        return VerifyDataReturnFragment.newInstance((ReturnsItem) data);
                 }
                 throw new RuntimeException("Unknown screen key");
             }
@@ -197,5 +198,13 @@ public class MainFragment extends Fragment {
                 if (getActivity() != null) getActivity().finish();
             }
         };
+    }
+
+    public void hideBottomNavbar() {
+        binding.bnvMainFrNavigation.setVisibility(View.GONE);
+    }
+
+    public void showBottomNavbar() {
+        binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
     }
 }

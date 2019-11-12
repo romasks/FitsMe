@@ -19,7 +19,6 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
     private final IReturnsInteractor returnsInteractor;
 
     public ObservableBoolean isLoading = new ObservableBoolean(true);
-    public List<ClothesItem> clothesList = new ArrayList<>();
 
     public ChooseItemReturnViewModel(@NotNull IReturnsInteractor returnsInteractor) {
         this.returnsInteractor = returnsInteractor;
@@ -28,19 +27,10 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
 
     void init() {
         isLoading.set(false);
-        clothesList.clear();
-        clothesList.add(new ClothesItem("Adidas", "Кроссовки", 325));
-        clothesList.add(new ClothesItem("Dolce Gabana", "Платье", 2130));
-        clothesList.add(new ClothesItem("Nike", "Кепка", 210));
-        clothesList.add(new ClothesItem("Collins", "Джинсы", 685));
     }
 
-    LiveData<PagedList<ReturnsItem>> getPageLiveData() {
-        return returnsInteractor.getPagedListLiveData();
-    }
-
-    public void goToReturnsIndicateNumber() {
-        navigation.goToReturnsIndicateNumber();
+    public void goToReturnsIndicateNumber(ReturnsItem returnsItem) {
+        navigation.goToReturnsIndicateNumber(returnsItem);
     }
 
     public void backToReturnsChooseOrder() {

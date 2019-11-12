@@ -40,7 +40,7 @@ class ItemInfoPictureHelper {
     ItemInfoPictureHelper(ItemInfoFragment fragment,
                           FragmentItemInfoBinding binding,
                           ClothesItem clothesItem,
-                          int containerWidth, int containerHeight){
+                          int containerWidth, int containerHeight) {
         this.fragment = fragment;
         this.binding = binding;
 
@@ -62,13 +62,13 @@ class ItemInfoPictureHelper {
         downloadNextPicture(currentPictureIndex);
     }
 
-    private void setPicture(int i){
+    private void setPicture(int i) {
         pictureItemList.get(i).subscribe(this);
         setActiveCountIndicatorItem(i);
     }
 
-    public void setNextPicture(){
-        if (currentPictureIndex < pictureItemList.size() - 1){
+    public void setNextPicture() {
+        if (currentPictureIndex < pictureItemList.size() - 1) {
             pictureItemList.get(currentPictureIndex).unsubscribe();
             currentPictureIndex++;
             setPicture(currentPictureIndex);
@@ -82,8 +82,8 @@ class ItemInfoPictureHelper {
         }
     }
 
-    public void setPreviousPicture(){
-        if (currentPictureIndex > 0){
+    public void setPreviousPicture() {
+        if (currentPictureIndex > 0) {
             pictureItemList.get(currentPictureIndex).unsubscribe();
             currentPictureIndex--;
             setPicture(currentPictureIndex);
@@ -119,11 +119,11 @@ class ItemInfoPictureHelper {
         }
     }
 
-    private void setActiveCountIndicatorItem(int i){
+    private void setActiveCountIndicatorItem(int i) {
         if (i - 1 >= 0) {
             resetIndicator(i - 1);
         }
-        if (i + 1 < pictureItemList.size()){
+        if (i + 1 < pictureItemList.size()) {
             resetIndicator(i + 1);
         }
         binding.itemInfoUpperPicCountIndicatorLl
@@ -140,7 +140,7 @@ class ItemInfoPictureHelper {
     }
 
 
-    private void onPictureReady(Bitmap bitmap){
+    private void onPictureReady(Bitmap bitmap) {
         binding.itemInfoMessage.setText("");
 
         binding.itemInfoItemInfoCard.setVisibility(View.VISIBLE);
@@ -149,38 +149,38 @@ class ItemInfoPictureHelper {
         binding.ivPhoto.setImageBitmap(bitmap);
     }
 
-    private void onPictureFailed(){
+    private void onPictureFailed() {
         binding.itemInfoMessage.setText(App.getInstance().getString(R.string.image_loading_error));
     }
 
 
-    private class PictureItem{
+    private class PictureItem {
         Picture picture;
         Bitmap bitmap;
         ItemInfoPictureHelper observer;
 
-        PictureItem(Picture picture){
+        PictureItem(Picture picture) {
             this.picture = picture;
         }
 
-        void subscribe(ItemInfoPictureHelper observer){
+        void subscribe(ItemInfoPictureHelper observer) {
             this.observer = observer;
-            if (bitmap != null){
+            if (bitmap != null) {
                 observer.onPictureReady(bitmap);
             } else {
                 loadPicture();
             }
         }
 
-        void unsubscribe(){
+        void unsubscribe() {
             observer = null;
         }
 
-        void preparePicture(){
+        void preparePicture() {
             loadPicture();
         }
 
-        private void loadPicture(){
+        private void loadPicture() {
             Glide.with(binding.ivPhoto.getContext())
                     .asBitmap()
                     .load(picture.getUrl())

@@ -1,10 +1,14 @@
 package ru.fitsme.android.domain.entities.returns;
 
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
-public class ReturnsItem {
+public class ReturnsItem implements Parcelable {
     private int id;
     private long number;
     private String status;
@@ -15,12 +19,14 @@ public class ReturnsItem {
     private int daysForReturn;
     private boolean inCart;
     private List<ClothesItem> items;
+    private String indicationNumber = "";
+    private String cardNumber = "";
 
     ReturnsItem() {
     }
 
     public ReturnsItem(long number, String status, String date, int amount, int price,
-                String calculationMethod, int daysForReturn, boolean inCart, List<ClothesItem> items) {
+                       String calculationMethod, int daysForReturn, boolean inCart, List<ClothesItem> items) {
         this.number = number;
         this.status = status;
         this.date = date;
@@ -72,6 +78,27 @@ public class ReturnsItem {
         return items;
     }
 
+    public String getIndicationNumber() {
+        return indicationNumber;
+    }
+
+    public void setIndicationNumber(String indicationNumber) {
+        this.indicationNumber = indicationNumber;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public String getHiddenCardNumber() {
+        String lastQuarter = cardNumber.split("-")[3];
+        return "**** **** **** " + lastQuarter;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,7 +113,9 @@ public class ReturnsItem {
                 getStatus().equals(that.getStatus()) &&
                 getCalculationMethod().equals(that.getCalculationMethod()) &&
                 getDate().equals(that.getDate()) &&
-                getItems().equals(that.getItems());
+                getItems().equals(that.getItems()) &&
+                getIndicationNumber().equals(that.getIndicationNumber()) &&
+                getCardNumber().equals(that.getCardNumber());
     }
 
     @Override
@@ -102,6 +131,62 @@ public class ReturnsItem {
         result = 31 * result + getDate().hashCode();
         result = 31 * result + getCalculationMethod().hashCode();
         result = 31 * result + getItems().hashCode();
+        result = 31 * result + getIndicationNumber().hashCode();
+        result = 31 * result + getCardNumber().hashCode();
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(id);
+        out.writeLong(number);
+        out.writeString(status);
+        out.writeString(date);
+        out.writeInt(amount);
+        out.writeInt(price);
+        out.writeString(calculationMethod);
+        out.writeInt(daysForReturn);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            out.writeBoolean(inCart);
+        } else {
+            out.writeByte((byte) (inCart ? 1 : 0));
+        }
+        out.writeList(items);
+        out.writeString(indicationNumber);
+        out.writeString(cardNumber);
+    }
+
+    public static final Parcelable.Creator<ReturnsItem> CREATOR = new Parcelable.Creator<ReturnsItem>() {
+        public ReturnsItem createFromParcel(Parcel in) {
+            return new ReturnsItem(in);
+        }
+
+        public ReturnsItem[] newArray(int size) {
+            return new ReturnsItem[size];
+        }
+    };
+
+    private ReturnsItem(Parcel in) {
+        id = in.readInt();
+        number = in.readLong();
+        status = in.readString();
+        date = in.readString();
+        amount = in.readInt();
+        price = in.readInt();
+        calculationMethod = in.readString();
+        daysForReturn = in.readInt();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            inCart = in.readBoolean();
+        } else {
+            inCart = in.readByte() != 0;
+        }
+        in.readList(items, ClothesItem.class.getClassLoader());
+        indicationNumber = in.readString();
+        cardNumber = in.readString();
     }
 }

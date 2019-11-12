@@ -85,6 +85,6 @@ public class MainProfileFragment extends Fragment implements MainProfileBindingE
 
     @Override
     public void onLogoutClick() {
-        viewModel.logout();
+        viewModel.logout(getActivity());
     }
 }

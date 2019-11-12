@@ -2,7 +2,6 @@ package ru.fitsme.android.domain.interactors.clothes;
 
 import android.annotation.SuppressLint;
 
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -62,13 +61,14 @@ public class ClothesInteractor implements IClothesInteractor {
 
     @Override
     public void setPreviousClotheInfo(ClotheInfo current) {
-        if (previousItemInfoList.hasPrevious()){
+        if (previousItemInfoList.hasPrevious()) {
             clotheInfoList.addFirst(current);
             ClotheInfo clotheInfo = previousItemInfoList.peekLast();
             clotheInfoMutableLiveData.setValue(clotheInfo);
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void setLikeToClothesItem(ClotheInfo clotheInfo, boolean liked) {
         clothesRepository.likeItem(clotheInfo, liked)
@@ -80,7 +80,7 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public LiveData<ClotheInfo> getClotheInfoLiveData(){
+    public LiveData<ClotheInfo> getClotheInfoLiveData() {
         return clotheInfoMutableLiveData;
     }
 }

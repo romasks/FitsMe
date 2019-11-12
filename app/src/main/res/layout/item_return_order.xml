@@ -23,7 +23,7 @@
         android:layout_height="100dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{v -> viewModel.goToReturnsChooseItems(position)}"
+        android:onClick="@{v -> viewModel.goToReturnsChooseItems(returnsItem)}"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -72,10 +72,10 @@
             android:layout_marginEnd="@dimen/padding_medium"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
             android:background="#AAAAAAAA" />
 
     </RelativeLayout>

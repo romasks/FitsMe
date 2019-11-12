@@ -38,4 +38,8 @@ public class AuthInfo {
     public boolean isAuth() {
         return isAuth;
     }
+
+    public void clearToken() {
+        token = null;
+    }
 }

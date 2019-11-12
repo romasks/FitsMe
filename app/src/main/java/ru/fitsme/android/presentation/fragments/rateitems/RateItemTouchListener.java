@@ -74,8 +74,8 @@ public class RateItemTouchListener implements View.OnTouchListener {
 
     private void handleClickEvent() {
         long upEventTime = System.currentTimeMillis();
-        if (upEventTime - downEventTime < MAX_CLICK_DURATION){
-            if (downEventX < screenHorizontalCenter){
+        if (upEventTime - downEventTime < MAX_CLICK_DURATION) {
+            if (downEventX < screenHorizontalCenter) {
                 callback.previousPicture();
             } else {
                 callback.nextPicture();
@@ -88,16 +88,15 @@ public class RateItemTouchListener implements View.OnTouchListener {
         callback.rotateView((float) (deltaX * (Math.PI / 64)));
 
         if (deltaX >= 0) {
-            if (Math.abs(deltaX) > windowWidth / 4){
+            if (Math.abs(deltaX) > windowWidth / 4) {
                 callback.maybeLikeItem(1.0f);
                 liked = Rating.LIKED;
-            }
-            else {
+            } else {
                 callback.maybeLikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
                 liked = Rating.RESET;
             }
         } else {
-            if (Math.abs(deltaX) > windowWidth / 4){
+            if (Math.abs(deltaX) > windowWidth / 4) {
                 callback.maybeDislikeItem(1.0f);
                 liked = Rating.DISLIKED;
             } else {
@@ -125,7 +124,7 @@ public class RateItemTouchListener implements View.OnTouchListener {
         isFullState = fullState;
     }
 
-    enum Rating{
+    enum Rating {
         RESET, DISLIKED, LIKED
     }
 

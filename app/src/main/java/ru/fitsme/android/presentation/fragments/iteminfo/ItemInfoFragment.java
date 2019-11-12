@@ -31,7 +31,7 @@ import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
-        implements BindingEventsClickListener{
+        implements BindingEventsClickListener {
 
     @Inject
     IClothesInteractor clothesInteractor;
@@ -151,7 +151,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     }
 
-    private void setOnBrandNameTouchListener(){
+    private void setOnBrandNameTouchListener() {
         binding.itemInfoBrandNameLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

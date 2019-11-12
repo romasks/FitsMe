@@ -1,6 +1,5 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -147,7 +146,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void setFullItemInfoState(boolean b) {
         isFullItemInfoState = b;
         getArguments().putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
-        if (b){
+        if (b) {
             rateItemTouchListener.setFullState(true);
             binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);

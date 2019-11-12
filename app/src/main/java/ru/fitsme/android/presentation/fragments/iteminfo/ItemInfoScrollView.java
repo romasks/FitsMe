@@ -30,12 +30,11 @@ public class ItemInfoScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (listener != null){
+        if (listener != null) {
             listener.onTouch(this, ev);
         }
         return super.onTouchEvent(ev);
     }
-
 
 
     @Override
@@ -48,7 +47,7 @@ public class ItemInfoScrollView extends ScrollView {
         this.listener = listener;
     }
 
-    public void clearListener(){
+    public void clearListener() {
         this.listener = null;
     }
 }

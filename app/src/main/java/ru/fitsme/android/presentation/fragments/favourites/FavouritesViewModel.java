@@ -45,4 +45,8 @@ public class FavouritesViewModel extends BaseViewModel {
     boolean itemIsRemoved(int position) {
         return favouritesInteractor.itemIsRemoved(position);
     }
+
+    public LiveData<Boolean> getFavouritesIsEmpty() {
+        return favouritesInteractor.getFavouritesIsEmpty();
+    }
 }

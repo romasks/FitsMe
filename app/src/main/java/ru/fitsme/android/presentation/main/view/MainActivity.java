@@ -73,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         authNavigation.removeNavigator();
     }
 
+    public void logout() {
+        authNavigation.goSignInUp();
+    }
+
     @NonNull
     private SupportFragmentNavigator getFragmentNavigator() {
         return new SupportFragmentNavigator(getSupportFragmentManager(), R.id.activity_main_container) {
