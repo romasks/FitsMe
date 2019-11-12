@@ -1,11 +1,11 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -15,12 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Constraints;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import javax.inject.Inject;
 
@@ -33,10 +27,11 @@ import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
-        implements BindingEventsClickListener {
+        implements BindingEventsClickListener{
 
     @Inject
     IClothesInteractor clothesInteractor;
@@ -46,9 +41,14 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     private static int containerHeight;
     private static int containerWidth;
     private FragmentItemInfoBinding binding;
+    private ItemInfoPictureHelper pictureHelper;
+
+    private static RateItemTouchListener rateItemTouchListener;
 
     public static ItemInfoFragment newInstance(ClotheInfo item, boolean isFullItemInfoState,
-                                               int containerHeight, int containerWidth) {
+                                               int containerHeight, int containerWidth,
+                                               RateItemTouchListener rateItemTouchListener) {
+        ItemInfoFragment.rateItemTouchListener = rateItemTouchListener;
         ItemInfoFragment fragment = new ItemInfoFragment();
 
         ItemInfoFragment.clotheInfo = item;
@@ -65,6 +65,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         binding.setBindingEvents(this);
         return binding.getRoot();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -86,6 +87,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
             onLikedClothesItem();
         }
+
+        binding.itemInfoScrollView.setListener(rateItemTouchListener);
+        setOnBrandNameTouchListener();
     }
 
     private void setMargins() {
@@ -133,34 +137,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         binding.itemInfoItemDescriptionTv.setText(description);
         binding.itemInfoItemContentTv.setText(clotheContentStr.toString());
 
-        Resources r = getResources();
-        int px = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding),
-                r.getDisplayMetrics()
-        );
+        pictureHelper =
+                new ItemInfoPictureHelper(this, binding, clothesItem, containerWidth, containerHeight);
 
-        Glide.with(binding.ivPhoto.getContext())
-                .asBitmap()
-                .load(url)
-                .override(containerWidth - px, containerHeight - px)
-                .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        binding.itemInfoMessage.setText(App.getInstance().getString(R.string.image_loading_error));
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        binding.itemInfoMessage.setText("");
-
-                        binding.itemInfoItemInfoCard.setVisibility(View.VISIBLE);
-                        binding.itemInfoBrandNameCard.setVisibility(View.VISIBLE);
-                        return false;
-                    }
-                })
-                .into(binding.ivPhoto);
     }
 
     private void onLikedClothesItem() {
@@ -169,11 +148,30 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     @Override
     public void onClickBrandName() {
-        if (binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE) {
-            setFullState(true);
-        } else {
-            setFullState(false);
-        }
+
+    }
+
+    private void setOnBrandNameTouchListener(){
+        binding.itemInfoBrandNameLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE) {
+                            ItemInfoFragment.this.setFullState(true);
+                        } else {
+                            ItemInfoFragment.this.setFullState(false);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        v.performClick();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     public void showYes(boolean b, float alpha) {
@@ -242,5 +240,13 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             binding.itemInfoItemInfoCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
             binding.itemInfoBrandNameCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
         }
+    }
+
+    public void nextPicture() {
+        pictureHelper.setNextPicture();
+    }
+
+    public void previousPicture() {
+        pictureHelper.setPreviousPicture();
     }
 }

@@ -12,7 +12,7 @@ import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
 public interface IClothesRepository {
 
-    Single<ClotheInfo> likeItem(ClothesItem clothesItem, boolean liked);
+    Single<ClotheInfo> likeItem(ClotheInfo clotheInfo, boolean liked);
 
     Single<List<ClotheInfo>> getClotheList();
 

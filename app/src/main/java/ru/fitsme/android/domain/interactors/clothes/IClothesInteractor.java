@@ -1,22 +1,17 @@
 package ru.fitsme.android.domain.interactors.clothes;
 
-import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
-import io.reactivex.Single;
-import io.reactivex.subjects.Subject;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
 public interface IClothesInteractor extends BaseInteractor {
 
-    @NonNull
-    Subject<ClotheInfo> getItemInfoState();
+    void updateClothesList();
 
-    @NonNull
-    Single<ClotheInfo> setLikeToClothesItem(ClothesItem clothesItem, boolean liked);
+    void setLikeToClothesItem(ClotheInfo clotheInfo, boolean liked);
 
-    void getNext();
+    LiveData<ClotheInfo> getClotheInfoLiveData();
 
-    void updateList();
+    void setPreviousClotheInfo(ClotheInfo current);
 }

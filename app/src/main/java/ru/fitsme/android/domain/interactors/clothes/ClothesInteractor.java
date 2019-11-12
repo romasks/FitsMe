@@ -2,20 +2,18 @@ package ru.fitsme.android.domain.interactors.clothes;
 
 import android.annotation.SuppressLint;
 
-import androidx.annotation.NonNull;
 
-import java.util.ListIterator;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import java.util.LinkedList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import timber.log.Timber;
 
@@ -26,8 +24,10 @@ public class ClothesInteractor implements IClothesInteractor {
     private final Scheduler workThread;
     private final Scheduler mainThread;
 
-    private ListIterator<ClotheInfo> clothesListIterator;
-    private Subject<ClotheInfo> itemInfoStateSubject = PublishSubject.create();
+    private MutableLiveData<ClotheInfo> clotheInfoMutableLiveData = new MutableLiveData<>();
+
+    private LinkedList<ClotheInfo> clotheInfoList;
+    private PreviousClotheInfoList previousItemInfoList = new PreviousClotheInfoList();
 
     @Inject
     ClothesInteractor(IClothesRepository clothesRepository,
@@ -36,43 +36,51 @@ public class ClothesInteractor implements IClothesInteractor {
         this.clothesRepository = clothesRepository;
         this.workThread = workThread;
         this.mainThread = mainThread;
-    }
 
-    @NonNull
-    @Override
-    public Subject<ClotheInfo> getItemInfoState() {
-        getClothesList();
-        return itemInfoStateSubject;
+        updateClothesList();
     }
 
     @SuppressLint("CheckResult")
-    private void getClothesList() {
+    @Override
+    public void updateClothesList() {
         clothesRepository.getClotheList()
                 .observeOn(mainThread)
                 .subscribe(clotheInfoList -> {
-                    clothesListIterator = clotheInfoList.listIterator();
-                    getNext();
+                    this.clotheInfoList = (LinkedList<ClotheInfo>) clotheInfoList;
+                    clotheInfoMutableLiveData.setValue(this.clotheInfoList.pollFirst());
                 }, Timber::e);
     }
 
-    @NonNull
-    @Override
-    public Single<ClotheInfo> setLikeToClothesItem(ClothesItem clothesItem, boolean liked) {
-        return clothesRepository.likeItem(clothesItem, liked)
-                .observeOn(mainThread);
-    }
-
-    @Override
-    public void getNext() {
-        if (clothesListIterator.hasNext()) {
-            itemInfoStateSubject.onNext(clothesListIterator.next());
+    public void setNextClotheInfo() {
+        ClotheInfo clotheInfo = clotheInfoList.pollFirst();
+        if (clotheInfo != null) {
+            clotheInfoMutableLiveData.setValue(clotheInfo);
         } else {
-            getClothesList();
+            updateClothesList();
         }
     }
 
     @Override
-    public void updateList() {
-        getClothesList();
+    public void setPreviousClotheInfo(ClotheInfo current) {
+        if (previousItemInfoList.hasPrevious()){
+            clotheInfoList.addFirst(current);
+            ClotheInfo clotheInfo = previousItemInfoList.peekLast();
+            clotheInfoMutableLiveData.setValue(clotheInfo);
+        }
+    }
+
+    @Override
+    public void setLikeToClothesItem(ClotheInfo clotheInfo, boolean liked) {
+        clothesRepository.likeItem(clotheInfo, liked)
+                .observeOn(mainThread)
+                .subscribe(callback -> {
+                    setNextClotheInfo();
+                    previousItemInfoList.add(callback);
+                });
+    }
+
+    @Override
+    public LiveData<ClotheInfo> getClotheInfoLiveData(){
+        return clotheInfoMutableLiveData;
     }
 }

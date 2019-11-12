@@ -2,8 +2,6 @@ package ru.fitsme.android.presentation.main.view;
 
 import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,15 +10,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import java.lang.ref.WeakReference;
-
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.ActivityMainBinding;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
-import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
@@ -43,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private Navigator navigator = getFragmentNavigator();
-    private WeakReference<RateItemTouchListener> weakReference;
 
     public MainActivity() {
         App.getInstance().getDi().inject(this);
@@ -79,16 +73,6 @@ public class MainActivity extends AppCompatActivity {
         authNavigation.removeNavigator();
     }
 
-    //передает TouchEvent в RateFragment, т.к. из-за ScrollView события автоматом не передаются
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        boolean isDispatch = super.dispatchTouchEvent(ev);
-        if (weakReference != null && weakReference.get() != null) {
-            weakReference.get().onTouch(new TextView(this), ev);
-        }
-        return isDispatch;
-    }
-
     @NonNull
     private SupportFragmentNavigator getFragmentNavigator() {
         return new SupportFragmentNavigator(getSupportFragmentManager(), R.id.activity_main_container) {
@@ -119,15 +103,5 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         };
-    }
-
-    public void observeTouch(RateItemTouchListener rateItemTouchListener) {
-        this.weakReference = new WeakReference<>(rateItemTouchListener);
-    }
-
-    public void unsubscribe() {
-        if (weakReference != null) {
-            weakReference.clear();
-        }
     }
 }

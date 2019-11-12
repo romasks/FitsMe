@@ -2,7 +2,7 @@ package ru.fitsme.android.presentation.fragments.rateitems;
 
 public interface BindingEventsClickListener {
     void onClickLikeItem();
-    void onClickRefresh();
+    void onClickReturn();
     void onClickDislikeItem();
     void onClickFilter();
 }

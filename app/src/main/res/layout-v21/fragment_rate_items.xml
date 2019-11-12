@@ -46,8 +46,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/fragment_rate_items_dislike_btn"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> bindingEvents.onClickRefresh()}"
-                android:contentDescription="@null" />
+                android:onClick="@{() -> bindingEvents.onClickReturn()}"
+                android:contentDescription="@null"
+                />
 
             <ImageButton
                 android:id="@+id/fragment_rate_items_dislike_btn"
