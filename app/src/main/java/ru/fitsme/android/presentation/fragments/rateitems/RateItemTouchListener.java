@@ -7,6 +7,10 @@ import android.view.View;
 public class RateItemTouchListener implements View.OnTouchListener {
     private Callback callback;
 
+    private static final long MAX_CLICK_DURATION = 500;
+
+    private boolean isFullState;
+
     private Rating liked = Rating.RESET;
 
     private int windowWidth;
@@ -14,12 +18,13 @@ public class RateItemTouchListener implements View.OnTouchListener {
     private int screenHorizontalCenter;
     private int screenVerticalCenter;
 
-    private int touchX;
-    private int touchY;
-    private int firstTouchX;
-    private int firstTouchY;
+    private int moveEventX;
+    private int moveEventY;
+    private int downEventX;
+    private int downEvenY;
     private int deltaX;
     private int deltaY;
+    private long downEventTime;
 
     RateItemTouchListener(RateItemsFragment fragment) {
         this.callback = fragment;
@@ -37,51 +42,86 @@ public class RateItemTouchListener implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                firstTouchX = (int) event.getRawX();
-                firstTouchY = (int) event.getRawY();
+                handleDownEvent(event);
                 break;
             case MotionEvent.ACTION_MOVE:
-                touchX = (int) event.getRawX();
-                touchY = (int) event.getRawY();
-
-                deltaX = touchX - firstTouchX;
-                deltaY = touchY - firstTouchY;
-
-                callback.moveViewToXY(deltaX, deltaY);
-                callback.rotateView((float) (deltaX * (Math.PI / 64)));
-
-                if (deltaX >= 0) {
-                    callback.maybeLikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
-                    if (Math.abs(deltaX) > windowWidth / 4) {
-                        callback.maybeLikeItem(1.0f);
-                        liked = Rating.LIKED;
-                    } else {
-                        liked = Rating.RESET;
-                    }
-                } else {
-                    callback.maybeDislikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
-                    if (Math.abs(deltaX) > windowWidth / 4) {
-                        callback.maybeDislikeItem(1.0f);
-                        liked = Rating.DISLIKED;
-                    } else {
-                        liked = Rating.RESET;
-                    }
+                if (!isFullState) {
+                    handleMoveEvent(event);
+                    handleMoveCallbacks();
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (liked == Rating.RESET) {
-                    callback.maybeLikeItem(0);
-                    callback.resetContainerViewWithAnimation();
-                } else if (liked == Rating.DISLIKED) {
-                    callback.startToDislikeItem();
-                } else if (liked == Rating.LIKED) {
-                    callback.startToLikeItem();
-                }
+                handleClickEvent();
+                handleSwipeEvent();
+                v.performClick();
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    private void handleSwipeEvent() {
+        if (liked == Rating.RESET) {
+            callback.maybeLikeItem(0);
+            callback.resetContainerViewWithAnimation();
+        } else if (liked == Rating.DISLIKED) {
+            callback.startToDislikeItem();
+        } else if (liked == Rating.LIKED) {
+            callback.startToLikeItem();
+        }
+    }
+
+    private void handleClickEvent() {
+        long upEventTime = System.currentTimeMillis();
+        if (upEventTime - downEventTime < MAX_CLICK_DURATION) {
+            if (downEventX < screenHorizontalCenter) {
+                callback.previousPicture();
+            } else {
+                callback.nextPicture();
+            }
+        }
+    }
+
+    private void handleMoveCallbacks() {
+        callback.moveViewToXY(deltaX, deltaY);
+        callback.rotateView((float) (deltaX * (Math.PI / 64)));
+
+        if (deltaX >= 0) {
+            if (Math.abs(deltaX) > windowWidth / 4) {
+                callback.maybeLikeItem(1.0f);
+                liked = Rating.LIKED;
+            } else {
+                callback.maybeLikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
+                liked = Rating.RESET;
+            }
+        } else {
+            if (Math.abs(deltaX) > windowWidth / 4) {
+                callback.maybeDislikeItem(1.0f);
+                liked = Rating.DISLIKED;
+            } else {
+                callback.maybeDislikeItem(4 * (float) Math.abs(deltaX) / windowWidth);
+                liked = Rating.RESET;
+            }
+        }
+    }
+
+    private void handleMoveEvent(MotionEvent event) {
+        moveEventX = (int) event.getRawX();
+        moveEventY = (int) event.getRawY();
+
+        deltaX = moveEventX - downEventX;
+        deltaY = moveEventY - downEvenY;
+    }
+
+    private void handleDownEvent(MotionEvent event) {
+        downEventTime = System.currentTimeMillis();
+        downEventX = (int) event.getRawX();
+        downEvenY = (int) event.getRawY();
+    }
+
+    void setFullState(boolean fullState) {
+        isFullState = fullState;
     }
 
     enum Rating {
@@ -105,5 +145,9 @@ public class RateItemTouchListener implements View.OnTouchListener {
         void resetContainerViewWithAnimation();
 
         void resetContainerView();
+
+        void previousPicture();
+
+        void nextPicture();
     }
 }

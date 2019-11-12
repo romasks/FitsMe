@@ -41,7 +41,7 @@
                 android:layout_margin="@dimen/margin_8dp"
                 android:background="@drawable/rate_items_return_button_v17"
                 android:contentDescription="@null"
-                android:onClick="@{() -> bindingEvents.onClickRefresh()}"
+                android:onClick="@{() -> bindingEvents.onClickReturn()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/fragment_rate_items_dislike_btn"

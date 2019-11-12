@@ -19,10 +19,10 @@
             android:id="@+id/fragment_rate_items_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_buttons_group"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_buttons_group" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_rate_items_buttons_group"
@@ -38,61 +38,61 @@
                 android:id="@+id/fragment_rate_items_return_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rate_items_return_button_v21"
-                android:src="@drawable/rate_items_return_button_image_v21"
                 android:layout_margin="@dimen/margin_8dp"
+                android:background="@drawable/rate_items_return_button_v21"
+                android:contentDescription="@null"
                 android:elevation="@dimen/elevation_rate_items_buttons"
+                android:onClick="@{() -> bindingEvents.onClickReturn()}"
+                android:src="@drawable/rate_items_return_button_image_v21"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/fragment_rate_items_dislike_btn"
-                app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> bindingEvents.onClickRefresh()}"
-                android:contentDescription="@null" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/fragment_rate_items_dislike_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rate_items_dislike_button_v21"
-                android:src="@drawable/rate_items_dislike_button_image_v21"
                 android:layout_margin="@dimen/margin_8dp"
+                android:background="@drawable/rate_items_dislike_button_v21"
+                android:contentDescription="@null"
                 android:elevation="@dimen/elevation_rate_items_buttons"
-                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{() -> bindingEvents.onClickDislikeItem()}"
+                android:src="@drawable/rate_items_dislike_button_image_v21"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/fragment_rate_items_return_btn"
                 app:layout_constraintRight_toLeftOf="@id/fragment_rate_items_like_btn"
-                android:onClick="@{() -> bindingEvents.onClickDislikeItem()}"
-                android:contentDescription="@null" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/fragment_rate_items_like_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rate_items_like_button_v21"
-                android:src="@drawable/rate_items_like_button_image_v21"
                 android:layout_margin="@dimen/margin_8dp"
+                android:background="@drawable/rate_items_like_button_v21"
+                android:contentDescription="@null"
                 android:elevation="@dimen/elevation_rate_items_buttons"
-                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{() -> bindingEvents.onClickLikeItem()}"
+                android:src="@drawable/rate_items_like_button_image_v21"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/fragment_rate_items_dislike_btn"
                 app:layout_constraintRight_toLeftOf="@id/fragment_rate_items_filter_btn"
-                android:onClick="@{() -> bindingEvents.onClickLikeItem()}"
-                android:contentDescription="@null" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/fragment_rate_items_filter_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rate_items_filter_button_v21"
-                android:src="@drawable/rate_items_filter_button_image_v21"
                 android:layout_margin="@dimen/margin_8dp"
+                android:background="@drawable/rate_items_filter_button_v21"
+                android:contentDescription="@null"
                 android:elevation="@dimen/elevation_rate_items_buttons"
+                android:onClick="@{() -> bindingEvents.onClickFilter()}"
+                android:src="@drawable/rate_items_filter_button_image_v21"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/fragment_rate_items_like_btn"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> bindingEvents.onClickFilter()}"
-                android:contentDescription="@null" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
