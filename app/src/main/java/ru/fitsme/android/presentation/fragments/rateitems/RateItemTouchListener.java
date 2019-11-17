@@ -7,10 +7,6 @@ import android.view.View;
 public class RateItemTouchListener implements View.OnTouchListener {
     private Callback callback;
 
-    private static final long MAX_CLICK_DURATION = 500;
-
-    private boolean isFullState;
-
     private Rating liked = Rating.RESET;
 
     private int windowWidth;
@@ -24,7 +20,6 @@ public class RateItemTouchListener implements View.OnTouchListener {
     private int downEvenY;
     private int deltaX;
     private int deltaY;
-    private long downEventTime;
 
     RateItemTouchListener(RateItemsFragment fragment) {
         this.callback = fragment;
@@ -45,13 +40,10 @@ public class RateItemTouchListener implements View.OnTouchListener {
                 handleDownEvent(event);
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (!isFullState) {
-                    handleMoveEvent(event);
-                    handleMoveCallbacks();
-                }
+                handleMoveEvent(event);
+                handleMoveCallbacks();
                 break;
             case MotionEvent.ACTION_UP:
-                handleClickEvent();
                 handleSwipeEvent();
                 v.performClick();
                 break;
@@ -59,6 +51,11 @@ public class RateItemTouchListener implements View.OnTouchListener {
                 break;
         }
         return true;
+    }
+
+    private void handleDownEvent(MotionEvent event) {
+        downEventX = (int) event.getRawX();
+        downEvenY = (int) event.getRawY();
     }
 
     private void handleSwipeEvent() {
@@ -69,17 +66,6 @@ public class RateItemTouchListener implements View.OnTouchListener {
             callback.startToDislikeItem();
         } else if (liked == Rating.LIKED) {
             callback.startToLikeItem();
-        }
-    }
-
-    private void handleClickEvent() {
-        long upEventTime = System.currentTimeMillis();
-        if (upEventTime - downEventTime < MAX_CLICK_DURATION){
-            if (downEventX < screenHorizontalCenter){
-                callback.previousPicture();
-            } else {
-                callback.nextPicture();
-            }
         }
     }
 
@@ -115,16 +101,6 @@ public class RateItemTouchListener implements View.OnTouchListener {
         deltaY = moveEventY - downEvenY;
     }
 
-    private void handleDownEvent(MotionEvent event) {
-        downEventTime = System.currentTimeMillis();
-        downEventX = (int) event.getRawX();
-        downEvenY = (int) event.getRawY();
-    }
-
-    void setFullState(boolean fullState) {
-        isFullState = fullState;
-    }
-
     enum Rating{
         RESET, DISLIKED, LIKED
     }
@@ -146,9 +122,5 @@ public class RateItemTouchListener implements View.OnTouchListener {
         void resetContainerViewWithAnimation();
 
         void resetContainerView();
-
-        void previousPicture();
-
-        void nextPicture();
     }
 }

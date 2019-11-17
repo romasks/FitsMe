@@ -31,13 +31,13 @@ import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
-        implements BindingEventsClickListener{
+        implements BindingEventsClickListener, ItemInfoTouchListener.Callback{
 
     @Inject
     IClothesInteractor clothesInteractor;
 
     private static ClotheInfo clotheInfo;
-    private static boolean isFullState;
+    private static boolean isDetailState;
     private static int containerHeight;
     private static int containerWidth;
     private FragmentItemInfoBinding binding;
@@ -52,7 +52,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         ItemInfoFragment fragment = new ItemInfoFragment();
 
         ItemInfoFragment.clotheInfo = item;
-        ItemInfoFragment.isFullState = isFullItemInfoState;
+        ItemInfoFragment.isDetailState = isFullItemInfoState;
         ItemInfoFragment.containerHeight = containerHeight;
         ItemInfoFragment.containerWidth = containerWidth;
         return fragment;
@@ -66,13 +66,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         return binding.getRoot();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         setMargins();
-        setFullState(isFullState);
+        setFullState(isDetailState);
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(clothesInteractor)).get(ItemInfoViewModel.class);
@@ -86,9 +85,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             onClothesItem((ClothesItem) clotheInfo.getClothe());
         } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
             onLikedClothesItem();
+        } else {
+            throw new TypeNotPresentException(clotheInfo.getClothe().toString(), null);
         }
 
         binding.itemInfoScrollView.setListener(rateItemTouchListener);
+        binding.itemInfoScrollView.setListener(new ItemInfoTouchListener(this));
         setOnBrandNameTouchListener();
     }
 
@@ -158,9 +160,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE) {
-                            ItemInfoFragment.this.setFullState(true);
+                            ItemInfoFragment.this.setDetailState();
                         } else {
-                            ItemInfoFragment.this.setFullState(false);
+                            ItemInfoFragment.this.setSummaryState();
                         }
                         break;
                     case MotionEvent.ACTION_UP:
@@ -204,48 +206,60 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     private void setFullState(boolean b) {
         if (b) {
-            isFullState = true;
-
-            binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
-            binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
-            binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
-            if (getParentFragment() != null) {
-                ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
-            }
-            int paddingVal = 0;
-            binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
-            binding.itemInfoItemInfoCard.setRadius(0);
-            binding.itemInfoItemInfoCard.setCardElevation(0);
-            binding.itemInfoBrandNameCard.setCardElevation(0);
-            binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
-            binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
-            binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
-            binding.ivPhoto.requestLayout();
+            setDetailState();
         } else {
-            isFullState = false;
-
-            binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
-            binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
-            binding.ivPhoto.requestLayout();
-            binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
-            binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
-            binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
-            binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
-            if (getParentFragment() != null) {
-                ((RateItemsFragment) getParentFragment()).setFullItemInfoState(false);
-            }
-            int paddingVal = App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding);
-            binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
-            binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.item_info_card_radius));
-            binding.itemInfoItemInfoCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
-            binding.itemInfoBrandNameCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+            setSummaryState();
         }
     }
 
+    private void setSummaryState() {
+        isDetailState = false;
+
+        binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
+        binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
+        binding.ivPhoto.requestLayout();
+        binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
+        binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
+        binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
+        binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
+        binding.itemInfoScrollView.setDetailState(false);
+        if (getParentFragment() != null) {
+            ((RateItemsFragment) getParentFragment()).setFullItemInfoState(false);
+        }
+        int paddingVal = App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding);
+        binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
+        binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.item_info_card_radius));
+        binding.itemInfoItemInfoCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+        binding.itemInfoBrandNameCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
+    }
+
+    private void setDetailState() {
+        isDetailState = true;
+
+        binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
+        binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
+        binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
+        binding.itemInfoScrollView.setDetailState(true);
+        if (getParentFragment() != null) {
+            ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
+        }
+        int paddingVal = 0;
+        binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
+        binding.itemInfoItemInfoCard.setRadius(0);
+        binding.itemInfoItemInfoCard.setCardElevation(0);
+        binding.itemInfoBrandNameCard.setCardElevation(0);
+        binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
+        binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
+        binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
+        binding.ivPhoto.requestLayout();
+    }
+
+    @Override
     public void nextPicture() {
         pictureHelper.setNextPicture();
     }
 
+    @Override
     public void previousPicture() {
         pictureHelper.setPreviousPicture();
     }
