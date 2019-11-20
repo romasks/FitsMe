@@ -60,4 +60,9 @@ public class HowToReturnFragment extends BaseFragment<HowToReturnViewModel> impl
     public void onNext() {
         viewModel.goToReturnsChooseOrder();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

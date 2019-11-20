@@ -20,6 +20,7 @@ public class FavouritesViewModel extends BaseViewModel {
 
     public FavouritesViewModel(@NotNull IFavouritesInteractor favouritesInteractor) {
         this.favouritesInteractor = favouritesInteractor;
+        inject(this);
     }
 
     void init() {
@@ -44,5 +45,14 @@ public class FavouritesViewModel extends BaseViewModel {
 
     boolean itemIsRemoved(int position) {
         return favouritesInteractor.itemIsRemoved(position);
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.finish();
+    }
+
+    public void setDetailView(FavouritesItem favouritesItem) {
+        navigation.goToDetailItemInfo(favouritesItem);
     }
 }

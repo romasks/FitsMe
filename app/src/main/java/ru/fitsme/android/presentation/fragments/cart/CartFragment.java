@@ -52,6 +52,11 @@ public class CartFragment extends BaseFragment<CartViewModel>
         App.getInstance().getDi().inject(this);
     }
 
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
+    }
+
     public static CartFragment newInstance() {
         return new CartFragment();
     }

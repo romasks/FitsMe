@@ -21,8 +21,8 @@ public class SetBottomSizeState extends InListItemState {
     }
 
     @Override
-    public void onClick(FavouritesViewModel viewModel, int position) {
-        Timber.d("Set bottom size state. onClick()");
+    public void onButtonClick(FavouritesViewModel viewModel, int position) {
+        Timber.d("Set bottom size state. onButtonClick()");
 //        DialogFragment dialogFragment = new TopSizeDialogFragment();
 //        FragmentManager fm = ((AppCompatActivity) viewHolder.binding.getRoot().getContext()).getSupportFragmentManager();
 //        dialogFragment.show(fm, "topSizeDf");

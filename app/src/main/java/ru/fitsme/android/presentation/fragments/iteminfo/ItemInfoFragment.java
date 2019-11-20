@@ -24,9 +24,11 @@ import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 
@@ -55,6 +57,17 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         ItemInfoFragment.isDetailState = isFullItemInfoState;
         ItemInfoFragment.containerHeight = containerHeight;
         ItemInfoFragment.containerWidth = containerWidth;
+        return fragment;
+    }
+
+    public static ItemInfoFragment newInstance(Object item) {
+        ItemInfoFragment fragment = new ItemInfoFragment();
+
+        FavouritesItem favouritesItem = (FavouritesItem) item;
+        ItemInfoFragment.clotheInfo = new ClotheInfo(favouritesItem.getItem());
+        ItemInfoFragment.isDetailState = true;
+        ItemInfoFragment.containerHeight = 0;
+        ItemInfoFragment.containerWidth = 0;
         return fragment;
     }
 
@@ -240,18 +253,23 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
         binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
         binding.itemInfoScrollView.setDetailState(true);
-        if (getParentFragment() != null) {
-            ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
-        }
         int paddingVal = 0;
+        binding.itemInfoBrandNameCard.setCardElevation(0);
         binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
         binding.itemInfoItemInfoCard.setRadius(0);
         binding.itemInfoItemInfoCard.setCardElevation(0);
-        binding.itemInfoBrandNameCard.setCardElevation(0);
         binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
         binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
         binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
         binding.ivPhoto.requestLayout();
+        if (getParentFragment() != null) {
+            if (getParentFragment() instanceof RateItemsFragment) {
+                ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
+            } else if (getParentFragment() instanceof MainFragment) {
+                binding.itemInfoBrandNameCard.setVisibility(View.GONE);
+                binding.itemInfoBrandNameLayout.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -262,5 +280,10 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     @Override
     public void previousPicture() {
         pictureHelper.setPreviousPicture();
+    }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
     }
 }

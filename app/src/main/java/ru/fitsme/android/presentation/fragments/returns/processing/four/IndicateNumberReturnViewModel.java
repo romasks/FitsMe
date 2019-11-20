@@ -29,4 +29,9 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
     public void backToReturnsChooseItems() {
         navigation.backToReturnsChooseItems();
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
+    }
 }

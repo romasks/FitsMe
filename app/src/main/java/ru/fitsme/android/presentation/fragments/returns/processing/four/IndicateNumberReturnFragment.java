@@ -60,4 +60,9 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
     public void onNext() {
         viewModel.goToReturnsBillingInfo();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

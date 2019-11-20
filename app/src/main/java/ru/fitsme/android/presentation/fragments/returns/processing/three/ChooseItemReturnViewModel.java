@@ -46,4 +46,9 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
     public void backToReturnsChooseOrder() {
         navigation.backToReturnsChooseOrder();
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
+    }
 }

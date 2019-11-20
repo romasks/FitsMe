@@ -106,4 +106,9 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
     public void goToCreatingNewReturn() {
         viewModel.goToReturnsHowTo();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

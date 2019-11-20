@@ -21,6 +21,7 @@ public class CartViewModel extends BaseViewModel {
 
     public CartViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
+        inject(this);
     }
 
     public void init() {
@@ -46,5 +47,10 @@ public class CartViewModel extends BaseViewModel {
 
     boolean itemIsRemoved(int position) {
         return ordersInteractor.itemIsRemoved(position);
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.finish();
     }
 }

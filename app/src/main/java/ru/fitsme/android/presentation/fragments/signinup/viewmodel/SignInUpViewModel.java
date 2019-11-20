@@ -30,4 +30,9 @@ public class SignInUpViewModel extends BaseViewModel {
     public void onSignIn() {
         authNavigation.goSignIn();
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
+    }
 }

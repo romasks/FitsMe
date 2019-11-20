@@ -29,4 +29,9 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
     public void backToReturnsIndicateNumber() {
         navigation.backToReturnsIndicateNumber();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

@@ -169,6 +169,11 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
         return strings;
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private class SpinnerAdapter<T> extends ArrayAdapter<T> {
 
         SpinnerAdapter(@NonNull Context context, int resource, @NonNull T[] objects) {

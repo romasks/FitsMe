@@ -52,4 +52,8 @@ public class SplashFragment extends BaseFragment<SplashViewModel> {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

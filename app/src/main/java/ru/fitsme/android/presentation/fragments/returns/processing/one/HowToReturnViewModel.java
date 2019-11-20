@@ -29,4 +29,9 @@ public class HowToReturnViewModel extends BaseViewModel {
     public void backToOrdersReturn() {
         navigation.backToOrdersReturn();
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
+    }
 }

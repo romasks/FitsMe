@@ -83,6 +83,11 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         viewModel.clearDisposables();

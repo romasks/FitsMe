@@ -11,8 +11,14 @@ public class ItemInfoViewModel extends BaseViewModel {
 
     public ItemInfoViewModel(@NonNull IClothesInteractor clothesInteractor) {
         this.clothesInteractor = clothesInteractor;
+        inject(this);
     }
 
     void init() {
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
     }
 }

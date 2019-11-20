@@ -29,7 +29,8 @@ import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import timber.log.Timber;
 
 public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
-        implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+        implements FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
+                    FavouritesAdapter.OnItemClickCallback{
 
     @Inject
     IFavouritesInteractor favouritesInteractor;
@@ -74,7 +75,7 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         binding.setViewModel(viewModel);
 
         linearLayoutManager = new LinearLayoutManager(getContext());
-        adapter = new FavouritesAdapter(viewModel);
+        adapter = new FavouritesAdapter(viewModel, this);
 
         binding.favouritesListRv.setLayoutManager(linearLayoutManager);
         binding.favouritesListRv.setHasFixedSize(true);
@@ -103,5 +104,15 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
                         }
                     }, Timber::e);
         }
+    }
+
+    @Override
+    public void setDetailView(FavouritesItem favouritesItem) {
+        viewModel.setDetailView(favouritesItem);
+    }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
     }
 }

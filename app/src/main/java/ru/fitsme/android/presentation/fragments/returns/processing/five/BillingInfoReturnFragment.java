@@ -60,4 +60,9 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
     public void onNext() {
         viewModel.goToReturnsVerifyData();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

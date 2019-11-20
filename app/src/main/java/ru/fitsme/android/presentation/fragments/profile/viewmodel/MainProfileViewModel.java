@@ -11,8 +11,6 @@ import ru.fitsme.android.presentation.fragments.main.MainNavigation;
 @SuppressWarnings("Injectable")
 public class MainProfileViewModel extends BaseViewModel {
 
-    @Inject
-    MainNavigation navigation;
     private final IProfileInteractor profileInteractor;
 
     public MainProfileViewModel(@NotNull IProfileInteractor profileInteractor) {
@@ -38,5 +36,10 @@ public class MainProfileViewModel extends BaseViewModel {
 
     public void onViewCreated() {
         profileInteractor.updateInfo();
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.finish();
     }
 }

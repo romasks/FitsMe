@@ -15,6 +15,7 @@ public class RateItemsViewModel extends BaseViewModel {
 
     public RateItemsViewModel(@NonNull IClothesInteractor clothesInteractor) {
         this.clothesInteractor = clothesInteractor;
+        inject(this);
     }
 
     void init() {
@@ -31,5 +32,10 @@ public class RateItemsViewModel extends BaseViewModel {
 
     public void onReturnClicked(ClotheInfo clotheInfo) {
         clothesInteractor.setPreviousClotheInfo(clotheInfo);
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.finish();
     }
 }

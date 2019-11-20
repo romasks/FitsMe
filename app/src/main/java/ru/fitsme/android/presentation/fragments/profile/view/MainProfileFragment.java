@@ -17,20 +17,25 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentProfileMainBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.events.MainProfileBindingEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 
-public class MainProfileFragment extends Fragment implements MainProfileBindingEvents {
+public class MainProfileFragment extends BaseFragment implements MainProfileBindingEvents {
 
     FragmentProfileMainBinding binding;
 
     @Inject
     IProfileInteractor interactor;
-    private MainProfileViewModel viewModel;
 
-    public MainProfileFragment() {
-        App.getInstance().getDi().inject(this);
+//    public MainProfileFragment() {
+//        App.getInstance().getDi().inject(this);
+//    }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
     }
 
     public static MainProfileFragment newInstance() {
