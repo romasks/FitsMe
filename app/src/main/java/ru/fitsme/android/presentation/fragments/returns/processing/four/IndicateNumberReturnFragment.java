@@ -63,6 +63,6 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
 
     @Override
     public void onBackPressed() {
-
+        viewModel.onBackPressed();
     }
 }

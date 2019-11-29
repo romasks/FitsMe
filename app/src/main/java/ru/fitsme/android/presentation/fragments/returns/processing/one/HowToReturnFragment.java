@@ -63,6 +63,6 @@ public class HowToReturnFragment extends BaseFragment<HowToReturnViewModel> impl
 
     @Override
     public void onBackPressed() {
-
+        viewModel.onBackPressed();
     }
 }

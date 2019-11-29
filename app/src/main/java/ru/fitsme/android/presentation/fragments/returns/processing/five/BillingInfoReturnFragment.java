@@ -63,6 +63,6 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
 
     @Override
     public void onBackPressed() {
-
+        viewModel.onBackPressed();
     }
 }

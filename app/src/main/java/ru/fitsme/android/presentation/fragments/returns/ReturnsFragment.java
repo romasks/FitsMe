@@ -109,6 +109,6 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
 
     @Override
     public void onBackPressed() {
-
+        viewModel.onBackPressed();
     }
 }

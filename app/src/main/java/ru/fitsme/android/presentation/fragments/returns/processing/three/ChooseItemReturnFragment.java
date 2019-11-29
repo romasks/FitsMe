@@ -92,6 +92,6 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
 
     @Override
     public void onBackPressed() {
-
+        viewModel.onBackPressed();
     }
 }
