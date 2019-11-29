@@ -33,13 +33,15 @@ import timber.log.Timber;
 public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, FavouritesAdapter.FavouritesViewHolder> {
 
     private FavouritesViewModel viewModel;
+    private OnItemClickCallback callback;
 
     private static final int IN_LIST_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
 
-    FavouritesAdapter(FavouritesViewModel viewModel) {
+    FavouritesAdapter(FavouritesViewModel viewModel, OnItemClickCallback callback) {
         super(FavouritesFragment.DIFF_CALLBACK);
         this.viewModel = viewModel;
+        this.callback = callback;
     }
 
     @NonNull
@@ -91,6 +93,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         final public TextView price;
         final public Button button;
         InListItemState state;
+        private FavouritesItem favouritesItem;
 
         InListViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -108,11 +111,11 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
         @Override
         void bind(int position) {
-            FavouritesItem favouritesItem = getItem(position);
+            favouritesItem = getItem(position);
             ClothesItem clothesItem = favouritesItem == null ? new ClothesItem() : favouritesItem.getItem();
 
             setItemState(favouritesItem);
-            button.setOnClickListener(view -> state.onClick(viewModel, position));
+            button.setOnClickListener(view -> state.onButtonClick(viewModel, position));
 
             binding.setVariable(BR.clotheItem, clothesItem);
             binding.setVariable(BR.viewModel, viewModel);
@@ -136,7 +139,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
                         break;
                     }
                     case YES: {
-                        setItemState(new NormalState(this));
+                        setItemState(new NormalState(this, callback));
                         break;
                     }
                     case NO: {
@@ -149,6 +152,10 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
         public void setItemState(InListItemState state) {
             this.state = state;
+        }
+
+        public FavouritesItem getFavouritesItem(){
+            return favouritesItem;
         }
     }
 
@@ -172,5 +179,10 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
                             },
                             Timber::e));
         }
+    }
+
+
+    public interface OnItemClickCallback{
+        void setDetailView(FavouritesItem favouritesItem);
     }
 }

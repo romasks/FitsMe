@@ -38,4 +38,9 @@ public class SplashViewModel extends BaseViewModel {
     private void onError(Throwable throwable) {
         Timber.e(throwable);
     }
+
+    @Override
+    public void onBackPressed() {
+        //do nothing
+    }
 }

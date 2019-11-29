@@ -59,4 +59,9 @@ public class SignInUpFragment extends BaseFragment<SignInUpViewModel> implements
     public void onClickSignIn() {
         viewModel.onSignIn();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

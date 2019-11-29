@@ -4,6 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -29,6 +31,7 @@ public class MainNavigation {
     static final String NAV_RETURNS_INDICATE_NUMBER = "ReturnsIndicateNumber";
     static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
     static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
+    static final String NAV_DETAIL_ITEM_INFO = "DetailItemInfo";
 
     private Cicerone<Router> cicerone;
 
@@ -53,6 +56,14 @@ public class MainNavigation {
         getRouter().navigateTo(navigationKey, returnsItem);
     }
 
+    private void goNavigate(String navigationKey, Object data){
+        getRouter().navigateTo(navigationKey, data);
+    }
+
+    private void newChainNavigate(String navigationKey){
+        getRouter().newScreenChain(navigationKey);
+    }
+
     private void backNavigate(String navigationKey) {
         getRouter().backTo(navigationKey);
     }
@@ -74,19 +85,19 @@ public class MainNavigation {
     }
 
     public void goToFavourites() {
-        goNavigate(NAV_FAVOURITES);
+        newChainNavigate(NAV_FAVOURITES);
     }
 
     public void goToCart() {
-        goNavigate(NAV_CART);
+        newChainNavigate(NAV_CART);
     }
 
     public void goToCheckout() {
-        goNavigate(NAV_CHECKOUT);
+        newChainNavigate(NAV_CHECKOUT);
     }
 
     public void goToMainProfile() {
-        goNavigate(NAV_MAIN_PROFILE);
+        newChainNavigate(NAV_MAIN_PROFILE);
     }
 
     public void goToSizeProfile() {
@@ -155,5 +166,17 @@ public class MainNavigation {
 
     public void backToReturnsBillingInfo() {
         backNavigate(NAV_RETURNS_BILLING_INFO);
+    }
+
+    public void goToDetailItemInfo(ClothesItem clothesItem){
+        goNavigate(NAV_DETAIL_ITEM_INFO, clothesItem);
+    }
+
+    public void goBack(){
+        getRouter().exit();
+    }
+
+    public void finish() {
+        getRouter().finishChain();
     }
 }

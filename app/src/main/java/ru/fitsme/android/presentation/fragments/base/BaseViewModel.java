@@ -46,4 +46,6 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
     protected void onCleared() {
         super.onCleared();
     }
+
+    public abstract void onBackPressed();
 }

@@ -89,4 +89,9 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
     public void goBack() {
         viewModel.backToReturnsHowTo();
     }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
+    }
 }

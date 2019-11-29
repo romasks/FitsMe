@@ -12,13 +12,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
+import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
+import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
@@ -34,6 +44,7 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_CART;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_CHECKOUT;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_DETAIL_ITEM_INFO;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FAVOURITES;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_MAIN_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_HISTORY_PROFILE;
@@ -48,7 +59,7 @@ import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_R
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_SIZE_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_TYPE_PROFILE;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends BaseFragment<MainFragmentViewModel> {
 
     private FragmentMainBinding binding;
     @Inject
@@ -58,6 +69,15 @@ public class MainFragment extends Fragment {
     public MainFragment() {
         App.getInstance().getDi().inject(this);
         navigation.setNavigator(navigator);
+    }
+
+    @Override
+    public void onBackPressed() {
+        List<Fragment> list  = getChildFragmentManager().getFragments();
+        if (list.size() > 0) {
+            BaseFragment fragment = (BaseFragment) list.get(list.size() - 1);
+            fragment.onBackPressed();
+        }
     }
 
     public static MainFragment newInstance() {
@@ -74,6 +94,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this,
+                new ViewModelFactory(null)).get(MainFragmentViewModel.class);
+
         navigator = getFragmentNavigator();
         initBottomNavigation(view);
     }
@@ -184,6 +208,8 @@ public class MainFragment extends Fragment {
                         return BillingInfoReturnFragment.newInstance((ReturnsItem) data);
                     case NAV_RETURNS_VERIFY_DATA:
                         return VerifyDataReturnFragment.newInstance((ReturnsItem) data);
+                    case NAV_DETAIL_ITEM_INFO:
+                        return ItemInfoFragment.newInstance(data);
                 }
                 throw new RuntimeException("Unknown screen key");
             }

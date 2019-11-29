@@ -28,6 +28,7 @@ public class CheckoutViewModel extends BaseViewModel {
 
     public CheckoutViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
+        inject(this);
     }
 
     LiveData<Order> getOrderLiveData() {
@@ -70,5 +71,10 @@ public class CheckoutViewModel extends BaseViewModel {
             Timber.tag(getClass().getName()).d("SUCCESS");
             successMakeOrderLiveData.setValue(true);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.finish();
     }
 }

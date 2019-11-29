@@ -134,4 +134,9 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         phoneField.setText(RU_PHONE_PREFIX);
         phoneField.requestFocus();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

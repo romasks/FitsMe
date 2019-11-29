@@ -82,6 +82,11 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         viewModel.clearDisposables();
@@ -146,8 +151,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void setFullItemInfoState(boolean b) {
         isFullItemInfoState = b;
         getArguments().putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
-        if (b) {
-            rateItemTouchListener.setFullState(true);
+        if (b){
             binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
             if (getParentFragment() != null) {
@@ -155,7 +159,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             }
             setConstraintToFullState(true);
         } else {
-            rateItemTouchListener.setFullState(false);
             binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
             if (getParentFragment() != null) {
@@ -217,16 +220,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void resetContainerView() {
         itemAnimation.resetContainerView();
-    }
-
-    @Override
-    public void previousPicture() {
-        currentFragment.previousPicture();
-    }
-
-    @Override
-    public void nextPicture() {
-        currentFragment.nextPicture();
     }
 
     @Override

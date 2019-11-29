@@ -17,6 +17,7 @@ import ru.fitsme.android.presentation.fragments.cart.CartViewModel;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoViewModel;
+import ru.fitsme.android.presentation.fragments.main.MainFragmentViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
@@ -36,7 +37,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private final BaseInteractor interactor;
 
-    public ViewModelFactory(@NotNull BaseInteractor interactor) {
+    public ViewModelFactory(BaseInteractor interactor) {
         this.interactor = interactor;
     }
 
@@ -79,6 +80,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new BillingInfoReturnViewModel((IReturnsInteractor) interactor);
         } else if (modelClass.isAssignableFrom(VerifyDataReturnViewModel.class)) {
             return (T) new VerifyDataReturnViewModel((IReturnsInteractor) interactor);
+        } else if (modelClass.isAssignableFrom(MainFragmentViewModel.class)) {
+            return (T) new MainFragmentViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

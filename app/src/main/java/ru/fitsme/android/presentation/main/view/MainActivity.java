@@ -10,12 +10,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.ActivityMainBinding;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.fragments.main.MainNavigation;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
 import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
@@ -32,6 +36,13 @@ import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_UP;
 import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SPLASH;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Override
+    public void onBackPressed() {
+        List<Fragment> list  = getSupportFragmentManager().getFragments();
+        BaseFragment fragment = (BaseFragment) list.get(list.size() - 2); //сверху находится какой-то glide support fragment manager, поэтому беру второй
+        fragment.onBackPressed();
+    }
 
     @Inject
     AuthNavigation authNavigation;

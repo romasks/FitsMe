@@ -43,4 +43,9 @@ public class ReturnsViewModel extends BaseViewModel {
     public void goToReturnsHowTo() {
         navigation.goToReturnsHowTo();
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
+    }
 }

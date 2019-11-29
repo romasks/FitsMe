@@ -20,7 +20,7 @@ public class NoMatchSizeState extends InListItemState {
     }
 
     @Override
-    public void onClick(FavouritesViewModel viewModel, int position) {
+    public void onButtonClick(FavouritesViewModel viewModel, int position) {
 
     }
 }

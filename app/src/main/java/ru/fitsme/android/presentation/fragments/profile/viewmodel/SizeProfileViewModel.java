@@ -98,4 +98,9 @@ public class SizeProfileViewModel extends BaseViewModel {
     public void onBottomSizeValueSpinnerSelected(int position) {
         profileInteractor.setCurrentBottomSizeIndex(position);
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
+    }
 }
