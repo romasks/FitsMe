@@ -18,19 +18,23 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemCartBinding;
 import ru.fitsme.android.databinding.ItemCartRemovedBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.presentation.fragments.favourites.FavouritesAdapter;
 import timber.log.Timber;
 
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartViewHolder> {
 
     private CartViewModel viewModel;
+    private OnItemClickCallback callback;
 
     private static final int NORMAL_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
 
-    CartAdapter(CartViewModel viewModel) {
+    CartAdapter(CartViewModel viewModel, CartAdapter.OnItemClickCallback callback) {
         super(CartFragment.DIFF_CALLBACK);
         this.viewModel = viewModel;
+        this.callback = callback;
     }
 
     @NonNull
@@ -91,6 +95,9 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
             binding.setVariable(BR.clotheItem, clothesItem);
             binding.executePendingBindings();
+            binding.getRoot().setOnClickListener(view -> {
+                callback.setDetailView(getItem(position));
+            });
         }
     }
 
@@ -113,5 +120,10 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
                         }
                     }, Timber::e));
         }
+    }
+
+
+    public interface OnItemClickCallback{
+        void setDetailView(OrderItem orderItem);
     }
 }

@@ -53,4 +53,8 @@ public class CartViewModel extends BaseViewModel {
     public void onBackPressed() {
         navigation.finish();
     }
+
+    public void setDetailView(OrderItem orderItem) {
+        navigation.goToDetailItemInfo(orderItem.getClothe());
+    }
 }

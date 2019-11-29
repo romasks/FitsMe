@@ -84,7 +84,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void onBackPressed() {
-
+        viewModel.onBackPressed();
     }
 
     @Override

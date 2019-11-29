@@ -60,11 +60,11 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         return fragment;
     }
 
-    public static ItemInfoFragment newInstance(Object item) {
+    public static ItemInfoFragment newInstance(Object object) {
+        ClothesItem clothesItem = (ClothesItem) object;
         ItemInfoFragment fragment = new ItemInfoFragment();
 
-        FavouritesItem favouritesItem = (FavouritesItem) item;
-        ItemInfoFragment.clotheInfo = new ClotheInfo(favouritesItem.getItem());
+        ItemInfoFragment.clotheInfo = new ClotheInfo(clothesItem);
         ItemInfoFragment.isDetailState = true;
         ItemInfoFragment.containerHeight = 0;
         ItemInfoFragment.containerWidth = 0;

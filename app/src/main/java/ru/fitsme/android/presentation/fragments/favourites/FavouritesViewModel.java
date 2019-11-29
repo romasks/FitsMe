@@ -53,6 +53,6 @@ public class FavouritesViewModel extends BaseViewModel {
     }
 
     public void setDetailView(FavouritesItem favouritesItem) {
-        navigation.goToDetailItemInfo(favouritesItem);
+        navigation.goToDetailItemInfo(favouritesItem.getItem());
     }
 }
