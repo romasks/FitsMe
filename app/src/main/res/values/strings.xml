@@ -117,7 +117,7 @@
     <string name="returns_empty_list_title">Вы не оформляли возврат</string>
     <string name="returns_empty_list_message">Товар, заказанный на FitsMe и не подошедший по каким-либо причинам (форма, габариты, фасон, расцветка, размер и комплектация), может быть возвращен в течение 14 дней, не считая дня покупки </string>
     <string name="returns_number_tv">Заказ #%1$s</string>
-    <string name="returns_status_title">Статус: </string>
+    <string name="returns_status_title">Статус:</string>
     <string name="returns_amount_title">Количество товаров:</string>
     <string name="returns_amount_value">%1$s шт</string>
     <string name="returns_price_title">Сумма:</string>
