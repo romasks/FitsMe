@@ -13,6 +13,7 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
@@ -41,6 +42,7 @@ public class OrdersInteractor implements IOrdersInteractor {
     private final OrdersDataSourceFactory ordersDataSourceFactory;
 
     private LiveData<PagedList<OrderItem>> pagedListLiveData;
+    private LiveData<PagedList<Order>> returnsOrdersPagedListLiveData;
     private PagedList.Config config;
 
     private final ObservableBoolean checkOutIsLoading = new ObservableBoolean(true);
@@ -110,6 +112,15 @@ public class OrdersInteractor implements IOrdersInteractor {
             });
             return pagedList;
         });
+    }
+
+    @Override
+    public Single<List<Order>> getReturnOrders() {
+        return Single.create(emitter ->
+                ordersActionRepository.getReturnsOrders()
+                        .observeOn(mainThread)
+                        .subscribe(ordersPage -> emitter.onSuccess(ordersPage.getOrdersList()),
+                                emitter::onError));
     }
 
     @NonNull

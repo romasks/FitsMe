@@ -18,7 +18,7 @@ public class ReturnsItem implements Parcelable {
     private int id;
     private long number;
     private String status;
-    private String date;
+    private String date = "";
     private int amount;
     private int price;
     private String calculationMethod;
@@ -28,7 +28,7 @@ public class ReturnsItem implements Parcelable {
     private String indicationNumber = "";
     private String cardNumber = "";
 
-    ReturnsItem() {
+    public ReturnsItem() {
     }
 
     public ReturnsItem(long number, String status, String date, int amount, int price,

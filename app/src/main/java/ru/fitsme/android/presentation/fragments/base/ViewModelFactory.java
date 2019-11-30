@@ -40,6 +40,10 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         this.interactor = interactor;
     }
 
+    public ViewModelFactory() {
+        this.interactor = null;
+    }
+
     @NotNull
     @Override
     public <T extends ViewModel> T create(@NotNull Class<T> modelClass) {
@@ -68,9 +72,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         } else if (modelClass.isAssignableFrom(ReturnsViewModel.class)) {
             return (T) new ReturnsViewModel((IReturnsInteractor) interactor);
         } else if (modelClass.isAssignableFrom(HowToReturnViewModel.class)) {
-            return (T) new HowToReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new HowToReturnViewModel();
         } else if (modelClass.isAssignableFrom(ChooseOrderReturnViewModel.class)) {
-            return (T) new ChooseOrderReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new ChooseOrderReturnViewModel((IOrdersInteractor) interactor);
         } else if (modelClass.isAssignableFrom(ChooseItemReturnViewModel.class)) {
             return (T) new ChooseItemReturnViewModel((IReturnsInteractor) interactor);
         } else if (modelClass.isAssignableFrom(IndicateNumberReturnViewModel.class)) {

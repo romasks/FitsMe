@@ -13,6 +13,9 @@ public interface IOrdersActionRepository {
     @NonNull
     Single<OrdersPage> getOrders(OrderStatus status);
 
+    @NonNull
+    Single<OrdersPage> getReturnsOrders();
+
     Single<Order> makeOrder(long orderId, String phoneNumber, String street, String houseNumber,
                             String apartment, OrderStatus orderStatus);
 

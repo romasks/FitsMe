@@ -155,4 +155,7 @@
 
     <string name="returns_list_text">Список товаров:</string>
 
+    <string name="no_orders_to_return">Нету заказов к возврату</string>
+    <string name="returns_orders_go_to_cart_btn_text">Перейти в корзину</string>
+
 </resources>

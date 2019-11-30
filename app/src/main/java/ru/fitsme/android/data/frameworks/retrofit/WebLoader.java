@@ -183,6 +183,15 @@ abstract class WebLoader {
                         emitter::onError));
     }
 
+    public Single<OkResponse<OrdersPage>> getReturnsOrders() {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getReturnsOrders(TOKEN + authInfo.getToken())
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
     public Single<OkResponse<Order>> makeOrder(long orderId,
                                                String phoneNumber,
                                                String street,

@@ -128,6 +128,11 @@ public class MainFragment extends Fragment {
         navigation.goToCheckout();
     }
 
+    public void goToCart() {
+        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_cart);
+        navigation.goToCart();
+    }
+
     public void showBottomNavigation(boolean b) {
         if (b) {
             binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);

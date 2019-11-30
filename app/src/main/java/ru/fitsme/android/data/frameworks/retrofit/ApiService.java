@@ -76,6 +76,9 @@ public interface ApiService {
     Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
                                            @Query("status") OrderStatus status);
 
+    @GET("orders/return/")
+    Single<OkResponse<OrdersPage>> getReturnsOrders(@Header("Authorization") String token);
+
     @PUT("orders/{id}/")
     Single<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
                                             @Path("id") long orderId,

@@ -50,5 +50,39 @@
                 android:orientation="vertical" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/returns_order_no_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cart_no_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:text="@string/no_orders_to_return"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/cart_no_item_go_to_favourite_btn"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_rounded_corners_primary_dark_btn"
+                android:gravity="center"
+                android:onClick="@{() -> bindingEvents.onClickGoToCart()}"
+                android:text="@string/returns_orders_go_to_cart_btn_text"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_lower_medium" />
+        </LinearLayout>
+
     </RelativeLayout>
 </layout>

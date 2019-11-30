@@ -90,7 +90,10 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
     @Override
     public void onClickMakeOrder() {
         Timber.tag(getClass().getName()).d("isMaskFilled: %s", isMaskFilled);
-        if (!isMaskFilled) return;
+        if (!isMaskFilled) {
+            Toast.makeText(getContext(), R.string.warning_phone_number_is_not_filled, Toast.LENGTH_SHORT).show();
+            return;
+        }
         viewModel.onClickMakeOrder();
     }
 
