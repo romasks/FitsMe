@@ -1,18 +1,24 @@
 package ru.fitsme.android.domain.entities.returns;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import ru.fitsme.android.R;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
 public class ReturnsItem implements Parcelable {
     private int id;
     private long number;
     private String status;
-    private String date;
+    private String date = "";
     private int amount;
     private int price;
     private String calculationMethod;
@@ -22,7 +28,7 @@ public class ReturnsItem implements Parcelable {
     private String indicationNumber = "";
     private String cardNumber = "";
 
-    ReturnsItem() {
+    public ReturnsItem() {
     }
 
     public ReturnsItem(long number, String status, String date, int amount, int price,
@@ -50,8 +56,16 @@ public class ReturnsItem implements Parcelable {
         return status;
     }
 
+    @SuppressLint("SimpleDateFormat")
     public String getDate() {
-        return date;
+        try {
+            Date dt = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            if (dt == null) return date;
+            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+            return df.format(dt);
+        } catch (ParseException | NullPointerException e) {
+            return date;
+        }
     }
 
     public int getAmount() {
@@ -97,6 +111,27 @@ public class ReturnsItem implements Parcelable {
 
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
+    }
+
+    public String getStatusName() {
+        switch (status) {
+            case "FM": return "черновик";
+            case "ISU": return "в обработке";
+            case "CNC": return "отказ";
+            case "RDY": return "выполнено";
+            default: return "";
+        }
+    }
+
+    public int getStatusColor() {
+        switch (status) {
+            case "FM": return R.color.colorStatusFM;
+            case "ISU": return R.color.colorStatusISU;
+            case "CNC": return R.color.colorStatusCNC;
+            case "RDY": return R.color.colorStatusRDY;
+
+            default: return R.color.colorStatusFM;
+        }
     }
 
     @Override

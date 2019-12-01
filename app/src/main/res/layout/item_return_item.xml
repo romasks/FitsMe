@@ -13,19 +13,20 @@
             type="ru.fitsme.android.presentation.fragments.returns.processing.three.ChooseItemReturnViewModel" />
 
         <variable
-            name="clothesItem"
-            type="ru.fitsme.android.domain.entities.clothes.ClothesItem" />
+            name="orderItem"
+            type="ru.fitsme.android.domain.entities.order.OrderItem" />
     </data>
 
     <RelativeLayout
         android:id="@+id/return_order_item"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:paddingTop="2dp"
         android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/cb"
-            android:checked="@{clothesItem.isCheckedForReturn}"
+            android:checked="@{orderItem.clothe.checkedForReturn}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -50,7 +51,7 @@
                 android:id="@+id/item_return_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{clothesItem.brand}"
+                android:text="@{orderItem.clothe.brand}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -60,7 +61,7 @@
                 android:id="@+id/item_return_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{clothesItem.name}"
+                android:text="@{orderItem.clothe.name}"
                 android:textSize="12sp"
                 tools:text="Название товара" />
 
@@ -75,7 +76,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="@dimen/padding_medium"
             android:gravity="center"
-            android:text="@{@string/returns_order_item_price(clothesItem.price)}"
+            android:text="@{@string/returns_order_item_price(orderItem.clothe.price)}"
             android:textColor="@color/black"
             android:textSize="16sp"
             tools:text="1000 руб." />

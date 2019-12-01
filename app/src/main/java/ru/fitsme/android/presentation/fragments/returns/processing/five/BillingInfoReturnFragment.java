@@ -33,18 +33,18 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private static final String KEY_RETURN_ITEM = "RETURN_ITEM";
+    private static final String KEY_RETURN_ID = "RETURN_ID";
 
     private FragmentReturnBillingInfoBinding binding;
-    private ReturnsItem returnsItem;
+    private int returnId;
 
     //    private boolean isMaskFilled = false;
     String a;
     int keyDel;
 
-    public static BillingInfoReturnFragment newInstance(ReturnsItem returnsItem) {
+    public static BillingInfoReturnFragment newInstance(int returnId) {
         Bundle args = new Bundle();
-        args.putParcelable(KEY_RETURN_ITEM, returnsItem);
+        args.putInt(KEY_RETURN_ID, returnId);
         BillingInfoReturnFragment fragment = new BillingInfoReturnFragment();
         fragment.setArguments(args);
         return fragment;
@@ -65,7 +65,7 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            returnsItem = getArguments().getParcelable(KEY_RETURN_ITEM);
+            returnId = getArguments().getInt(KEY_RETURN_ID);
         }
 
         viewModel = ViewModelProviders.of(this,
@@ -88,8 +88,7 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
         if (binding.cardNumber.length() < 19) {
             Toast.makeText(getContext(), R.string.warning_card_number_is_not_filled, Toast.LENGTH_SHORT).show();
         } else {
-            returnsItem.setCardNumber(String.valueOf(binding.cardNumber.getText()));
-            viewModel.goToReturnsVerifyData(returnsItem);
+            viewModel.goToReturnsVerifyData(String.valueOf(binding.cardNumber.getText()), returnId);
         }
     }
 

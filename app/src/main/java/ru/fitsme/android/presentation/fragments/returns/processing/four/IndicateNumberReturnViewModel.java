@@ -1,12 +1,14 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.four;
 
-import androidx.databinding.ObservableBoolean;
-
 import org.jetbrains.annotations.NotNull;
 
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import androidx.databinding.ObservableBoolean;
+import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
+import ru.fitsme.android.domain.entities.order.ReturnsOrder;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.utils.OrderStatus;
+import timber.log.Timber;
 
 public class IndicateNumberReturnViewModel extends BaseViewModel {
 
@@ -23,8 +25,21 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
         isLoading.set(false);
     }
 
-    public void goToReturnsBillingInfo(ReturnsItem returnsItem) {
-        navigation.goToReturnsBillingInfo(returnsItem);
+    public void goToReturnsBillingInfo(String indicationNumber, int returnId) {
+        addDisposable(returnsInteractor.changeReturnsPayment(
+                new ReturnsPaymentRequest(
+                        returnId, indicationNumber, null, OrderStatus.FM.toString()
+                ))
+                .subscribe(this::onSuccess, this::onError)
+        );
+    }
+
+    private void onError(Throwable throwable) {
+        Timber.d(throwable);
+    }
+
+    private void onSuccess(ReturnsOrder returnsOrder) {
+        navigation.goToReturnsBillingInfo(returnsOrder.getId());
     }
 
     public void backToReturnsChooseItems() {

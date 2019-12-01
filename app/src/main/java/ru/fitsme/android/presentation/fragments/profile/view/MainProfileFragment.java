@@ -17,6 +17,7 @@ import ru.fitsme.android.databinding.FragmentProfileMainBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.profile.events.MainProfileBindingEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 
@@ -54,6 +55,11 @@ public class MainProfileFragment extends BaseFragment<MainProfileViewModel> impl
             viewModel.init();
         }
         binding.setViewModel(viewModel);
+
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).showBottomNavigation(true);
+        }
+
         viewModel.onViewCreated();
     }
 

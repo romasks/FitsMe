@@ -9,42 +9,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseOrderBinding;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
-import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
+import ru.fitsme.android.domain.entities.order.Order;
+import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnViewModel> implements ChooseOrderReturnBindingEvents, BackClickListener {
 
     @Inject
-    IReturnsInteractor returnsInteractor;
+    IOrdersInteractor ordersInteractor;
 
     private FragmentReturnChooseOrderBinding binding;
     private ReturnOrdersAdapter adapter;
-
-    static DiffUtil.ItemCallback<ReturnsItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ReturnsItem>() {
-
-        @Override
-        public boolean areItemsTheSame(@NonNull ReturnsItem oldItem, @NonNull ReturnsItem newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull ReturnsItem oldItem, @NonNull ReturnsItem newItem) {
-            return oldItem.equals(newItem);
-        }
-    };
 
     public static ChooseOrderReturnFragment newInstance() {
         return new ChooseOrderReturnFragment();
@@ -65,7 +53,7 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(ChooseOrderReturnViewModel.class);
+                new ViewModelFactory(ordersInteractor)).get(ChooseOrderReturnViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
@@ -78,16 +66,33 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
         binding.returnOrdersListRv.setHasFixedSize(true);
         binding.returnOrdersListRv.setAdapter(adapter);
 
-        viewModel.getPageLiveData().observe(this, this::onLoadPage);
+        viewModel.getReturnsOrdersLiveData().observe(this, this::onLoadPage);
+
+        viewModel.getReturnsOrdersIsEmpty().observe(this, this::onReturnsOrdersIsEmpty);
     }
 
-    private void onLoadPage(PagedList<ReturnsItem> pagedList) {
-        adapter.submitList(pagedList);
+    private void onReturnsOrdersIsEmpty(Boolean isEmpty) {
+        if (isEmpty) {
+            binding.returnsOrderNoItems.setVisibility(View.VISIBLE);
+        } else {
+            binding.returnsOrderNoItems.setVisibility(View.GONE);
+        }
+    }
+
+    private void onLoadPage(List<Order> ordersList) {
+        adapter.setItems(ordersList);
     }
 
     @Override
     public void goBack() {
         viewModel.backToReturnsHowTo();
+    }
+
+    @Override
+    public void onClickGoToCart() {
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToCart();
+        }
     }
 
     @Override

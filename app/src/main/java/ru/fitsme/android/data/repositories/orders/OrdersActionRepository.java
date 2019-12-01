@@ -43,6 +43,25 @@ public class OrdersActionRepository implements IOrdersActionRepository {
                 }));
     }
 
+    @NonNull
+    @Override
+    public Single<OrdersPage> getReturnsOrders() {
+        return Single.create(emitter -> webLoader.getReturnsOrders()
+                .subscribe(ordersPageOkResponse -> {
+                    OrdersPage ordersPage = ordersPageOkResponse.getResponse();
+                    if (ordersPage != null) {
+                        emitter.onSuccess(ordersPage);
+                    } else {
+                        UserException error = ErrorRepository.makeError(ordersPageOkResponse.getError());
+                        Timber.e(error);
+                        emitter.onSuccess(new OrdersPage());
+                    }
+                }, error -> {
+                    Timber.e(error);
+                    emitter.onSuccess(new OrdersPage());
+                }));
+    }
+
     @Override
     public Single<Order> makeOrder(
             long orderId, String phoneNumber, String street, String houseNumber,

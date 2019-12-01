@@ -17,17 +17,20 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
+import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
+import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
-import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
-import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
-import ru.fitsme.android.domain.entities.profile.Profile;
+import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
+import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.utils.OrderStatus;
 
 public interface ApiService {
@@ -76,6 +79,9 @@ public interface ApiService {
     Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
                                            @Query("status") OrderStatus status);
 
+    @GET("orders/return/")
+    Single<OkResponse<OrdersPage>> getReturnsOrders(@Header("Authorization") String token);
+
     @PUT("orders/{id}/")
     Single<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
                                             @Path("id") long orderId,
@@ -91,4 +97,17 @@ public interface ApiService {
     @GET("returns/")
     Single<OkResponse<ReturnsPage>> getReturnsClothes(@Header("Authorization") String token,
                                                       @Query("page") int page);
+
+    @POST("returns/items/")
+    Single<OkResponse<ReturnsOrder>> addItemToReturn(@Header("Authorization") String token,
+                                                     @Body ReturnsItemRequest request);
+
+    @PUT("returns/{id}/")
+    Single<OkResponse<ReturnsOrder>> changeReturnsPayment(@Header("Authorization") String token,
+                                                          @Path("id") long returnId,
+                                                          @Body ReturnsPaymentRequest request);
+
+    @GET("returns/{id}/")
+    Single<OkResponse<ReturnsOrder>> getReturnById(@Header("Authorization") String token,
+                                                   @Path("id") long returnId);
 }

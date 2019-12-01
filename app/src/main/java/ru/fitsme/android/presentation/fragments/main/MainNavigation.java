@@ -3,6 +3,7 @@ package ru.fitsme.android.presentation.fragments.main;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
@@ -52,15 +53,23 @@ public class MainNavigation {
         getRouter().navigateTo(navigationKey);
     }
 
+    private void goNavigate(String navigationKey, Order returnsOrder) {
+        getRouter().navigateTo(navigationKey, returnsOrder);
+    }
+
     private void goNavigate(String navigationKey, ReturnsItem returnsItem) {
         getRouter().navigateTo(navigationKey, returnsItem);
     }
 
-    private void goNavigate(String navigationKey, Object data){
+    private void goNavigate(String navigationKey, int returnId) {
+        getRouter().navigateTo(navigationKey, returnId);
+    }
+
+    private void goNavigate(String navigationKey, Object data) {
         getRouter().navigateTo(navigationKey, data);
     }
 
-    private void newChainNavigate(String navigationKey){
+    private void newChainNavigate(String navigationKey) {
         getRouter().newScreenChain(navigationKey);
     }
 
@@ -128,20 +137,20 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItems(ReturnsItem returnsItem) {
-        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, returnsItem);
+    public void goToReturnsChooseItems(Order returnsOrder) {
+        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, returnsOrder);
     }
 
-    public void goToReturnsIndicateNumber(ReturnsItem returnsItem) {
-        goNavigate(NAV_RETURNS_INDICATE_NUMBER, returnsItem);
+    public void goToReturnsIndicateNumber(int returnId) {
+        goNavigate(NAV_RETURNS_INDICATE_NUMBER, returnId);
     }
 
-    public void goToReturnsBillingInfo(ReturnsItem returnsItem) {
-        goNavigate(NAV_RETURNS_BILLING_INFO, returnsItem);
+    public void goToReturnsBillingInfo(int returnId) {
+        goNavigate(NAV_RETURNS_BILLING_INFO, returnId);
     }
 
-    public void goToReturnsVerifyData(ReturnsItem returnsItem) {
-        goNavigate(NAV_RETURNS_VERIFY_DATA, returnsItem);
+    public void goToReturnsVerifyData(int returnId) {
+        goNavigate(NAV_RETURNS_VERIFY_DATA, returnId);
     }
 
     public void backToOrdersReturn() {
@@ -168,11 +177,11 @@ public class MainNavigation {
         backNavigate(NAV_RETURNS_BILLING_INFO);
     }
 
-    public void goToDetailItemInfo(ClothesItem clothesItem){
+    public void goToDetailItemInfo(ClothesItem clothesItem) {
         goNavigate(NAV_DETAIL_ITEM_INFO, clothesItem);
     }
 
-    public void goBack(){
+    public void goBack() {
         getRouter().exit();
     }
 
