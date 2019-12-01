@@ -12,6 +12,8 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.NetworkStatus;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
+import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
+import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
@@ -24,6 +26,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionExcep
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.entities.order.ReturnsOrder;
 import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
@@ -117,6 +120,21 @@ public class WebLoaderNetworkChecker extends WebLoader {
     @Override
     public Single<OkResponse<Profile>> setProfile(Profile profile) {
         return checkNetwork(super.setProfile(profile));
+    }
+
+    @Override
+    public Single<OkResponse<ReturnsOrder>> addItemToReturn(ReturnsItemRequest request) {
+        return checkNetwork(super.addItemToReturn(request));
+    }
+
+    @Override
+    public Single<OkResponse<ReturnsOrder>> changeReturnsPayment(ReturnsPaymentRequest request) {
+        return checkNetwork(super.changeReturnsPayment(request));
+    }
+
+    @Override
+    public Single<OkResponse<ReturnsOrder>> getReturnById(int returnId) {
+        return checkNetwork(super.getReturnById(returnId));
     }
 
     private Single checkNetwork(Single single) {

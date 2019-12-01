@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
@@ -182,13 +182,13 @@ public class MainFragment extends Fragment {
                     case NAV_RETURNS_CHOOSE_ORDER:
                         return ChooseOrderReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ITEMS:
-                        return ChooseItemReturnFragment.newInstance((ReturnsItem) data);
+                        return ChooseItemReturnFragment.newInstance((Order) data);
                     case NAV_RETURNS_INDICATE_NUMBER:
-                        return IndicateNumberReturnFragment.newInstance((ReturnsItem) data);
+                        return IndicateNumberReturnFragment.newInstance((int) data);
                     case NAV_RETURNS_BILLING_INFO:
-                        return BillingInfoReturnFragment.newInstance((ReturnsItem) data);
+                        return BillingInfoReturnFragment.newInstance((int) data);
                     case NAV_RETURNS_VERIFY_DATA:
-                        return VerifyDataReturnFragment.newInstance((ReturnsItem) data);
+                        return VerifyDataReturnFragment.newInstance((int) data);
                 }
                 throw new RuntimeException("Unknown screen key");
             }

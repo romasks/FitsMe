@@ -16,6 +16,7 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemReturnOrderBinding;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import timber.log.Timber;
 
 public class ReturnOrdersAdapter extends RecyclerView.Adapter<ReturnOrdersAdapter.ReturnOrdersViewHolder> {
 
@@ -45,7 +46,10 @@ public class ReturnOrdersAdapter extends RecyclerView.Adapter<ReturnOrdersAdapte
     }
 
     void setItems(List<Order> ordersList) {
-        orders = ordersList;
+        orders.clear();
+        orders.addAll(ordersList);
+        notifyDataSetChanged();
+        Timber.d(String.valueOf(orders));
     }
 
     private Order getItem(int position) {
@@ -73,7 +77,7 @@ public class ReturnOrdersAdapter extends RecyclerView.Adapter<ReturnOrdersAdapte
                                     android.R.color.black
             ));*/
 
-            binding.setVariable(BR.returnsItem, new ReturnsItem());
+            binding.setVariable(BR.order, order);
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();

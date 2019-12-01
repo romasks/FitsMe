@@ -28,15 +28,15 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private static final String KEY_RETURN_ITEM = "RETURN_ITEM";
+    private static final String KEY_RETURN_ID = "RETURN_ID";
 
     private FragmentReturnVerifyDataBinding binding;
     private SelectedReturnOrderItemsAdapter adapter;
-    private ReturnsItem returnsItem;
+    private int returnId;
 
-    public static VerifyDataReturnFragment newInstance(ReturnsItem returnsItem) {
+    public static VerifyDataReturnFragment newInstance(int returnId) {
         Bundle args = new Bundle();
-        args.putParcelable(KEY_RETURN_ITEM, returnsItem);
+        args.putInt(KEY_RETURN_ID, returnId);
         VerifyDataReturnFragment fragment = new VerifyDataReturnFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,14 +57,14 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            returnsItem = getArguments().getParcelable(KEY_RETURN_ITEM);
-            binding.setReturnsItem(returnsItem);
+            returnId = getArguments().getInt(KEY_RETURN_ID);
+//            binding.setReturnsItem(returnsItem);
         }
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(returnsInteractor)).get(VerifyDataReturnViewModel.class);
         if (savedInstanceState == null) {
-            viewModel.init();
+            viewModel.init(returnId);
         }
         binding.setViewModel(viewModel);
 
@@ -75,7 +75,7 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
         binding.returnOrderItemsListRv.setHasFixedSize(true);
         binding.returnOrderItemsListRv.setAdapter(adapter);
 
-        adapter.setItems(returnsItem.getItems());
+//        adapter.setItems(returnsItem.getItems());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
 
     @Override
     public void onNext() {
-        viewModel.sendReturnOrder(returnsItem);
+//        viewModel.sendReturnOrder(returnsItem);
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).showBottomNavbar();
         }

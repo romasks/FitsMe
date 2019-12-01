@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -16,26 +17,27 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseItemBinding;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
+import timber.log.Timber;
 
 public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewModel> implements ChooseItemReturnBindingEvents, BackClickListener {
 
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private static final String KEY_RETURN_ITEM = "RETURN_ITEM";
+    private static final String KEY_RETURNS_ORDER = "RETURNS_ORDER";
 
     private FragmentReturnChooseItemBinding binding;
     private ReturnOrderItemsAdapter adapter;
-    private ReturnsItem returnsItem;
+    private Order returnsOrder;
 
-    public static ChooseItemReturnFragment newInstance(ReturnsItem returnsItem) {
+    public static ChooseItemReturnFragment newInstance(Order returnsOrder) {
         Bundle args = new Bundle();
-        args.putParcelable(KEY_RETURN_ITEM, returnsItem);
+        args.putParcelable(KEY_RETURNS_ORDER, returnsOrder);
         ChooseItemReturnFragment fragment = new ChooseItemReturnFragment();
         fragment.setArguments(args);
         return fragment;
@@ -56,8 +58,8 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            returnsItem = getArguments().getParcelable(KEY_RETURN_ITEM);
-            binding.setReturnsItem(returnsItem);
+            returnsOrder = getArguments().getParcelable(KEY_RETURNS_ORDER);
+            binding.setReturnsOrder(returnsOrder);
         }
 
         viewModel = ViewModelProviders.of(this,
@@ -74,7 +76,14 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         binding.returnOrderItemsListRv.setHasFixedSize(true);
         binding.returnOrderItemsListRv.setAdapter(adapter);
 
-        adapter.setItems(returnsItem.getItems());
+        adapter.setItems(returnsOrder.getOrderItemList());
+
+        viewModel.getErrorMsgLiveData().observeForever(this::onErrorMsg);
+    }
+
+    private void onErrorMsg(String msg) {
+        if (msg.isEmpty()) return;
+        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -84,6 +93,11 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
 
     @Override
     public void onNext() {
-        viewModel.goToReturnsIndicateNumber(returnsItem);
+        if (adapter.noItemsSelected()) {
+            Timber.e("Ни одного элемента не выбрано");
+            onErrorMsg("Ни одного элемента не выбрано");
+        } else {
+            viewModel.goToReturnsIndicateNumber(returnsOrder);
+        }
     }
 }

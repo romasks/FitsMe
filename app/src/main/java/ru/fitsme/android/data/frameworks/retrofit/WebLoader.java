@@ -2,10 +2,9 @@ package ru.fitsme.android.data.frameworks.retrofit;
 
 import android.annotation.SuppressLint;
 
-import androidx.annotation.NonNull;
-
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import retrofit2.Response;
@@ -15,6 +14,8 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
+import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
+import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
@@ -29,6 +30,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.entities.order.ReturnsOrder;
 import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.utils.OrderStatus;
@@ -242,5 +244,32 @@ abstract class WebLoader {
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError
                 ));
+    }
+
+    public Single<OkResponse<ReturnsOrder>> addItemToReturn(ReturnsItemRequest request) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.addItemToReturn(TOKEN + authInfo.getToken(), request)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<ReturnsOrder>> changeReturnsPayment(ReturnsPaymentRequest request) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.changeReturnsPayment(TOKEN + authInfo.getToken(), request.getReturnId(), request)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<ReturnsOrder>> getReturnById(int returnId) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getReturnById(TOKEN + authInfo.getToken(), returnId)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
     }
 }

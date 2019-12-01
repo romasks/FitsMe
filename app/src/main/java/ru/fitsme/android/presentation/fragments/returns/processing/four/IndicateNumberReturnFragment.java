@@ -16,7 +16,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnIndicateNumberBinding;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -27,14 +26,14 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    private static final String KEY_RETURN_ITEM = "RETURN_ITEM";
+    private static final String KEY_RETURN_ID = "RETURN_ID";
 
     private FragmentReturnIndicateNumberBinding binding;
-    private ReturnsItem returnsItem;
+    private int returnId;
 
-    public static IndicateNumberReturnFragment newInstance(ReturnsItem returnsItem) {
+    public static IndicateNumberReturnFragment newInstance(int returnId) {
         Bundle args = new Bundle();
-        args.putParcelable(KEY_RETURN_ITEM, returnsItem);
+        args.putInt(KEY_RETURN_ID, returnId);
         IndicateNumberReturnFragment fragment = new IndicateNumberReturnFragment();
         fragment.setArguments(args);
         return fragment;
@@ -55,7 +54,7 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            returnsItem = getArguments().getParcelable(KEY_RETURN_ITEM);
+            returnId = getArguments().getInt(KEY_RETURN_ID);
         }
 
         viewModel = ViewModelProviders.of(this,
@@ -76,8 +75,7 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
         if (binding.indicateNumber.length() < 13) {
             Toast.makeText(getContext(), R.string.warning_indicate_number_is_not_filled, Toast.LENGTH_SHORT).show();
         } else {
-            returnsItem.setIndicationNumber(String.valueOf(binding.indicateNumber.getText()));
-            viewModel.goToReturnsBillingInfo(returnsItem);
+            viewModel.goToReturnsBillingInfo(String.valueOf(binding.indicateNumber.getText()), returnId);
         }
     }
 }

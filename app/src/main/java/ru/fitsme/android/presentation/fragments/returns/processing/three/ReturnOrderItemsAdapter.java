@@ -4,22 +4,22 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
-
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemReturnItemBinding;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 
 public class ReturnOrderItemsAdapter extends RecyclerView.Adapter<ReturnOrderItemsAdapter.ReturnOrderItemsViewHolder> {
 
     private ChooseItemReturnViewModel viewModel;
-    private List<ClothesItem> items;
+    private List<OrderItem> items;
+    private int selectedItemsCount = 0;
 
     ReturnOrderItemsAdapter(ChooseItemReturnViewModel viewModel) {
         this.viewModel = viewModel;
@@ -43,12 +43,16 @@ public class ReturnOrderItemsAdapter extends RecyclerView.Adapter<ReturnOrderIte
         return items == null ? 0 : items.size();
     }
 
-    void setItems(List<ClothesItem> items) {
+    void setItems(List<OrderItem> items) {
         this.items = items;
     }
 
-    private ClothesItem getItem(int position) {
+    private OrderItem getItem(int position) {
         return items.get(position);
+    }
+
+    boolean noItemsSelected() {
+        return selectedItemsCount == 0;
     }
 
     class ReturnOrderItemsViewHolder extends RecyclerView.ViewHolder {
@@ -61,10 +65,15 @@ public class ReturnOrderItemsAdapter extends RecyclerView.Adapter<ReturnOrderIte
 
         void bind(int position) {
             ((CheckBox) binding.getRoot().findViewById(R.id.cb)).setOnCheckedChangeListener((compoundButton, b) -> {
-                getItem(position).setCheckedForReturn(b);
+                getItem(position).getClothe().setCheckedForReturn(b);
+                if (b) {
+                    selectedItemsCount++;
+                } else {
+                    selectedItemsCount--;
+                }
             });
 
-            binding.setVariable(BR.clothesItem, getItem(position));
+            binding.setVariable(BR.orderItem, getItem(position));
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();

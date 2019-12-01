@@ -176,7 +176,7 @@ public class OrdersInteractor implements IOrdersInteractor {
                         .observeOn(mainThread)
                         .subscribe(ordersPage -> {
                             checkOutIsLoading.set(false);
-                            if (ordersPage.getOrdersList() != null) {
+                            if (ordersPage.getOrdersList() != null && !ordersPage.getOrdersList().isEmpty()) {
                                 Order order = ordersPage.getOrdersList().get(0);
                                 emitter.onSuccess(order);
                             } else {
@@ -194,7 +194,7 @@ public class OrdersInteractor implements IOrdersInteractor {
                 orderModel.getStreet(),
                 orderModel.getHouseNumber(),
                 orderModel.getApartment(),
-                OrderStatus.FM)
+                OrderStatus.ISU)
                 .observeOn(mainThread);
     }
 

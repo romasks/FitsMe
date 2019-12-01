@@ -41,7 +41,7 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
 
     private void onGetResult(List<Order> orders) {
         isLoading.set(false);
-        returnsOrdersListIsEmpty.setValue(!orders.isEmpty());
+        returnsOrdersListIsEmpty.setValue(orders == null || orders.size() == 0);
         returnsOrdersLiveData.setValue(orders);
     }
 
@@ -49,8 +49,8 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
         return returnsOrdersLiveData;
     }
 
-    public void goToReturnsChooseItems(ReturnsItem returnsItem) {
-        navigation.goToReturnsChooseItems(returnsItem);
+    public void goToReturnsChooseItems(Order returnsOrder) {
+        navigation.goToReturnsChooseItems(returnsOrder);
     }
 
     public void backToReturnsHowTo() {

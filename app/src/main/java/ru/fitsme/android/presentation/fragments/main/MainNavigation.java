@@ -3,6 +3,7 @@ package ru.fitsme.android.presentation.fragments.main;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
@@ -49,8 +50,16 @@ public class MainNavigation {
         getRouter().navigateTo(navigationKey);
     }
 
+    private void goNavigate(String navigationKey, Order returnsOrder) {
+        getRouter().navigateTo(navigationKey, returnsOrder);
+    }
+
     private void goNavigate(String navigationKey, ReturnsItem returnsItem) {
         getRouter().navigateTo(navigationKey, returnsItem);
+    }
+
+    private void goNavigate(String navigationKey, int returnId) {
+        getRouter().navigateTo(navigationKey, returnId);
     }
 
     private void backNavigate(String navigationKey) {
@@ -117,20 +126,20 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItems(ReturnsItem returnsItem) {
-        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, returnsItem);
+    public void goToReturnsChooseItems(Order returnsOrder) {
+        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, returnsOrder);
     }
 
-    public void goToReturnsIndicateNumber(ReturnsItem returnsItem) {
-        goNavigate(NAV_RETURNS_INDICATE_NUMBER, returnsItem);
+    public void goToReturnsIndicateNumber(int returnId) {
+        goNavigate(NAV_RETURNS_INDICATE_NUMBER, returnId);
     }
 
-    public void goToReturnsBillingInfo(ReturnsItem returnsItem) {
-        goNavigate(NAV_RETURNS_BILLING_INFO, returnsItem);
+    public void goToReturnsBillingInfo(int returnId) {
+        goNavigate(NAV_RETURNS_BILLING_INFO, returnId);
     }
 
-    public void goToReturnsVerifyData(ReturnsItem returnsItem) {
-        goNavigate(NAV_RETURNS_VERIFY_DATA, returnsItem);
+    public void goToReturnsVerifyData(int returnId) {
+        goNavigate(NAV_RETURNS_VERIFY_DATA, returnId);
     }
 
     public void backToOrdersReturn() {

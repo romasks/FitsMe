@@ -63,7 +63,7 @@ public class ReturnsItem implements Parcelable {
             if (dt == null) return date;
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
             return df.format(dt);
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             return date;
         }
     }
