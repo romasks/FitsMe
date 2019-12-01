@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCartBinding;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -28,7 +29,9 @@ import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class CartFragment extends BaseFragment<CartViewModel>
-        implements CartBindingEvents, CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+        implements CartBindingEvents,
+        CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
+        CartAdapter.OnItemClickCallback{
 
     @Inject
     IOrdersInteractor ordersInteractor;
@@ -50,6 +53,11 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     public CartFragment() {
         App.getInstance().getDi().inject(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
     }
 
     public static CartFragment newInstance() {
@@ -75,7 +83,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
         }
         binding.setViewModel(viewModel);
 
-        adapter = new CartAdapter(viewModel);
+        adapter = new CartAdapter(viewModel, this);
 
         binding.cartListRv.setHasFixedSize(true);
         binding.cartListRv.setAdapter(adapter);
@@ -151,5 +159,10 @@ public class CartFragment extends BaseFragment<CartViewModel>
                         }
                     }, Timber::e);
         }
+    }
+
+    @Override
+    public void setDetailView(OrderItem orderItem) {
+        viewModel.setDetailView(orderItem);
     }
 }

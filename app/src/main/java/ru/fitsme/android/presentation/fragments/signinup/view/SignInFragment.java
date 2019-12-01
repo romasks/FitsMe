@@ -63,6 +63,11 @@ public class SignInFragment extends BaseFragment<SignInViewModel> implements Sig
     }
 
     @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
 

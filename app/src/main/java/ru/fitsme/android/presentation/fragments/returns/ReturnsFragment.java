@@ -116,4 +116,9 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
             ((MainFragment) getParentFragment()).hideBottomNavbar();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
+    }
 }

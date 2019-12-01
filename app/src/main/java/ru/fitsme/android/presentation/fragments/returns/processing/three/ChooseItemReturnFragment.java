@@ -100,4 +100,9 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
             viewModel.goToReturnsIndicateNumber(returnsOrder);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
+    }
 }

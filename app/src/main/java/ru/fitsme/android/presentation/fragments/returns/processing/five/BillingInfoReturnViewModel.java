@@ -43,4 +43,9 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
     public void backToReturnsChooseItems() {
         navigation.backToReturnsChooseItems();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

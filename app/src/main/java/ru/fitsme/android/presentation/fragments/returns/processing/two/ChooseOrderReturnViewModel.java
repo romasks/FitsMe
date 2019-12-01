@@ -60,4 +60,9 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
     LiveData<Boolean> getReturnsOrdersIsEmpty() {
         return returnsOrdersListIsEmpty;
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
+    }
 }

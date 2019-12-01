@@ -25,6 +25,7 @@ public class CheckoutViewModel extends BaseViewModel {
 
     public CheckoutViewModel(@NotNull IOrdersInteractor ordersInteractor) {
         this.ordersInteractor = ordersInteractor;
+        inject(this);
     }
 
     LiveData<Order> getOrderLiveData() {
@@ -71,5 +72,10 @@ public class CheckoutViewModel extends BaseViewModel {
     protected void onCleared() {
         super.onCleared();
         clearDisposables();
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.finish();
     }
 }

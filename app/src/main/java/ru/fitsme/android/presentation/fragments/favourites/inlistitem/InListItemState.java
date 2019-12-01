@@ -10,5 +10,5 @@ public abstract class InListItemState {
         this.viewHolder = viewHolder;
     }
 
-    public abstract void onClick(FavouritesViewModel viewModel, int position);
+    public abstract void onButtonClick(FavouritesViewModel viewModel, int position);
 }

@@ -90,4 +90,9 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
             ((MainFragment) getParentFragment()).showBottomNavbar();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
+    }
 }

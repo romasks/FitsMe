@@ -42,4 +42,9 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
     public void backToReturnsBillingInfo() {
         navigation.backToReturnsBillingInfo();
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goBack();
+    }
 }
