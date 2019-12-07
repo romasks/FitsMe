@@ -19,4 +19,9 @@
     <color name="navbarItemInactive">#88000000</color>
     <color name="transparentBackground">#DEFFFFFF</color>
     <color name="creditCartBackground">#D8D2DA</color>
+
+    <color name="colorStatusFM">#757575</color>
+    <color name="colorStatusISU">#37474F</color>
+    <color name="colorStatusCNC">#217F4E</color>
+    <color name="colorStatusRDY">#D42A2A</color>
 </resources>

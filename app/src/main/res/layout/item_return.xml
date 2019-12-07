@@ -54,10 +54,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_return_number"
-                android:layout_toRightOf="@id/item_return_status_title"
+                android:layout_toEndOf="@id/item_return_status_title"
                 android:paddingBottom="12dp"
-                android:text="@{returnsItem.status}"
-                android:textColor="#8A000000"
+                android:text="@{returnsItem.statusName}"
+                android:textColor="@{returnsItem.statusColor}"
                 tools:text="черновик" />
 
             <TextView

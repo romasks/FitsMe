@@ -13,6 +13,7 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
@@ -41,6 +42,7 @@ public class OrdersInteractor implements IOrdersInteractor {
     private final OrdersDataSourceFactory ordersDataSourceFactory;
 
     private LiveData<PagedList<OrderItem>> pagedListLiveData;
+    private LiveData<PagedList<Order>> returnsOrdersPagedListLiveData;
     private PagedList.Config config;
 
     private final ObservableBoolean checkOutIsLoading = new ObservableBoolean(true);
@@ -112,6 +114,15 @@ public class OrdersInteractor implements IOrdersInteractor {
         });
     }
 
+    @Override
+    public Single<List<Order>> getReturnOrders() {
+        return Single.create(emitter ->
+                ordersActionRepository.getReturnsOrders()
+                        .observeOn(mainThread)
+                        .subscribe(ordersPage -> emitter.onSuccess(ordersPage.getOrdersList()),
+                                emitter::onError));
+    }
+
     @NonNull
     @Override
     public Single<OrderItem> removeItemFromOrder(int position) {
@@ -165,7 +176,7 @@ public class OrdersInteractor implements IOrdersInteractor {
                         .observeOn(mainThread)
                         .subscribe(ordersPage -> {
                             checkOutIsLoading.set(false);
-                            if (ordersPage.getOrdersList() != null) {
+                            if (ordersPage.getOrdersList() != null && !ordersPage.getOrdersList().isEmpty()) {
                                 Order order = ordersPage.getOrdersList().get(0);
                                 emitter.onSuccess(order);
                             } else {
@@ -183,7 +194,7 @@ public class OrdersInteractor implements IOrdersInteractor {
                 orderModel.getStreet(),
                 orderModel.getHouseNumber(),
                 orderModel.getApartment(),
-                OrderStatus.FM)
+                OrderStatus.ISU)
                 .observeOn(mainThread);
     }
 

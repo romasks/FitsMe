@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
@@ -73,7 +74,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
 
     @Override
     public void onBackPressed() {
-        List<Fragment> list  = getChildFragmentManager().getFragments();
+        List<Fragment> list = getChildFragmentManager().getFragments();
         if (list.size() > 0) {
             BaseFragment fragment = (BaseFragment) list.get(list.size() - 1);
             fragment.onBackPressed();
@@ -152,6 +153,11 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
         navigation.goToCheckout();
     }
 
+    public void goToCart() {
+        binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_cart);
+        navigation.goToCart();
+    }
+
     public void showBottomNavigation(boolean b) {
         if (b) {
             binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
@@ -201,13 +207,13 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                     case NAV_RETURNS_CHOOSE_ORDER:
                         return ChooseOrderReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ITEMS:
-                        return ChooseItemReturnFragment.newInstance((ReturnsItem) data);
+                        return ChooseItemReturnFragment.newInstance((Order) data);
                     case NAV_RETURNS_INDICATE_NUMBER:
-                        return IndicateNumberReturnFragment.newInstance((ReturnsItem) data);
+                        return IndicateNumberReturnFragment.newInstance((int) data);
                     case NAV_RETURNS_BILLING_INFO:
-                        return BillingInfoReturnFragment.newInstance((ReturnsItem) data);
+                        return BillingInfoReturnFragment.newInstance((int) data);
                     case NAV_RETURNS_VERIFY_DATA:
-                        return VerifyDataReturnFragment.newInstance((ReturnsItem) data);
+                        return VerifyDataReturnFragment.newInstance((int) data);
                     case NAV_DETAIL_ITEM_INFO:
                         return ItemInfoFragment.newInstance(data);
                 }

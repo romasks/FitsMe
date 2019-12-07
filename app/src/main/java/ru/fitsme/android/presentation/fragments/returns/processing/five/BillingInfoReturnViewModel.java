@@ -3,9 +3,12 @@ package ru.fitsme.android.presentation.fragments.returns.processing.five;
 import org.jetbrains.annotations.NotNull;
 
 import androidx.databinding.ObservableBoolean;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
+import ru.fitsme.android.domain.entities.order.ReturnsOrder;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.utils.OrderStatus;
+import timber.log.Timber;
 
 public class BillingInfoReturnViewModel extends BaseViewModel {
 
@@ -22,8 +25,19 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
         isLoading.set(false);
     }
 
-    public void goToReturnsVerifyData(ReturnsItem returnsItem) {
-        navigation.goToReturnsVerifyData(returnsItem);
+    public void goToReturnsVerifyData(String cardNumber, int returnId) {
+        addDisposable(returnsInteractor.changeReturnsPayment(
+                new ReturnsPaymentRequest(returnId, null, cardNumber, OrderStatus.FM.toString()))
+                .subscribe(this::onSuccess, this::onError)
+        );
+    }
+
+    private void onError(Throwable throwable) {
+        Timber.d(throwable);
+    }
+
+    private void onSuccess(ReturnsOrder returnsOrder) {
+        navigation.goToReturnsVerifyData(returnsOrder.getId());
     }
 
     public void backToReturnsChooseItems() {

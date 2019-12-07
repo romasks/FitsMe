@@ -7,8 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="returnsItem"
-            type="ru.fitsme.android.domain.entities.returns.ReturnsItem" />
+            name="returnsOrder"
+            type="ru.fitsme.android.domain.entities.order.Order" />
 
         <variable
             name="viewModel"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/app_bar"
             android:layout_margin="@dimen/padding_medium"
-            android:text="@{@string/returns_number_tv(returnsItem.number)}"
+            android:text="@{@string/returns_number_tv(returnsOrder.orderId)}"
             tools:text="Заказ #123" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:layout_below="@id/app_bar"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/padding_medium"
-            android:text="@{returnsItem.date}"
+            android:text="@{returnsOrder.orderDate()}"
             tools:text="31.12.2019" />
 
         <View

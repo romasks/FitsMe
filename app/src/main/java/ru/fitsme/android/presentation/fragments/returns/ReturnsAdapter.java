@@ -72,13 +72,6 @@ public class ReturnsAdapter extends PagedListAdapter<ReturnsItem, ReturnsAdapter
 
             if (returnsItem != null) {
                 setItemState(returnsItem);
-                returnStatus.setTextColor(binding.getRoot().getResources().getColor(
-                        returnsItem.getStatus().equals("выполнено") ?
-                                android.R.color.holo_green_dark :
-                                returnsItem.getStatus().equals("отказ") ?
-                                        android.R.color.holo_red_dark :
-                                        android.R.color.black
-                ));
             }
 
             binding.setVariable(BR.returnsItem, returnsItem);

@@ -7,6 +7,8 @@ import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
+import java.util.List;
+
 import io.reactivex.Single;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.domain.entities.order.Order;
@@ -26,6 +28,8 @@ public interface IOrdersInteractor extends BaseInteractor {
     Single<OrderItem> restoreItemToOrder(int position);
 
     LiveData<PagedList<OrderItem>> getPagedListLiveData();
+
+    Single<List<Order>> getReturnOrders();
 
     Single<Order> makeOrder(OrderModel orderModel);
 

@@ -72,6 +72,10 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
         }
         binding.setViewModel(viewModel);
 
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).showBottomNavigation(false);
+        }
+
         adapter = new ReturnsAdapter(viewModel);
 
         binding.returnsListRv.setLayoutManager(new LinearLayoutManager(getContext()));

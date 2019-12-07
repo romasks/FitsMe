@@ -12,19 +12,13 @@ import androidx.lifecycle.ViewModelProviders;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnHowToBinding;
-import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
 public class HowToReturnFragment extends BaseFragment<HowToReturnViewModel> implements HowToReturnBindingEvents, BackClickListener {
-
-    @Inject
-    IReturnsInteractor returnsInteractor;
 
     private FragmentReturnHowToBinding binding;
 
@@ -47,7 +41,7 @@ public class HowToReturnFragment extends BaseFragment<HowToReturnViewModel> impl
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(HowToReturnViewModel.class);
+                new ViewModelFactory()).get(HowToReturnViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

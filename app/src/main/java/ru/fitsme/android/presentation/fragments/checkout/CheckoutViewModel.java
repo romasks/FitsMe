@@ -1,14 +1,11 @@
 package ru.fitsme.android.presentation.fragments.checkout;
 
-import android.annotation.SuppressLint;
+import org.jetbrains.annotations.NotNull;
 
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import org.jetbrains.annotations.NotNull;
-
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
@@ -48,16 +45,14 @@ public class CheckoutViewModel extends BaseViewModel {
         loadOrder();
     }
 
-    @SuppressLint("CheckResult")
     private void loadOrder() {
-        ordersInteractor.getSingleOrder(OrderStatus.FM)
-                .subscribe(this::onOrder, Timber::e);
+        addDisposable(ordersInteractor.getSingleOrder(OrderStatus.FM)
+                .subscribe(this::onOrder, Timber::e));
     }
 
-    @SuppressLint("CheckResult")
     void onClickMakeOrder() {
-        ordersInteractor.makeOrder(orderModel.get())
-                .subscribe(this::onMakeOrder, Timber::e);
+        addDisposable(ordersInteractor.makeOrder(orderModel.get())
+                .subscribe(this::onMakeOrder, Timber::e));
     }
 
     private void onOrder(@NotNull Order order) {
@@ -71,6 +66,12 @@ public class CheckoutViewModel extends BaseViewModel {
             Timber.tag(getClass().getName()).d("SUCCESS");
             successMakeOrderLiveData.setValue(true);
         }
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        clearDisposables();
     }
 
     @Override
