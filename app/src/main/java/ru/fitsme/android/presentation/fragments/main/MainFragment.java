@@ -29,6 +29,7 @@ import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
+import ru.fitsme.android.presentation.fragments.filters.FiltersFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
@@ -47,6 +48,7 @@ import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_C
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_CHECKOUT;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_DETAIL_ITEM_INFO;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FAVOURITES;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FILTER;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_MAIN_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_HISTORY_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_RETURN_PROFILE;
@@ -216,6 +218,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                         return VerifyDataReturnFragment.newInstance((int) data);
                     case NAV_DETAIL_ITEM_INFO:
                         return ItemInfoFragment.newInstance(data);
+                    case NAV_FILTER:
+                        return FiltersFragment.newInstance();
                 }
                 throw new RuntimeException("Unknown screen key");
             }

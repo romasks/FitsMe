@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="backClickListener"
+            type="ru.fitsme.android.presentation.common.listener.BackClickListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/backArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:onClick="@{() -> backClickListener.goBack()}"
+                    android:padding="@dimen/padding_extra_medium"
+                    android:src="@drawable/ic_back_arrow"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/filter_title"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_header"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:layout_gravity="center_vertical|end"
+                    android:text="@string/filter_reset_button"
+                    android:textAllCaps="false"
+                    android:textColor="#8A000000"
+                    android:textSize="@dimen/text_size_minimal_medium"
+                    android:clickable="true"
+                    android:focusable="true"
+                    />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/black"/>
+
+        <ExpandableListView
+            android:id="@+id/fragment_filter_type_ex_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:groupIndicator="@null"
+            />
+    </LinearLayout>
+</layout>

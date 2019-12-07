@@ -33,6 +33,7 @@ public class MainNavigation {
     static final String NAV_RETURNS_BILLING_INFO = "ReturnsBillingInfo";
     static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
     static final String NAV_DETAIL_ITEM_INFO = "DetailItemInfo";
+    static final String NAV_FILTER = "Filter";
 
     private Cicerone<Router> cicerone;
 
@@ -187,5 +188,9 @@ public class MainNavigation {
 
     public void finish() {
         getRouter().finishChain();
+    }
+
+    public void goToFilter() {
+        goNavigate(NAV_FILTER);
     }
 }

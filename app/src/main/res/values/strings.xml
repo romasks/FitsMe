@@ -158,4 +158,13 @@
     <string name="no_orders_to_return">Нету заказов к возврату</string>
     <string name="returns_orders_go_to_cart_btn_text">Перейти в корзину</string>
 
+    <!-- FilterFragment -->
+    <string name="filter_title">Фильтр</string>
+    <string name="filter_reset_button">Сбросить</string>
+    <string-array name="filter_names">
+        <item name="clothe_types">Тип одежды</item>
+        <item name="brands">Бренд</item>
+        <item name="colors">Цвет</item>
+    </string-array>
+
 </resources>

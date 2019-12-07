@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="44dp">
+
+    <TextView
+        android:id="@+id/item_filter_group_tv"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_lower_medium"
+        android:textStyle="bold"
+        tools:text="sometext"
+        />
+
+    <ImageView
+        android:id="@+id/item_filter_group_indicator_im"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/filter_group_indicator"
+        android:layout_gravity="end|center_vertical"
+        android:contentDescription="@null"
+        />
+
+</FrameLayout>
