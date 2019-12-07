@@ -7,8 +7,8 @@ import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 import timber.log.Timber;
 
 public class SetBottomSizeState extends InListItemState {
-    public SetBottomSizeState(FavouritesAdapter.InListViewHolder button) {
-        super(button);
+    public SetBottomSizeState(FavouritesAdapter.InListViewHolder viewHolder, FavouritesAdapter.OnItemClickCallback callback) {
+        super(viewHolder, callback);
         this.viewHolder.imageView.setAlpha(0.5f);
         this.viewHolder.brandName.setAlpha(0.5f);
         this.viewHolder.name.setAlpha(0.5f);

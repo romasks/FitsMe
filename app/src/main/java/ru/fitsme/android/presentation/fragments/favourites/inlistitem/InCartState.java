@@ -6,8 +6,8 @@ import ru.fitsme.android.presentation.fragments.favourites.FavouritesAdapter;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 
 public class InCartState extends InListItemState {
-    public InCartState(FavouritesAdapter.InListViewHolder viewHolder) {
-        super(viewHolder);
+    public InCartState(FavouritesAdapter.InListViewHolder viewHolder, FavouritesAdapter.OnItemClickCallback callback) {
+        super(viewHolder, callback);
         this.viewHolder.imageView.setAlpha(1f);
         this.viewHolder.brandName.setAlpha(1f);
         this.viewHolder.name.setAlpha(1f);

@@ -12,7 +12,7 @@ import timber.log.Timber;
 
 public class NormalState extends InListItemState {
     public NormalState(FavouritesAdapter.InListViewHolder viewHolder, FavouritesAdapter.OnItemClickCallback callback) {
-        super(viewHolder);
+        super(viewHolder, callback);
         this.viewHolder.imageView.setAlpha(1f);
         this.viewHolder.brandName.setAlpha(1f);
         this.viewHolder.name.setAlpha(1f);
@@ -22,9 +22,6 @@ public class NormalState extends InListItemState {
         this.viewHolder.button.setEnabled(true);
         this.viewHolder.button.setText(R.string.to_cart);
         this.viewHolder.button.setTextColor(App.getInstance().getResources().getColor(R.color.white));
-        this.viewHolder.binding.getRoot().setOnClickListener(v -> {
-            callback.setDetailView(viewHolder.getFavouritesItem());
-        });
     }
 
     @SuppressLint("CheckResult")
@@ -33,7 +30,7 @@ public class NormalState extends InListItemState {
         viewModel.addItemToCart(position)
                 .subscribe(orderItem -> {
                     if (orderItem.getId() != 0){
-                        viewHolder.setItemState(new InCartState(viewHolder));
+                        viewHolder.setItemState(new InCartState(viewHolder, callback));
                     }
                 }, Timber::e);
     }

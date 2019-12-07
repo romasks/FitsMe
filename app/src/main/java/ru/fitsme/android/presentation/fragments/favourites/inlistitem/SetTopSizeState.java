@@ -11,8 +11,8 @@ import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 
 public class SetTopSizeState extends InListItemState {
-    public SetTopSizeState(FavouritesAdapter.InListViewHolder button) {
-        super(button);
+    public SetTopSizeState(FavouritesAdapter.InListViewHolder viewHolder, FavouritesAdapter.OnItemClickCallback callback) {
+        super(viewHolder, callback);
         this.viewHolder.imageView.setAlpha(0.5f);
         this.viewHolder.brandName.setAlpha(0.5f);
         this.viewHolder.name.setAlpha(0.5f);

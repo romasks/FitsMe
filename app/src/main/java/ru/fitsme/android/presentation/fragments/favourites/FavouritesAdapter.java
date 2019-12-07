@@ -126,15 +126,15 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         private void setItemState(@Nullable FavouritesItem favouritesItem) {
             if (favouritesItem == null) return;
             if (favouritesItem.isInCart()) {
-                state = new InCartState(this);
+                state = new InCartState(this, callback);
             } else {
                 ClothesItem.SizeInStock sizeInStock = favouritesItem.getItem().getSizeInStock();
                 switch (sizeInStock) {
                     case UNDEFINED: {
                         if (favouritesItem.getItem().getClotheType().getType() == ClotheType.Type.TOP) {
-                            setItemState(new SetTopSizeState(this));
+                            setItemState(new SetTopSizeState(this, callback));
                         } else if (favouritesItem.getItem().getClotheType().getType() == ClotheType.Type.BOTTOM) {
-                            setItemState(new SetBottomSizeState(this));
+                            setItemState(new SetBottomSizeState(this, callback));
                         }
                         break;
                     }
@@ -143,7 +143,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
                         break;
                     }
                     case NO: {
-                        setItemState(new NoMatchSizeState(this));
+                        setItemState(new NoMatchSizeState(this, callback));
                         break;
                     }
                 }
