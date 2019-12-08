@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -19,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFiltersBinding;
+import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
@@ -29,6 +32,8 @@ public class FiltersFragment  extends BaseFragment<FiltersViewModel>
 implements BackClickListener {
 
     private FragmentFiltersBinding binding;
+    @Inject
+    IClothesInteractor clothesInteractor;
 
     String[] groups;
 
@@ -62,7 +67,7 @@ implements BackClickListener {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory()).get(FiltersViewModel.class);
+                new ViewModelFactory(clothesInteractor)).get(FiltersViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

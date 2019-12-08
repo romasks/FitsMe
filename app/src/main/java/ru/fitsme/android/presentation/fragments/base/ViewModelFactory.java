@@ -88,7 +88,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         } else if (modelClass.isAssignableFrom(MainFragmentViewModel.class)) {
             return (T) new MainFragmentViewModel();
         } else if (modelClass.isAssignableFrom(FiltersViewModel.class)) {
-            return (T) new FiltersViewModel();
+            return (T) new FiltersViewModel((IClothesInteractor) interactor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
