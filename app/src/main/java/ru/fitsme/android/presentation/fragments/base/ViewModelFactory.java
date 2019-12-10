@@ -22,6 +22,7 @@ import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileVie
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
+import ru.fitsme.android.presentation.fragments.returns.details.ReturnDetailsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.four.IndicateNumberReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnViewModel;
@@ -72,6 +73,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new SizeProfileViewModel((IProfileInteractor) interactor);
         } else if (modelClass.isAssignableFrom(ReturnsViewModel.class)) {
             return (T) new ReturnsViewModel((IReturnsInteractor) interactor);
+        } else if (modelClass.isAssignableFrom(ReturnDetailsViewModel.class)) {
+            return (T) new ReturnDetailsViewModel((IReturnsInteractor) interactor);
         } else if (modelClass.isAssignableFrom(HowToReturnViewModel.class)) {
             return (T) new HowToReturnViewModel();
         } else if (modelClass.isAssignableFrom(ChooseOrderReturnViewModel.class)) {

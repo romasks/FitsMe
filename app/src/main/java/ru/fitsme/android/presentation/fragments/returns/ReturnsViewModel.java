@@ -48,4 +48,8 @@ public class ReturnsViewModel extends BaseViewModel {
     public void onBackPressed() {
         navigation.goBack();
     }
+
+    public void goToReturnDetails(int returnId) {
+        navigation.goToReturnDetails(returnId);
+    }
 }

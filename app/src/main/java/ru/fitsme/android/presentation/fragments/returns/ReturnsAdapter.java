@@ -68,7 +68,7 @@ public class ReturnsAdapter extends PagedListAdapter<ReturnsItem, ReturnsAdapter
         void bind(int position) {
             ReturnsItem returnsItem = getItem(position);
 
-            button.setOnClickListener(view -> state.onClick(viewModel, position));
+            button.setOnClickListener(view -> state.onClick(viewModel, position, returnsItem.getId()));
 
             if (returnsItem != null) {
                 setItemState(returnsItem);

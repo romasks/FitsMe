@@ -20,7 +20,8 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.data.repositories.returns.ReturnsActionRepository;
 import ru.fitsme.android.data.repositories.returns.ReturnsDataSourceFactory;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 
 @Singleton
@@ -120,13 +121,13 @@ public class ReturnsInteractor implements IReturnsInteractor {
     }
 
     @Override
-    public Single<ReturnsOrder> addItemToReturn(ReturnsItemRequest request) {
+    public Single<ReturnsOrderItem> addItemToReturn(ReturnsItemRequest request) {
         return returnsActionRepository.addItemToReturn(request)
                 .observeOn(mainThread);
     }
 
     @Override
-    public Single<ReturnsOrder> changeReturnsPayment(ReturnsPaymentRequest request) {
+    public Single<ReturnsOrderItem> changeReturnsPayment(ReturnsPaymentRequest request) {
         return returnsActionRepository.changeReturnsPayment(request)
                 .observeOn(mainThread);
     }

@@ -29,7 +29,8 @@ import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.utils.OrderStatus;
 
@@ -99,13 +100,13 @@ public interface ApiService {
                                                       @Query("page") int page);
 
     @POST("returns/items/")
-    Single<OkResponse<ReturnsOrder>> addItemToReturn(@Header("Authorization") String token,
-                                                     @Body ReturnsItemRequest request);
+    Single<OkResponse<ReturnsOrderItem>> addItemToReturn(@Header("Authorization") String token,
+                                                         @Body ReturnsItemRequest request);
 
     @PUT("returns/{id}/")
-    Single<OkResponse<ReturnsOrder>> changeReturnsPayment(@Header("Authorization") String token,
-                                                          @Path("id") long returnId,
-                                                          @Body ReturnsPaymentRequest request);
+    Single<OkResponse<ReturnsOrderItem>> changeReturnsPayment(@Header("Authorization") String token,
+                                                              @Path("id") long returnId,
+                                                              @Body ReturnsPaymentRequest request);
 
     @GET("returns/{id}/")
     Single<OkResponse<ReturnsOrder>> getReturnById(@Header("Authorization") String token,

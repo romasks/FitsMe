@@ -7,7 +7,8 @@ import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.domain.boundaries.retunrs.IReturnsActionRepository;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 
 public class ReturnsActionRepository implements IReturnsActionRepository {
 
@@ -19,7 +20,7 @@ public class ReturnsActionRepository implements IReturnsActionRepository {
     }
 
     @Override
-    public Single<ReturnsOrder> addItemToReturn(ReturnsItemRequest request) {
+    public Single<ReturnsOrderItem> addItemToReturn(ReturnsItemRequest request) {
         return Single.create(emitter ->
                 webLoader.addItemToReturn(request)
                         .subscribe(response -> emitter.onSuccess(response.getResponse()),
@@ -27,7 +28,7 @@ public class ReturnsActionRepository implements IReturnsActionRepository {
     }
 
     @Override
-    public Single<ReturnsOrder> changeReturnsPayment(ReturnsPaymentRequest request) {
+    public Single<ReturnsOrderItem> changeReturnsPayment(ReturnsPaymentRequest request) {
         return Single.create(emitter ->
                 webLoader.changeReturnsPayment(request)
                         .subscribe(response -> emitter.onSuccess(response.getResponse()),

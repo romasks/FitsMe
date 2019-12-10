@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import androidx.databinding.ObservableBoolean;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
@@ -38,7 +38,7 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
         Timber.d(throwable);
     }
 
-    private void onSuccess(ReturnsOrder returnsOrder) {
+    private void onSuccess(ReturnsOrderItem returnsOrder) {
         navigation.goToReturnsBillingInfo(returnsOrder.getId());
     }
 

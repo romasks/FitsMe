@@ -34,6 +34,7 @@ import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
+import ru.fitsme.android.presentation.fragments.returns.details.ReturnDetailsFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.four.IndicateNumberReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnFragment;
@@ -57,6 +58,7 @@ import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_R
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_HOW_TO;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_INDICATE_NUMBER;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_VERIFY_DATA;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURN_DETAILS;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_SIZE_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_TYPE_PROFILE;
 
@@ -202,6 +204,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                         break;
                     case NAV_ORDER_RETURN_PROFILE:
                         return ReturnsFragment.newInstance();
+                    case NAV_RETURN_DETAILS:
+                        return ReturnDetailsFragment.newInstance((int) data);
                     case NAV_RETURNS_HOW_TO:
                         return HowToReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ORDER:

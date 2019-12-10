@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import timber.log.Timber;
@@ -66,7 +66,7 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
         return errorMsgLiveData;
     }
 
-    private void onSuccess(ReturnsOrder returnsOrder) {
+    private void onSuccess(ReturnsOrderItem returnsOrder) {
         if (!requestsList.isEmpty()) {
             sendOneRequest();
         } else {
