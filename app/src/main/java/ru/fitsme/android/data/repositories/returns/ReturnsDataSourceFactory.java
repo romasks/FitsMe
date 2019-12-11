@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 
-public class ReturnsDataSourceFactory extends DataSource.Factory<Integer, ReturnsItem> {
+public class ReturnsDataSourceFactory extends DataSource.Factory<Integer, ReturnsOrder> {
 
     private final WebLoaderNetworkChecker webLoader;
 
@@ -24,7 +24,7 @@ public class ReturnsDataSourceFactory extends DataSource.Factory<Integer, Return
 
     @NotNull
     @Override
-    public DataSource<Integer, ReturnsItem> create() {
+    public DataSource<Integer, ReturnsOrder> create() {
         latestSource = new ReturnsRepository(webLoader);
         sourceLiveData.postValue(latestSource);
         return latestSource;

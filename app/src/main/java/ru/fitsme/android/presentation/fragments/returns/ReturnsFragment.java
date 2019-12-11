@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnsBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -34,15 +35,15 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
     private FragmentReturnsBinding binding;
     private ReturnsAdapter adapter;
 
-    static DiffUtil.ItemCallback<ReturnsItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ReturnsItem>() {
+    static DiffUtil.ItemCallback<ReturnsOrder> DIFF_CALLBACK = new DiffUtil.ItemCallback<ReturnsOrder>() {
 
         @Override
-        public boolean areItemsTheSame(@NonNull ReturnsItem oldItem, @NonNull ReturnsItem newItem) {
+        public boolean areItemsTheSame(@NonNull ReturnsOrder oldItem, @NonNull ReturnsOrder newItem) {
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull ReturnsItem oldItem, @NonNull ReturnsItem newItem) {
+        public boolean areContentsTheSame(@NonNull ReturnsOrder oldItem, @NonNull ReturnsOrder newItem) {
             return oldItem.equals(newItem);
         }
     };
@@ -87,7 +88,7 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
         viewModel.getReturnsIsEmpty().observe(this, this::onReturnsIsEmpty);
     }
 
-    private void onLoadPage(PagedList<ReturnsItem> pagedList) {
+    private void onLoadPage(PagedList<ReturnsOrder> pagedList) {
         adapter.submitList(pagedList);
     }
 

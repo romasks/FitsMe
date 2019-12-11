@@ -1,8 +1,16 @@
 package ru.fitsme.android.domain.entities.returns;
 
+import android.annotation.SuppressLint;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import ru.fitsme.android.R;
 
 public class ReturnsOrder {
 
@@ -73,6 +81,15 @@ public class ReturnsOrder {
         return deliveryDetails;
     }
 
+    public String getHiddenCardNumber() {
+        try {
+            String lastQuarter = deliveryDetails.split("-")[3];
+            return "**** **** **** " + lastQuarter;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return deliveryDetails;
+        }
+    }
+
     public void setDeliveryDetails(String deliveryDetails) {
         this.deliveryDetails = deliveryDetails;
     }
@@ -105,12 +122,55 @@ public class ReturnsOrder {
         return date;
     }
 
+    @SuppressLint("SimpleDateFormat")
+    public String getFormattedDate() {
+        try {
+            Date dt = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            if (dt == null) return date;
+            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+            return df.format(dt);
+        } catch (ParseException | NullPointerException e) {
+            return date;
+        }
+    }
+
     public void setDate(String date) {
         this.date = date;
     }
 
     public String getStatus() {
         return status;
+    }
+
+    public String getStatusName() {
+        switch (status) {
+            case "FM":
+                return "черновик";
+            case "ISU":
+                return "в обработке";
+            case "CNC":
+                return "отказ";
+            case "RDY":
+                return "выполнено";
+            default:
+                return "";
+        }
+    }
+
+    public int getStatusColor() {
+        switch (status) {
+            case "FM":
+                return R.color.colorStatusFM;
+            case "ISU":
+                return R.color.colorStatusISU;
+            case "CNC":
+                return R.color.colorStatusCNC;
+            case "RDY":
+                return R.color.colorStatusRDY;
+
+            default:
+                return R.color.colorStatusFM;
+        }
     }
 
     public void setStatus(String status) {
@@ -142,7 +202,19 @@ public class ReturnsOrder {
     }
 
     public String getDaysToReturn() {
-        return daysToReturn;
+        try {
+            int days = Integer.parseInt(daysToReturn);
+
+            String daysStr;
+            if (days > 10 && days < 20) daysStr = "дней";
+            else if (days % 10 == 1) daysStr = "день";
+            else if (days % 10 >= 2 && days % 10 <= 4) daysStr = "дня";
+            else daysStr = "дней";
+
+            return days + " " + daysStr;
+        } catch (NumberFormatException e) {
+            return daysToReturn;
+        }
     }
 
     public void setDaysToReturn(String daysToReturn) {

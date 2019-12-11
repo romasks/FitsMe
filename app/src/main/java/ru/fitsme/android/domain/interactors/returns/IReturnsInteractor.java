@@ -13,7 +13,7 @@ import ru.fitsme.android.domain.interactors.BaseInteractor;
 
 public interface IReturnsInteractor extends BaseInteractor {
 
-    LiveData<PagedList<ReturnsItem>> getPagedListLiveData();
+    LiveData<PagedList<ReturnsOrder>> getPagedListLiveData();
 
     LiveData<Boolean> getReturnsIsEmpty();
 

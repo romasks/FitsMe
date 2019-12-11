@@ -81,8 +81,8 @@
                     android:layout_below="@id/order_number"
                     android:layout_toEndOf="@id/order_status_text"
                     android:paddingBottom="12dp"
-                    android:text="@{returnsOrder.status}"
-                    android:textColor="#8A000000"
+                    android:text="@{returnsOrder.statusName}"
+                    android:textColor="@{returnsOrder.statusColor}"
                     tools:text="черновик" />
 
                 <TextView
@@ -93,7 +93,9 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/padding_medium"
-                    android:text="@{returnsOrder.date}"
+                    android:layout_toEndOf="@id/order_status_value"
+                    android:gravity="end"
+                    android:text="@{returnsOrder.getFormattedDate()}"
                     tools:text="31.12.2019" />
 
                 <TextView
@@ -171,7 +173,7 @@
                     android:layout_below="@id/item_return_calculation_method"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/padding_medium"
-                    android:text="@{returnsOrder.paymentDetails}"
+                    android:text="@{returnsOrder.hiddenCardNumber}"
                     tools:text="**** **** **** 1234" />
 
             </RelativeLayout>

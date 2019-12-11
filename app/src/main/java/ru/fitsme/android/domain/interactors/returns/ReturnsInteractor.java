@@ -1,17 +1,18 @@
 package ru.fitsme.android.domain.interactors.returns;
 
-import java.util.concurrent.Executors;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
+
+import java.util.concurrent.Executors;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import ru.fitsme.android.R;
@@ -20,9 +21,9 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.data.repositories.returns.ReturnsActionRepository;
 import ru.fitsme.android.data.repositories.returns.ReturnsDataSourceFactory;
+import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 
 @Singleton
 public class ReturnsInteractor implements IReturnsInteractor {
@@ -33,7 +34,7 @@ public class ReturnsInteractor implements IReturnsInteractor {
     private final ReturnsActionRepository returnsActionRepository;
     private final Scheduler mainThread;
 
-    private LiveData<PagedList<ReturnsItem>> pagedListLiveData;
+    private LiveData<PagedList<ReturnsOrder>> pagedListLiveData;
     private PagedList.Config config;
     private MutableLiveData<Boolean> returnsIsEmpty;
 
@@ -57,12 +58,12 @@ public class ReturnsInteractor implements IReturnsInteractor {
     }
 
     @Override
-    public LiveData<PagedList<ReturnsItem>> getPagedListLiveData() {
+    public LiveData<PagedList<ReturnsOrder>> getPagedListLiveData() {
         returnsIsEmpty = new MutableLiveData<>();
         pagedListLiveData =
                 new LivePagedListBuilder<>(this.returnsDataSourceFactory, config)
                         .setFetchExecutor(Executors.newSingleThreadExecutor())
-                        .setBoundaryCallback(new PagedList.BoundaryCallback<ReturnsItem>() {
+                        .setBoundaryCallback(new PagedList.BoundaryCallback<ReturnsOrder>() {
                             @Override
                             public void onZeroItemsLoaded() {
                                 returnsIsEmpty.setValue(true);
@@ -105,11 +106,11 @@ public class ReturnsInteractor implements IReturnsInteractor {
 
     @Override
     public boolean itemIsInCart(int position) {
-        PagedList<ReturnsItem> pagedList = pagedListLiveData.getValue();
+        PagedList<ReturnsOrder> pagedList = pagedListLiveData.getValue();
         if (pagedList != null && pagedList.size() > position) {
-            ReturnsItem item = pagedList.get(position);
+            ReturnsOrder item = pagedList.get(position);
             if (item != null) {
-                return item.isInCart();
+                return item.getStatus().equals("FM");
             }
         }
         return false;

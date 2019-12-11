@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemReturnBinding;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.presentation.fragments.returns.inlistitem.InCartState;
 import ru.fitsme.android.presentation.fragments.returns.inlistitem.InListItemState;
 import ru.fitsme.android.presentation.fragments.returns.inlistitem.NormalState;
 
-public class ReturnsAdapter extends PagedListAdapter<ReturnsItem, ReturnsAdapter.ReturnsViewHolder> {
+public class ReturnsAdapter extends PagedListAdapter<ReturnsOrder, ReturnsAdapter.ReturnsViewHolder> {
 
     private ReturnsViewModel viewModel;
 
@@ -66,22 +66,31 @@ public class ReturnsAdapter extends PagedListAdapter<ReturnsItem, ReturnsAdapter
 
         @Override
         void bind(int position) {
-            ReturnsItem returnsItem = getItem(position);
+            ReturnsOrder returnsOrder = getItem(position);
 
-            button.setOnClickListener(view -> state.onClick(viewModel, position, returnsItem.getId()));
+            button.setOnClickListener(view -> state.onClick(viewModel, position, returnsOrder.getId()));
 
-            if (returnsItem != null) {
-                setItemState(returnsItem);
+            if (returnsOrder != null) {
+                setItemState(returnsOrder);
             }
 
-            binding.setVariable(BR.returnsItem, returnsItem);
+            binding.setVariable(BR.returnsOrder, returnsOrder);
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();
         }
 
-        private void setItemState(ReturnsItem returnsItem) {
-            state = returnsItem.isInCart() ? new InCartState(this) : new NormalState(this);
+        private void setItemState(ReturnsOrder returnsOrder) {
+            switch (returnsOrder.getStatus()) {
+                case "FM":
+                    state = new InCartState(this);
+                    break;
+                case "ISU":
+                case "CNC":
+                case "RDY":
+                default:
+                    state = new NormalState(this);
+            }
         }
     }
 }
