@@ -20,8 +20,8 @@ android {
         applicationId "ru.fitsme.android"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 28
-        versionName "2.6.4"
+        versionCode 29
+        versionName "2.6.5"
         setProperty("archivesBaseName", "FitsMe-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
