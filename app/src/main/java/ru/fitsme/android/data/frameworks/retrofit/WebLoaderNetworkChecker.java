@@ -138,6 +138,11 @@ public class WebLoaderNetworkChecker extends WebLoader {
         return checkNetwork(super.getReturnById(returnId));
     }
 
+    @Override
+    public Single<OkResponse<Order>> getOrderById(int orderId) {
+        return checkNetwork(super.getOrderById(orderId));
+    }
+
     private Single checkNetwork(Single single) {
         if (NetworkStatus.isOnline()) {
             MainViewModel.isOnline.set(true);

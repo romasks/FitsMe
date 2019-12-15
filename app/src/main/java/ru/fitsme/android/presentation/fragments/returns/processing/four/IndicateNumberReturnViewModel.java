@@ -1,6 +1,6 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.four;
 
-import org.jetbrains.annotations.NotNull;
+import javax.inject.Inject;
 
 import androidx.databinding.ObservableBoolean;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
@@ -12,13 +12,14 @@ import timber.log.Timber;
 
 public class IndicateNumberReturnViewModel extends BaseViewModel {
 
-    private final IReturnsInteractor returnsInteractor;
+    @Inject
+    IReturnsInteractor returnsInteractor;
 
     public ObservableBoolean isLoading = new ObservableBoolean(true);
 
-    public IndicateNumberReturnViewModel(@NotNull IReturnsInteractor returnsInteractor) {
-        this.returnsInteractor = returnsInteractor;
+    public IndicateNumberReturnViewModel() {
         inject(this);
+        returnsInteractor.setReturnOrderStep(4);
     }
 
     void init() {
@@ -39,6 +40,7 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccess(ReturnsOrderItem returnsOrder) {
+        returnsInteractor.setReturnId(returnsOrder.getId());
         navigation.goToReturnsBillingInfo(returnsOrder.getId());
     }
 

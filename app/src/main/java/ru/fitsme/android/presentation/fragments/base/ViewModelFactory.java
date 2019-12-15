@@ -1,10 +1,9 @@
 package ru.fitsme.android.presentation.fragments.base;
 
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
 import org.jetbrains.annotations.NotNull;
 
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
@@ -78,15 +77,15 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         } else if (modelClass.isAssignableFrom(HowToReturnViewModel.class)) {
             return (T) new HowToReturnViewModel();
         } else if (modelClass.isAssignableFrom(ChooseOrderReturnViewModel.class)) {
-            return (T) new ChooseOrderReturnViewModel((IOrdersInteractor) interactor);
+            return (T) new ChooseOrderReturnViewModel();
         } else if (modelClass.isAssignableFrom(ChooseItemReturnViewModel.class)) {
-            return (T) new ChooseItemReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new ChooseItemReturnViewModel();
         } else if (modelClass.isAssignableFrom(IndicateNumberReturnViewModel.class)) {
-            return (T) new IndicateNumberReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new IndicateNumberReturnViewModel();
         } else if (modelClass.isAssignableFrom(BillingInfoReturnViewModel.class)) {
-            return (T) new BillingInfoReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new BillingInfoReturnViewModel();
         } else if (modelClass.isAssignableFrom(VerifyDataReturnViewModel.class)) {
-            return (T) new VerifyDataReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new VerifyDataReturnViewModel();
         } else if (modelClass.isAssignableFrom(MainFragmentViewModel.class)) {
             return (T) new MainFragmentViewModel();
         }

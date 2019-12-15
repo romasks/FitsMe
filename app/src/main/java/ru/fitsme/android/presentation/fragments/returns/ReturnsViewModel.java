@@ -41,6 +41,31 @@ public class ReturnsViewModel extends BaseViewModel {
         mainFragment.goToCheckout();
     }
 
+    public void goToReturnsStepScreen() {
+        switch (returnsInteractor.getReturnOrderStep()) {
+            case 1:
+                navigation.goToReturnsHowTo();
+                return;
+            case 2:
+                navigation.goToReturnsChooseOrder();
+                return;
+            case 3:
+                navigation.goToReturnsChooseItems(returnsInteractor.getReturnOrderId());
+                return;
+            case 4:
+                navigation.goToReturnsIndicateNumber(returnsInteractor.getReturnId());
+                return;
+            case 5:
+                navigation.goToReturnsBillingInfo(returnsInteractor.getReturnId());
+                return;
+            case 6:
+                navigation.goToReturnsVerifyData(returnsInteractor.getReturnId());
+                return;
+            default:
+                navigation.goToReturnsHowTo();
+        }
+    }
+
     public void goToReturnsHowTo() {
         navigation.goToReturnsHowTo();
     }

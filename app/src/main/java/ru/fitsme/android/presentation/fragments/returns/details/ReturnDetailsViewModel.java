@@ -15,11 +15,15 @@ public class ReturnDetailsViewModel extends BaseViewModel {
     private IReturnsInteractor returnsInteractor;
 
     public ObservableBoolean isLoading = new ObservableBoolean(true);
-    public MutableLiveData<ReturnsOrder> returnsOrderLiveData = new MutableLiveData<>();
+    private MutableLiveData<ReturnsOrder> returnsOrderLiveData = new MutableLiveData<>();
 
     public ReturnDetailsViewModel(@NotNull IReturnsInteractor returnsInteractor) {
         this.returnsInteractor = returnsInteractor;
         inject(this);
+    }
+
+    public MutableLiveData<ReturnsOrder> getReturnsOrderLiveData() {
+        return returnsOrderLiveData;
     }
 
     public void init(int returnId) {
@@ -31,10 +35,6 @@ public class ReturnDetailsViewModel extends BaseViewModel {
     private void onSuccess(ReturnsOrder returnsOrder) {
         isLoading.set(false);
         returnsOrderLiveData.setValue(returnsOrder);
-    }
-
-    public MutableLiveData<ReturnsOrder> getReturnsOrderLiveData() {
-        return returnsOrderLiveData;
     }
 
     private void onError(Throwable throwable) {

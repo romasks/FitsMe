@@ -117,11 +117,6 @@ public class ReturnsInteractor implements IReturnsInteractor {
     }
 
     @Override
-    public void sendReturnOrder(ReturnsItem returnsItem) {
-
-    }
-
-    @Override
     public Single<ReturnsOrderItem> addItemToReturn(ReturnsItemRequest request) {
         return returnsActionRepository.addItemToReturn(request)
                 .observeOn(mainThread);
@@ -137,6 +132,36 @@ public class ReturnsInteractor implements IReturnsInteractor {
     public Single<ReturnsOrder> getReturnById(int returnId) {
         return returnsActionRepository.getReturnById(returnId)
                 .observeOn(mainThread);
+    }
+
+    @Override
+    public int getReturnOrderStep() {
+        return returnsActionRepository.getReturnOrderStep();
+    }
+
+    @Override
+    public int getReturnOrderId() {
+        return returnsActionRepository.getReturnOrderId();
+    }
+
+    @Override
+    public int getReturnId() {
+        return returnsActionRepository.getReturnId();
+    }
+
+    @Override
+    public void setReturnOrderStep(int step) {
+        returnsActionRepository.setReturnOrderStep(step);
+    }
+
+    @Override
+    public void setReturnOrderId(int orderId) {
+        returnsActionRepository.setReturnOrderStep(orderId);
+    }
+
+    @Override
+    public void setReturnId(int returnId) {
+        returnsActionRepository.setReturnId(returnId);
     }
 
     public static void setFavouriteMessage(String string) {

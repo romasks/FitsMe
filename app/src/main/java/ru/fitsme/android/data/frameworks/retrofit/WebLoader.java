@@ -273,4 +273,13 @@ abstract class WebLoader {
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError));
     }
+
+    public Single<OkResponse<Order>> getOrderById(int orderId) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getOrderById(TOKEN + authInfo.getToken(), orderId)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
 }

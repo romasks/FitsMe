@@ -1,30 +1,33 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.two;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
 import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
+import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import timber.log.Timber;
 
 public class ChooseOrderReturnViewModel extends BaseViewModel {
 
-    private final IOrdersInteractor ordersInteractor;
+    @Inject
+    IOrdersInteractor ordersInteractor;
+
+    @Inject
+    IReturnsInteractor returnsInteractor;
 
     public ObservableBoolean isLoading = new ObservableBoolean(true);
     private MutableLiveData<List<Order>> returnsOrdersLiveData = new MutableLiveData<>();
     private MutableLiveData<Boolean> returnsOrdersListIsEmpty = new MutableLiveData<>();
 
-    public ChooseOrderReturnViewModel(@NotNull IOrdersInteractor ordersInteractor) {
-        this.ordersInteractor = ordersInteractor;
+    public ChooseOrderReturnViewModel() {
         inject(this);
+        returnsInteractor.setReturnOrderStep(2);
     }
 
     void init() {
@@ -49,8 +52,9 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
         return returnsOrdersLiveData;
     }
 
-    public void goToReturnsChooseItems(Order returnsOrder) {
-        navigation.goToReturnsChooseItems(returnsOrder);
+    public void goToReturnsChooseItems(long orderId) {
+        returnsInteractor.setReturnOrderId((int) orderId);
+        navigation.goToReturnsChooseItems((int) orderId);
     }
 
     public void backToReturnsHowTo() {

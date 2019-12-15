@@ -29,9 +29,9 @@ import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
-import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.utils.OrderStatus;
 
 public interface ApiService {
@@ -43,18 +43,18 @@ public interface ApiService {
 
     @POST("viewed/")
     Single<OkResponse<LikedClothesItem>> likeItem(@Header("Authorization") String token,
-                                                @Body LikedItem likedItem);
+                                                  @Body LikedItem likedItem);
 
     @GET("clothes/")
     Single<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,
-                                             @Query("page") int page);
+                                               @Query("page") int page);
 
     @GET("clothes/sizes/")
     Single<OkResponse<List<ClotheSize>>> getClotheSizes(@Header("Authorization") String token);
 
     @GET("viewed/")
     Single<OkResponse<FavouritesPage>> getFavouritesClothes(@Header("Authorization") String token,
-                                                          @Query("page") int page);
+                                                            @Query("page") int page);
 
     @PUT("viewed/{itemId}/")
     Single<OkResponse<FavouritesItem>> removeItemFromFavourites(@Header("Authorization") String token,
@@ -62,11 +62,11 @@ public interface ApiService {
 
     @PUT("viewed/{itemId}/")
     Single<OkResponse<FavouritesItem>> restoreItemToFavourites(@Header("Authorization") String token,
-                                                                @Path("itemId") int itemId);
+                                                               @Path("itemId") int itemId);
 
     @POST("orders/items/")
     Single<OkResponse<OrderItem>> addItemToCart(@Header("Authorization") String token,
-                                              @Body OrderedItem orderedItem);
+                                                @Body OrderedItem orderedItem);
 
     @DELETE("orders/items/{itemId}/")
     Single<Response<Void>> removeItemFromCart(@Header("Authorization") String token,
@@ -74,26 +74,30 @@ public interface ApiService {
 
     @GET("orders/")
     Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
-                                           @Query("page") int page);
+                                             @Query("page") int page);
 
     @GET("orders/")
     Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
-                                           @Query("status") OrderStatus status);
+                                             @Query("status") OrderStatus status);
+
+    @GET("orders/{id}/")
+    Single<OkResponse<Order>> getOrderById(@Header("Authorization") String token,
+                                           @Path("id") long orderId);
 
     @GET("orders/return/")
     Single<OkResponse<OrdersPage>> getReturnsOrders(@Header("Authorization") String token);
 
     @PUT("orders/{id}/")
     Single<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
-                                            @Path("id") long orderId,
-                                            @Body OrderUpdate order);
+                                              @Path("id") long orderId,
+                                              @Body OrderUpdate order);
 
     @GET("profile/")
     Single<OkResponse<Profile>> getProfile(@Header("Authorization") String token);
 
     @PUT("profile/")
     Single<OkResponse<Profile>> setProfile(@Header("Authorization") String token,
-                                            @Body Profile profile);
+                                           @Body Profile profile);
 
     @GET("returns/")
     Single<OkResponse<ReturnsPage>> getReturnsClothes(@Header("Authorization") String token,

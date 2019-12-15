@@ -8,23 +8,17 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnIndicateNumberBinding;
-import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
 public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberReturnViewModel> implements IndicateNumberReturnBindingEvents, BackClickListener {
-
-    @Inject
-    IReturnsInteractor returnsInteractor;
 
     private static final String KEY_RETURN_ID = "RETURN_ID";
 
@@ -58,7 +52,7 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
         }
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(IndicateNumberReturnViewModel.class);
+                new ViewModelFactory()).get(IndicateNumberReturnViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

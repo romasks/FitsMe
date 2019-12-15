@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -16,17 +14,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnVerifyDataBinding;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
-import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewModel> implements VerifyDataReturnBindingEvents, BackClickListener {
-
-    @Inject
-    IReturnsInteractor returnsInteractor;
 
     private static final String KEY_RETURN_ID = "RETURN_ID";
 
@@ -58,11 +52,10 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
 
         if (getArguments() != null) {
             returnId = getArguments().getInt(KEY_RETURN_ID);
-//            binding.setReturnsItem(returnsItem);
         }
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(VerifyDataReturnViewModel.class);
+                new ViewModelFactory()).get(VerifyDataReturnViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init(returnId);
         }
@@ -75,7 +68,12 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
         binding.returnOrderItemsListRv.setHasFixedSize(true);
         binding.returnOrderItemsListRv.setAdapter(adapter);
 
-//        adapter.setItems(returnsItem.getItems());
+        viewModel.getReturnsOrderLiveData().observeForever(this::onLoadReturnById);
+    }
+
+    private void onLoadReturnById(ReturnsOrder returnsOrder) {
+        binding.setReturnsOrder(returnsOrder);
+        adapter.setItems(returnsOrder.getReturnItemsList());
     }
 
     @Override
@@ -85,7 +83,7 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
 
     @Override
     public void onNext() {
-//        viewModel.sendReturnOrder(returnsItem);
+        viewModel.sendReturnOrder(returnId);
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).showBottomNavbar();
         }

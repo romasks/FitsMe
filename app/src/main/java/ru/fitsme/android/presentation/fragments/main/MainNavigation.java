@@ -142,8 +142,8 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItems(Order returnsOrder) {
-        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, returnsOrder);
+    public void goToReturnsChooseItems(int orderId) {
+        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, orderId);
     }
 
     public void goToReturnsIndicateNumber(int returnId) {

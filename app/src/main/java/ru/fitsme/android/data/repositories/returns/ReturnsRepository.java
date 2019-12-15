@@ -2,14 +2,13 @@ package ru.fitsme.android.data.repositories.returns;
 
 import android.annotation.SuppressLint;
 
-import androidx.annotation.NonNull;
-import androidx.paging.PageKeyedDataSource;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.paging.PageKeyedDataSource;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;

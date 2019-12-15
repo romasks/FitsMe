@@ -28,9 +28,6 @@ import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnViewModel> implements ChooseOrderReturnBindingEvents, BackClickListener {
 
-    @Inject
-    IOrdersInteractor ordersInteractor;
-
     private FragmentReturnChooseOrderBinding binding;
     private ReturnOrdersAdapter adapter;
 
@@ -53,7 +50,7 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(ordersInteractor)).get(ChooseOrderReturnViewModel.class);
+                new ViewModelFactory()).get(ChooseOrderReturnViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

@@ -7,8 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="returnsItem"
-            type="ru.fitsme.android.domain.entities.returns.ReturnsItem" />
+            name="returnsOrder"
+            type="ru.fitsme.android.domain.entities.returns.ReturnsOrder" />
 
         <variable
             name="viewModel"
@@ -59,7 +59,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="@dimen/padding_medium"
                     android:layout_marginTop="@dimen/padding_medium"
-                    android:text="@{@string/returns_number_tv(returnsItem.number)}"
+                    android:text="@{@string/returns_number_tv(returnsOrder.order)}"
                     tools:text="Заказ #123" />
 
                 <TextView
@@ -81,8 +81,8 @@
                     android:layout_below="@id/order_number"
                     android:layout_toEndOf="@id/order_status_text"
                     android:paddingBottom="12dp"
-                    android:text="@{returnsItem.status}"
-                    android:textColor="#8A000000"
+                    android:text="@{returnsOrder.statusName}"
+                    android:textColor="@{returnsOrder.statusColor}"
                     tools:text="черновик" />
 
                 <TextView
@@ -93,7 +93,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/padding_medium"
-                    android:text="@{returnsItem.date}"
+                    android:text="@{returnsOrder.date}"
                     tools:text="31.12.2019" />
 
                 <TextView
@@ -137,7 +137,7 @@
                     android:layout_below="@id/return_order_items_list_rv"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/padding_medium"
-                    android:text="@{@string/returns_price_value(returnsItem.price)}"
+                    android:text="@{@string/returns_price_value(returnsOrder.summ)}"
                     tools:text="6000 руб" />
 
                 <TextView
@@ -154,7 +154,7 @@
                     android:layout_below="@id/item_return_price"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/padding_medium"
-                    android:text="@{returnsItem.calculationMethod}"
+                    android:text="Банковская карта"
                     tools:text="Банковская карта" />
 
                 <TextView
@@ -171,7 +171,7 @@
                     android:layout_below="@id/item_return_calculation_method"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/padding_medium"
-                    android:text="@{returnsItem.hiddenCardNumber}"
+                    android:text="@{returnsOrder.hiddenCardNumber}"
                     tools:text="**** **** **** 1234" />
 
             </RelativeLayout>

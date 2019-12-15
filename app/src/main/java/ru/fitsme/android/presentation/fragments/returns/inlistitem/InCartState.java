@@ -17,6 +17,6 @@ public class InCartState extends InListItemState {
 
     @Override
     public void onClick(ReturnsViewModel viewModel, int position, int returnsId) {
-        viewModel.goToCheckout();
+        viewModel.goToReturnsStepScreen();
     }
 }
