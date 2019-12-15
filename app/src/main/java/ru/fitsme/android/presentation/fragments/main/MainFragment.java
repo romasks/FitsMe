@@ -100,7 +100,9 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
 
         viewModel = ViewModelProviders.of(this,
                 new ViewModelFactory(null)).get(MainFragmentViewModel.class);
-
+        if (savedInstanceState == null) {
+            viewModel.init();
+        }
         navigator = getFragmentNavigator();
         initBottomNavigation(view);
     }
