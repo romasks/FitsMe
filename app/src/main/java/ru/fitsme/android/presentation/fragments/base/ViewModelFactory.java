@@ -17,6 +17,7 @@ import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoViewModel;
 import ru.fitsme.android.presentation.fragments.main.MainFragmentViewModel;
+import ru.fitsme.android.presentation.fragments.orders.OrdersHistoryViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
@@ -70,6 +71,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new MainProfileViewModel((IProfileInteractor) interactor);
         } else if (modelClass.isAssignableFrom(SizeProfileViewModel.class)) {
             return (T) new SizeProfileViewModel((IProfileInteractor) interactor);
+        } else if (modelClass.isAssignableFrom(OrdersHistoryViewModel.class)) {
+            return (T) new OrdersHistoryViewModel();
         } else if (modelClass.isAssignableFrom(ReturnsViewModel.class)) {
             return (T) new ReturnsViewModel((IReturnsInteractor) interactor);
         } else if (modelClass.isAssignableFrom(ReturnDetailsViewModel.class)) {

@@ -30,6 +30,7 @@ import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
+import ru.fitsme.android.presentation.fragments.orders.OrdersHistoryFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
@@ -201,7 +202,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                     case NAV_TYPE_PROFILE:
                         break;
                     case NAV_ORDER_HISTORY_PROFILE:
-                        break;
+                        return OrdersHistoryFragment.newInstance();
                     case NAV_ORDER_RETURN_PROFILE:
                         return ReturnsFragment.newInstance();
                     case NAV_RETURN_DETAILS:
