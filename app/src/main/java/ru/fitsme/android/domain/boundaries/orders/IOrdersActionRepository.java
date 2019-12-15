@@ -22,4 +22,6 @@ public interface IOrdersActionRepository {
     Single<OrderItem> removeItemFromOrder(OrderItem item);
 
     Single<OrderItem> restoreItemToOrder(OrderItem item);
+
+    Single<Order> getOrderById(int orderId);
 }

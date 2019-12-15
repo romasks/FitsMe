@@ -12,16 +12,12 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnBillingInfoBinding;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
-import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
@@ -29,9 +25,6 @@ import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import static ru.fitsme.android.utils.Constants.CARD_NUMBER_MASK;
 
 public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnViewModel> implements BillingInfoReturnBindingEvents, BackClickListener {
-
-    @Inject
-    IReturnsInteractor returnsInteractor;
 
     private static final String KEY_RETURN_ID = "RETURN_ID";
 
@@ -69,7 +62,7 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
         }
 
         viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(BillingInfoReturnViewModel.class);
+                new ViewModelFactory()).get(BillingInfoReturnViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }

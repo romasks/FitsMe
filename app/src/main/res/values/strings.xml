@@ -133,6 +133,7 @@
     <string name="returns_indicate_number_header">Укажите трек-номер</string>
     <string name="returns_billing_info_header">Платёжные данные</string>
     <string name="returns_verify_data_header">Проверьте данные</string>
+    <string name="returns_details_header">Детали возврата</string>
 
     <string name="returns_how_to_header_text">Товар, заказанный на FitsMe и не подошедший по каким-либо причинам (форма, габариты, фасон, расцветка, размер и комплектация), может быть возвращен в течение 14 дней, не считая дня покупки.</string>
     <string name="returns_how_to_text_with_list">Для осуществления возврата нужно выполнить следующие действия:\n\n1. Выберите заказ из списка;\n\n2. Отметьте вещи, которые хотите вернуть;\n\n3. Отправьте товар;\n\n4. Укажите код отслеживания полученный в отделении почты;\n\n5. Укажите реквизиты для платежа;\n\n6. Ожидайте уведомление о поступлении товара на склад. После этого денежные средства будут возмещены на вашу банковскую карту.</string>
@@ -152,11 +153,16 @@
     <string name="returns_button_formalize_return">Оформить возврат</string>
     <string name="returns_button_next">Далее</string>
     <string name="returns_button_to_returns">К списку возвратов</string>
+    <string name="returns_button_continue">Продолжить оформление</string>
 
     <string name="returns_list_text">Список товаров:</string>
 
     <string name="no_orders_to_return">Нету заказов к возврату</string>
     <string name="returns_orders_go_to_cart_btn_text">Перейти в корзину</string>
+
+    <!--orders-->
+    <string name="orders_empty_list_title">Вы пока ничего не заказали</string>
+    <string name="orders_go_to_catalog_btn_text">Перейти в каталог</string>
 
     <!-- FilterFragment -->
     <string name="filter_title">Фильтр</string>

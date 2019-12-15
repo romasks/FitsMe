@@ -75,7 +75,7 @@ public class MainProfileFragment extends BaseFragment<MainProfileViewModel> impl
 
     @Override
     public void onOrdersHistoryClick() {
-
+        viewModel.goToOrderHistoryProfile();
     }
 
     @Override

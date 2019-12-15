@@ -1,10 +1,9 @@
 package ru.fitsme.android.presentation.fragments.base;
 
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
 import org.jetbrains.annotations.NotNull;
 
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
@@ -19,10 +18,12 @@ import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
 import ru.fitsme.android.presentation.fragments.filters.FiltersViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoViewModel;
 import ru.fitsme.android.presentation.fragments.main.MainFragmentViewModel;
+import ru.fitsme.android.presentation.fragments.orders.OrdersHistoryViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
+import ru.fitsme.android.presentation.fragments.returns.details.ReturnDetailsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.four.IndicateNumberReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnViewModel;
@@ -71,20 +72,24 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new MainProfileViewModel((IProfileInteractor) interactor);
         } else if (modelClass.isAssignableFrom(SizeProfileViewModel.class)) {
             return (T) new SizeProfileViewModel((IProfileInteractor) interactor);
+        } else if (modelClass.isAssignableFrom(OrdersHistoryViewModel.class)) {
+            return (T) new OrdersHistoryViewModel();
         } else if (modelClass.isAssignableFrom(ReturnsViewModel.class)) {
             return (T) new ReturnsViewModel((IReturnsInteractor) interactor);
+        } else if (modelClass.isAssignableFrom(ReturnDetailsViewModel.class)) {
+            return (T) new ReturnDetailsViewModel((IReturnsInteractor) interactor);
         } else if (modelClass.isAssignableFrom(HowToReturnViewModel.class)) {
             return (T) new HowToReturnViewModel();
         } else if (modelClass.isAssignableFrom(ChooseOrderReturnViewModel.class)) {
-            return (T) new ChooseOrderReturnViewModel((IOrdersInteractor) interactor);
+            return (T) new ChooseOrderReturnViewModel();
         } else if (modelClass.isAssignableFrom(ChooseItemReturnViewModel.class)) {
-            return (T) new ChooseItemReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new ChooseItemReturnViewModel();
         } else if (modelClass.isAssignableFrom(IndicateNumberReturnViewModel.class)) {
-            return (T) new IndicateNumberReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new IndicateNumberReturnViewModel();
         } else if (modelClass.isAssignableFrom(BillingInfoReturnViewModel.class)) {
-            return (T) new BillingInfoReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new BillingInfoReturnViewModel();
         } else if (modelClass.isAssignableFrom(VerifyDataReturnViewModel.class)) {
-            return (T) new VerifyDataReturnViewModel((IReturnsInteractor) interactor);
+            return (T) new VerifyDataReturnViewModel();
         } else if (modelClass.isAssignableFrom(MainFragmentViewModel.class)) {
             return (T) new MainFragmentViewModel();
         } else if (modelClass.isAssignableFrom(FiltersViewModel.class)) {

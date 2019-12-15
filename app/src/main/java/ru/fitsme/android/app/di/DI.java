@@ -24,7 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
+import ru.fitsme.android.data.frameworks.sharedpreferences.IReturnsStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
+import ru.fitsme.android.data.frameworks.sharedpreferences.ReturnsStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.SettingsStorage;
 import ru.fitsme.android.data.repositories.auth.AuthRepository;
 import ru.fitsme.android.data.repositories.auth.SignRepository;
@@ -101,6 +103,7 @@ public class DI {
 
             bind(IAuthInfoStorage.class).to(AuthInfoStorage.class);
             bind(ISettingsStorage.class).to(SettingsStorage.class);
+            bind(IReturnsStorage.class).to(ReturnsStorage.class);
 
             bind(IReturnsInteractor.class).to(ReturnsInteractor.class);
             bind(IReturnsRepository.class).to(ReturnsRepository.class);

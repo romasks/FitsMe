@@ -30,7 +30,8 @@ import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.utils.OrderStatus;
@@ -246,7 +247,7 @@ abstract class WebLoader {
                 ));
     }
 
-    public Single<OkResponse<ReturnsOrder>> addItemToReturn(ReturnsItemRequest request) {
+    public Single<OkResponse<ReturnsOrderItem>> addItemToReturn(ReturnsItemRequest request) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.addItemToReturn(TOKEN + authInfo.getToken(), request)
@@ -255,7 +256,7 @@ abstract class WebLoader {
                         emitter::onError));
     }
 
-    public Single<OkResponse<ReturnsOrder>> changeReturnsPayment(ReturnsPaymentRequest request) {
+    public Single<OkResponse<ReturnsOrderItem>> changeReturnsPayment(ReturnsPaymentRequest request) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.changeReturnsPayment(TOKEN + authInfo.getToken(), request.getReturnId(), request)
@@ -268,6 +269,15 @@ abstract class WebLoader {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.getReturnById(TOKEN + authInfo.getToken(), returnId)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<Order>> getOrderById(int orderId) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getOrderById(TOKEN + authInfo.getToken(), orderId)
                                 .subscribeOn(workThread)
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError));

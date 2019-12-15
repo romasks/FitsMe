@@ -35,6 +35,10 @@ public class MainProfileViewModel extends BaseViewModel {
         navigation.goToSizeProfile();
     }
 
+    public void goToOrderHistoryProfile() {
+        navigation.goToOrderHistoryProfile();
+    }
+
     public void goToOrdersReturn() {
         navigation.goToOrdersReturn();
     }

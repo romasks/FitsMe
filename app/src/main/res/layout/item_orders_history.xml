@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.returns.processing.two.ChooseOrderReturnViewModel" />
+            type="ru.fitsme.android.presentation.fragments.orders.OrdersHistoryViewModel" />
 
         <variable
             name="order"
@@ -23,7 +23,6 @@
         android:layout_height="100dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{v -> viewModel.goToReturnsChooseItems(order.orderId)}"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -61,16 +60,6 @@
                 tools:text="Время на возврат: 6 дней" />
 
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/right_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/padding_medium"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
         <View
             android:layout_width="match_parent"

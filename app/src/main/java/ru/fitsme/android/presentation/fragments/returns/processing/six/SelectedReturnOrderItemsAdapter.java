@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemReturnItemSelectedBinding;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 
 public class SelectedReturnOrderItemsAdapter extends RecyclerView.Adapter<SelectedReturnOrderItemsAdapter.ReturnSelectedOrderItemsViewHolder> {
 
     private VerifyDataReturnViewModel viewModel;
-    private List<ClothesItem> items;
+    private List<ReturnsOrderItem> items;
 
     SelectedReturnOrderItemsAdapter(VerifyDataReturnViewModel viewModel) {
         this.viewModel = viewModel;
@@ -42,17 +42,17 @@ public class SelectedReturnOrderItemsAdapter extends RecyclerView.Adapter<Select
         return items == null ? 0 : items.size();
     }
 
-    void setItems(List<ClothesItem> items) {
-        List<ClothesItem> selectedItemsList = new ArrayList<>();
-        for (ClothesItem item : items) {
-            if (item.isCheckedForReturn()) {
+    void setItems(List<ReturnsOrderItem> items) {
+        List<ReturnsOrderItem> selectedItemsList = new ArrayList<>();
+        for (ReturnsOrderItem item : items) {
+            if (item.getOrderItem().getClothe().isCheckedForReturn()) {
                 selectedItemsList.add(item);
             }
         }
         this.items = selectedItemsList;
     }
 
-    private ClothesItem getItem(int position) {
+    private ReturnsOrderItem getItem(int position) {
         return items.get(position);
     }
 
@@ -65,7 +65,7 @@ public class SelectedReturnOrderItemsAdapter extends RecyclerView.Adapter<Select
         }
 
         void bind(int position) {
-            binding.setVariable(BR.clothesItem, getItem(position));
+            binding.setVariable(BR.clothesItem, getItem(position).getOrderItem().getClothe());
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();

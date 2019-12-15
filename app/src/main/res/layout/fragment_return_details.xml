@@ -12,11 +12,11 @@
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.returns.processing.six.VerifyDataReturnViewModel" />
+            type="ru.fitsme.android.presentation.fragments.returns.details.ReturnDetailsViewModel" />
 
         <variable
             name="bindingEvents"
-            type="ru.fitsme.android.presentation.fragments.returns.processing.six.VerifyDataReturnBindingEvents" />
+            type="ru.fitsme.android.presentation.fragments.returns.details.ReturnDetailsBindingEvents" />
     </data>
 
     <LinearLayout
@@ -36,7 +36,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/fragment_checkout_loading_tv"
@@ -93,7 +93,9 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/padding_medium"
-                    android:text="@{returnsOrder.date}"
+                    android:layout_toEndOf="@id/order_status_value"
+                    android:gravity="end"
+                    android:text="@{returnsOrder.getFormattedDate()}"
                     tools:text="31.12.2019" />
 
                 <TextView
@@ -183,8 +185,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_large"
             android:background="@drawable/bg_to_cart_btn"
-            android:onClick="@{() -> bindingEvents.onNext()}"
-            android:text="@string/returns_button_to_returns"
+            android:onClick="@{() -> bindingEvents.onContinueMakeReturn()}"
+            android:text="@string/returns_button_continue"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_lower_medium" />

@@ -4,7 +4,6 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsAdapter;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
-import timber.log.Timber;
 
 public class NormalState extends InListItemState {
     public NormalState(ReturnsAdapter.InListViewHolder viewHolder) {
@@ -17,12 +16,7 @@ public class NormalState extends InListItemState {
     }
 
     @Override
-    public void onClick(ReturnsViewModel viewModel, int position) {
-        /*viewModel.addItemToCart(position)
-                .subscribe(orderItem -> {
-                    if (orderItem.getId() != 0){
-                        viewHolder.setItemState(new InCartState(viewHolder));
-                    }
-                }, Timber::e);*/
+    public void onClick(ReturnsViewModel viewModel, int position, int returnId) {
+        viewModel.goToReturnDetails(returnId);
     }
 }
