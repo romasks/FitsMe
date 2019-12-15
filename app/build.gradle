@@ -20,8 +20,8 @@ android {
         applicationId "ru.fitsme.android"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 28
-        versionName "2.6.4"
+        versionCode 29
+        versionName "2.6.5"
         setProperty("archivesBaseName", "FitsMe-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -114,4 +114,10 @@ dependencies {
     implementation "ru.tinkoff.decoro:decoro:1.1.1"
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50'
+
+    //room
+    def room_version = "2.2.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 }

@@ -145,7 +145,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void onClickFilter() {
-        Timber.d("onClickFilter()");
+        viewModel.onFilterClicked();
     }
 
     public void setFullItemInfoState(boolean b) {

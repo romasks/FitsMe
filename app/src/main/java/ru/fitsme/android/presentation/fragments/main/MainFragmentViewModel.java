@@ -7,4 +7,8 @@ public class MainFragmentViewModel extends BaseViewModel {
     public void onBackPressed() {
 
     }
+
+    public void init() {
+
+    }
 }

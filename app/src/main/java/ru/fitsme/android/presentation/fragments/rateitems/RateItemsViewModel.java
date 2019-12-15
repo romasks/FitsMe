@@ -38,4 +38,8 @@ public class RateItemsViewModel extends BaseViewModel {
     public void onBackPressed() {
         navigation.finish();
     }
+
+    public void onFilterClicked() {
+        navigation.goToFilter();
+    }
 }

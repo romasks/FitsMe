@@ -6,6 +6,7 @@ import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
 import ru.fitsme.android.app.di.DI;
+import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import timber.log.Timber;
 
@@ -26,6 +27,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AppDatabase.create(this);
         Fabric.with(this, new Crashlytics());
 
         Timber.plant(new Timber.DebugTree());

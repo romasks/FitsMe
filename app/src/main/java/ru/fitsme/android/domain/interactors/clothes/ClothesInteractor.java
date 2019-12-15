@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -82,5 +83,20 @@ public class ClothesInteractor implements IClothesInteractor {
     @Override
     public LiveData<ClotheInfo> getClotheInfoLiveData() {
         return clotheInfoMutableLiveData;
+    }
+
+    @Override
+    public List<String> getProductNames(){
+        return null;
+    }
+
+    @Override
+    public List<String> getBrands(){
+        return null;
+    }
+
+    @Override
+    public List<String> getColors(){
+        return null;
     }
 }
