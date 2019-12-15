@@ -33,7 +33,8 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
 
     public ChooseItemReturnViewModel() {
         inject(this);
-        returnsInteractor.setReturnOrderStep(3);
+        if (returnsInteractor.getReturnOrderStep() < 3)
+            returnsInteractor.setReturnOrderStep(3);
     }
 
     void init(long orderId) {

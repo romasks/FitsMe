@@ -6,6 +6,7 @@ import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
@@ -21,7 +22,8 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
 
     public VerifyDataReturnViewModel() {
         inject(this);
-        returnsInteractor.setReturnOrderStep(6);
+        if (returnsInteractor.getReturnOrderStep() < 6)
+            returnsInteractor.setReturnOrderStep(6);
     }
 
     public MutableLiveData<ReturnsOrder> getReturnsOrderLiveData() {
@@ -45,7 +47,13 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
     }
 
     public void sendReturnOrder(int returnId) {
-        returnsInteractor.changeReturnsPayment(new ReturnsPaymentRequest(returnId, null, null, OrderStatus.ISU.toString()));
+        addDisposable(returnsInteractor.changeReturnsPayment(
+                new ReturnsPaymentRequest(returnId, null, null, OrderStatus.ISU.toString())
+        ).subscribe(this::onSuccessConfirm, this::onError));
+    }
+
+    private void onSuccessConfirm(ReturnsOrderItem returnsOrderItem) {
+        returnsInteractor.setReturnOrderStep(0);
         navigation.goToOrdersReturn();
     }
 

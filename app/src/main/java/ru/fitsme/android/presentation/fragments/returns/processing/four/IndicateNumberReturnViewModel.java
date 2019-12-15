@@ -19,7 +19,8 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
 
     public IndicateNumberReturnViewModel() {
         inject(this);
-        returnsInteractor.setReturnOrderStep(4);
+        if (returnsInteractor.getReturnOrderStep() < 4)
+            returnsInteractor.setReturnOrderStep(4);
     }
 
     void init() {

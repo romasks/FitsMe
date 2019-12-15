@@ -27,7 +27,8 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
 
     public ChooseOrderReturnViewModel() {
         inject(this);
-        returnsInteractor.setReturnOrderStep(2);
+        if (returnsInteractor.getReturnOrderStep() < 2)
+            returnsInteractor.setReturnOrderStep(2);
     }
 
     void init() {

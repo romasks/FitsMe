@@ -19,7 +19,8 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
 
     public BillingInfoReturnViewModel() {
         inject(this);
-        returnsInteractor.setReturnOrderStep(5);
+        if (returnsInteractor.getReturnOrderStep() < 5)
+            returnsInteractor.setReturnOrderStep(5);
     }
 
     void init() {
