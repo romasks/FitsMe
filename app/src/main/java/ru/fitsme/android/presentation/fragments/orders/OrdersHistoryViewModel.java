@@ -25,7 +25,8 @@ public class OrdersHistoryViewModel extends BaseViewModel {
         inject(this);
     }
 
-    void init() {
+    @Override
+    protected void init() {
         isLoading.set(true);
         ordersListIsEmpty.setValue(true);
         addDisposable(ordersInteractor.getReturnOrders()

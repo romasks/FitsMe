@@ -1,8 +1,9 @@
 package ru.fitsme.android.domain.entities.favourites;
 
 import java.util.Date;
-import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
 public class FavouritesItem {
@@ -58,4 +59,17 @@ public class FavouritesItem {
         result = 31 * result + getAddDatetime().hashCode();
         return result;
     }
+
+    public static DiffUtil.ItemCallback<FavouritesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<FavouritesItem>() {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 }

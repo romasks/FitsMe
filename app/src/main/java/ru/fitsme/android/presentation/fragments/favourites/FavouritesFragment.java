@@ -1,32 +1,16 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.jetbrains.annotations.NotNull;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
-import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
-import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
@@ -34,76 +18,53 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
         FavouritesAdapter.OnItemClickCallback {
 
-    @Inject
-    IFavouritesInteractor favouritesInteractor;
-
     private FragmentFavouritesBinding binding;
     private FavouritesAdapter adapter;
-    private LinearLayoutManager linearLayoutManager;
-
-    static DiffUtil.ItemCallback<FavouritesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<FavouritesItem>() {
-
-        @Override
-        public boolean areItemsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull FavouritesItem oldItem, @NonNull FavouritesItem newItem) {
-            return oldItem.equals(newItem);
-        }
-    };
 
     public static FavouritesFragment newInstance() {
         return new FavouritesFragment();
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favourites, container, false);
-        binding.setBindingEvents(this);
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_favourites;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(favouritesInteractor)).get(FavouritesViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
+    protected void afterCreateView(View view) {
+        binding = FragmentFavouritesBinding.bind(view);
+        binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        setUp();
+    }
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        adapter = new FavouritesAdapter(viewModel, this);
-
-        binding.favouritesListRv.setLayoutManager(linearLayoutManager);
-        binding.favouritesListRv.setHasFixedSize(true);
-        binding.favouritesListRv.setAdapter(adapter);
-
-        viewModel.getPageLiveData().observe(
-                this, this::onLoadPage);
-
-        viewModel.getFavouritesIsEmpty().observe(this, this::onFavouritesIsEmpty);
-
+    private void setUp() {
         ItemTouchHelper.SimpleCallback simpleCallback =
                 new FavouritesRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.favouritesListRv);
+    }
+
+    @Override
+    protected void setUpRecyclers() {
+        adapter = new FavouritesAdapter(viewModel, this);
+
+        binding.favouritesListRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.favouritesListRv.setHasFixedSize(true);
+        binding.favouritesListRv.setAdapter(adapter);
+    }
+
+    @Override
+    protected void setUpObservers() {
+        viewModel.getPageLiveData().observe(this, this::onLoadPage);
+        viewModel.getFavouritesIsEmpty().observe(this, this::onFavouritesIsEmpty);
     }
 
     private void onLoadPage(PagedList<FavouritesItem> pagedList) {
         adapter.submitList(pagedList);
     }
 
-    private void onFavouritesIsEmpty(Boolean b) {
-        if (b) {
-            binding.favouritesNoItemsGroup.setVisibility(View.VISIBLE);
-        } else {
-            binding.favouritesNoItemsGroup.setVisibility(View.GONE);
-        }
+    private void onFavouritesIsEmpty(Boolean hasNoItems) {
+        binding.favouritesNoItemsGroup.setVisibility(hasNoItems ? View.VISIBLE : View.GONE);
     }
 
     @SuppressLint("CheckResult")
@@ -121,9 +82,10 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     @Override
     public void onClickGoToRateItems() {
-        if (getParentFragment() != null) {
+        viewModel.goToRateItems();
+        /*if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToRateItems();
-        }
+        }*/
     }
 
     @Override

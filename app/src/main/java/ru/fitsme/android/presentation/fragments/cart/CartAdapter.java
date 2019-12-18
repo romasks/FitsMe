@@ -32,7 +32,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
     private static final int REMOVED_TYPE = 2;
 
     CartAdapter(CartViewModel viewModel, CartAdapter.OnItemClickCallback callback) {
-        super(CartFragment.DIFF_CALLBACK);
+        super(OrderItem.DIFF_CALLBACK);
         this.viewModel = viewModel;
         this.callback = callback;
     }

@@ -1,33 +1,23 @@
 package ru.fitsme.android.presentation.fragments.checkout;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
 import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import timber.log.Timber;
 
@@ -35,9 +25,6 @@ import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
 import static ru.fitsme.android.utils.Constants.RU_PHONE_PREFIX;
 
 public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements CheckoutBindingEvents {
-
-    @Inject
-    IOrdersInteractor ordersInteractor;
 
     private FragmentCheckoutBinding binding;
     private boolean isMaskFilled = false;
@@ -47,25 +34,25 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_checkout, container, false);
-        binding.setBindingEvents(this);
-        initPhoneFieldListener(binding.phoneNumber);
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_checkout;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(ordersInteractor)).get(CheckoutViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
+    protected void afterCreateView(View view) {
+        binding = FragmentCheckoutBinding.bind(view);
+        binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        initPhoneFieldListener(binding.phoneNumber);
+    }
 
+    @Override
+    protected void setUpRecyclers() {
+
+    }
+
+    @Override
+    protected void setUpObservers() {
         viewModel.getOrderLiveData().observe(this, this::onLoadOrder);
         viewModel.getSuccessMakeOrderLiveData().observe(this, this::onSuccessMakeOrder);
     }
