@@ -18,9 +18,7 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemCartBinding;
 import ru.fitsme.android.databinding.ItemCartRemovedBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.presentation.fragments.favourites.FavouritesAdapter;
 import timber.log.Timber;
 
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartViewHolder> {
@@ -123,7 +121,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
     }
 
 
-    public interface OnItemClickCallback{
+    public interface OnItemClickCallback {
         void setDetailView(OrderItem orderItem);
     }
 }
