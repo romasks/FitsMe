@@ -83,9 +83,9 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
         binding.returnsListRv.setHasFixedSize(true);
         binding.returnsListRv.setAdapter(adapter);
 
-        viewModel.getPageLiveData().observe(this, this::onLoadPage);
+        viewModel.getPageLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
 
-        viewModel.getReturnsIsEmpty().observe(this, this::onReturnsIsEmpty);
+        viewModel.getReturnsIsEmpty().observe(getViewLifecycleOwner(), this::onReturnsIsEmpty);
     }
 
     private void onLoadPage(PagedList<ReturnsOrder> pagedList) {

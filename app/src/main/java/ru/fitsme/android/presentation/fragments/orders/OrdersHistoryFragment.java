@@ -51,8 +51,8 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
 
     @Override
     protected void setUpObservers() {
-        viewModel.getOrdersListLiveData().observe(this, this::onLoadPage);
-        viewModel.getOrdersListIsEmpty().observe(this, this::onReturnsOrdersIsEmpty);
+        viewModel.getOrdersListLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
+        viewModel.getOrdersListIsEmpty().observe(getViewLifecycleOwner(), this::onReturnsOrdersIsEmpty);
     }
 
     @Override

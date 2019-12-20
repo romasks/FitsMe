@@ -3,12 +3,9 @@ package ru.fitsme.android.presentation.fragments.cart;
 import android.annotation.SuppressLint;
 import android.view.View;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
@@ -22,9 +19,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
         implements CartBindingEvents,
         CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
         CartAdapter.OnItemClickCallback {
-
-    @Inject
-    private LifecycleOwner mNavigatorOwner;
 
     private FragmentCartBinding binding;
     private CartAdapter adapter;
@@ -71,8 +65,8 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     protected void setUpObservers() {
-        viewModel.getPageLiveData().observe(mNavigatorOwner, this::onLoadPage);
-        viewModel.getCartIsEmpty().observe(mNavigatorOwner, this::onCartIsEmpty);
+        viewModel.getPageLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
+        viewModel.getCartIsEmpty().observe(getViewLifecycleOwner(), this::onCartIsEmpty);
     }
 
     private void onLoadPage(PagedList<OrderItem> pagedList) {

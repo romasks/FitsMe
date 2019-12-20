@@ -78,7 +78,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         viewModel.init();
 
         viewModel.getClotheInfoLiveData()
-                .observe(this, this::onChange);
+                .observe(getViewLifecycleOwner(), this::onChange);
     }
 
     @Override

@@ -63,9 +63,9 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
         binding.returnOrdersListRv.setHasFixedSize(true);
         binding.returnOrdersListRv.setAdapter(adapter);
 
-        viewModel.getReturnsOrdersLiveData().observe(this, this::onLoadPage);
+        viewModel.getReturnsOrdersLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
 
-        viewModel.getReturnsOrdersIsEmpty().observe(this, this::onReturnsOrdersIsEmpty);
+        viewModel.getReturnsOrdersIsEmpty().observe(getViewLifecycleOwner(), this::onReturnsOrdersIsEmpty);
     }
 
     private void onReturnsOrdersIsEmpty(Boolean isEmpty) {

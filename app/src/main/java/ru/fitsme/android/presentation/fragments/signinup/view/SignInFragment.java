@@ -54,8 +54,7 @@ public class SignInFragment extends BaseFragment<SignInViewModel> implements Sig
             viewModel.init();
         }
 
-        viewModel.getFieldsStateLiveData()
-                .observe(this, this::onStateChanged);
+        viewModel.getFieldsStateLiveData().observe(getViewLifecycleOwner(), this::onStateChanged);
     }
 
     private void onStateChanged(SignInUpState signInUpState) {

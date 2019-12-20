@@ -53,8 +53,8 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
 
     @Override
     protected void setUpObservers() {
-        viewModel.getOrderLiveData().observe(this, this::onLoadOrder);
-        viewModel.getSuccessMakeOrderLiveData().observe(this, this::onSuccessMakeOrder);
+        viewModel.getOrderLiveData().observe(getViewLifecycleOwner(), this::onLoadOrder);
+        viewModel.getSuccessMakeOrderLiveData().observe(getViewLifecycleOwner(), this::onSuccessMakeOrder);
     }
 
     private void onLoadOrder(Order order) {

@@ -74,7 +74,7 @@ public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel> 
         binding.returnOrderItemsListRv.setHasFixedSize(true);
         binding.returnOrderItemsListRv.setAdapter(adapter);
 
-        viewModel.getReturnsOrderLiveData().observeForever(this::onLoadReturnById);
+        viewModel.getReturnsOrderLiveData().observe(getViewLifecycleOwner(), this::onLoadReturnById);
     }
 
     private void onLoadReturnById(ReturnsOrder returnsOrder) {

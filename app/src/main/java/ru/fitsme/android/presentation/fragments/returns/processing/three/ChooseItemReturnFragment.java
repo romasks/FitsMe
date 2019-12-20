@@ -69,8 +69,8 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         binding.returnOrderItemsListRv.setHasFixedSize(true);
         binding.returnOrderItemsListRv.setAdapter(adapter);
 
-        viewModel.getErrorMsgLiveData().observeForever(this::onErrorMsg);
-        viewModel.getOrderLiveData().observeForever(this::onLoadOrder);
+        viewModel.getErrorMsgLiveData().observe(getViewLifecycleOwner(), this::onErrorMsg);
+        viewModel.getOrderLiveData().observe(getViewLifecycleOwner(), this::onLoadOrder);
     }
 
     private void onLoadOrder(Order order) {

@@ -55,8 +55,8 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     @Override
     protected void setUpObservers() {
-        viewModel.getPageLiveData().observe(this, this::onLoadPage);
-        viewModel.getFavouritesIsEmpty().observe(this, this::onFavouritesIsEmpty);
+        viewModel.getPageLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
+        viewModel.getFavouritesIsEmpty().observe(getViewLifecycleOwner(), this::onFavouritesIsEmpty);
     }
 
     private void onLoadPage(PagedList<FavouritesItem> pagedList) {
