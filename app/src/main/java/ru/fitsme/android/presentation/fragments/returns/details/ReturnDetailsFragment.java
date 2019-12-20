@@ -1,27 +1,16 @@
 package ru.fitsme.android.presentation.fragments.returns.details;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import org.jetbrains.annotations.NotNull;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnDetailsBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
-import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
 public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel> implements ReturnDetailsBindingEvents, BackClickListener {
 

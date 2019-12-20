@@ -13,15 +13,13 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.app.App;
 
 public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
 
     @Inject
-    protected ViewModelProvider.Factory viewModelFactory;
+    ViewModelFactory viewModelFactory;
 
     protected VM viewModel;
 
