@@ -4,28 +4,25 @@ import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
-import org.jetbrains.annotations.NotNull;
+import javax.inject.Inject;
 
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
-import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 public class ReturnsViewModel extends BaseViewModel {
 
-    private final IReturnsInteractor returnsInteractor;
-    private MainFragment mainFragment;
+    @Inject
+    IReturnsInteractor returnsInteractor;
 
     public ObservableField<String> showMessage;
 
-    public ReturnsViewModel(@NotNull IReturnsInteractor returnsInteractor) {
-        this.returnsInteractor = returnsInteractor;
+    public ReturnsViewModel() {
         inject(this);
     }
 
-    void init(MainFragment mainFragment) {
-        this.mainFragment = mainFragment;
+    @Override
+    protected void init() {
         showMessage = returnsInteractor.getShowMessage();
     }
 
@@ -38,7 +35,8 @@ public class ReturnsViewModel extends BaseViewModel {
     }
 
     public void goToCheckout() {
-        mainFragment.goToCheckout();
+        navigation.goToCheckout();
+//        mainFragment.goToCheckout();
     }
 
     public void goToReturnsStepScreen() {
@@ -68,11 +66,6 @@ public class ReturnsViewModel extends BaseViewModel {
 
     public void goToReturnsHowTo() {
         navigation.goToReturnsHowTo();
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
     }
 
     public void goToReturnDetails(int returnId) {

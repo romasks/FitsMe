@@ -29,7 +29,9 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
         inject(this);
     }
 
-    abstract public void onBackPressed();
+    public void onBackPressed() {
+        viewModel.onBackPressed();
+    }
 
     protected <T extends Fragment> void inject(T instance) {
         App.getInstance().getDi().inject(instance);
@@ -39,8 +41,8 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
     int getLayout();
 
     protected abstract void afterCreateView(View view);
-    protected abstract void setUpRecyclers();
-    protected abstract void setUpObservers();
+    protected void setUpRecyclers() {}
+    protected void setUpObservers() {}
 
     @Nullable
     @Override

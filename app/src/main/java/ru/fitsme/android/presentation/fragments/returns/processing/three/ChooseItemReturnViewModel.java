@@ -1,13 +1,14 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
+import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.databinding.ObservableBoolean;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -95,13 +96,9 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
 //        Timber.e("Некоторые запросы закончились неудачей");
     }
 
-    public void backToReturnsChooseOrder() {
-        isLoading.set(false);
-        navigation.backToReturnsChooseOrder();
-    }
-
     @Override
     public void onBackPressed() {
-        navigation.goBack();
+        isLoading.set(false);
+        super.onBackPressed();
     }
 }

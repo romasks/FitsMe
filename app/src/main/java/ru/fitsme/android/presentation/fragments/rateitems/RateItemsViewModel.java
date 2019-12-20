@@ -1,7 +1,8 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+
+import javax.inject.Inject;
 
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -9,16 +10,18 @@ import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
 public class RateItemsViewModel extends BaseViewModel {
 
-    private final IClothesInteractor clothesInteractor;
+    @Inject
+    IClothesInteractor clothesInteractor;
+
     private LiveData<ClotheInfo> clotheInfoLiveData;
 
 
-    public RateItemsViewModel(@NonNull IClothesInteractor clothesInteractor) {
-        this.clothesInteractor = clothesInteractor;
+    public RateItemsViewModel() {
         inject(this);
     }
 
-    void init() {
+    @Override
+    protected void init() {
         clotheInfoLiveData = clothesInteractor.getClotheInfoLiveData();
     }
 

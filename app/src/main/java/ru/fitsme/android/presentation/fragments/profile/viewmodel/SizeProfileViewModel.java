@@ -4,8 +4,6 @@ import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,10 +33,11 @@ public class SizeProfileViewModel extends BaseViewModel {
 
     @Inject
     MainNavigation navigation;
-    private final IProfileInteractor profileInteractor;
 
-    public SizeProfileViewModel(@NotNull IProfileInteractor profileInteractor) {
-        this.profileInteractor = profileInteractor;
+    @Inject
+    IProfileInteractor profileInteractor;
+
+    public SizeProfileViewModel() {
         inject(this);
         selectedTopType = profileInteractor.getCurrentTopSizeTypeValue();
         selectedBottomType = profileInteractor.getCurrentBottomSizeTypeValue();
@@ -97,10 +96,5 @@ public class SizeProfileViewModel extends BaseViewModel {
 
     public void onBottomSizeValueSpinnerSelected(int position) {
         profileInteractor.setCurrentBottomSizeIndex(position);
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
     }
 }

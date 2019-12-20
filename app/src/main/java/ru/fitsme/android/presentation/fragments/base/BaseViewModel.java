@@ -21,7 +21,7 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
         App.getInstance().getDi().inject(instance);
     }
 
-    protected abstract void init();
+    protected void init() {}
 
     @Override
     public void addDisposable(Disposable disposable) {
@@ -50,5 +50,7 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
         clearDisposables();
     }
 
-    public abstract void onBackPressed();
+    public void onBackPressed() {
+        navigation.goBack();
+    };
 }

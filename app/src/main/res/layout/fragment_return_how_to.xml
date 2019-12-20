@@ -24,19 +24,6 @@
             layout="@layout/layout_app_bar" />
 
         <TextView
-            android:id="@+id/fragment_checkout_loading_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_bar"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:text="@string/loading"
-            android:textSize="@dimen/text_size_lower_medium"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
-
-        <TextView
             android:id="@+id/first_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -25,7 +25,7 @@ public class ReturnsAdapter extends PagedListAdapter<ReturnsOrder, ReturnsAdapte
     private ReturnsViewModel viewModel;
 
     ReturnsAdapter(ReturnsViewModel viewModel) {
-        super(ReturnsFragment.DIFF_CALLBACK);
+        super(ReturnsOrder.DIFF_CALLBACK);
         this.viewModel = viewModel;
     }
 

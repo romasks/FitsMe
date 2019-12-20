@@ -25,9 +25,6 @@ import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
 public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel> implements ReturnDetailsBindingEvents, BackClickListener {
 
-    @Inject
-    IReturnsInteractor returnsInteractor;
-
     private static final String KEY_RETURN_ID = "RETURN_ID";
 
     private FragmentReturnDetailsBinding binding;
@@ -43,48 +40,52 @@ public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel> 
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_details, container, false);
-        binding.setBindingEvents(this);
-        binding.appBar.setBackClickListener(this);
-        binding.appBar.setTitle(getResources().getString(R.string.returns_details_header));
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_return_details;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void afterCreateView(View view) {
+        binding = FragmentReturnDetailsBinding.bind(view);
+        binding.setBindingEvents(this);
+        binding.setViewModel(viewModel);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getResources().getString(R.string.returns_details_header));
+        setUp();
+    }
 
+    private void setUp() {
         if (getArguments() != null) {
             returnId = getArguments().getInt(KEY_RETURN_ID);
         }
+    }
 
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(ReturnDetailsViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init(returnId);
-        }
-        binding.setViewModel(viewModel);
-
+    @Override
+    protected void setUpRecyclers() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         adapter = new ReturnDetailsAdapter(viewModel);
 
         binding.returnOrderItemsListRv.setLayoutManager(linearLayoutManager);
         binding.returnOrderItemsListRv.setHasFixedSize(true);
         binding.returnOrderItemsListRv.setAdapter(adapter);
+    }
 
+    @Override
+    protected void setUpObservers() {
         viewModel.getReturnsOrderLiveData().observe(getViewLifecycleOwner(), this::onLoadReturnById);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState == null) {
+            viewModel.init(returnId);
+        }
     }
 
     private void onLoadReturnById(ReturnsOrder returnsOrder) {
         binding.setReturnsOrder(returnsOrder);
         adapter.setItems(returnsOrder.getReturnItemsList());
-    }
-
-    @Override
-    public void onBackPressed() {
-        viewModel.onBackPressed();
     }
 
     @Override

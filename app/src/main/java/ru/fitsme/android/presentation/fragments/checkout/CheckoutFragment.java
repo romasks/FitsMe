@@ -34,6 +34,11 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
     }
 
     @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.fragment_checkout;
     }
@@ -44,11 +49,6 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
         initPhoneFieldListener(binding.phoneNumber);
-    }
-
-    @Override
-    protected void setUpRecyclers() {
-
     }
 
     @Override
@@ -123,10 +123,5 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         });
         phoneField.setText(RU_PHONE_PREFIX);
         phoneField.requestFocus();
-    }
-
-    @Override
-    public void onBackPressed() {
-
     }
 }

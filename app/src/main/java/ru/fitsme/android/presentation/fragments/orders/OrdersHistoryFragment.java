@@ -3,17 +3,17 @@ package ru.fitsme.android.presentation.fragments.orders;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import java.util.List;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentOrdersHistoryBinding;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> implements OrdersHistoryBindingEvents, BackClickListener {
 
@@ -62,11 +62,7 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
     }
 
     private void onReturnsOrdersIsEmpty(Boolean isEmpty) {
-        if (isEmpty) {
-            binding.returnsOrderNoItems.setVisibility(View.VISIBLE);
-        } else {
-            binding.returnsOrderNoItems.setVisibility(View.GONE);
-        }
+        binding.returnsOrderNoItems.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
     }
 
     private void onLoadPage(List<Order> ordersList) {
@@ -80,13 +76,6 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
 
     @Override
     public void onClickGoToCatalog() {
-        if (getParentFragment() != null) {
-            ((MainFragment) getParentFragment()).goToFavourites();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        viewModel.onBackPressed();
+        viewModel.goToFavourites();
     }
 }

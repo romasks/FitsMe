@@ -1,12 +1,13 @@
 package ru.fitsme.android.presentation.fragments.orders;
 
+import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.databinding.ObservableBoolean;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -52,8 +53,7 @@ public class OrdersHistoryViewModel extends BaseViewModel {
         return ordersListIsEmpty;
     }
 
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
+    public void goToFavourites() {
+        navigation.goToFavourites();
     }
 }

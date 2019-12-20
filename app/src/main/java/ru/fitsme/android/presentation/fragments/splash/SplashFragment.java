@@ -1,59 +1,30 @@
 package ru.fitsme.android.presentation.fragments.splash;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-
-import javax.inject.Inject;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentSplashBinding;
-import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
 public class SplashFragment extends BaseFragment<SplashViewModel> {
 
     FragmentSplashBinding binding;
 
-    @Inject
-    IAuthInteractor authInteractor;
-
     public static SplashFragment newInstance() {
-
         Bundle args = new Bundle();
-
         SplashFragment fragment = new SplashFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_splash, container, false);
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_splash;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(authInteractor)).get(SplashViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-
+    protected void afterCreateView(View view) {
+        binding = FragmentSplashBinding.bind(view);
     }
 }
