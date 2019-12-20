@@ -80,9 +80,11 @@ public class CartFragment extends BaseFragment<CartViewModel>
         if (b) {
             binding.cartNoItemGroup.setVisibility(View.VISIBLE);
             binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
+            binding.cartProceedToCheckoutShadow.setVisibility(View.GONE);
         } else {
             binding.cartNoItemGroup.setVisibility(View.GONE);
             binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
+            binding.cartProceedToCheckoutShadow.setVisibility(View.VISIBLE);
         }
     }
 
