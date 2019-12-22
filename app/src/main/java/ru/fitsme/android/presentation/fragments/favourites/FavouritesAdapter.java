@@ -14,7 +14,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemFavouriteBinding;
@@ -39,7 +38,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     private static final int REMOVED_TYPE = 2;
 
     FavouritesAdapter(FavouritesViewModel viewModel, OnItemClickCallback callback) {
-        super(FavouritesFragment.DIFF_CALLBACK);
+        super(FavouritesItem.DIFF_CALLBACK);
         this.viewModel = viewModel;
         this.callback = callback;
     }
@@ -154,7 +153,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             this.state = state;
         }
 
-        public FavouritesItem getFavouritesItem(){
+        public FavouritesItem getFavouritesItem() {
             return favouritesItem;
         }
     }
@@ -182,7 +181,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     }
 
 
-    public interface OnItemClickCallback{
+    public interface OnItemClickCallback {
         void setDetailView(FavouritesItem favouritesItem);
     }
 }

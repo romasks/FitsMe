@@ -21,6 +21,8 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
         App.getInstance().getDi().inject(instance);
     }
 
+    protected void init() {}
+
     @Override
     public void addDisposable(Disposable disposable) {
         if (MainViewModel.isOnline.get()) {
@@ -45,7 +47,10 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
+        clearDisposables();
     }
 
-    public abstract void onBackPressed();
+    public void onBackPressed() {
+        navigation.goBack();
+    };
 }

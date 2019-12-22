@@ -8,13 +8,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemReturnDetailsItemBinding;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 
 public class ReturnDetailsAdapter extends RecyclerView.Adapter<ReturnDetailsAdapter.ReturnDetailsItemViewHolder> {

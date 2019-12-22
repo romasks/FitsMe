@@ -1,8 +1,9 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.five;
 
+import androidx.databinding.ObservableBoolean;
+
 import javax.inject.Inject;
 
-import androidx.databinding.ObservableBoolean;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
@@ -23,7 +24,8 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
             returnsInteractor.setReturnOrderStep(5);
     }
 
-    void init() {
+    @Override
+    protected void init() {
         isLoading.set(false);
     }
 
@@ -41,14 +43,5 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
     private void onSuccess(ReturnsOrderItem returnsOrder) {
         returnsInteractor.setReturnId(returnsOrder.getId());
         navigation.goToReturnsVerifyData(returnsOrder.getId());
-    }
-
-    public void backToReturnsChooseItems() {
-        navigation.backToReturnsChooseItems();
-    }
-
-    @Override
-    public void onBackPressed() {
-
     }
 }

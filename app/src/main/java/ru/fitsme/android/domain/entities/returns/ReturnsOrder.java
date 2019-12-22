@@ -2,6 +2,9 @@ package ru.fitsme.android.domain.entities.returns;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.text.DateFormat;
@@ -261,4 +264,17 @@ public class ReturnsOrder {
         result = prime * result + getDaysToReturn().hashCode();
         return result;
     }
+
+    public static DiffUtil.ItemCallback<ReturnsOrder> DIFF_CALLBACK = new DiffUtil.ItemCallback<ReturnsOrder>() {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull ReturnsOrder oldItem, @NonNull ReturnsOrder newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull ReturnsOrder oldItem, @NonNull ReturnsOrder newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 }

@@ -2,16 +2,11 @@ package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 
 import javax.inject.Inject;
 
@@ -19,11 +14,9 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
-import timber.log.Timber;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         implements BindingEventsClickListener,
@@ -61,35 +54,24 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rate_items, container, false);
+    protected int getLayout() {
+        return R.layout.fragment_rate_items;
+    }
+
+    @Override
+    protected void afterCreateView(View view) {
+        binding = FragmentRateItemsBinding.bind(view);
         binding.setBindingEvents(this);
+        setUp();
+    }
+
+    private void setUp() {
         itemAnimation = new RateItemAnimation(this, binding);
-        return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(clothesInteractor)).get(RateItemsViewModel.class);
-        viewModel.init();
-
-        viewModel.getClotheInfoLiveData()
-                .observe(this, this::onChange);
-    }
-
-    @Override
-    public void onBackPressed() {
-        viewModel.onBackPressed();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        viewModel.clearDisposables();
+    protected void setUpObservers() {
+        viewModel.getClotheInfoLiveData().observe(getViewLifecycleOwner(), this::onChange);
     }
 
     private void onChange(ClotheInfo clotheInfo) {
@@ -151,7 +133,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     public void setFullItemInfoState(boolean b) {
         isFullItemInfoState = b;
         getArguments().putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
-        if (b){
+        if (b) {
             binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
             if (getParentFragment() != null) {

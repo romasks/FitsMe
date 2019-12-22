@@ -2,19 +2,13 @@ package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.content.res.Resources;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Constraints;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
 
 import javax.inject.Inject;
 
@@ -24,16 +18,14 @@ import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
-        implements BindingEventsClickListener, ItemInfoTouchListener.Callback{
+        implements BindingEventsClickListener, ItemInfoTouchListener.Callback {
 
     @Inject
     IClothesInteractor clothesInteractor;
@@ -72,25 +64,20 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_info, container, false);
-        binding.setBindingEvents(this);
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_item_info;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void afterCreateView(View view) {
+        binding = FragmentItemInfoBinding.bind(view);
+        binding.setBindingEvents(this);
+        setUp();
+    }
 
+    private void setUp() {
         setMargins();
         setFullState(isDetailState);
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(clothesInteractor)).get(ItemInfoViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
 
         if (clotheInfo.getClothe() == null) {
             onError(clotheInfo.getError());

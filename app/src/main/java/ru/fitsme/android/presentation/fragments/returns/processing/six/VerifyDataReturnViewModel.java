@@ -1,9 +1,10 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.six;
 
-import javax.inject.Inject;
-
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
+
+import javax.inject.Inject;
+
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
@@ -55,14 +56,5 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
     private void onSuccessConfirm(ReturnsOrderItem returnsOrderItem) {
         returnsInteractor.setReturnOrderStep(0);
         navigation.goToOrdersReturn();
-    }
-
-    public void backToReturnsBillingInfo() {
-        navigation.backToReturnsBillingInfo();
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
     }
 }

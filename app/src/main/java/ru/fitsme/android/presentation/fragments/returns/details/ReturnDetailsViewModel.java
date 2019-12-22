@@ -3,7 +3,7 @@ package ru.fitsme.android.presentation.fragments.returns.details;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 
-import org.jetbrains.annotations.NotNull;
+import javax.inject.Inject;
 
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
@@ -12,13 +12,13 @@ import timber.log.Timber;
 
 public class ReturnDetailsViewModel extends BaseViewModel {
 
-    private IReturnsInteractor returnsInteractor;
+    @Inject
+    IReturnsInteractor returnsInteractor;
 
     public ObservableBoolean isLoading = new ObservableBoolean(true);
     private MutableLiveData<ReturnsOrder> returnsOrderLiveData = new MutableLiveData<>();
 
-    public ReturnDetailsViewModel(@NotNull IReturnsInteractor returnsInteractor) {
-        this.returnsInteractor = returnsInteractor;
+    public ReturnDetailsViewModel() {
         inject(this);
     }
 
@@ -41,10 +41,5 @@ public class ReturnDetailsViewModel extends BaseViewModel {
         isLoading.set(false);
         returnsOrderLiveData.setValue(null);
         Timber.d(throwable);
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
     }
 }

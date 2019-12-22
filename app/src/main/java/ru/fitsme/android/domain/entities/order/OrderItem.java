@@ -2,6 +2,8 @@ package ru.fitsme.android.domain.entities.order;
 
 import com.google.gson.annotations.SerializedName;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 
 public class OrderItem {
@@ -66,4 +68,16 @@ public class OrderItem {
         result = prime * result + getClothe().hashCode();
         return result;
     }
+
+    public static DiffUtil.ItemCallback<OrderItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<OrderItem>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull OrderItem oldItem, @NonNull OrderItem newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull OrderItem oldItem, @NonNull OrderItem newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 }

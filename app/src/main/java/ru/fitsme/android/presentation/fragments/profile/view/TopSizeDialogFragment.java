@@ -10,23 +10,22 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.databinding.DialogFragmentProfileTopSizeBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
 public class TopSizeDialogFragment extends DialogFragment {
@@ -36,6 +35,9 @@ public class TopSizeDialogFragment extends DialogFragment {
 
     @Inject
     IProfileInteractor interactor;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     public TopSizeDialogFragment() {
         App.getInstance().getDi().inject(this);
@@ -56,8 +58,7 @@ public class TopSizeDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(interactor)).get(SizeProfileViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SizeProfileViewModel.class);
         if (savedInstanceState == null) {
             viewModel.init();
         }
