@@ -135,10 +135,6 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_items);
     }
 
-    public void goToMainProfile() {
-        navigation.goToMainProfile();
-    }
-
     public void goToCheckout() {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_cart);
         navigation.goToCheckout();
@@ -146,27 +142,18 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
 
     public void goToCart() {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_cart);
-        navigation.goToCart();
     }
 
-    public void showBottomNavigation(boolean b) {
-        if (b) {
-            binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
-        } else {
-            binding.bnvMainFrNavigation.setVisibility(View.GONE);
-        }
+    public void showBottomNavigation(boolean isShow) {
+        binding.bnvMainFrNavigation.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     public int getBottomNavigationSize() {
         return binding.bnvMainFrNavigation.getHeight();
     }
 
-    public void showBottomShadow(boolean b) {
-        if (b) {
-            binding.fragmentMainBottomShadow.setVisibility(View.VISIBLE);
-        } else {
-            binding.fragmentMainBottomShadow.setVisibility(View.GONE);
-        }
+    public void showBottomShadow(boolean isShow) {
+        binding.fragmentMainBottomShadow.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     @NonNull

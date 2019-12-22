@@ -63,4 +63,8 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
     LiveData<Boolean> getReturnsOrdersIsEmpty() {
         return returnsOrdersListIsEmpty;
     }
+
+    public void goToCart() {
+        navigation.goToCart();
+    }
 }

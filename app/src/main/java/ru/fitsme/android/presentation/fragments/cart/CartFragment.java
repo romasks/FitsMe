@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCartBinding;
@@ -91,25 +90,22 @@ public class CartFragment extends BaseFragment<CartViewModel>
     @Override
     public void onClickGoToCheckout() {
         viewModel.goToCheckout();
-        /*if (getParentFragment() != null) {
-            ((MainFragment) getParentFragment()).goToCheckout();
-        }*/
     }
 
     @Override
     public void onClickGoToFavourites() {
-        viewModel.goToFavourites();
-        /*if (getParentFragment() != null) {
+//        viewModel.goToFavourites();
+        if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToFavourites();
-        }*/
+        }
     }
 
     @Override
     public void onClickGoToRateItems() {
-        viewModel.goToRateItems();
-        /*if (getParentFragment() != null) {
+//        viewModel.goToRateItems();
+        if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToRateItems();
-        }*/
+        }
     }
 
     @Override

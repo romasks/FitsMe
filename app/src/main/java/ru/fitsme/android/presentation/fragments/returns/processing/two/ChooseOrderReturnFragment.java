@@ -2,10 +2,9 @@ package ru.fitsme.android.presentation.fragments.returns.processing.two;
 
 import android.view.View;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseOrderBinding;
 import ru.fitsme.android.domain.entities.order.Order;
@@ -67,6 +66,7 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
 
     @Override
     public void onClickGoToCart() {
+//        viewModel.goToCart();
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToCart();
         }

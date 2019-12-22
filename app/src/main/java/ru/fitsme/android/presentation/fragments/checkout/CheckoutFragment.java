@@ -9,14 +9,11 @@ import android.widget.Toast;
 
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
-import javax.inject.Inject;
-
 import androidx.annotation.Nullable;
 import ru.fitsme.android.R;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
 import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import timber.log.Timber;
@@ -31,11 +28,6 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
 
     public static CheckoutFragment newInstance() {
         return new CheckoutFragment();
-    }
-
-    @Override
-    public void onBackPressed() {
-
     }
 
     @Override

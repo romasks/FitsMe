@@ -11,6 +11,7 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
@@ -82,19 +83,14 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     @Override
     public void onClickGoToRateItems() {
-        viewModel.goToRateItems();
-        /*if (getParentFragment() != null) {
+//        viewModel.goToRateItems();
+        if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToRateItems();
-        }*/
+        }
     }
 
     @Override
     public void setDetailView(FavouritesItem favouritesItem) {
         viewModel.setDetailView(favouritesItem);
-    }
-
-    @Override
-    public void onBackPressed() {
-        viewModel.onBackPressed();
     }
 }

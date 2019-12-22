@@ -14,6 +14,7 @@ import ru.fitsme.android.databinding.FragmentOrdersHistoryBinding;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> implements OrdersHistoryBindingEvents, BackClickListener {
 
@@ -76,6 +77,9 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
 
     @Override
     public void onClickGoToCatalog() {
-        viewModel.goToFavourites();
+//        viewModel.goToFavourites();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToFavourites();
+        }
     }
 }

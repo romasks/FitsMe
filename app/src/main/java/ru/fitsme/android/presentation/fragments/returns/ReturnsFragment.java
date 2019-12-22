@@ -4,7 +4,6 @@ import android.view.View;
 
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnsBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
@@ -67,7 +66,10 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
 
     @Override
     public void onClickGoToCheckout() {
-        viewModel.goToCheckout();
+//        viewModel.goToCheckout();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).goToCheckout();
+        }
     }
 
     @Override
