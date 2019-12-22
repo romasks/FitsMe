@@ -20,9 +20,9 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
 
     String[] groups;
 
-    String[] phonesHTC = new String[]{"Sensation", "Desire", "Wildfire", "Hero"};
-    String[] phonesSams = new String[]{"Galaxy S II", "Galaxy Nexus", "Wave"};
-    String[] phonesLG = new String[]{"Optimus", "Optimus Link", "Optimus Black", "Optimus One"};
+    String[] phonesHTC = new String[] {"Sensation", "Desire", "Wildfire", "Hero"};
+    String[] phonesSams = new String[] {"Galaxy S II", "Galaxy Nexus", "Wave"};
+    String[] phonesLG = new String[] {"Optimus"};
 
     // общая коллекция для коллекций элементов
     ArrayList<ArrayList<String>> childData;
