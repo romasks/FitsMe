@@ -2,9 +2,12 @@ package ru.fitsme.android.data.frameworks.retrofit;
 
 import androidx.annotation.NonNull;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import retrofit2.Response;
@@ -20,6 +23,9 @@ import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
+import ru.fitsme.android.domain.entities.clothes.ClotheBrand;
+import ru.fitsme.android.domain.entities.clothes.ClotheColor;
+import ru.fitsme.android.domain.entities.clothes.ClotheProductName;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
@@ -141,6 +147,21 @@ public class WebLoaderNetworkChecker extends WebLoader {
     @Override
     public Single<OkResponse<Order>> getOrderById(int orderId) {
         return checkNetwork(super.getOrderById(orderId));
+    }
+
+    @Override
+    public Single<OkResponse<List<ClotheBrand>>> getBrandList() {
+        return checkNetwork(super.getBrandList());
+    }
+
+    @Override
+    public Single<OkResponse<List<ClotheColor>>> getColorList() {
+        return checkNetwork(super.getColorList());
+    }
+
+    @Override
+    public Single<OkResponse<List<ClotheProductName>>> getProductNameList() {
+        return checkNetwork(super.getProductNameList());
     }
 
     private Single checkNetwork(Single single) {

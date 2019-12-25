@@ -11,11 +11,21 @@ import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
+import ru.fitsme.android.data.frameworks.room.RoomBrand;
+import ru.fitsme.android.data.frameworks.room.RoomColor;
+import ru.fitsme.android.data.frameworks.room.RoomProductName;
+import ru.fitsme.android.data.frameworks.room.dao.BrandsDao;
+import ru.fitsme.android.data.frameworks.room.dao.ColorsDao;
+import ru.fitsme.android.data.frameworks.room.dao.ProductNamesDao;
+import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
 import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
+import ru.fitsme.android.domain.entities.clothes.ClotheBrand;
+import ru.fitsme.android.domain.entities.clothes.ClotheColor;
+import ru.fitsme.android.domain.entities.clothes.ClotheProductName;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
@@ -123,5 +133,120 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void setSettingsBottomClothesSizeType(ClotheSizeType clothesSizeType) {
         storage.setBottomSizeType(clothesSizeType);
+    }
+
+    @Override
+    public void updateClotheBrands(){
+        webLoader.getBrandList()
+            .subscribe(listOkResponse -> {
+                List<ClotheBrand> clotheBrands = listOkResponse.getResponse();
+                if (clotheBrands != null){
+                    BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+                        brandsDao.getBrands()
+                            .subscribe(roomBrands -> {
+                                for (int i = 0; i < clotheBrands.size(); i++) {
+                                    ClotheBrand brand = clotheBrands.get(i);
+                                    for (int j = 0; j < roomBrands.size(); j++) {
+                                        RoomBrand roomBrand = roomBrands.get(j);
+                                        if (brand.getId() == roomBrand.getId()){
+                                            brandsDao.update(new RoomBrand(roomBrand.getId(), roomBrand.getTitle(), roomBrand.isChecked(), true));
+                                        } else {
+                                            brandsDao.insert(new RoomBrand(brand.getId(), brand.getTitle(), false, false));
+                                        }
+                                    }
+                                }
+                                brandsDao.clearNotUpdatedBrands();
+                                setRoomBrandsNotUpdated();
+                            });
+                }
+            });
+    }
+
+    private void setRoomBrandsNotUpdated() {
+        BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+        brandsDao.getBrands()
+            .subscribe(roomBrandList -> {
+                for (int i = 0; i < roomBrandList.size(); i++) {
+                    RoomBrand brand = roomBrandList.get(i);
+                    brandsDao.update(new RoomBrand(brand.getId(), brand.getTitle(), brand.isChecked(), false));
+                }
+            });
+    }
+
+    @Override
+    public void updateClotheColors(){
+        webLoader.getColorList()
+                .subscribe(listOkResponse -> {
+                    List<ClotheColor> clotheColorList = listOkResponse.getResponse();
+                    if (clotheColorList != null){
+                        ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+                        colorsDao.getColors()
+                                .subscribe(roomColors -> {
+                                    for (int i = 0; i < clotheColorList.size(); i++) {
+                                        ClotheColor color = clotheColorList.get(i);
+                                        for (int j = 0; j < roomColors.size(); j++) {
+                                            RoomColor roomColor = roomColors.get(j);
+                                            if (color.getId() == roomColor.getId()){
+                                                colorsDao.update(new RoomColor(roomColor.getId(), roomColor.getColorName(), roomColor.isChecked(), true));
+                                            } else {
+                                                colorsDao.insert(new RoomColor(color.getId(), color.getColorName(), false, false));
+                                            }
+                                        }
+                                    }
+                                    colorsDao.clearNotUpdatedColors();
+                                    setRoomColorsNotUpdated();
+                                });
+                    }
+                });
+    }
+
+    private void setRoomColorsNotUpdated() {
+        ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+        colorsDao.getColors()
+                .subscribe(roomColorsList -> {
+                    for (int i = 0; i < roomColorsList.size(); i++) {
+                        RoomColor roomColor = roomColorsList.get(i);
+                        colorsDao.update(new RoomColor(roomColor.getId(), roomColor.getColorName(), roomColor.isChecked(), false));
+                    }
+                });
+    }
+
+    @Override
+    public void updateProductNamesColors(){
+        webLoader.getProductNameList()
+                .subscribe(listOkResponse -> {
+                    List<ClotheProductName> clotheProductNameList = listOkResponse.getResponse();
+                    if (clotheProductNameList != null){
+                        ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+                        productNamesDao.getProductNames()
+                                .subscribe(roomProductNames -> {
+                                    for (int i = 0; i < clotheProductNameList.size(); i++) {
+                                        ClotheProductName productName = clotheProductNameList.get(i);
+                                        for (int j = 0; j < roomProductNames.size(); j++) {
+                                            RoomProductName roomProductName = roomProductNames.get(j);
+                                            if (productName.getId() == roomProductName.getId()){
+                                                productNamesDao.update(new RoomProductName(
+                                                        roomProductName.getId(), roomProductName.getTitle(), roomProductName.getType(), roomProductName.isChecked(), true));
+                                            } else {
+                                                productNamesDao.insert(new RoomProductName(productName.getId(), productName.getTitle(), productName.getType(), false, false));
+                                            }
+                                        }
+                                    }
+                                    productNamesDao.clearNotUpdatedProductNames();
+                                    setRoomProductNamesNotUpdated();
+                                });
+                    }
+                });
+    }
+
+    private void setRoomProductNamesNotUpdated() {
+        ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+        productNamesDao.getProductNames()
+                .subscribe(roomProductNames -> {
+                    for (int i = 0; i < roomProductNames.size(); i++) {
+                        RoomProductName roomProductName = roomProductNames.get(i);
+                        productNamesDao.update(new RoomProductName(roomProductName.getId(), roomProductName.getTitle(), roomProductName.getType(), roomProductName.isChecked(), false));
+                    }
+                });
     }
 }

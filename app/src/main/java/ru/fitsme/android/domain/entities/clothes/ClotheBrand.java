@@ -1,16 +1,10 @@
-package ru.fitsme.android.data.frameworks.room;
+package ru.fitsme.android.domain.entities.clothes;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity
-public class RoomBrands {
-
-    @PrimaryKey
+public class ClotheBrand {
     private int id;
     private String title;
 
-    public RoomBrands(int id, String title){
+    public ClotheBrand(int id, String title) {
         this.id = id;
         this.title = title;
     }

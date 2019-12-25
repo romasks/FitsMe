@@ -24,4 +24,10 @@ public interface IClothesRepository {
     void setSettingsTopClothesSizeType(ClotheSizeType clothesSizeType);
 
     void setSettingsBottomClothesSizeType(ClotheSizeType clothesSizeType);
+
+    void updateClotheBrands();
+
+    void updateClotheColors();
+
+    void updateProductNamesColors();
 }

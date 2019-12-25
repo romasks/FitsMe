@@ -5,21 +5,28 @@ import java.util.List;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
+
 import io.reactivex.Observable;
-import ru.fitsme.android.data.frameworks.room.RoomColors;
-import ru.fitsme.android.data.frameworks.room.RoomProductName;
+import ru.fitsme.android.data.frameworks.room.RoomColor;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface ColorsDao {
 
-    @Query("DELETE FROM roomcolors")
-    void clearColors();
+    @Query("DELETE FROM RoomColor WHERE isUpdated == 0")
+    void clearNotUpdatedColors();
 
-    @Query("SELECT * FROM roomcolors")
-    Observable<List<RoomColors>> getColors();
+    @Query("SELECT * FROM RoomColor")
+    Observable<List<RoomColor>> getColors();
 
     @Insert(onConflict = REPLACE)
-    void insert(List<RoomColors> colorList);
+    void insert(List<RoomColor> colorList);
+
+    @Insert(onConflict = REPLACE)
+    void insert(RoomColor roomColor);
+
+    @Update
+    void update(RoomColor roomColor);
 }

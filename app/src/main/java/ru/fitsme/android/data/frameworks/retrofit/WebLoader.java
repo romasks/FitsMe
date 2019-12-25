@@ -23,6 +23,9 @@ import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
+import ru.fitsme.android.domain.entities.clothes.ClotheBrand;
+import ru.fitsme.android.domain.entities.clothes.ClotheColor;
+import ru.fitsme.android.domain.entities.clothes.ClotheProductName;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
@@ -278,6 +281,33 @@ abstract class WebLoader {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.getOrderById(TOKEN + authInfo.getToken(), orderId)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<List<ClotheBrand>>> getBrandList(){
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+            .subscribe(
+                    authInfo -> apiService.getClotheBrands(TOKEN + authInfo.getToken())
+                            .subscribeOn(workThread)
+                            .subscribe(emitter::onSuccess, emitter::onError),
+                    emitter::onError));
+    }
+
+    protected Single<OkResponse<List<ClotheColor>>> getColorList() {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getClotheColors(TOKEN + authInfo.getToken())
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    protected Single<OkResponse<List<ClotheProductName>>> getProductNameList() {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getClotheProductNames(TOKEN + authInfo.getToken())
                                 .subscribeOn(workThread)
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError));
