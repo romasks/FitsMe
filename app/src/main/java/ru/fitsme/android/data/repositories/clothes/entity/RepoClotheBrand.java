@@ -1,14 +1,12 @@
-package ru.fitsme.android.domain.entities.clothes;
+package ru.fitsme.android.data.repositories.clothes.entity;
 
-public class ClotheProductName {
+public class RepoClotheBrand {
     private int id;
     private String title;
-    private String type;
 
-    public ClotheProductName(int id, String title, String type) {
+    public RepoClotheBrand(int id, String title) {
         this.id = id;
         this.title = title;
-        this.type = type;
     }
 
     public int getId() {
@@ -25,13 +23,5 @@ public class ClotheProductName {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

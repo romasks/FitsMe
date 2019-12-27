@@ -4,6 +4,9 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 
+import ru.fitsme.android.domain.entities.clothes.FilterBrand;
+import ru.fitsme.android.domain.entities.clothes.FilterColor;
+import ru.fitsme.android.domain.entities.clothes.FilterProductName;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
@@ -17,9 +20,9 @@ public interface IClothesInteractor extends BaseInteractor {
 
     void setPreviousClotheInfo(ClotheInfo current);
 
-    List<String> getProductNames();
+    LiveData<List<FilterProductName>> getProductNames();
 
-    List<String> getBrands();
+    LiveData<List<FilterBrand>> getBrands();
 
-    List<String> getColors();
+    LiveData<List<FilterColor>> getColors();
 }

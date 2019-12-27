@@ -2,12 +2,14 @@ package ru.fitsme.android.data.frameworks.room.dao;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.fitsme.android.data.frameworks.room.RoomProductName;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
@@ -19,7 +21,10 @@ public interface ProductNamesDao {
     void clearNotUpdatedProductNames();
 
     @Query("SELECT * FROM roomproductname")
-    Observable<List<RoomProductName>> getProductNames();
+    Single<List<RoomProductName>> getProductNamesList();
+
+    @Query("SELECT * FROM roomproductname")
+    LiveData<List<RoomProductName>> getProductNamesLiveData();
 
     @Insert(onConflict = REPLACE)
     void insert(List<RoomProductName> nameList);

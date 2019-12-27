@@ -9,13 +9,16 @@ public class RoomColor {
     @PrimaryKey
     private int id;
     private String colorName;
+    private String colorHex;
     private boolean isChecked;
     private boolean isUpdated;
 
-    public RoomColor(int id, String colorName, boolean isChecked, boolean isUpdated){
+    public RoomColor(int id, String colorName, String colorHex, boolean isChecked, boolean isUpdated){
         this.id = id;
         this.colorName = colorName;
+        this.colorHex = colorHex;
         this.isChecked = isChecked;
+        this.isUpdated = isUpdated;
     }
 
     public int getId() {
@@ -48,5 +51,13 @@ public class RoomColor {
 
     public void setUpdated(boolean updated) {
         isUpdated = updated;
+    }
+
+    public String getColorHex() {
+        return colorHex;
+    }
+
+    public void setColorHex(String colorHex) {
+        this.colorHex = colorHex;
     }
 }

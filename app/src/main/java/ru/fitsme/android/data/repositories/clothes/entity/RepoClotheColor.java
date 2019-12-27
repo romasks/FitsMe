@@ -1,11 +1,11 @@
-package ru.fitsme.android.domain.entities.clothes;
+package ru.fitsme.android.data.repositories.clothes.entity;
 
-public class ClotheColor {
+public class RepoClotheColor {
     private int id;
     private String colorName;
     private String colorHex;
 
-    public ClotheColor(int id, String colorName, String colorHex) {
+    public RepoClotheColor(int id, String colorName, String colorHex) {
         this.id = id;
         this.colorName = colorName;
         this.colorHex = colorHex;

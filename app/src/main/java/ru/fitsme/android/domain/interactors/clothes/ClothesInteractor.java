@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,6 +16,9 @@ import javax.inject.Singleton;
 
 import io.reactivex.Scheduler;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
+import ru.fitsme.android.domain.entities.clothes.FilterBrand;
+import ru.fitsme.android.domain.entities.clothes.FilterColor;
+import ru.fitsme.android.domain.entities.clothes.FilterProductName;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import timber.log.Timber;
 
@@ -38,6 +43,9 @@ public class ClothesInteractor implements IClothesInteractor {
         this.mainThread = mainThread;
 
         updateClothesList();
+        clothesRepository.updateClotheBrands();
+        clothesRepository.updateClotheColors();
+        clothesRepository.updateProductNames();
     }
 
     @SuppressLint("CheckResult")
@@ -86,17 +94,35 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public List<String> getProductNames(){
-        return null;
+    public LiveData<List<FilterProductName>> getProductNames(){
+        return Transformations.map(clothesRepository.getClotheProductName(), input -> {
+            ArrayList<FilterProductName> output = new ArrayList<>();
+            for (int i = 0; i < input.size(); i++) {
+                output.add(new FilterProductName(input.get(i)));
+            }
+            return output;
+        });
     }
 
     @Override
-    public List<String> getBrands(){
-        return null;
+    public LiveData<List<FilterBrand>> getBrands(){
+        return Transformations.map(clothesRepository.getBrandNames(), input -> {
+           ArrayList<FilterBrand> output = new ArrayList<>();
+            for (int i = 0; i < input.size(); i++) {
+                output.add(new FilterBrand(input.get(i)));
+            }
+            return output;
+        });
     }
 
     @Override
-    public List<String> getColors(){
-        return null;
+    public LiveData<List<FilterColor>> getColors(){
+        return Transformations.map(clothesRepository.getClotheColors(), input -> {
+            ArrayList<FilterColor> output = new ArrayList<>();
+            for (int i = 0; i < input.size(); i++) {
+                output.add(new FilterColor(input.get(i)));
+            }
+            return output;
+        });
     }
 }

@@ -2,12 +2,14 @@ package ru.fitsme.android.data.frameworks.room.dao;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.fitsme.android.data.frameworks.room.RoomColor;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
@@ -19,7 +21,10 @@ public interface ColorsDao {
     void clearNotUpdatedColors();
 
     @Query("SELECT * FROM RoomColor")
-    Observable<List<RoomColor>> getColors();
+    Single<List<RoomColor>> getColorsList();
+
+    @Query("SELECT * FROM RoomColor")
+    LiveData<List<RoomColor>> getColorsLiveData();
 
     @Insert(onConflict = REPLACE)
     void insert(List<RoomColor> colorList);

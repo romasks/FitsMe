@@ -2,6 +2,7 @@ package ru.fitsme.android.data.frameworks.room.dao;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -9,6 +10,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.fitsme.android.data.frameworks.room.RoomBrand;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
@@ -23,7 +25,10 @@ public interface BrandsDao {
     void delete(RoomBrand roomBrand);
 
     @Query("SELECT * FROM RoomBrand")
-    Observable<List<RoomBrand>> getBrands();
+    Single<List<RoomBrand>> getBrandsList();
+
+    @Query("SELECT * FROM RoomBrand")
+    LiveData<List<RoomBrand>> getBrandsLiveData();
 
     @Insert(onConflict = REPLACE)
     void insert(List<RoomBrand> brandList);

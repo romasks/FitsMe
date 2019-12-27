@@ -24,9 +24,9 @@ import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
-import ru.fitsme.android.domain.entities.clothes.ClotheBrand;
-import ru.fitsme.android.domain.entities.clothes.ClotheColor;
-import ru.fitsme.android.domain.entities.clothes.ClotheProductName;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
@@ -120,11 +120,11 @@ public interface ApiService {
                                                    @Path("id") long returnId);
 
     @GET("clothes/brands/")
-    Single<OkResponse<List<ClotheBrand>>> getClotheBrands(@Header("Authorization") String token);
+    Single<OkResponse<List<RepoClotheBrand>>> getClotheBrands(@Header("Authorization") String token);
 
     @GET("clothes/colors")
-    Single<OkResponse<List<ClotheColor>>> getClotheColors(@Header("Authorization") String token);
+    Single<OkResponse<List<RepoClotheColor>>> getClotheColors(@Header("Authorization") String token);
 
     @GET("clothes/productnames")
-    Single<OkResponse<List<ClotheProductName>>> getClotheProductNames(@Header("Authorization") String token);
+    Single<OkResponse<List<RepoClotheProductName>>> getClotheProductNames(@Header("Authorization") String token);
 }

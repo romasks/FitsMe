@@ -2,64 +2,75 @@ package ru.fitsme.android.presentation.fragments.filters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.ColorFilter;
+import android.util.SparseArray;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.app.DialogCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.domain.entities.clothes.ClotheFilter;
+import ru.fitsme.android.domain.entities.clothes.FilterColor;
+
+import static ru.fitsme.android.presentation.fragments.filters.FiltersFragment.BRAND_NAME_NUMBER;
+import static ru.fitsme.android.presentation.fragments.filters.FiltersFragment.COLOR_NUMBER;
+import static ru.fitsme.android.presentation.fragments.filters.FiltersFragment.PRODUCT_NAME_NUMBER;
 
 public class FilterExpandableAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<String> groupNames;
-    private ArrayList<ArrayList<String>> groups;
+    private ArrayList<String> groupNames = new ArrayList<>();
+    private SparseArray<ArrayList<ClotheFilter>> filters;
 
     FilterExpandableAdapter(Context context,
-                            ArrayList<String> groupNames,
-                            ArrayList<ArrayList<String>> groups){
+                            SparseArray<ArrayList<ClotheFilter>> filters){
         this.context = context;
-        this.groupNames = groupNames;
-        this.groups = groups;
+        getGroupNames();
+        this.filters = filters;
+    }
+
+    private void getGroupNames() {
+        groupNames.add(PRODUCT_NAME_NUMBER, context.getString(R.string.filter_clothe_types));
+        groupNames.add(BRAND_NAME_NUMBER, context.getString(R.string.filter_brands));
+        groupNames.add(COLOR_NUMBER, context.getString(R.string.filter_colors));
     }
 
     @Override
     public int getGroupCount() {
-        return groups.size();
+        return filters.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return groups.get(groupPosition).size();
+        List list = filters.get(groupPosition);
+        if (list != null){
+            return list.size();
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return groups.get(groupPosition);
+        return filters.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return groups.get(groupPosition).get(childPosition);
+        ArrayList<ClotheFilter> list = (ArrayList) filters.get(groupPosition);
+        return list.get(childPosition);
     }
 
     @Override
@@ -92,7 +103,7 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
-        if (groupPosition == 2){
+        if (groupPosition == COLOR_NUMBER){
             if (convertView == null || convertView.findViewById(R.id.item_filter_color_table) == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.item_filter_colors, null);
@@ -104,22 +115,25 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
             int bottomMarginPx = converDpToPixels(bottomMarginDp);
 
             int numOfColumns = 4;
-            int FAKE_NUM_OF_ITEMS = 10;
-            for (int i = 1; i <= FAKE_NUM_OF_ITEMS; i = i + numOfColumns) {
+            FiltersFragment.FilterColorListWrapper wrapper = (FiltersFragment.FilterColorListWrapper) filters.get(COLOR_NUMBER).get(0);
+            ArrayList<FilterColor> colorFilterArrayList = wrapper.getColorList();
+            int colorListSize = colorFilterArrayList.size();
+            int numOfRow = (int) Math.ceil((double) colorListSize / numOfColumns);
+            for (int i = 0; i < numOfRow; i++) {
                 TableRow tableRow = new TableRow(context);
                 LinearLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
                 layoutParams.setMargins(0, 0, 0, bottomMarginPx);
                 tableRow.setLayoutParams(layoutParams);
                 tableLayout.addView(tableRow);
-                int numOfRow = (int) Math.ceil((double) FAKE_NUM_OF_ITEMS / numOfColumns);
+
                 int numColonsInThisIteration;
-                if (i > numOfColumns * (numOfRow - 1)){
-                    numColonsInThisIteration = FAKE_NUM_OF_ITEMS % numOfColumns;
+                if (i == numOfRow - 1){
+                    numColonsInThisIteration = colorListSize % numOfColumns;
                 } else {
                     numColonsInThisIteration = numOfColumns;
                 }
                 for (int j = 0; j < numColonsInThisIteration; j++) {
-                    FilterColorImageView imageView = new FilterColorImageView(context, false, Color.RED);
+                    FilterColorImageView imageView = new FilterColorImageView(context, false, colorFilterArrayList.get((numOfColumns * i) + j) );
                     tableRow.addView(imageView);
                     imageView.setOnClickListener(view -> imageView.toggle());
                 }
@@ -130,7 +144,8 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
                 convertView = inflater.inflate(R.layout.item_filter_child, null);
             }
             TextView textView = (TextView) convertView.findViewById(R.id.item_filter_child_tv);
-            textView.setText(groups.get(groupPosition).get(childPosition));
+            ClotheFilter clotheFilter = (ClotheFilter) filters.get(groupPosition).get(childPosition);
+            textView.setText(clotheFilter.getTitle());
             Switch switcher = (Switch) convertView.findViewById(R.id.item_filter_child_switch);
             switcher.setOnCheckedChangeListener((compoundButton, b) -> {
 
@@ -151,5 +166,10 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
                 dp,
                 r.getDisplayMetrics()
         );
+    }
+
+    void swap(SparseArray<ArrayList<ClotheFilter>> filters){
+        this.filters = filters;
+        notifyDataSetChanged();
     }
 }
