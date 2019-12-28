@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import ru.fitsme.android.presentation.fragments.cart.CartViewModel;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
+import ru.fitsme.android.presentation.fragments.feedback.FeedbackViewModel;
 import ru.fitsme.android.presentation.fragments.filters.FiltersViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoViewModel;
 import ru.fitsme.android.presentation.fragments.main.MainFragmentViewModel;
@@ -84,6 +85,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new MainFragmentViewModel();
         } else if (modelClass.isAssignableFrom(FiltersViewModel.class)) {
             return (T) new FiltersViewModel();
+        } else if (modelClass.isAssignableFrom(FeedbackViewModel.class)) {
+            return (T) new FeedbackViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

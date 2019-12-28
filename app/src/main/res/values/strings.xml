@@ -173,4 +173,7 @@
         <item name="colors">Цвет</item>
     </string-array>
 
+    <string name="feedback_header_text">Оставить отзыв</string>
+    <string name="feedback_btn_leave_feedback">Оставить отзыв</string>
+
 </resources>
