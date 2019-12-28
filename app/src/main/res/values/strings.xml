@@ -175,5 +175,12 @@
 
     <string name="feedback_header_text">Оставить отзыв</string>
     <string name="feedback_btn_leave_feedback">Оставить отзыв</string>
+    <string name="feedback_field_name">Ваше имя</string>
+    <string name="feedback_field_email">Электронная почта</string>
+    <string name="feedback_field_message">Ваше сообщение</string>
+    <string name="feedback_hint_enter_name">Введите Ваше имя</string>
+    <string name="feedback_hint_enter_email">example@domain.ru</string>
+    <string name="feedback_hint_enter_message">Введите здесь текст Вашего сообщения.\nВопросы, предложения, пожелания.</string>
+    <string name="feedback_error_text">Заполните это поле</string>
 
 </resources>

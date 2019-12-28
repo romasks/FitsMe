@@ -48,6 +48,7 @@ public class FeedbackViewModel extends BaseViewModel {
 
     private void onError(Throwable t) {
         Timber.e(t);
+        successSendFeedbackLiveData.setValue(false);
         isLoading.set(false);
     }
 }
