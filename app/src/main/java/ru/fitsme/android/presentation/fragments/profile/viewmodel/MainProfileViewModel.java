@@ -40,6 +40,10 @@ public class MainProfileViewModel extends BaseViewModel {
         navigation.goToOrdersReturn();
     }
 
+    public void goToLeaveFeedback() {
+        navigation.goToLeaveFeedback();
+    }
+
     public void onViewCreated() {
         profileInteractor.updateInfo();
     }

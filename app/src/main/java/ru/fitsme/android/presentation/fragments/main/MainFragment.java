@@ -17,6 +17,7 @@ import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
+import ru.fitsme.android.presentation.fragments.feedback.FeedbackFragment;
 import ru.fitsme.android.presentation.fragments.filters.FiltersFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.orders.OrdersHistoryFragment;
@@ -39,6 +40,7 @@ import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_C
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_DETAIL_ITEM_INFO;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FAVOURITES;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FILTER;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_LEAVE_FEEDBACK;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_MAIN_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_HISTORY_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_RETURN_PROFILE;
@@ -180,6 +182,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                         return OrdersHistoryFragment.newInstance();
                     case NAV_ORDER_RETURN_PROFILE:
                         return ReturnsFragment.newInstance();
+                    case NAV_LEAVE_FEEDBACK:
+                        return FeedbackFragment.newInstance();
                     case NAV_RETURN_DETAILS:
                         return ReturnDetailsFragment.newInstance((int) data);
                     case NAV_RETURNS_HOW_TO:
