@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.feedback;
 
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
@@ -68,6 +69,11 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
     @Override
     public void onClickSendFeedback() {
         KeyboardUtils.hide(getActivity(), binding.getRoot());
+        binding.nameErrorIcon.setVisibility(View.GONE);
+        binding.nameErrorLine.setVisibility(View.GONE);
+        binding.emailErrorIcon.setVisibility(View.GONE);
+        binding.emailErrorLine.setVisibility(View.GONE);
+        binding.messageErrorIcon.setVisibility(View.GONE);
         binding.getRoot().requestFocus();
         if (validFields()) {
             viewModel.onClickSendFeedback(
@@ -87,6 +93,10 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
         }
         if (binding.emailEt.getText().toString().isEmpty()) {
             binding.emailEt.setHint(R.string.feedback_error_text);
+            binding.emailErrorIcon.setVisibility(View.VISIBLE);
+            binding.emailErrorLine.setVisibility(View.VISIBLE);
+            result = false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailEt.getText().toString()).matches()) {
             binding.emailErrorIcon.setVisibility(View.VISIBLE);
             binding.emailErrorLine.setVisibility(View.VISIBLE);
             result = false;
