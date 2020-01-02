@@ -2,7 +2,6 @@ package ru.fitsme.android.presentation.fragments.filters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.ColorFilter;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -16,13 +15,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.domain.entities.clothes.ClotheFilter;
+import ru.fitsme.android.domain.entities.clothes.FilterBrand;
 import ru.fitsme.android.domain.entities.clothes.FilterColor;
+import ru.fitsme.android.domain.entities.clothes.FilterProductName;
 
 import static ru.fitsme.android.presentation.fragments.filters.FiltersFragment.BRAND_NAME_NUMBER;
 import static ru.fitsme.android.presentation.fragments.filters.FiltersFragment.COLOR_NUMBER;
@@ -30,12 +29,14 @@ import static ru.fitsme.android.presentation.fragments.filters.FiltersFragment.P
 
 public class FilterExpandableAdapter extends BaseExpandableListAdapter {
 
+    private FilterCallback filterCallback;
     private Context context;
     private ArrayList<String> groupNames = new ArrayList<>();
     private SparseArray<ArrayList<ClotheFilter>> filters;
 
-    FilterExpandableAdapter(Context context,
+    FilterExpandableAdapter(FilterCallback filterCallback, Context context,
                             SparseArray<ArrayList<ClotheFilter>> filters){
+        this.filterCallback = filterCallback;
         this.context = context;
         getGroupNames();
         this.filters = filters;
@@ -112,7 +113,7 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
             tableLayout.removeAllViews();
 
             int bottomMarginDp = 24;
-            int bottomMarginPx = converDpToPixels(bottomMarginDp);
+            int bottomMarginPx = convertDpToPixels(bottomMarginDp);
 
             int numOfColumns = 4;
             FiltersFragment.FilterColorListWrapper wrapper = (FiltersFragment.FilterColorListWrapper) filters.get(COLOR_NUMBER).get(0);
@@ -133,9 +134,13 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
                     numColonsInThisIteration = numOfColumns;
                 }
                 for (int j = 0; j < numColonsInThisIteration; j++) {
-                    FilterColorImageView imageView = new FilterColorImageView(context, false, colorFilterArrayList.get((numOfColumns * i) + j) );
+                    FilterColor filterColor = colorFilterArrayList.get((numOfColumns * i) + j);
+                    FilterColorImageView imageView = new FilterColorImageView(context, filterColor);
                     tableRow.addView(imageView);
-                    imageView.setOnClickListener(view -> imageView.toggle());
+                    imageView.setOnClickListener(view -> {
+                        filterCallback.setFilterColor(filterColor);
+                        imageView.toggle();
+                    });
                 }
             }
         } else {
@@ -143,12 +148,24 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.item_filter_child, null);
             }
-            TextView textView = (TextView) convertView.findViewById(R.id.item_filter_child_tv);
             ClotheFilter clotheFilter = (ClotheFilter) filters.get(groupPosition).get(childPosition);
+            TextView textView = (TextView) convertView.findViewById(R.id.item_filter_child_tv);
             textView.setText(clotheFilter.getTitle());
             Switch switcher = (Switch) convertView.findViewById(R.id.item_filter_child_switch);
-            switcher.setOnCheckedChangeListener((compoundButton, b) -> {
-
+            switcher.setChecked(clotheFilter.isChecked());
+            convertView.setOnClickListener(v -> {
+                switch(groupPosition){
+                    case PRODUCT_NAME_NUMBER:
+                        FilterProductName filterProductName = (FilterProductName) clotheFilter;
+                        filterProductName.setChecked(!filterProductName.isChecked());
+                        filterCallback.setFilterProductName(filterProductName);
+                        break;
+                    case BRAND_NAME_NUMBER:
+                        FilterBrand filterBrand = (FilterBrand) clotheFilter;
+                        filterBrand.setChecked(!filterBrand.isChecked());
+                        filterCallback.setFilterBrand(filterBrand);
+                        break;
+                }
             });
         }
         return convertView;
@@ -159,7 +176,7 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    private int converDpToPixels(int dp){
+    private int convertDpToPixels(int dp){
         Resources r = context.getResources();
         return  (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -171,5 +188,12 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
     void swap(SparseArray<ArrayList<ClotheFilter>> filters){
         this.filters = filters;
         notifyDataSetChanged();
+    }
+
+
+    interface FilterCallback {
+        void setFilterProductName(FilterProductName name);
+        void setFilterBrand(FilterBrand brand);
+        void setFilterColor(FilterColor color);
     }
 }

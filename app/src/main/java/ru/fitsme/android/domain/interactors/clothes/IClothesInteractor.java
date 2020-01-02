@@ -25,4 +25,10 @@ public interface IClothesInteractor extends BaseInteractor {
     LiveData<List<FilterBrand>> getBrands();
 
     LiveData<List<FilterColor>> getColors();
+
+    void setFilterProductName(FilterProductName filterProductName);
+
+    void setFilterBrand(FilterBrand filterBrand);
+
+    void setFilterColor(FilterColor filterColor);
 }

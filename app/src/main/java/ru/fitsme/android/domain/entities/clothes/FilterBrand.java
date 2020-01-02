@@ -37,6 +37,7 @@ public class FilterBrand implements ClotheFilter{
         return isChecked;
     }
 
+    @Override
     public void setChecked(boolean checked) {
         isChecked = checked;
     }

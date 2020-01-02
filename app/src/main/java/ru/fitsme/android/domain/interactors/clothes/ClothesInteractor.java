@@ -43,9 +43,9 @@ public class ClothesInteractor implements IClothesInteractor {
         this.mainThread = mainThread;
 
         updateClothesList();
-        clothesRepository.updateClotheBrands();
-        clothesRepository.updateClotheColors();
-        clothesRepository.updateProductNames();
+        clothesRepository.updateClotheBrandList();
+        clothesRepository.updateClotheColorList();
+        clothesRepository.updateProductNameList();
     }
 
     @SuppressLint("CheckResult")
@@ -124,5 +124,20 @@ public class ClothesInteractor implements IClothesInteractor {
             }
             return output;
         });
+    }
+
+    @Override
+    public void setFilterProductName(FilterProductName filterProductName) {
+        clothesRepository.updateProductName(filterProductName);
+    }
+
+    @Override
+    public void setFilterBrand(FilterBrand filterBrand) {
+        clothesRepository.updateClotheBrand(filterBrand);
+    }
+
+    @Override
+    public void setFilterColor(FilterColor filterColor) {
+        clothesRepository.updateClotheColor(filterColor);
     }
 }

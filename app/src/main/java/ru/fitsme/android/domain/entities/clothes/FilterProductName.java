@@ -13,6 +13,7 @@ public class FilterProductName  implements ClotheFilter{
         this.id = productName.getId();
         this.title = productName.getTitle();
         this.type = productName.getType();
+        this.isChecked = productName.isChecked();
     }
 
     @Override
@@ -46,6 +47,7 @@ public class FilterProductName  implements ClotheFilter{
         return isChecked;
     }
 
+    @Override
     public void setChecked(boolean checked) {
         isChecked = checked;
     }

@@ -3,14 +3,12 @@ package ru.fitsme.android.presentation.fragments.filters;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.Switch;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFiltersBinding;
@@ -24,11 +22,11 @@ import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class FiltersFragment extends BaseFragment<FiltersViewModel>
-        implements BackClickListener {
+        implements BackClickListener, FilterExpandableAdapter.FilterCallback {
 
-    public static final int PRODUCT_NAME_NUMBER = 0;
-    public static final int BRAND_NAME_NUMBER = 1;
-    public static final int COLOR_NUMBER = 2;
+    static final int PRODUCT_NAME_NUMBER = 0;
+    static final int BRAND_NAME_NUMBER = 1;
+    static final int COLOR_NUMBER = 2;
 
     private FragmentFiltersBinding binding;
 
@@ -57,27 +55,21 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
 
     @Override
     protected void setUpRecyclers() {
-        adapter = new FilterExpandableAdapter(getContext(), filters);
+        adapter = new FilterExpandableAdapter(this, getContext(), filters);
         elvMain = (ExpandableListView) binding.fragmentFilterTypeExLv;
         elvMain.setAdapter(adapter);
     }
 
     @Override
     protected void setUpObservers() {
-        viewModel.getProductNames().observe(this, new Observer<List<FilterProductName>>() {
-            @Override
-            public void onChanged(List<FilterProductName> productNameList) {
-                filters.put(PRODUCT_NAME_NUMBER, (ArrayList) productNameList);
-                adapter.swap(filters);
-            }
+        viewModel.getProductNames().observe(this, productNameList -> {
+            filters.put(PRODUCT_NAME_NUMBER, (ArrayList) productNameList);
+            adapter.swap(filters);
         });
-        viewModel.getBrands().observe(this, new Observer<List<FilterBrand>>() {
-            @Override
-            public void onChanged(List<FilterBrand> brandList) {
-                filters.put(BRAND_NAME_NUMBER, (ArrayList) brandList);
-                Timber.d("brandList size: %s", brandList.size());
-                adapter.swap(filters);
-            }
+        viewModel.getBrands().observe(this, brandList -> {
+            filters.put(BRAND_NAME_NUMBER, (ArrayList) brandList);
+            Timber.d("brandList size: %s", brandList.size());
+            adapter.swap(filters);
         });
         viewModel.getColors().observe(this, list -> {
             FilterColorListWrapper wrapper = new FilterColorListWrapper(list);
@@ -98,7 +90,23 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
         viewModel.onBackPressed();
     }
 
+    @Override
+    public void setFilterProductName(FilterProductName filterProductName) {
+        viewModel.setFilterProductName(filterProductName);
+    }
 
+    @Override
+    public void setFilterBrand(FilterBrand filterBrand) {
+        viewModel.setFilterBrand(filterBrand);
+    }
+
+    @Override
+    public void setFilterColor(FilterColor filterColor) {
+        viewModel.setFilterColor(filterColor);
+    }
+
+
+    //костыль, чтобы сделать список цветов в одном childView
     class FilterColorListWrapper implements ClotheFilter{
 
         private ArrayList<FilterColor> filterColorArrayList;
@@ -124,6 +132,11 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
         @Override
         public boolean isChecked() {
             return false;
+        }
+
+        @Override
+        public void setChecked(boolean isChecked) {
+
         }
     }
 }

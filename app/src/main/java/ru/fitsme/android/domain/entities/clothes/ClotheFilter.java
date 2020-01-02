@@ -6,4 +6,6 @@ public interface ClotheFilter {
     String getTitle();
 
     boolean isChecked();
+
+    void setChecked(boolean isChecked);
 }

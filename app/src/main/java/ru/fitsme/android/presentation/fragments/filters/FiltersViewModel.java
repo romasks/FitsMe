@@ -45,4 +45,16 @@ public class FiltersViewModel extends BaseViewModel {
     public LiveData<List<FilterColor>> getColors(){
         return clothesInteractor.getColors();
     }
+
+    public void setFilterProductName(FilterProductName filterProductName) {
+        clothesInteractor.setFilterProductName(filterProductName);
+    }
+
+    public void setFilterBrand(FilterBrand filterBrand) {
+        clothesInteractor.setFilterBrand(filterBrand);
+    }
+
+    public void setFilterColor(FilterColor filterColor) {
+        clothesInteractor.setFilterColor(filterColor);
+    }
 }

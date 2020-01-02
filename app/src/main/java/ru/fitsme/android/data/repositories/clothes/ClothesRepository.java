@@ -8,7 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import io.reactivex.Completable;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
@@ -30,6 +33,9 @@ import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.clothes.FilterBrand;
+import ru.fitsme.android.domain.entities.clothes.FilterColor;
+import ru.fitsme.android.domain.entities.clothes.FilterProductName;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
@@ -38,11 +44,15 @@ public class ClothesRepository implements IClothesRepository {
 
     private final WebLoaderNetworkChecker webLoader;
     private final ISettingsStorage storage;
+    private Scheduler workThread;
 
     @Inject
-    ClothesRepository(WebLoaderNetworkChecker webLoader, ISettingsStorage storage) {
+    ClothesRepository(WebLoaderNetworkChecker webLoader,
+                      ISettingsStorage storage,
+                      @Named("work") Scheduler workThread) {
         this.webLoader = webLoader;
         this.storage = storage;
+        this.workThread = workThread;
     }
 
     @Override
@@ -138,7 +148,7 @@ public class ClothesRepository implements IClothesRepository {
     }
 
     @Override
-    public void updateClotheBrands(){
+    public void updateClotheBrandList(){
         webLoader.getBrandList()
             .subscribe(listOkResponse -> {
                 List<RepoClotheBrand> clotheBrands = listOkResponse.getResponse();
@@ -185,7 +195,7 @@ public class ClothesRepository implements IClothesRepository {
     }
 
     @Override
-    public void updateClotheColors(){
+    public void updateClotheColorList(){
         webLoader.getColorList()
                 .subscribe(listOkResponse -> {
                     List<RepoClotheColor> clotheColorList = listOkResponse.getResponse();
@@ -232,7 +242,7 @@ public class ClothesRepository implements IClothesRepository {
     }
 
     @Override
-    public void updateProductNames(){
+    public void updateProductNameList(){
         webLoader.getProductNameList()
                 .subscribe(listOkResponse -> {
                     List<RepoClotheProductName> clotheProductNameList = listOkResponse.getResponse();
@@ -277,5 +287,45 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public LiveData<List<RoomProductName>> getClotheProductName(){
         return AppDatabase.getInstance().getProductNamesDao().getProductNamesLiveData();
+    }
+
+    @Override
+    public void updateProductName(FilterProductName filterProductName) {
+        Completable.create(emitter -> {
+            ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+            productNamesDao.update(
+                    new RoomProductName(filterProductName.getId(), filterProductName.getTitle(),
+                            filterProductName.getType(), filterProductName.isChecked(), false)
+            );
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .subscribe();
+    }
+
+    @Override
+    public void updateClotheBrand(FilterBrand filterBrand) {
+        Completable.create(emitter -> {
+            BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+            brandsDao.update(
+                    new RoomBrand(filterBrand.getId(), filterBrand.getTitle(),
+                            filterBrand.isChecked(), false)
+            );
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .subscribe();
+    }
+
+    @Override
+    public void updateClotheColor(FilterColor filterColor) {
+        Completable.create(emitter -> {
+            ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+            colorsDao.update(new RoomColor(filterColor.getId(), filterColor.getTitle(),
+                    filterColor.getColorHex(), filterColor.isChecked(), false));
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .subscribe();
     }
 }
