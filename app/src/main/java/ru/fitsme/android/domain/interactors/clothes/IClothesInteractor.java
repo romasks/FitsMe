@@ -31,4 +31,6 @@ public interface IClothesInteractor extends BaseInteractor {
     void setFilterBrand(FilterBrand filterBrand);
 
     void setFilterColor(FilterColor filterColor);
+
+    void resetCheckedFilters();
 }

@@ -34,4 +34,7 @@ public interface ColorsDao {
 
     @Update
     void update(RoomColor roomColor);
+
+    @Query("SELECT * FROM roomcolor WHERE isChecked == 1")
+    Single<List<RoomColor>> getCheckedColors();
 }

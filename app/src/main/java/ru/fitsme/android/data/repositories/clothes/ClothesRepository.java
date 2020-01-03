@@ -328,4 +328,49 @@ public class ClothesRepository implements IClothesRepository {
                 .subscribeOn(workThread)
                 .subscribe();
     }
+
+    @Override
+    public void resetCheckedFilters() {
+        Completable.create(emitter -> {
+            resetProductNameFilters();
+            resetBrandFilters();
+            resetColorFilters();
+        })
+                .subscribeOn(workThread)
+                .subscribe();
+    }
+
+    private void resetColorFilters() {
+        ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+        colorsDao.getCheckedColors()
+                .subscribe(roomColors -> {
+                    for (int i = 0; i < roomColors.size(); i++) {
+                        roomColors.get(i).setChecked(false);
+                        colorsDao.update(roomColors.get(i));
+                    }
+                });
+    }
+
+    private void resetBrandFilters() {
+        BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+        brandsDao.getCheckedFilters()
+                .subscribe(roomBrands -> {
+                    for (int i = 0; i < roomBrands.size(); i++) {
+                        roomBrands.get(i).setChecked(false);
+                        brandsDao.update(roomBrands.get(i));
+                    }
+                });
+
+    }
+
+    private void resetProductNameFilters() {
+        ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+        productNamesDao.getCheckedFilters()
+            .subscribe(roomProductNames -> {
+                for (int i = 0; i < roomProductNames.size(); i++) {
+                    roomProductNames.get(i).setChecked(false);
+                    productNamesDao.update(roomProductNames.get(i));
+                }
+            });
+    }
 }

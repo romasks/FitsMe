@@ -57,4 +57,8 @@ public class FiltersViewModel extends BaseViewModel {
     public void setFilterColor(FilterColor filterColor) {
         clothesInteractor.setFilterColor(filterColor);
     }
+
+    public void onResetClicked() {
+        clothesInteractor.resetCheckedFilters();
+    }
 }

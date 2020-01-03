@@ -50,4 +50,6 @@ public interface IClothesRepository {
     void updateClotheBrand(FilterBrand filterBrand);
 
     void updateClotheColor(FilterColor filterColor);
+
+    void resetCheckedFilters();
 }

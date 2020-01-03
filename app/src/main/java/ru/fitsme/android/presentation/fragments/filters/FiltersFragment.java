@@ -22,7 +22,7 @@ import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class FiltersFragment extends BaseFragment<FiltersViewModel>
-        implements BackClickListener, FilterExpandableAdapter.FilterCallback {
+        implements BackClickListener, FilterBindingEvents, FilterExpandableAdapter.FilterCallback {
 
     static final int PRODUCT_NAME_NUMBER = 0;
     static final int BRAND_NAME_NUMBER = 1;
@@ -51,6 +51,7 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
         }
         binding = FragmentFiltersBinding.bind(view);
         binding.setBackClickListener(this);
+        binding.setBindingEvent(this);
     }
 
     @Override
@@ -103,6 +104,11 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
     @Override
     public void setFilterColor(FilterColor filterColor) {
         viewModel.setFilterColor(filterColor);
+    }
+
+    @Override
+    public void onResetClick() {
+        viewModel.onResetClicked();
     }
 
 

@@ -34,4 +34,7 @@ public interface ProductNamesDao {
 
     @Update
     void update(RoomProductName roomProductName);
+
+    @Query("SELECT * FROM roomproductname WHERE isChecked == 1")
+    Single<List<RoomProductName>> getCheckedFilters();
 }

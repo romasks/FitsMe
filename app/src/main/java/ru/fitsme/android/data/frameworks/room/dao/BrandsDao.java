@@ -38,4 +38,7 @@ public interface BrandsDao {
 
     @Update
     void update(RoomBrand brand);
+
+    @Query("SELECT * FROM RoomBrand WHERE isChecked == 1")
+    Single<List<RoomBrand>> getCheckedFilters();
 }

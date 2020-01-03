@@ -140,4 +140,9 @@ public class ClothesInteractor implements IClothesInteractor {
     public void setFilterColor(FilterColor filterColor) {
         clothesRepository.updateClotheColor(filterColor);
     }
+
+    @Override
+    public void resetCheckedFilters() {
+        clothesRepository.resetCheckedFilters();
+    }
 }

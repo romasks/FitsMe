@@ -8,6 +8,10 @@
         <variable
             name="backClickListener"
             type="ru.fitsme.android.presentation.common.listener.BackClickListener" />
+
+        <variable
+            name="bindingEvent"
+            type="ru.fitsme.android.presentation.fragments.filters.FilterBindingEvents" />
     </data>
 
     <LinearLayout
@@ -51,6 +55,7 @@
                     android:textSize="@dimen/text_size_minimal_medium"
                     android:clickable="true"
                     android:focusable="true"
+                    android:onClick="@{() -> bindingEvent.onResetClick()}"
                     />
         </FrameLayout>
 
