@@ -45,14 +45,17 @@ public class ClothesRepository implements IClothesRepository {
     private final WebLoaderNetworkChecker webLoader;
     private final ISettingsStorage storage;
     private Scheduler workThread;
+    private Scheduler mainThread;
 
     @Inject
     ClothesRepository(WebLoaderNetworkChecker webLoader,
                       ISettingsStorage storage,
-                      @Named("work") Scheduler workThread) {
+                      @Named("work") Scheduler workThread,
+                      @Named("main") Scheduler mainThread) {
         this.webLoader = webLoader;
         this.storage = storage;
         this.workThread = workThread;
+        this.mainThread = mainThread;
     }
 
     @Override
@@ -338,6 +341,38 @@ public class ClothesRepository implements IClothesRepository {
         })
                 .subscribeOn(workThread)
                 .subscribe();
+    }
+
+    @Override
+    public Single<Boolean> isFiltersChecked() {
+        return Single.create(emitter -> {
+            ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+            BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+            ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+            productNamesDao.getCheckedFilters()
+                    .subscribeOn(workThread)
+                    .subscribe(roomProductNames -> {
+                        if (roomProductNames.size() > 0){
+                            emitter.onSuccess(true);
+                        } else {
+                            brandsDao.getCheckedFilters()
+                                    .subscribe(roomBrands -> {
+                                        if (roomBrands.size() > 0){
+                                            emitter.onSuccess(true);
+                                        } else {
+                                            colorsDao.getCheckedColors()
+                                                    .subscribe(roomColors -> {
+                                                        if (roomColors.size() > 0){
+                                                            emitter.onSuccess(true);
+                                                        } else {
+                                                            emitter.onSuccess(false);
+                                                        }
+                                                    });
+                                        }
+                                    });
+                        }
+                    });
+        });
     }
 
     private void resetColorFilters() {

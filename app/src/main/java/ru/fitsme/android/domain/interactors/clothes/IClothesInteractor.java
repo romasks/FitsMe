@@ -4,6 +4,7 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 
+import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.clothes.FilterBrand;
 import ru.fitsme.android.domain.entities.clothes.FilterColor;
 import ru.fitsme.android.domain.entities.clothes.FilterProductName;
@@ -33,4 +34,6 @@ public interface IClothesInteractor extends BaseInteractor {
     void setFilterColor(FilterColor filterColor);
 
     void resetCheckedFilters();
+
+    Single<Boolean> isFiltersChecked();
 }

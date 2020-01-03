@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.FilterBrand;
 import ru.fitsme.android.domain.entities.clothes.FilterColor;
@@ -144,5 +145,10 @@ public class ClothesInteractor implements IClothesInteractor {
     @Override
     public void resetCheckedFilters() {
         clothesRepository.resetCheckedFilters();
+    }
+
+    @Override
+    public Single<Boolean> isFiltersChecked() {
+        return clothesRepository.isFiltersChecked();
     }
 }

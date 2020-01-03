@@ -52,4 +52,6 @@ public interface IClothesRepository {
     void updateClotheColor(FilterColor filterColor);
 
     void resetCheckedFilters();
+
+    Single<Boolean> isFiltersChecked();
 }
