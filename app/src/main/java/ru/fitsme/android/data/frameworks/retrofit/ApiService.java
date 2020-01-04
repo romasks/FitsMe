@@ -50,7 +50,10 @@ public interface ApiService {
 
     @GET("clothes/")
     Single<OkResponse<ClothesPage>> getClothes(@Header("Authorization") String token,
-                                               @Query("page") int page);
+                                               @Query("page") int page,
+                                               @Query("clothe_type") String productNameList,
+                                               @Query("brands") String brandsList,
+                                               @Query("colors") String colorsList);
 
     @GET("clothes/sizes/")
     Single<OkResponse<List<ClotheSize>>> getClotheSizes(@Header("Authorization") String token);

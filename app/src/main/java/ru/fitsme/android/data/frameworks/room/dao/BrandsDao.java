@@ -25,7 +25,13 @@ public interface BrandsDao {
     void delete(RoomBrand roomBrand);
 
     @Query("SELECT * FROM RoomBrand")
-    Single<List<RoomBrand>> getBrandsList();
+    Single<List<RoomBrand>> getSingleBrandsList();
+
+    @Query("SELECT * FROM RoomBrand WHERE isChecked == 1")
+    List<RoomBrand> getCheckedBrandsList();
+
+    @Query("SELECT * FROM RoomBrand WHERE isChecked == 1")
+    Single<List<RoomBrand>> getCheckedFilters();
 
     @Query("SELECT * FROM RoomBrand")
     LiveData<List<RoomBrand>> getBrandsLiveData();
@@ -38,7 +44,4 @@ public interface BrandsDao {
 
     @Update
     void update(RoomBrand brand);
-
-    @Query("SELECT * FROM RoomBrand WHERE isChecked == 1")
-    Single<List<RoomBrand>> getCheckedFilters();
 }

@@ -157,7 +157,7 @@ public class ClothesRepository implements IClothesRepository {
                 List<RepoClotheBrand> clotheBrands = listOkResponse.getResponse();
                 if (clotheBrands != null){
                     BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
-                        brandsDao.getBrandsList()
+                        brandsDao.getSingleBrandsList()
                             .subscribe(roomBrands -> {
                                 for (int i = 0; i < clotheBrands.size(); i++) {
                                     RepoClotheBrand brand = clotheBrands.get(i);
@@ -183,7 +183,7 @@ public class ClothesRepository implements IClothesRepository {
 
     private void setRoomBrandsNotUpdated() {
         BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
-        brandsDao.getBrandsList()
+        brandsDao.getSingleBrandsList()
             .subscribe(roomBrandList -> {
                 for (int i = 0; i < roomBrandList.size(); i++) {
                     RoomBrand brand = roomBrandList.get(i);
@@ -204,7 +204,7 @@ public class ClothesRepository implements IClothesRepository {
                     List<RepoClotheColor> clotheColorList = listOkResponse.getResponse();
                     if (clotheColorList != null){
                         ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
-                        colorsDao.getColorsList()
+                        colorsDao.getSingleColorsList()
                                 .subscribe(roomColors -> {
                                     for (int i = 0; i < clotheColorList.size(); i++) {
                                         RepoClotheColor color = clotheColorList.get(i);
@@ -230,7 +230,7 @@ public class ClothesRepository implements IClothesRepository {
 
     private void setRoomColorsNotUpdated() {
         ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
-        colorsDao.getColorsList()
+        colorsDao.getSingleColorsList()
                 .subscribe(roomColorsList -> {
                     for (int i = 0; i < roomColorsList.size(); i++) {
                         RoomColor roomColor = roomColorsList.get(i);
@@ -251,7 +251,7 @@ public class ClothesRepository implements IClothesRepository {
                     List<RepoClotheProductName> clotheProductNameList = listOkResponse.getResponse();
                     if (clotheProductNameList != null){
                         ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
-                        productNamesDao.getProductNamesList()
+                        productNamesDao.getSingleProductNamesList()
                                 .subscribe(roomProductNames -> {
                                     for (int i = 0; i < clotheProductNameList.size(); i++) {
                                         RepoClotheProductName productName = clotheProductNameList.get(i);
@@ -278,7 +278,7 @@ public class ClothesRepository implements IClothesRepository {
 
     private void setRoomProductNamesNotUpdated() {
         ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
-        productNamesDao.getProductNamesList()
+        productNamesDao.getSingleProductNamesList()
                 .subscribe(roomProductNames -> {
                     for (int i = 0; i < roomProductNames.size(); i++) {
                         RoomProductName roomProductName = roomProductNames.get(i);

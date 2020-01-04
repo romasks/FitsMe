@@ -21,7 +21,13 @@ public interface ProductNamesDao {
     void clearNotUpdatedProductNames();
 
     @Query("SELECT * FROM roomproductname")
-    Single<List<RoomProductName>> getProductNamesList();
+    Single<List<RoomProductName>> getSingleProductNamesList();
+
+    @Query("SELECT * FROM roomproductname WHERE isChecked == 1")
+    List<RoomProductName> getCheckedProductNamesList();
+
+    @Query("SELECT * FROM roomproductname WHERE isChecked == 1")
+    Single<List<RoomProductName>> getCheckedFilters();
 
     @Query("SELECT * FROM roomproductname")
     LiveData<List<RoomProductName>> getProductNamesLiveData();
@@ -34,7 +40,4 @@ public interface ProductNamesDao {
 
     @Update
     void update(RoomProductName roomProductName);
-
-    @Query("SELECT * FROM roomproductname WHERE isChecked == 1")
-    Single<List<RoomProductName>> getCheckedFilters();
 }

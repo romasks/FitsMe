@@ -43,7 +43,6 @@ public class ClothesInteractor implements IClothesInteractor {
         this.workThread = workThread;
         this.mainThread = mainThread;
 
-        updateClothesList();
         clothesRepository.updateClotheBrandList();
         clothesRepository.updateClotheColorList();
         clothesRepository.updateProductNameList();

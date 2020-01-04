@@ -60,6 +60,7 @@ public class RateItemsViewModel extends BaseViewModel {
             .subscribe(result -> {
                 filterIsChecked.setValue(result);
             });
+        clothesInteractor.updateClothesList();
     }
 
     public LiveData<Boolean> getFilterIconLiveData() {

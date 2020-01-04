@@ -21,7 +21,13 @@ public interface ColorsDao {
     void clearNotUpdatedColors();
 
     @Query("SELECT * FROM RoomColor")
-    Single<List<RoomColor>> getColorsList();
+    Single<List<RoomColor>> getSingleColorsList();
+
+    @Query("SELECT * FROM RoomColor WHERE isChecked == 1")
+    List<RoomColor> getCheckedColorsList();
+
+    @Query("SELECT * FROM roomcolor WHERE isChecked == 1")
+    Single<List<RoomColor>> getCheckedColors();
 
     @Query("SELECT * FROM RoomColor")
     LiveData<List<RoomColor>> getColorsLiveData();
@@ -34,7 +40,4 @@ public interface ColorsDao {
 
     @Update
     void update(RoomColor roomColor);
-
-    @Query("SELECT * FROM roomcolor WHERE isChecked == 1")
-    Single<List<RoomColor>> getCheckedColors();
 }

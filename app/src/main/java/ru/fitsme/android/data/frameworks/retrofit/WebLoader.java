@@ -16,6 +16,10 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
+import ru.fitsme.android.data.frameworks.room.RoomBrand;
+import ru.fitsme.android.data.frameworks.room.RoomColor;
+import ru.fitsme.android.data.frameworks.room.RoomProductName;
+import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
@@ -97,9 +101,51 @@ abstract class WebLoader {
 
     public Single<OkResponse<ClothesPage>> getClothesPage(int page) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
-                .subscribe(authInfo -> apiService.getClothes(TOKEN + authInfo.getToken(), page)
-                        .subscribeOn(workThread)
-                        .subscribe(emitter::onSuccess, emitter::onError), emitter::onError));
+                .subscribeOn(workThread)
+                .observeOn(workThread)
+                .subscribe(authInfo -> {
+                    String filterColors = getFilterColors();
+                    String filterBrands = getFilterBrands();
+                    String filterProductNames = getFilterProductNames();
+                    apiService.getClothes(TOKEN + authInfo.getToken(), page, filterProductNames, filterBrands, filterColors)
+                        .subscribe(emitter::onSuccess, emitter::onError);
+                }, emitter::onError));
+    }
+
+    private String getFilterColors(){
+        StringBuilder result = new StringBuilder();
+        List<RoomColor>  list = AppDatabase.getInstance().getColorsDao().getCheckedColorsList();
+        for (int i = 0; i < list.size(); i++) {
+            result.append(list.get(i).getId());
+            if (i != list.size() - 1){
+                result.append(",");
+            }
+        }
+        return result.toString();
+    }
+
+    private String getFilterBrands(){
+        StringBuilder result = new StringBuilder();
+        List<RoomBrand>  list = AppDatabase.getInstance().getBrandsDao().getCheckedBrandsList();
+        for (int i = 0; i < list.size(); i++) {
+            result.append(list.get(i).getId());
+            if (i != list.size() - 1){
+                result.append(",");
+            }
+        }
+        return result.toString();
+    }
+
+    private String getFilterProductNames(){
+        StringBuilder result = new StringBuilder();
+        List<RoomProductName>  list = AppDatabase.getInstance().getProductNamesDao().getCheckedProductNamesList();
+        for (int i = 0; i < list.size(); i++) {
+            result.append(list.get(i).getId());
+            if (i != list.size() - 1){
+                result.append(",");
+            }
+        }
+        return result.toString();
     }
 
     public Single<OkResponse<FavouritesPage>> getFavouritesClothesPage(int page) {
