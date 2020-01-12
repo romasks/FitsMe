@@ -65,7 +65,7 @@
     <string name="item_info_item_name_text">Название товара</string>
     <string name="item_info_load_error">Error</string>
     <string name="item_info_load_in_process">loading</string>
-    <string name="phone_auth_input_phone">Введите свой моб. телефон</string>
+    <string name="phone_auth_input_phone">Для входа в приложение введите номер телефона</string>
     <string name="phone_auth_code_default">+7</string>
     <string name="phone_auth_number_hint">(123)456-78-90</string>
     <string name="auth_get_code">Получить код</string>
