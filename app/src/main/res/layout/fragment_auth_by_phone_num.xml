@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/fragment_phone_auth_input_phone_tv"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:textSize="@dimen/text_size_lower_medium"
+            android:textColor="@color/black"
+            android:text="@string/phone_auth_input_phone"
+            android:gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fragment_phone_auth_number_et"
+            />
+
+        <EditText
+            android:id="@+id/fragment_phone_auth_code_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_header"
+            android:hint="@string/phone_auth_code_default"
+            android:text="@string/phone_auth_code_default"
+            android:drawablePadding="4dp"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_phone_auth_number_et"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_phone_auth_number_et"
+            />
+
+        <EditText
+            android:id="@+id/fragment_phone_auth_number_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:textSize="@dimen/text_size_header"
+            android:hint="@string/phone_auth_number_hint"
+            android:inputType="phone"
+            android:importantForAutofill="no"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_phone_auth_get_code_btn"
+            app:layout_constraintStart_toEndOf="@+id/fragment_phone_auth_code_et"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <Button
+            android:id="@+id/fragment_phone_auth_get_code_btn"
+            android:layout_width="290dp"
+            android:layout_height="40dp"
+            android:text="@string/auth_get_code"
+            android:textSize="@dimen/text_size_lower_medium"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_rounded_corners_primary_dark_btn"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_phone_auth_number_et"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
+
+
