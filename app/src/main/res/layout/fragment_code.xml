@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/layout_app_bar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_bar"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="34dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="Введите код из СМС"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/phone_number"
+                android:layout_width="210dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_phone_number"
+                android:hint="(123) 456 - 78 - 90"
+                android:inputType="phone"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                tools:ignore="Autofill" />
+
+            <com.alimuzaffar.lib.pin.PinEntryEditText
+                android:layout_width="210dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_phone_number"
+                android:cursorVisible="false"
+                android:digits="1234567890"
+                android:inputType="number"
+                android:maxLength="4"
+                app:pinLineColors="@color/white"
+                app:pinCharacterMask="*"
+                android:textIsSelectable="false" />
+
+            <FrameLayout
+                android:layout_width="210dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_phone_number">
+
+                <com.mukesh.OtpView
+                    android:id="@+id/otp_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890"
+                    android:inputType="number"
+                    android:itemBackground="@color/colorPrimary"
+                    android:textColor="@color/colorDivideLine"
+                    app:itemCount="4"
+                    app:itemSpacing="32dp"
+                    app:lineColor="@color/colorDivideLine"
+                    app:viewType="none" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="58dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Отправить код повторно" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/colorDivideLine" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Через 00:50" />
+            </LinearLayout>
+
+            <!--<Button
+                android:id="@+id/btn_get_code"
+                style="@style/BottomButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:onClick="@{() -> bindingEvents.onClickGetCode()}"
+                android:text="Получить код" />-->
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
