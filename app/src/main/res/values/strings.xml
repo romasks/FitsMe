@@ -167,11 +167,11 @@
     <!-- FilterFragment -->
     <string name="filter_title">Фильтр</string>
     <string name="filter_reset_button">Сбросить</string>
-    <string-array name="filter_names">
-        <item name="clothe_types">Тип одежды</item>
-        <item name="brands">Бренд</item>
-        <item name="colors">Цвет</item>
-    </string-array>
+
+    <!-- "filter_names" -->
+    <string name="filter_clothe_types">Тип одежды</string>
+    <string name="filter_brands">Бренд</string>
+    <string name="filter_colors">Цвет</string>
 
     <string name="feedback_header_text">Оставить отзыв</string>
     <string name="feedback_btn_leave_feedback">Оставить отзыв</string>

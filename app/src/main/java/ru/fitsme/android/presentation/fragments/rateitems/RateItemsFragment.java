@@ -63,6 +63,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         binding = FragmentRateItemsBinding.bind(view);
         binding.setBindingEvents(this);
         setUp();
+        viewModel.onAfterCreateView();
     }
 
     private void setUp() {
@@ -72,11 +73,20 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     protected void setUpObservers() {
         viewModel.getClotheInfoLiveData().observe(getViewLifecycleOwner(), this::onChange);
+        viewModel.getFilterIconLiveData().observe(getViewLifecycleOwner(), this::onFilterIconChange);
     }
 
     private void onChange(ClotheInfo clotheInfo) {
         currentClotheInfo = clotheInfo;
         setClotheInfo(clotheInfo);
+    }
+
+    private void onFilterIconChange(Boolean isChecked){
+        if (isChecked){
+            binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.VISIBLE);
+        } else {
+            binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setClotheInfo(ClotheInfo clotheInfo) {

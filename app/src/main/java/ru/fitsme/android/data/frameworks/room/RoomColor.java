@@ -4,19 +4,19 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class RoomProductName {
+public class RoomColor {
 
     @PrimaryKey
     private int id;
-    private String title;
-    private String type;
+    private String colorName;
+    private String colorHex;
     private boolean isChecked;
     private boolean isUpdated;
 
-    public RoomProductName(int id, String title, String type, boolean isChecked, boolean isUpdated){
+    public RoomColor(int id, String colorName, String colorHex, boolean isChecked, boolean isUpdated){
         this.id = id;
-        this.title = title;
-        this.type = type;
+        this.colorName = colorName;
+        this.colorHex = colorHex;
         this.isChecked = isChecked;
         this.isUpdated = isUpdated;
     }
@@ -29,20 +29,12 @@ public class RoomProductName {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getColorName() {
+        return colorName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setColorName(String colorName) {
+        this.colorName = colorName;
     }
 
     public boolean isChecked() {
@@ -59,5 +51,13 @@ public class RoomProductName {
 
     public void setUpdated(boolean updated) {
         isUpdated = updated;
+    }
+
+    public String getColorHex() {
+        return colorHex;
+    }
+
+    public void setColorHex(String colorHex) {
+        this.colorHex = colorHex;
     }
 }

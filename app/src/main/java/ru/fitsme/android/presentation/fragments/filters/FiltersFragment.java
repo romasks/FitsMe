@@ -1,34 +1,39 @@
 package ru.fitsme.android.presentation.fragments.filters;
 
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.ExpandableListView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import android.widget.Switch;
 
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFiltersBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheFilter;
+import ru.fitsme.android.domain.entities.clothes.FilterBrand;
+import ru.fitsme.android.domain.entities.clothes.FilterColor;
+import ru.fitsme.android.domain.entities.clothes.FilterProductName;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import timber.log.Timber;
 
 public class FiltersFragment extends BaseFragment<FiltersViewModel>
-        implements BackClickListener {
+        implements BackClickListener, FilterBindingEvents, FilterExpandableAdapter.FilterCallback {
+
+    static final int PRODUCT_NAME_NUMBER = 0;
+    static final int BRAND_NAME_NUMBER = 1;
+    static final int COLOR_NUMBER = 2;
 
     private FragmentFiltersBinding binding;
 
-    String[] groups;
+    private SparseArray<ArrayList<ClotheFilter>> filters = new SparseArray<>();
 
-    String[] phonesHTC = new String[] {"Sensation", "Desire", "Wildfire", "Hero"};
-    String[] phonesSams = new String[] {"Galaxy S II", "Galaxy Nexus", "Wave"};
-    String[] phonesLG = new String[] {"Optimus"};
-
-    // общая коллекция для коллекций элементов
-    ArrayList<ArrayList<String>> childData;
-    // в итоге получится childData = ArrayList<childDataItem>
-
-    ExpandableListView elvMain;
+    private ExpandableListView elvMain;
+    private FilterExpandableAdapter adapter;
 
     public static Fragment newInstance() {
         return new FiltersFragment();
@@ -46,21 +51,34 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
         }
         binding = FragmentFiltersBinding.bind(view);
         binding.setBackClickListener(this);
-        setUp();
-    }
-
-    private void setUp() {
-        createList();
+        binding.setBindingEvent(this);
     }
 
     @Override
     protected void setUpRecyclers() {
-
+        adapter = new FilterExpandableAdapter(this, getContext(), filters);
+        elvMain = (ExpandableListView) binding.fragmentFilterTypeExLv;
+        elvMain.setAdapter(adapter);
     }
 
     @Override
     protected void setUpObservers() {
-
+        viewModel.getProductNames().observe(this, productNameList -> {
+            filters.put(PRODUCT_NAME_NUMBER, (ArrayList) productNameList);
+            adapter.swap(filters);
+        });
+        viewModel.getBrands().observe(this, brandList -> {
+            filters.put(BRAND_NAME_NUMBER, (ArrayList) brandList);
+            Timber.d("brandList size: %s", brandList.size());
+            adapter.swap(filters);
+        });
+        viewModel.getColors().observe(this, list -> {
+            FilterColorListWrapper wrapper = new FilterColorListWrapper(list);
+            ArrayList<ClotheFilter> listWrappers = new ArrayList<>();
+            listWrappers.add(wrapper);
+            filters.put(COLOR_NUMBER, listWrappers);
+            adapter.swap(filters);
+        });
     }
 
     @Override
@@ -73,22 +91,58 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
         viewModel.onBackPressed();
     }
 
-    private void createList() {
-        groups = getResources().getStringArray(R.array.filter_names);
+    @Override
+    public void setFilterProductName(FilterProductName filterProductName) {
+        viewModel.setFilterProductName(filterProductName);
+    }
 
-        // создаем коллекцию для коллекций элементов
-        childData = new ArrayList<ArrayList<String>>();
-        childData.add(new ArrayList<>(Arrays.asList(phonesHTC)));
-        childData.add(new ArrayList<>(Arrays.asList(phonesSams)));
-        childData.add(new ArrayList<>(Arrays.asList(phonesLG)));
+    @Override
+    public void setFilterBrand(FilterBrand filterBrand) {
+        viewModel.setFilterBrand(filterBrand);
+    }
 
-        FilterExpandableAdapter adapter = new FilterExpandableAdapter(
-                getContext(),
-                new ArrayList<>(Arrays.asList(groups)),
-                childData
-        );
+    @Override
+    public void setFilterColor(FilterColor filterColor) {
+        viewModel.setFilterColor(filterColor);
+    }
 
-        elvMain = (ExpandableListView) binding.fragmentFilterTypeExLv;
-        elvMain.setAdapter(adapter);
+    @Override
+    public void onResetClick() {
+        viewModel.onResetClicked();
+    }
+
+
+    //костыль, чтобы сделать список цветов в одном childView
+    class FilterColorListWrapper implements ClotheFilter{
+
+        private ArrayList<FilterColor> filterColorArrayList;
+
+        FilterColorListWrapper(List filterColorArrayList){
+            this.filterColorArrayList = (ArrayList) filterColorArrayList;
+        }
+
+        ArrayList<FilterColor> getColorList(){
+            return filterColorArrayList;
+        }
+
+        @Override
+        public int getId() {
+            return 0;
+        }
+
+        @Override
+        public String getTitle() {
+            return null;
+        }
+
+        @Override
+        public boolean isChecked() {
+            return false;
+        }
+
+        @Override
+        public void setChecked(boolean isChecked) {
+
+        }
     }
 }
