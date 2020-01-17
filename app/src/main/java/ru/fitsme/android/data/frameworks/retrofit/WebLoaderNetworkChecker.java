@@ -5,12 +5,14 @@ import androidx.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import retrofit2.Response;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.NetworkStatus;
+import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
@@ -141,6 +143,11 @@ public class WebLoaderNetworkChecker extends WebLoader {
     @Override
     public Single<OkResponse<Order>> getOrderById(int orderId) {
         return checkNetwork(super.getOrderById(orderId));
+    }
+
+    @Override
+    public Single<OkResponse<Boolean>> sendFeedback(FeedbackRequest request) {
+        return checkNetwork(super.sendFeedback(request));
     }
 
     private Single checkNetwork(Single single) {

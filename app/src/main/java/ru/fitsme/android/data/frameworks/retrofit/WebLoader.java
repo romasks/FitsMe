@@ -10,6 +10,7 @@ import io.reactivex.Single;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
+import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
@@ -278,6 +279,15 @@ abstract class WebLoader {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.getOrderById(TOKEN + authInfo.getToken(), orderId)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<Boolean>> sendFeedback(FeedbackRequest request) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.sendFeedback(TOKEN + authInfo.getToken(), request)
                                 .subscribeOn(workThread)
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError));

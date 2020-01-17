@@ -33,10 +33,12 @@ import ru.fitsme.android.data.repositories.auth.TextValidator;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
+import ru.fitsme.android.data.repositories.feedback.FeedbackRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersActionRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.repositories.profile.ProfileRepository;
 import ru.fitsme.android.data.repositories.returns.ReturnsRepository;
+import ru.fitsme.android.domain.boundaries.IFeedbackRepository;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
@@ -55,6 +57,8 @@ import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import ru.fitsme.android.domain.interactors.feedback.FeedbackInteractor;
+import ru.fitsme.android.domain.interactors.feedback.IFeedbackInteractor;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.orders.OrdersInteractor;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
@@ -106,6 +110,9 @@ public class DI {
 
             bind(IReturnsInteractor.class).to(ReturnsInteractor.class);
             bind(IReturnsRepository.class).to(ReturnsRepository.class);
+
+            bind(IFeedbackInteractor.class).to(FeedbackInteractor.class);
+            bind(IFeedbackRepository.class).to(FeedbackRepository.class);
         }});
     }
 

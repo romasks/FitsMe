@@ -13,6 +13,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
+import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
@@ -115,4 +116,8 @@ public interface ApiService {
     @GET("returns/{id}/")
     Single<OkResponse<ReturnsOrder>> getReturnById(@Header("Authorization") String token,
                                                    @Path("id") long returnId);
+
+    @POST("feedback")
+    Single<OkResponse<Boolean>> sendFeedback(@Header("Authorization") String token,
+                                 @Body FeedbackRequest request);
 }

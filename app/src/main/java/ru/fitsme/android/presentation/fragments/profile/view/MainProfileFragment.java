@@ -59,7 +59,7 @@ public class MainProfileFragment extends BaseFragment<MainProfileViewModel> impl
 
     @Override
     public void onLeaveFeedbackClick() {
-
+        viewModel.goToLeaveFeedback();
     }
 
     @Override
