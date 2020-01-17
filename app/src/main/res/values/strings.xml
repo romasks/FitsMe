@@ -173,6 +173,7 @@
         <item name="colors">Цвет</item>
     </string-array>
 
+    <!--feedback-->
     <string name="feedback_header_text">Оставить отзыв</string>
     <string name="feedback_btn_leave_feedback">Оставить отзыв</string>
     <string name="feedback_field_name">Ваше имя</string>
@@ -182,5 +183,10 @@
     <string name="feedback_hint_enter_email">example@domain.ru</string>
     <string name="feedback_hint_enter_message">Введите здесь текст Вашего сообщения.\nВопросы, предложения, пожелания.</string>
     <string name="feedback_error_text">Заполните это поле</string>
+
+    <!--auth-->
+    <string name="auth_code_header_text">Введите код</string>
+    <string name="auth_code_resend_code">Отправить код повторно</string>
+    <string name="auth_code_prompt">Введите код из СМС</string>
 
 </resources>

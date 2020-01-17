@@ -5,7 +5,13 @@
 
     <data>
 
+        <variable
+            name="bindingEvents"
+            type="ru.fitsme.android.presentation.fragments.auth.CodeBindingEvents" />
 
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.auth.CodeViewModel" />
     </data>
 
     <RelativeLayout
@@ -32,52 +38,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
-                android:text="Введите код из СМС"
+                android:text="@string/auth_code_prompt"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/phone_number"
-                android:layout_width="210dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_phone_number"
-                android:hint="(123) 456 - 78 - 90"
-                android:inputType="phone"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                tools:ignore="Autofill" />
-
-            <com.alimuzaffar.lib.pin.PinEntryEditText
-                android:layout_width="210dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bg_phone_number"
-                android:cursorVisible="false"
-                android:digits="1234567890"
-                android:inputType="number"
-                android:maxLength="4"
-                app:pinLineColors="@color/white"
-                app:pinCharacterMask="*"
-                android:textIsSelectable="false" />
 
             <FrameLayout
                 android:layout_width="210dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/bg_phone_number">
+                android:background="@drawable/bg_phone_number"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
 
-                <com.mukesh.OtpView
-                    android:id="@+id/otp_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.alimuzaffar.lib.pin.PinEntryEditText
+                    android:id="@+id/pin_entry_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cursorVisible="false"
                     android:digits="1234567890"
+                    android:focusable="true"
                     android:inputType="number"
-                    android:itemBackground="@color/colorPrimary"
-                    android:textColor="@color/colorDivideLine"
-                    app:itemCount="4"
-                    app:itemSpacing="32dp"
-                    app:lineColor="@color/colorDivideLine"
-                    app:viewType="none" />
+                    android:maxLength="4"
+                    android:textIsSelectable="false"
+                    app:pinBackgroundDrawable="@android:color/transparent"
+                    app:pinCharacterSpacing="10dp"
+                    app:pinLineColors="@color/white"
+                    app:pinRepeatedHint="*"
+                    app:pinTextBottomPadding="-4dp" />
             </FrameLayout>
 
             <LinearLayout
@@ -88,9 +75,15 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/resend_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Отправить код повторно" />
+                    android:clickable="true"
+                    android:enabled="false"
+                    android:focusable="true"
+                    android:text="@string/auth_code_resend_code"
+                    android:textColor="@color/resend_code"
+                    tools:textColor="@color/resendCodeInactive" />
 
                 <View
                     android:layout_width="match_parent"
@@ -100,19 +93,12 @@
                     android:background="@color/colorDivideLine" />
 
                 <TextView
+                    android:id="@+id/timer_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Через 00:50" />
+                    android:textColor="@color/resendCodeInactive"
+                    tools:text="Через 00:59" />
             </LinearLayout>
-
-            <!--<Button
-                android:id="@+id/btn_get_code"
-                style="@style/BottomButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="34dp"
-                android:onClick="@{() -> bindingEvents.onClickGetCode()}"
-                android:text="Получить код" />-->
 
         </LinearLayout>
     </RelativeLayout>

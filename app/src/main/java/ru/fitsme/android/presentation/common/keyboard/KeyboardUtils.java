@@ -15,4 +15,13 @@ public class KeyboardUtils {
             }
         }
     }
+
+    public static void open(@Nullable Activity activity, @Nullable View view) {
+        if (activity != null && view != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.toggleSoftInputFromWindow(view.getRootView().getWindowToken(), InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        }
+    }
 }
