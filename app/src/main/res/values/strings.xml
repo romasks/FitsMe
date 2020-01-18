@@ -188,5 +188,6 @@
     <string name="auth_code_header_text">Введите код</string>
     <string name="auth_code_resend_code">Отправить код повторно</string>
     <string name="auth_code_prompt">Введите код из СМС</string>
+    <string name="auth_code_wrong_code">Неверный код</string>
 
 </resources>

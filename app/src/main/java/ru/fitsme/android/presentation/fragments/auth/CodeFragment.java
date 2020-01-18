@@ -49,12 +49,38 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
         });
 
         binding.resendCode.setOnClickListener(v -> {
+            // Clear and enable entry field
+            binding.pinEntryCode.setText("");
+            binding.pinEntryCode.setEnabled(true);
+
+            // Disable resend code text
             binding.resendCode.setEnabled(false);
             binding.resendCode.setTextColor(getResources().getColor(R.color.resendCodeInactive));
+
+            // Hide error
+            binding.pinEntryCodeLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pin_code));
+            binding.errorWrongCode.setVisibility(View.INVISIBLE);
+
             startTimer();
         });
 
         startTimer();
+    }
+
+    @Override
+    protected void setUpObservers() {
+        viewModel.isCodeVerified().observe(getViewLifecycleOwner(), this::onCodeVerified);
+    }
+
+    private void onCodeVerified(Boolean isCodeVerified) {
+        if (isCodeVerified) {
+            binding.pinEntryCodeLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pin_code));
+            binding.errorWrongCode.setVisibility(View.INVISIBLE);
+        } else {
+            binding.pinEntryCodeLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pin_code_error));
+            binding.errorWrongCode.setVisibility(View.VISIBLE);
+            binding.pinEntryCode.setEnabled(false);
+        }
     }
 
     @Override
@@ -86,17 +112,17 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
 
         timer.cancel();
         timer.purge();
-        //timer = null;
+        timer = null;
 
         time = 9;
     }
 
     @Override
     public void onDestroy() {
-//        if (timer != null) {
-            timer.cancel();
-            timer.purge();
-//        }
+        timer.cancel();
+        timer.purge();
+        timer = null;
+
         KeyboardUtils.hide(requireActivity(), binding.pinEntryCode);
         super.onDestroy();
     }

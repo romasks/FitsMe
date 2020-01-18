@@ -43,10 +43,11 @@
                 android:textSize="16sp" />
 
             <FrameLayout
+                android:id="@+id/pin_entry_code_layout"
                 android:layout_width="210dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/bg_phone_number"
+                android:background="@drawable/bg_pin_code"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp">
 
@@ -67,10 +68,19 @@
                     app:pinTextBottomPadding="-4dp" />
             </FrameLayout>
 
+            <TextView
+                android:id="@+id/error_wrong_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center_horizontal"
+                android:text="@string/auth_code_wrong_code"
+                android:visibility="invisible" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="58dp"
+                android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
