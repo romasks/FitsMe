@@ -122,7 +122,11 @@ abstract class WebLoader {
                 result.append(",");
             }
         }
-        return result.toString();
+        if(result.length() == 0){
+            return null;
+        } else {
+            return result.toString();
+        }
     }
 
     private String getFilterBrands(){
@@ -134,7 +138,11 @@ abstract class WebLoader {
                 result.append(",");
             }
         }
-        return result.toString();
+        if(result.length() == 0){
+            return null;
+        } else {
+            return result.toString();
+        }
     }
 
     private String getFilterProductNames(){
@@ -146,7 +154,11 @@ abstract class WebLoader {
                 result.append(",");
             }
         }
-        return result.toString();
+        if(result.length() == 0){
+            return null;
+        } else {
+            return result.toString();
+        }
     }
 
     public Single<OkResponse<FavouritesPage>> getFavouritesClothesPage(int page) {
