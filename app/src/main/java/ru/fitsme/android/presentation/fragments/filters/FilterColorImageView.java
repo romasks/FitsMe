@@ -3,6 +3,7 @@ package ru.fitsme.android.presentation.fragments.filters;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.widget.Checkable;
 
@@ -49,13 +50,31 @@ public class FilterColorImageView extends AppCompatImageView implements Checkabl
             Drawable checkedDrawable = checkedUnwrappedDrawable.getConstantState().newDrawable().mutate();
             Drawable checkedWrappedDrawable = DrawableCompat.wrap(checkedDrawable);
             DrawableCompat.setTint(checkedWrappedDrawable, Color.parseColor(filterColor.getColorHex()));
-            setImageDrawable(checkedWrappedDrawable);
+            if (filterColor.getColorHex().equals("#ffffff")){
+                Drawable[] layers = new Drawable[2];
+                layers[0] = (context.getResources().getDrawable(R.drawable.ic_check_circle_background));
+                layers[1] = checkedWrappedDrawable;
+                LayerDrawable layerDrawable = new LayerDrawable(layers);
+                setImageDrawable(layerDrawable);
+            } else {
+                setImageDrawable(checkedWrappedDrawable);
+            }
+            
         } else {
             Drawable uncheckedUnwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_check_circle_unchecked);
             Drawable uncheckedDrawable = uncheckedUnwrappedDrawable.getConstantState().newDrawable().mutate();
             Drawable uncheckedWrappedDrawable = DrawableCompat.wrap(uncheckedDrawable);
             DrawableCompat.setTint(uncheckedWrappedDrawable, Color.parseColor(filterColor.getColorHex()));
-            setImageDrawable(uncheckedWrappedDrawable);
+            if (filterColor.getColorHex().equals("#ffffff")){
+                Drawable[] layers = new Drawable[2];
+                layers[0] = (context.getResources().getDrawable(R.drawable.ic_check_circle_background));
+                layers[1] = uncheckedWrappedDrawable;
+                LayerDrawable layerDrawable = new LayerDrawable(layers);
+                setImageDrawable(layerDrawable);
+            } else {
+                setImageDrawable(uncheckedWrappedDrawable);
+            }
+
         }
     }
 
