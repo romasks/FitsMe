@@ -26,7 +26,7 @@
             android:gravity="center"
             android:text="@string/no_internet_error"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_lower_medium"
+            android:textSize="@dimen/text_size_16sp"
             android:visibility="@{viewModel.isOnline ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

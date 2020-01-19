@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@{viewModel.message}"
-            android:textSize="@dimen/text_size_lower_medium"
+            android:textSize="@dimen/text_size_16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -75,7 +75,7 @@
             android:text="@string/cart_no_item_go_to_favourite_btn_text"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_lower_medium"
+            android:textSize="@dimen/text_size_16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -92,7 +92,7 @@
             android:text="@string/no_items_go_to_rate_btn_text"
             android:textAllCaps="false"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_lower_medium"
+            android:textSize="@dimen/text_size_16sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -127,7 +127,7 @@
                 android:text="@string/cart_proceed_to_checkout_btn_text"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_lower_medium"
+                android:textSize="@dimen/text_size_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -176,7 +176,7 @@
                     android:layout_gravity="center"
                     android:text="@string/cart_user_agreement_1"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_10sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -184,7 +184,7 @@
                     android:layout_gravity="center"
                     android:text="@string/cart_user_agreement_2"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_10sp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

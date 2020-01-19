@@ -13,10 +13,9 @@
         android:layout_marginStart="@dimen/padding_medium"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_lower_medium"
+        android:textSize="@dimen/text_size_16sp"
         android:textStyle="bold"
-        tools:text="sometext"
-        />
+        tools:text="sometext" />
 
     <ImageView
         android:id="@+id/item_filter_group_indicator_im"

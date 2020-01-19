@@ -48,7 +48,7 @@
                     android:layout_alignParentBottom="true"
                     android:gravity="center"
                     android:text="@string/loading"
-                    android:textSize="@dimen/text_size_lower_medium"
+                    android:textSize="@dimen/text_size_16sp"
                     android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
                 <TextView
@@ -189,6 +189,6 @@
             android:text="@string/returns_button_continue"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_lower_medium" />
+            android:textSize="@dimen/text_size_16sp" />
     </LinearLayout>
 </layout>

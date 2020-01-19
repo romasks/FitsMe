@@ -34,7 +34,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:text="@{@string/returns_number_tv(returnsOrder.order)}"
-                android:textSize="@dimen/text_size_lower_medium"
+                android:textSize="@dimen/text_size_16sp"
                 android:textStyle="bold"
                 tools:text="Заказ #123" />
 

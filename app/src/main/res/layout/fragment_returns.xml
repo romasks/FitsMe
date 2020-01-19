@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@{viewModel.showMessage}"
-                android:textSize="@dimen/text_size_lower_medium"
+                android:textSize="@dimen/text_size_16sp"
                 tools:visibility="invisible" />
 
             <androidx.constraintlayout.widget.Group
@@ -105,7 +105,7 @@
                 android:text="Оформить заказ"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_lower_medium"
+                android:textSize="@dimen/text_size_16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

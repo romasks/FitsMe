@@ -182,5 +182,7 @@
     <string name="feedback_hint_enter_email">example@domain.ru</string>
     <string name="feedback_hint_enter_message">Введите здесь текст Вашего сообщения.\nВопросы, предложения, пожелания.</string>
     <string name="feedback_error_text">Заполните это поле</string>
+    <string name="set_color_type">Применять цветотип</string>
+    <string name="set_color_type_hint">Цветотип можно указать в настройках профиля</string>
 
 </resources>

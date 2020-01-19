@@ -56,6 +56,6 @@
             android:text="@string/returns_button_formalize_return"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_lower_medium" />
+            android:textSize="@dimen/text_size_16sp" />
     </RelativeLayout>
 </layout>
