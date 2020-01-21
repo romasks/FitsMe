@@ -1,18 +1,14 @@
-package ru.fitsme.android.data.frameworks.room;
+package ru.fitsme.android.data.repositories.clothes.entity;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity
-public class RoomBrands {
-
-    @PrimaryKey
+public class RepoClotheProductName {
     private int id;
     private String title;
+    private String type;
 
-    public RoomBrands(int id, String title){
+    public RepoClotheProductName(int id, String title, String type) {
         this.id = id;
         this.title = title;
+        this.type = type;
     }
 
     public int getId() {
@@ -29,5 +25,13 @@ public class RoomBrands {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

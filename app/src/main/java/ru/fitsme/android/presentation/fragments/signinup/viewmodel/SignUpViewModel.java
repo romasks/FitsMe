@@ -18,17 +18,14 @@ public class SignUpViewModel extends BaseViewModel {
 
     @Inject
     AuthNavigation authNavigation;
-    private ISignInteractor signInteractor;
+
+    @Inject
+    ISignInteractor signInteractor;
 
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
-    public SignUpViewModel(ISignInteractor signInteractor) {
-        this.signInteractor = signInteractor;
+    public SignUpViewModel() {
         inject(this);
-    }
-
-    public void init() {
-
     }
 
     public void onSignUp(String login, String password) {
@@ -50,10 +47,5 @@ public class SignUpViewModel extends BaseViewModel {
 
     public NonNullLiveData<SignInUpState> getFieldsStateLiveData() {
         return fieldsStateLiveData;
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
     }
 }

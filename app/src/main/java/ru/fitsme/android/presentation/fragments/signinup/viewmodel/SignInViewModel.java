@@ -1,7 +1,5 @@
 package ru.fitsme.android.presentation.fragments.signinup.viewmodel;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.inject.Inject;
 
 import ru.fitsme.android.domain.entities.auth.SignInUpResult;
@@ -18,16 +16,15 @@ public class SignInViewModel extends BaseViewModel {
 
     @Inject
     AuthNavigation authNavigation;
-    private ISignInteractor signInteractor;
+
+    @Inject
+    ISignInteractor signInteractor;
 
     private NonNullMutableLiveData<SignInUpState> fieldsStateLiveData = new NonNullMutableLiveData<>();
 
-    public SignInViewModel(@NotNull ISignInteractor signInteractor) {
-        this.signInteractor = signInteractor;
+    public SignInViewModel() {
         inject(this);
     }
-
-    public void init(){}
 
     public void onSignIn(String login, String password) {
         startLoading();
@@ -56,10 +53,5 @@ public class SignInViewModel extends BaseViewModel {
 
     public NonNullLiveData<SignInUpState> getFieldsStateLiveData() {
         return fieldsStateLiveData;
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
     }
 }

@@ -1,43 +1,54 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
-import org.jetbrains.annotations.NotNull;
+import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.databinding.ObservableBoolean;
-import androidx.lifecycle.MutableLiveData;
+import javax.inject.Inject;
+
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
+import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import timber.log.Timber;
 
 public class ChooseItemReturnViewModel extends BaseViewModel {
 
-    private final IReturnsInteractor returnsInteractor;
+    @Inject
+    IOrdersInteractor ordersInteractor;
+
+    @Inject
+    IReturnsInteractor returnsInteractor;
 
     public ObservableBoolean isLoading = new ObservableBoolean(true);
 
     private List<ReturnsItemRequest> requestsList = new ArrayList<>();
+    private MutableLiveData<Order> orderLiveData = new MutableLiveData<>();
     private MutableLiveData<String> errorMsgLiveData = new MutableLiveData<>();
 
-    public ChooseItemReturnViewModel(@NotNull IReturnsInteractor returnsInteractor) {
-        this.returnsInteractor = returnsInteractor;
+    public ChooseItemReturnViewModel() {
         inject(this);
+        if (returnsInteractor.getReturnOrderStep() < 3)
+            returnsInteractor.setReturnOrderStep(3);
     }
 
-    void init() {
-        isLoading.set(false);
+    void init(long orderId) {
         errorMsgLiveData.postValue("");
+        isLoading.set(true);
+        addDisposable(ordersInteractor.getOrderById((int) orderId)
+                .subscribe(this::onLoadOrder, this::onError));
     }
 
-    public void goToReturnsIndicateNumber(Order returnsOrder) {
+    public void goToReturnsIndicateNumber() {
         isLoading.set(true);
 
-        for (OrderItem orderItem : returnsOrder.getOrderItemList()) {
+        for (OrderItem orderItem : orderLiveData.getValue().getOrderItemList()) {
             if (orderItem.getClothe().isCheckedForReturn()) {
                 requestsList.add(new ReturnsItemRequest(orderItem.getId(), orderItem.getQuantity()));
             }
@@ -55,6 +66,29 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
                 .subscribe(this::onSuccess, this::onError));
     }
 
+    MutableLiveData<String> getErrorMsgLiveData() {
+        return errorMsgLiveData;
+    }
+
+    public LiveData<Order> getOrderLiveData() {
+        return orderLiveData;
+    }
+
+    private void onLoadOrder(Order order) {
+        orderLiveData.setValue(order);
+    }
+
+    private void onSuccess(ReturnsOrderItem returnsOrder) {
+        if (!requestsList.isEmpty()) {
+            sendOneRequest();
+        } else {
+            isLoading.set(false);
+            errorMsgLiveData.postValue("");
+            returnsInteractor.setReturnId(returnsOrder.getId());
+            navigation.goToReturnsIndicateNumber(returnsOrder.getId());
+        }
+    }
+
     private void onError(Throwable throwable) {
         isLoading.set(false);
         Timber.d(throwable);
@@ -62,27 +96,9 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
 //        Timber.e("Некоторые запросы закончились неудачей");
     }
 
-    MutableLiveData<String> getErrorMsgLiveData() {
-        return errorMsgLiveData;
-    }
-
-    private void onSuccess(ReturnsOrder returnsOrder) {
-        if (!requestsList.isEmpty()) {
-            sendOneRequest();
-        } else {
-            isLoading.set(false);
-            errorMsgLiveData.postValue("");
-            navigation.goToReturnsIndicateNumber(returnsOrder.getId());
-        }
-    }
-
-    public void backToReturnsChooseOrder() {
-        isLoading.set(false);
-        navigation.backToReturnsChooseOrder();
-    }
-
     @Override
     public void onBackPressed() {
-        navigation.goBack();
+        isLoading.set(false);
+        super.onBackPressed();
     }
 }

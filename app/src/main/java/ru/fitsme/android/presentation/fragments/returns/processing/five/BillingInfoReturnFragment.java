@@ -4,34 +4,18 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.jetbrains.annotations.NotNull;
-
-import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnBillingInfoBinding;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
-import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 
 import static ru.fitsme.android.utils.Constants.CARD_NUMBER_MASK;
 
 public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnViewModel> implements BillingInfoReturnBindingEvents, BackClickListener {
-
-    @Inject
-    IReturnsInteractor returnsInteractor;
 
     private static final String KEY_RETURN_ID = "RETURN_ID";
 
@@ -51,36 +35,30 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_billing_info, container, false);
-        binding.setBindingEvents(this);
-        binding.appBar.setBackClickListener(this);
-        binding.appBar.setTitle(getString(R.string.returns_billing_info_header));
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_return_billing_info;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void afterCreateView(View view) {
+        binding = FragmentReturnBillingInfoBinding.bind(view);
+        binding.setBindingEvents(this);
+        binding.setViewModel(viewModel);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getString(R.string.returns_billing_info_header));
+        setUp();
+    }
 
+    private void setUp() {
         if (getArguments() != null) {
             returnId = getArguments().getInt(KEY_RETURN_ID);
         }
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(returnsInteractor)).get(BillingInfoReturnViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
-        binding.setViewModel(viewModel);
-
         initCardNumberFieldListener(binding.cardNumber);
     }
 
     @Override
     public void goBack() {
-        viewModel.backToReturnsChooseItems();
+        viewModel.onBackPressed();
     }
 
     @Override
@@ -197,10 +175,5 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
                 text.setText(a);
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        viewModel.onBackPressed();
     }
 }

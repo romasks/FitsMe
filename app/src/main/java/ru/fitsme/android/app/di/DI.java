@@ -3,8 +3,6 @@ package ru.fitsme.android.app.di;
 import android.app.Application;
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -24,7 +23,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
+import ru.fitsme.android.data.frameworks.sharedpreferences.IReturnsStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
+import ru.fitsme.android.data.frameworks.sharedpreferences.ReturnsStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.SettingsStorage;
 import ru.fitsme.android.data.repositories.auth.AuthRepository;
 import ru.fitsme.android.data.repositories.auth.SignRepository;
@@ -32,10 +33,12 @@ import ru.fitsme.android.data.repositories.auth.TextValidator;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
+import ru.fitsme.android.data.repositories.feedback.FeedbackRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersActionRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.repositories.profile.ProfileRepository;
 import ru.fitsme.android.data.repositories.returns.ReturnsRepository;
+import ru.fitsme.android.domain.boundaries.IFeedbackRepository;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
@@ -54,6 +57,8 @@ import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import ru.fitsme.android.domain.interactors.feedback.FeedbackInteractor;
+import ru.fitsme.android.domain.interactors.feedback.IFeedbackInteractor;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.orders.OrdersInteractor;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
@@ -101,9 +106,13 @@ public class DI {
 
             bind(IAuthInfoStorage.class).to(AuthInfoStorage.class);
             bind(ISettingsStorage.class).to(SettingsStorage.class);
+            bind(IReturnsStorage.class).to(ReturnsStorage.class);
 
             bind(IReturnsInteractor.class).to(ReturnsInteractor.class);
             bind(IReturnsRepository.class).to(ReturnsRepository.class);
+
+            bind(IFeedbackInteractor.class).to(FeedbackInteractor.class);
+            bind(IFeedbackRepository.class).to(FeedbackRepository.class);
         }});
     }
 

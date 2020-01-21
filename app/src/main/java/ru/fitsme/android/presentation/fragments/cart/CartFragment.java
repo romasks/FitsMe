@@ -1,55 +1,26 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCartBinding;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class CartFragment extends BaseFragment<CartViewModel>
         implements CartBindingEvents,
         CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
-        CartAdapter.OnItemClickCallback{
-
-    @Inject
-    IOrdersInteractor ordersInteractor;
+        CartAdapter.OnItemClickCallback {
 
     private FragmentCartBinding binding;
     private CartAdapter adapter;
-
-    static DiffUtil.ItemCallback<OrderItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<OrderItem>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull OrderItem oldItem, @NonNull OrderItem newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull OrderItem oldItem, @NonNull OrderItem newItem) {
-            return oldItem.equals(newItem);
-        }
-    };
 
     public CartFragment() {
         App.getInstance().getDi().inject(this);
@@ -65,46 +36,41 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
-        binding.setBindingEvents(this);
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_cart;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(ordersInteractor)).get(CartViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
+    protected void afterCreateView(View view) {
+        binding = FragmentCartBinding.bind(view);
+        binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        setUp();
+    }
 
-        adapter = new CartAdapter(viewModel, this);
-
-        binding.cartListRv.setHasFixedSize(true);
-        binding.cartListRv.setAdapter(adapter);
-
-        viewModel.getPageLiveData().observe(
-                this, this::onLoadPage);
-
-        viewModel.getCartIsEmpty().observe(this, this::onCartIsEmpty);
-
+    private void setUp() {
         ItemTouchHelper.SimpleCallback simpleCallback =
                 new CartRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.cartListRv);
     }
 
+    @Override
+    protected void setUpRecyclers() {
+        adapter = new CartAdapter(viewModel, this);
+
+        binding.cartListRv.setHasFixedSize(true);
+        binding.cartListRv.setAdapter(adapter);
+    }
+
+    @Override
+    protected void setUpObservers() {
+        viewModel.getPageLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
+        viewModel.getCartIsEmpty().observe(getViewLifecycleOwner(), this::onCartIsEmpty);
+    }
+
     private void onLoadPage(PagedList<OrderItem> pagedList) {
         if (getParentFragment() != null) {
-            if (pagedList == null || pagedList.size() == 0) {
-                ((MainFragment) getParentFragment()).showBottomShadow(true);
-            } else {
-                ((MainFragment) getParentFragment()).showBottomShadow(false);
-            }
+            ((MainFragment) getParentFragment()).showBottomShadow(pagedList == null || pagedList.size() == 0);
         }
         adapter.submitList(pagedList);
     }
@@ -113,21 +79,22 @@ public class CartFragment extends BaseFragment<CartViewModel>
         if (b) {
             binding.cartNoItemGroup.setVisibility(View.VISIBLE);
             binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
+            binding.cartProceedToCheckoutShadow.setVisibility(View.GONE);
         } else {
             binding.cartNoItemGroup.setVisibility(View.GONE);
             binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
+            binding.cartProceedToCheckoutShadow.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onClickGoToCheckout() {
-        if (getParentFragment() != null) {
-            ((MainFragment) getParentFragment()).goToCheckout();
-        }
+        viewModel.goToCheckout();
     }
 
     @Override
     public void onClickGoToFavourites() {
+//        viewModel.goToFavourites();
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToFavourites();
         }
@@ -135,6 +102,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void onClickGoToRateItems() {
+//        viewModel.goToRateItems();
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToRateItems();
         }

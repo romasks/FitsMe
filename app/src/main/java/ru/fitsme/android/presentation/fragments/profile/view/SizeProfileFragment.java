@@ -1,8 +1,6 @@
 package ru.fitsme.android.presentation.fragments.profile.view;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,27 +8,18 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.databinding.FragmentProfileChangeSizeBinding;
-import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
 public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> implements SizeProfileBindingEvents {
-
-    @Inject
-    IProfileInteractor interactor;
 
     private FragmentProfileChangeSizeBinding binding;
 
@@ -39,23 +28,19 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_change_size, container, false);
-        binding.setBindingEvents(this);
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_profile_change_size;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(interactor)).get(SizeProfileViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
+    protected void afterCreateView(View view) {
+        binding = FragmentProfileChangeSizeBinding.bind(view);
+        binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        setUp();
+    }
+
+    private void setUp() {
         setAdapterToTypeSpinners();
         setAdapterToTopSizeSpinner();
         setAdapterToBottomSizeSpinner();
@@ -167,11 +152,6 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
             strings[i] = clotheSizeTypes[i].getString();
         }
         return strings;
-    }
-
-    @Override
-    public void onBackPressed() {
-
     }
 
     private class SpinnerAdapter<T> extends ArrayAdapter<T> {

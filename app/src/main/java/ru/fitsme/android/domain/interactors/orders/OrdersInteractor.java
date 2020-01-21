@@ -245,6 +245,12 @@ public class OrdersInteractor implements IOrdersInteractor {
         return checkOutIsLoading;
     }
 
+    @Override
+    public Single<Order> getOrderById(int orderId) {
+        return ordersActionRepository.getOrderById(orderId)
+                .observeOn(mainThread);
+    }
+
     public static void setCartMessage(String string) {
         cartMessage.set(string);
     }

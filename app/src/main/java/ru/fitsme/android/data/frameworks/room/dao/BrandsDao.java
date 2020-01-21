@@ -2,24 +2,46 @@ package ru.fitsme.android.data.frameworks.room.dao;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
+
 import io.reactivex.Observable;
-import ru.fitsme.android.data.frameworks.room.RoomBrands;
-import ru.fitsme.android.data.frameworks.room.RoomProductName;
+import io.reactivex.Single;
+import ru.fitsme.android.data.frameworks.room.RoomBrand;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface BrandsDao {
 
-    @Query("DELETE FROM roombrands")
-    void clearBrands();
+    @Query("DELETE FROM RoomBrand WHERE isUpdated == 0")
+    void clearNotUpdatedBrands();
 
-    @Query("SELECT * FROM roombrands")
-    Observable<List<RoomBrands>> getBrands();
+    @Delete
+    void delete(RoomBrand roomBrand);
+
+    @Query("SELECT * FROM RoomBrand")
+    Single<List<RoomBrand>> getSingleBrandsList();
+
+    @Query("SELECT * FROM RoomBrand WHERE isChecked == 1")
+    List<RoomBrand> getCheckedBrandsList();
+
+    @Query("SELECT * FROM RoomBrand WHERE isChecked == 1")
+    Single<List<RoomBrand>> getCheckedFilters();
+
+    @Query("SELECT * FROM RoomBrand")
+    LiveData<List<RoomBrand>> getBrandsLiveData();
 
     @Insert(onConflict = REPLACE)
-    void insert(List<RoomBrands> brandList);
+    void insert(List<RoomBrand> brandList);
+
+    @Insert(onConflict = REPLACE)
+    void insert(RoomBrand roomBrand);
+
+    @Update
+    void update(RoomBrand brand);
 }

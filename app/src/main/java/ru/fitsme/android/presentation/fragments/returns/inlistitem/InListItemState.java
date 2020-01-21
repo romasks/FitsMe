@@ -10,5 +10,5 @@ public abstract class InListItemState {
         this.viewHolder = viewHolder;
     }
 
-    public abstract void onClick(ReturnsViewModel viewModel, int position);
+    public abstract void onClick(ReturnsViewModel viewModel, int position, int returnsId);
 }

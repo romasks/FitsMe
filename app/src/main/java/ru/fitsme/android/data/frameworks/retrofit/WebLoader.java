@@ -10,12 +10,17 @@ import io.reactivex.Single;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
+import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
+import ru.fitsme.android.data.frameworks.room.RoomBrand;
+import ru.fitsme.android.data.frameworks.room.RoomColor;
+import ru.fitsme.android.data.frameworks.room.RoomProductName;
+import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
@@ -23,6 +28,9 @@ import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
@@ -30,7 +38,8 @@ import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.utils.OrderStatus;
@@ -93,9 +102,51 @@ abstract class WebLoader {
 
     public Single<OkResponse<ClothesPage>> getClothesPage(int page) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
-                .subscribe(authInfo -> apiService.getClothes(TOKEN + authInfo.getToken(), page)
-                        .subscribeOn(workThread)
-                        .subscribe(emitter::onSuccess, emitter::onError), emitter::onError));
+                .subscribeOn(workThread)
+                .observeOn(workThread)
+                .subscribe(authInfo -> {
+                    String filterColors = getFilterColors();
+                    String filterBrands = getFilterBrands();
+                    String filterProductNames = getFilterProductNames();
+                    apiService.getClothes(TOKEN + authInfo.getToken(), page, filterProductNames, filterBrands, filterColors)
+                        .subscribe(emitter::onSuccess, emitter::onError);
+                }, emitter::onError));
+    }
+
+    private String getFilterColors(){
+        StringBuilder result = new StringBuilder();
+        List<RoomColor>  list = AppDatabase.getInstance().getColorsDao().getCheckedColorsList();
+        for (int i = 0; i < list.size(); i++) {
+            result.append(list.get(i).getId());
+            if (i != list.size() - 1){
+                result.append(",");
+            }
+        }
+        return result.toString();
+    }
+
+    private String getFilterBrands(){
+        StringBuilder result = new StringBuilder();
+        List<RoomBrand>  list = AppDatabase.getInstance().getBrandsDao().getCheckedBrandsList();
+        for (int i = 0; i < list.size(); i++) {
+            result.append(list.get(i).getId());
+            if (i != list.size() - 1){
+                result.append(",");
+            }
+        }
+        return result.toString();
+    }
+
+    private String getFilterProductNames(){
+        StringBuilder result = new StringBuilder();
+        List<RoomProductName>  list = AppDatabase.getInstance().getProductNamesDao().getCheckedProductNamesList();
+        for (int i = 0; i < list.size(); i++) {
+            result.append(list.get(i).getId());
+            if (i != list.size() - 1){
+                result.append(",");
+            }
+        }
+        return result.toString();
     }
 
     public Single<OkResponse<FavouritesPage>> getFavouritesClothesPage(int page) {
@@ -246,7 +297,7 @@ abstract class WebLoader {
                 ));
     }
 
-    public Single<OkResponse<ReturnsOrder>> addItemToReturn(ReturnsItemRequest request) {
+    public Single<OkResponse<ReturnsOrderItem>> addItemToReturn(ReturnsItemRequest request) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.addItemToReturn(TOKEN + authInfo.getToken(), request)
@@ -255,7 +306,7 @@ abstract class WebLoader {
                         emitter::onError));
     }
 
-    public Single<OkResponse<ReturnsOrder>> changeReturnsPayment(ReturnsPaymentRequest request) {
+    public Single<OkResponse<ReturnsOrderItem>> changeReturnsPayment(ReturnsPaymentRequest request) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.changeReturnsPayment(TOKEN + authInfo.getToken(), request.getReturnId(), request)
@@ -268,6 +319,51 @@ abstract class WebLoader {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.getReturnById(TOKEN + authInfo.getToken(), returnId)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<Order>> getOrderById(int orderId) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getOrderById(TOKEN + authInfo.getToken(), orderId)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<Boolean>> sendFeedback(FeedbackRequest request) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.sendFeedback(TOKEN + authInfo.getToken(), request)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    public Single<OkResponse<List<RepoClotheBrand>>> getBrandList(){
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+            .subscribe(
+                    authInfo -> apiService.getClotheBrands(TOKEN + authInfo.getToken())
+                            .subscribeOn(workThread)
+                            .subscribe(emitter::onSuccess, emitter::onError),
+                    emitter::onError));
+    }
+
+    protected Single<OkResponse<List<RepoClotheColor>>> getColorList() {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getClotheColors(TOKEN + authInfo.getToken())
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError));
+    }
+
+    protected Single<OkResponse<List<RepoClotheProductName>>> getProductNameList() {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getClotheProductNames(TOKEN + authInfo.getToken())
                                 .subscribeOn(workThread)
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError));

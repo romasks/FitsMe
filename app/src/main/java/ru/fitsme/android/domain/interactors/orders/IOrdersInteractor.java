@@ -44,4 +44,6 @@ public interface IOrdersInteractor extends BaseInteractor {
     void updateTotalPrice();
 
     ObservableBoolean getCheckOutIsLoading();
+
+    Single<Order> getOrderById(int orderId);
 }

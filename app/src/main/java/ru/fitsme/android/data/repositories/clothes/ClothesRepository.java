@@ -2,22 +2,40 @@ package ru.fitsme.android.data.repositories.clothes;
 
 import android.util.SparseArray;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import io.reactivex.Completable;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
+import ru.fitsme.android.data.frameworks.room.RoomBrand;
+import ru.fitsme.android.data.frameworks.room.RoomColor;
+import ru.fitsme.android.data.frameworks.room.RoomProductName;
+import ru.fitsme.android.data.frameworks.room.dao.BrandsDao;
+import ru.fitsme.android.data.frameworks.room.dao.ColorsDao;
+import ru.fitsme.android.data.frameworks.room.dao.ProductNamesDao;
+import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
 import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.clothes.FilterBrand;
+import ru.fitsme.android.domain.entities.clothes.FilterColor;
+import ru.fitsme.android.domain.entities.clothes.FilterProductName;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
@@ -26,11 +44,18 @@ public class ClothesRepository implements IClothesRepository {
 
     private final WebLoaderNetworkChecker webLoader;
     private final ISettingsStorage storage;
+    private Scheduler workThread;
+    private Scheduler mainThread;
 
     @Inject
-    ClothesRepository(WebLoaderNetworkChecker webLoader, ISettingsStorage storage) {
+    ClothesRepository(WebLoaderNetworkChecker webLoader,
+                      ISettingsStorage storage,
+                      @Named("work") Scheduler workThread,
+                      @Named("main") Scheduler mainThread) {
         this.webLoader = webLoader;
         this.storage = storage;
+        this.workThread = workThread;
+        this.mainThread = mainThread;
     }
 
     @Override
@@ -123,5 +148,264 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void setSettingsBottomClothesSizeType(ClotheSizeType clothesSizeType) {
         storage.setBottomSizeType(clothesSizeType);
+    }
+
+    @Override
+    public void updateClotheBrandList(){
+        webLoader.getBrandList()
+            .subscribe(listOkResponse -> {
+                List<RepoClotheBrand> clotheBrands = listOkResponse.getResponse();
+                if (clotheBrands != null){
+                    BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+                        brandsDao.getSingleBrandsList()
+                            .subscribe(roomBrands -> {
+                                for (int i = 0; i < clotheBrands.size(); i++) {
+                                    RepoClotheBrand brand = clotheBrands.get(i);
+                                    boolean isUpdated = false;
+                                    for (int j = 0; j < roomBrands.size(); j++) {
+                                        RoomBrand roomBrand = roomBrands.get(j);
+                                        if (brand.getId() == roomBrand.getId()){
+                                            isUpdated = true;
+                                            brandsDao.update(new RoomBrand(roomBrand.getId(), roomBrand.getTitle(), roomBrand.isChecked(), true));
+                                            break;
+                                        }
+                                    }
+                                    if (!isUpdated){
+                                        brandsDao.insert(new RoomBrand(brand.getId(), brand.getTitle(), false, true));
+                                    }
+                                }
+                                brandsDao.clearNotUpdatedBrands();
+                                setRoomBrandsNotUpdated();
+                            });
+                }
+            });
+    }
+
+    private void setRoomBrandsNotUpdated() {
+        BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+        brandsDao.getSingleBrandsList()
+            .subscribe(roomBrandList -> {
+                for (int i = 0; i < roomBrandList.size(); i++) {
+                    RoomBrand brand = roomBrandList.get(i);
+                    brandsDao.update(new RoomBrand(brand.getId(), brand.getTitle(), brand.isChecked(), false));
+                }
+            });
+    }
+
+    @Override
+    public LiveData<List<RoomBrand>> getBrandNames(){
+        return AppDatabase.getInstance().getBrandsDao().getBrandsLiveData();
+    }
+
+    @Override
+    public void updateClotheColorList(){
+        webLoader.getColorList()
+                .subscribe(listOkResponse -> {
+                    List<RepoClotheColor> clotheColorList = listOkResponse.getResponse();
+                    if (clotheColorList != null){
+                        ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+                        colorsDao.getSingleColorsList()
+                                .subscribe(roomColors -> {
+                                    for (int i = 0; i < clotheColorList.size(); i++) {
+                                        RepoClotheColor color = clotheColorList.get(i);
+                                        boolean isUpdated = false;
+                                        for (int j = 0; j < roomColors.size(); j++) {
+                                            RoomColor roomColor = roomColors.get(j);
+                                            if (color.getId() == roomColor.getId()){
+                                                isUpdated = true;
+                                                colorsDao.update(new RoomColor(roomColor.getId(), roomColor.getColorName(), roomColor.getColorHex(), roomColor.isChecked(), true));
+                                                break;
+                                            }
+                                        }
+                                        if (!isUpdated){
+                                            colorsDao.insert(new RoomColor(color.getId(), color.getColorName(), color.getColorHex(), false, true));
+                                        }
+                                    }
+                                    colorsDao.clearNotUpdatedColors();
+                                    setRoomColorsNotUpdated();
+                                });
+                    }
+                });
+    }
+
+    private void setRoomColorsNotUpdated() {
+        ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+        colorsDao.getSingleColorsList()
+                .subscribe(roomColorsList -> {
+                    for (int i = 0; i < roomColorsList.size(); i++) {
+                        RoomColor roomColor = roomColorsList.get(i);
+                        colorsDao.update(new RoomColor(roomColor.getId(), roomColor.getColorName(), roomColor.getColorHex(), roomColor.isChecked(), false));
+                    }
+                });
+    }
+
+    @Override
+    public LiveData<List<RoomColor>> getClotheColors(){
+        return AppDatabase.getInstance().getColorsDao().getColorsLiveData();
+    }
+
+    @Override
+    public void updateProductNameList(){
+        webLoader.getProductNameList()
+                .subscribe(listOkResponse -> {
+                    List<RepoClotheProductName> clotheProductNameList = listOkResponse.getResponse();
+                    if (clotheProductNameList != null){
+                        ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+                        productNamesDao.getSingleProductNamesList()
+                                .subscribe(roomProductNames -> {
+                                    for (int i = 0; i < clotheProductNameList.size(); i++) {
+                                        RepoClotheProductName productName = clotheProductNameList.get(i);
+                                        boolean isUpdated = false;
+                                        for (int j = 0; j < roomProductNames.size(); j++) {
+                                            RoomProductName roomProductName = roomProductNames.get(j);
+                                            if (productName.getId() == roomProductName.getId()){
+                                                isUpdated = true;
+                                                productNamesDao.update(new RoomProductName(
+                                                        roomProductName.getId(), roomProductName.getTitle(), roomProductName.getType(), roomProductName.isChecked(), true));
+                                                break;
+                                            }
+                                        }
+                                        if (!isUpdated){
+                                            productNamesDao.insert(new RoomProductName(productName.getId(), productName.getTitle(), productName.getType(), false, true));
+                                        }
+                                    }
+                                    productNamesDao.clearNotUpdatedProductNames();
+                                    setRoomProductNamesNotUpdated();
+                                });
+                    }
+                });
+    }
+
+    private void setRoomProductNamesNotUpdated() {
+        ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+        productNamesDao.getSingleProductNamesList()
+                .subscribe(roomProductNames -> {
+                    for (int i = 0; i < roomProductNames.size(); i++) {
+                        RoomProductName roomProductName = roomProductNames.get(i);
+                        productNamesDao.update(new RoomProductName(roomProductName.getId(), roomProductName.getTitle(), roomProductName.getType(), roomProductName.isChecked(), false));
+                    }
+                });
+    }
+
+    @Override
+    public LiveData<List<RoomProductName>> getClotheProductName(){
+        return AppDatabase.getInstance().getProductNamesDao().getProductNamesLiveData();
+    }
+
+    @Override
+    public void updateProductName(FilterProductName filterProductName) {
+        Completable.create(emitter -> {
+            ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+            productNamesDao.update(
+                    new RoomProductName(filterProductName.getId(), filterProductName.getTitle(),
+                            filterProductName.getType(), filterProductName.isChecked(), false)
+            );
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .subscribe();
+    }
+
+    @Override
+    public void updateClotheBrand(FilterBrand filterBrand) {
+        Completable.create(emitter -> {
+            BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+            brandsDao.update(
+                    new RoomBrand(filterBrand.getId(), filterBrand.getTitle(),
+                            filterBrand.isChecked(), false)
+            );
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .subscribe();
+    }
+
+    @Override
+    public void updateClotheColor(FilterColor filterColor) {
+        Completable.create(emitter -> {
+            ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+            colorsDao.update(new RoomColor(filterColor.getId(), filterColor.getTitle(),
+                    filterColor.getColorHex(), filterColor.isChecked(), false));
+            emitter.onComplete();
+        })
+                .subscribeOn(workThread)
+                .subscribe();
+    }
+
+    @Override
+    public void resetCheckedFilters() {
+        Completable.create(emitter -> {
+            resetProductNameFilters();
+            resetBrandFilters();
+            resetColorFilters();
+        })
+                .subscribeOn(workThread)
+                .subscribe();
+    }
+
+    @Override
+    public Single<Boolean> isFiltersChecked() {
+        return Single.create(emitter -> {
+            ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+            BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+            ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+            productNamesDao.getCheckedFilters()
+                    .subscribeOn(workThread)
+                    .subscribe(roomProductNames -> {
+                        if (roomProductNames.size() > 0){
+                            emitter.onSuccess(true);
+                        } else {
+                            brandsDao.getCheckedFilters()
+                                    .subscribe(roomBrands -> {
+                                        if (roomBrands.size() > 0){
+                                            emitter.onSuccess(true);
+                                        } else {
+                                            colorsDao.getCheckedColors()
+                                                    .subscribe(roomColors -> {
+                                                        if (roomColors.size() > 0){
+                                                            emitter.onSuccess(true);
+                                                        } else {
+                                                            emitter.onSuccess(false);
+                                                        }
+                                                    });
+                                        }
+                                    });
+                        }
+                    });
+        });
+    }
+
+    private void resetColorFilters() {
+        ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
+        colorsDao.getCheckedColors()
+                .subscribe(roomColors -> {
+                    for (int i = 0; i < roomColors.size(); i++) {
+                        roomColors.get(i).setChecked(false);
+                        colorsDao.update(roomColors.get(i));
+                    }
+                });
+    }
+
+    private void resetBrandFilters() {
+        BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+        brandsDao.getCheckedFilters()
+                .subscribe(roomBrands -> {
+                    for (int i = 0; i < roomBrands.size(); i++) {
+                        roomBrands.get(i).setChecked(false);
+                        brandsDao.update(roomBrands.get(i));
+                    }
+                });
+
+    }
+
+    private void resetProductNameFilters() {
+        ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
+        productNamesDao.getCheckedFilters()
+            .subscribe(roomProductNames -> {
+                for (int i = 0; i < roomProductNames.size(); i++) {
+                    roomProductNames.get(i).setChecked(false);
+                    productNamesDao.update(roomProductNames.get(i));
+                }
+            });
     }
 }

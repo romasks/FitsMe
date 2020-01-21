@@ -1,10 +1,11 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.four;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.databinding.ObservableBoolean;
+
+import javax.inject.Inject;
+
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
-import ru.fitsme.android.domain.entities.order.ReturnsOrder;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
@@ -12,16 +13,19 @@ import timber.log.Timber;
 
 public class IndicateNumberReturnViewModel extends BaseViewModel {
 
-    private final IReturnsInteractor returnsInteractor;
+    @Inject
+    IReturnsInteractor returnsInteractor;
 
     public ObservableBoolean isLoading = new ObservableBoolean(true);
 
-    public IndicateNumberReturnViewModel(@NotNull IReturnsInteractor returnsInteractor) {
-        this.returnsInteractor = returnsInteractor;
+    public IndicateNumberReturnViewModel() {
         inject(this);
+        if (returnsInteractor.getReturnOrderStep() < 4)
+            returnsInteractor.setReturnOrderStep(4);
     }
 
-    void init() {
+    @Override
+    protected void init() {
         isLoading.set(false);
     }
 
@@ -38,16 +42,8 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
         Timber.d(throwable);
     }
 
-    private void onSuccess(ReturnsOrder returnsOrder) {
+    private void onSuccess(ReturnsOrderItem returnsOrder) {
+        returnsInteractor.setReturnId(returnsOrder.getId());
         navigation.goToReturnsBillingInfo(returnsOrder.getId());
-    }
-
-    public void backToReturnsChooseItems() {
-        navigation.backToReturnsChooseItems();
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
     }
 }

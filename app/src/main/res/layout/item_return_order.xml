@@ -23,7 +23,7 @@
         android:layout_height="100dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{v -> viewModel.goToReturnsChooseItems(order)}"
+        android:onClick="@{v -> viewModel.goToReturnsChooseItems(order.orderId)}"
         android:orientation="horizontal">
 
         <LinearLayout

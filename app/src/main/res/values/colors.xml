@@ -22,6 +22,8 @@
 
     <color name="colorStatusFM">#757575</color>
     <color name="colorStatusISU">#37474F</color>
-    <color name="colorStatusCNC">#217F4E</color>
-    <color name="colorStatusRDY">#D42A2A</color>
+    <color name="colorStatusCNC">#D42A2A</color>
+    <color name="colorStatusRDY">#217F4E</color>
+
+    <color name="errorInputField">#DEFF0000</color>
 </resources>

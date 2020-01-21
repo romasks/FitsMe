@@ -116,4 +116,12 @@ public class OrdersActionRepository implements IOrdersActionRepository {
                     emitter.onSuccess(new OrderItem());
                 }));
     }
+
+    @Override
+    public Single<Order> getOrderById(int orderId) {
+        return Single.create(emitter ->
+                webLoader.getOrderById(orderId)
+                        .subscribe(response -> emitter.onSuccess(response.getResponse()),
+                                emitter::onError));
+    }
 }

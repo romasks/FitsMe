@@ -1,9 +1,11 @@
-package ru.fitsme.android.domain.entities.order;
+package ru.fitsme.android.domain.entities.returns;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ReturnsOrder {
+import ru.fitsme.android.domain.entities.order.OrderItem;
+
+public class ReturnsOrderItem {
     @SerializedName("id")
     private int id;
 
@@ -30,14 +32,14 @@ public class ReturnsOrder {
         return returns;
     }
 
-    public ReturnsOrder() {
+    public ReturnsOrderItem() {
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReturnsOrder)) return false;
-        ReturnsOrder that = (ReturnsOrder) o;
+        if (!(o instanceof ReturnsOrderItem)) return false;
+        ReturnsOrderItem that = (ReturnsOrderItem) o;
         return getId() == that.getId() &&
                 getOrderItem() == that.getOrderItem() &&
                 getReturns() == that.getReturns();

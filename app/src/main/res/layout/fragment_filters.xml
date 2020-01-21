@@ -8,6 +8,10 @@
         <variable
             name="backClickListener"
             type="ru.fitsme.android.presentation.common.listener.BackClickListener" />
+
+        <variable
+            name="bindingEvent"
+            type="ru.fitsme.android.presentation.fragments.filters.FilterBindingEvents" />
     </data>
 
     <LinearLayout
@@ -44,13 +48,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/padding_medium"
+                    android:padding="@dimen/margin_8dp"
                     android:layout_gravity="center_vertical|end"
+                    android:background="?android:attr/selectableItemBackground"
                     android:text="@string/filter_reset_button"
                     android:textAllCaps="false"
                     android:textColor="#8A000000"
                     android:textSize="@dimen/text_size_minimal_medium"
                     android:clickable="true"
                     android:focusable="true"
+                    android:onClick="@{() -> bindingEvent.onResetClick()}"
                     />
         </FrameLayout>
 

@@ -1,18 +1,10 @@
 package ru.fitsme.android.presentation.fragments.main;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import java.util.List;
 
@@ -21,20 +13,19 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
-import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
-import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
+import ru.fitsme.android.presentation.fragments.feedback.FeedbackFragment;
 import ru.fitsme.android.presentation.fragments.filters.FiltersFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
+import ru.fitsme.android.presentation.fragments.orders.OrdersHistoryFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsFragment;
+import ru.fitsme.android.presentation.fragments.returns.details.ReturnDetailsFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.five.BillingInfoReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.four.IndicateNumberReturnFragment;
 import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToReturnFragment;
@@ -49,6 +40,7 @@ import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_C
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_DETAIL_ITEM_INFO;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FAVOURITES;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FILTER;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_LEAVE_FEEDBACK;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_MAIN_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_HISTORY_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_RETURN_PROFILE;
@@ -59,6 +51,7 @@ import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_R
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_HOW_TO;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_INDICATE_NUMBER;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURNS_VERIFY_DATA;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RETURN_DETAILS;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_SIZE_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_TYPE_PROFILE;
 
@@ -83,28 +76,24 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
         }
     }
 
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_main;
+    }
+
+    @Override
+    protected void afterCreateView(View view) {
+        binding = FragmentMainBinding.bind(view);
+        setUp();
+    }
+
     public static MainFragment newInstance() {
         return new MainFragment();
     }
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewModel = ViewModelProviders.of(this,
-                new ViewModelFactory(null)).get(MainFragmentViewModel.class);
-        if (savedInstanceState == null) {
-            viewModel.init();
-        }
+    private void setUp() {
         navigator = getFragmentNavigator();
-        initBottomNavigation(view);
+        initBottomNavigation();
     }
 
     @Override
@@ -119,7 +108,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
         navigation.removeNavigator();
     }
 
-    private void initBottomNavigation(View view) {
+    private void initBottomNavigation() {
         binding.bnvMainFrNavigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_items:
@@ -148,10 +137,6 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_items);
     }
 
-    public void goToMainProfile() {
-        navigation.goToMainProfile();
-    }
-
     public void goToCheckout() {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_cart);
         navigation.goToCheckout();
@@ -159,27 +144,18 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
 
     public void goToCart() {
         binding.bnvMainFrNavigation.setSelectedItemId(R.id.action_cart);
-        navigation.goToCart();
     }
 
-    public void showBottomNavigation(boolean b) {
-        if (b) {
-            binding.bnvMainFrNavigation.setVisibility(View.VISIBLE);
-        } else {
-            binding.bnvMainFrNavigation.setVisibility(View.GONE);
-        }
+    public void showBottomNavigation(boolean isShow) {
+        binding.bnvMainFrNavigation.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     public int getBottomNavigationSize() {
         return binding.bnvMainFrNavigation.getHeight();
     }
 
-    public void showBottomShadow(boolean b) {
-        if (b) {
-            binding.fragmentMainBottomShadow.setVisibility(View.VISIBLE);
-        } else {
-            binding.fragmentMainBottomShadow.setVisibility(View.GONE);
-        }
+    public void showBottomShadow(boolean isShow) {
+        binding.fragmentMainBottomShadow.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     @NonNull
@@ -203,15 +179,19 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                     case NAV_TYPE_PROFILE:
                         break;
                     case NAV_ORDER_HISTORY_PROFILE:
-                        break;
+                        return OrdersHistoryFragment.newInstance();
                     case NAV_ORDER_RETURN_PROFILE:
                         return ReturnsFragment.newInstance();
+                    case NAV_LEAVE_FEEDBACK:
+                        return FeedbackFragment.newInstance();
+                    case NAV_RETURN_DETAILS:
+                        return ReturnDetailsFragment.newInstance((int) data);
                     case NAV_RETURNS_HOW_TO:
                         return HowToReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ORDER:
                         return ChooseOrderReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ITEMS:
-                        return ChooseItemReturnFragment.newInstance((Order) data);
+                        return ChooseItemReturnFragment.newInstance((int) data);
                     case NAV_RETURNS_INDICATE_NUMBER:
                         return IndicateNumberReturnFragment.newInstance((int) data);
                     case NAV_RETURNS_BILLING_INFO:

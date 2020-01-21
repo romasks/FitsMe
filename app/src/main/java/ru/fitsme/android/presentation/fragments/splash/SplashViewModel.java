@@ -15,14 +15,16 @@ public class SplashViewModel extends BaseViewModel {
 
     @Inject
     AuthNavigation authNavigation;
-    private final IAuthInteractor authInteractor;
 
-    public SplashViewModel(@NonNull IAuthInteractor authInteractor) {
-        this.authInteractor = authInteractor;
+    @Inject
+    IAuthInteractor authInteractor;
+
+    public SplashViewModel() {
         inject(this);
     }
 
-    public void init() {
+    @Override
+    protected void init() {
         addDisposable(authInteractor.getAuthInfo()
                 .subscribe(this::onAuthInfoGotten, this::onError));
     }

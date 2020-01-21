@@ -1,24 +1,10 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
-import androidx.annotation.NonNull;
-
-import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 
 public class ItemInfoViewModel extends BaseViewModel {
 
-    private final IClothesInteractor clothesInteractor;
-
-    public ItemInfoViewModel(@NonNull IClothesInteractor clothesInteractor) {
-        this.clothesInteractor = clothesInteractor;
+    public ItemInfoViewModel() {
         inject(this);
-    }
-
-    void init() {
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.goBack();
     }
 }

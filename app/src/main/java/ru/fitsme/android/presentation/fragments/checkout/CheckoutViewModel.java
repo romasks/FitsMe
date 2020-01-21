@@ -2,6 +2,8 @@ package ru.fitsme.android.presentation.fragments.checkout;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
+
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
@@ -15,7 +17,8 @@ import timber.log.Timber;
 
 public class CheckoutViewModel extends BaseViewModel {
 
-    private final IOrdersInteractor ordersInteractor;
+    @Inject
+    IOrdersInteractor ordersInteractor;
 
     private MutableLiveData<Order> orderLiveData;
     private MutableLiveData<Boolean> successMakeOrderLiveData;
@@ -23,8 +26,7 @@ public class CheckoutViewModel extends BaseViewModel {
     public ObservableBoolean isLoading;
     public ObservableField<OrderModel> orderModel;
 
-    public CheckoutViewModel(@NotNull IOrdersInteractor ordersInteractor) {
-        this.ordersInteractor = ordersInteractor;
+    public CheckoutViewModel() {
         inject(this);
     }
 
@@ -36,7 +38,8 @@ public class CheckoutViewModel extends BaseViewModel {
         return successMakeOrderLiveData;
     }
 
-    void init() {
+    @Override
+    protected void init() {
         orderLiveData = new MutableLiveData<>();
         successMakeOrderLiveData = new MutableLiveData<>();
         successMakeOrderLiveData.setValue(false);
@@ -66,12 +69,6 @@ public class CheckoutViewModel extends BaseViewModel {
             Timber.tag(getClass().getName()).d("SUCCESS");
             successMakeOrderLiveData.setValue(true);
         }
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        clearDisposables();
     }
 
     @Override
