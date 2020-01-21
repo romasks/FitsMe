@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentAuthByPhoneNumBinding;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
@@ -24,6 +26,10 @@ public class NumberFragment extends BaseFragment<NumberViewModel> {
 
     private FragmentAuthByPhoneNumBinding binding;
     private MyTextWatcher textWatcher;
+
+    public static NumberFragment newInstance() {
+        return new NumberFragment();
+    }
 
     @Nullable
     @Override
@@ -77,13 +83,13 @@ public class NumberFragment extends BaseFragment<NumberViewModel> {
         @Override
         public void afterTextChanged(Editable editable) {
             binding.fragmentPhoneAuthNumberEt.addTextChangedListener(null);
-            if (editable.length() > 0){
-                editable.insert(0, "(");
-            }
-            if (editable.length() > 4){
-                editable.insert(4, ")");
-            }
-            if (editable.length() > )
+//            if (editable.length() > 0){
+//                editable.insert(0, "(");
+//            }
+//            if (editable.length() > 4){
+//                editable.insert(4, ")");
+//            }
+//            if (editable.length() > )
         }
     }
 }
