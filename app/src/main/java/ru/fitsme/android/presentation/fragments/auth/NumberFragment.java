@@ -19,13 +19,10 @@ import ru.fitsme.android.databinding.FragmentAuthByPhoneNumBinding;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
-public class NumberFragment extends BaseFragment<NumberViewModel> {
-
-    @Inject
-    IAuthInteractor authInteractor;
+public class NumberFragment extends BaseFragment<NumberViewModel> implements NumberBindingEvents {
 
     private FragmentAuthByPhoneNumBinding binding;
-    private MyTextWatcher textWatcher;
+    private MyTextWatcher textWatcher = new MyTextWatcher();
 
     public static NumberFragment newInstance() {
         return new NumberFragment();
@@ -47,11 +44,6 @@ public class NumberFragment extends BaseFragment<NumberViewModel> {
     }
 
     private void setListeners() {
-        binding.fragmentPhoneAuthGetCodeBtn.setOnClickListener(view -> {
-            String countryCode = binding.fragmentPhoneAuthCodeEt.getText().toString();
-            String phoneNumber = binding.fragmentPhoneAuthNumberEt.getText().toString();
-            viewModel.getAuthCode(countryCode + phoneNumber);
-        });
         binding.fragmentPhoneAuthNumberEt.addTextChangedListener(textWatcher);
     }
 
@@ -65,6 +57,25 @@ public class NumberFragment extends BaseFragment<NumberViewModel> {
     @Override
     public void onBackPressed() {
         viewModel.onBackPressed();
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_auth_by_phone_num;
+    }
+
+    @Override
+    protected void afterCreateView(View view) {
+        binding = FragmentAuthByPhoneNumBinding.bind(view);
+        binding.setBindingEvents(this);
+        binding.setViewModel(viewModel);
+    }
+
+    @Override
+    public void onGetCodeClicked() {
+        String countryCode = binding.fragmentPhoneAuthCodeEt.getText().toString();
+        String phoneNumber = binding.fragmentPhoneAuthNumberEt.getText().toString();
+        viewModel.getAuthCode(countryCode + phoneNumber);
     }
 
 
@@ -83,13 +94,21 @@ public class NumberFragment extends BaseFragment<NumberViewModel> {
         @Override
         public void afterTextChanged(Editable editable) {
             binding.fragmentPhoneAuthNumberEt.addTextChangedListener(null);
-//            if (editable.length() > 0){
-//                editable.insert(0, "(");
-//            }
-//            if (editable.length() > 4){
-//                editable.insert(4, ")");
-//            }
-//            if (editable.length() > )
+            String string = editable.toString();
+            String clean = string.replaceAll("[()-]", " ");
+            StringBuilder builder = new StringBuilder(clean);
+            if (builder.length() > 0){
+                builder.insert(0, '(');
+            }
+            if (builder.length() > 4){
+                builder.insert(4, ")");
+            }
+            if (builder.length() > 8){
+                builder.insert(8, "-");
+            }
+            if (builder.length() > 11){
+                builder.insert(11 , "-");
+            }
         }
     }
 }

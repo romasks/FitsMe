@@ -3,7 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
+    <data>
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.auth.NumberViewModel" />
+
+        <variable
+            name="bindingEvents"
+            type="ru.fitsme.android.presentation.fragments.auth.NumberBindingEvents" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -46,7 +56,7 @@
             android:layout_marginBottom="40dp"
             android:textSize="@dimen/text_size_header"
             android:hint="@string/phone_auth_number_hint"
-            android:inputType="phone"
+            android:inputType="number"
             android:importantForAutofill="no"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -65,6 +75,7 @@
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:background="@drawable/bg_rounded_corners_primary_dark_btn"
+            android:onClick="@{() -> bindingEvents.onGetCodeClicked()}"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintTop_toBottomOf="@+id/fragment_phone_auth_number_et"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +83,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
 
