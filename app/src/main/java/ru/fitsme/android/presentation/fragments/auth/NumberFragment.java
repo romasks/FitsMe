@@ -1,22 +1,14 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
-import android.os.Bundle;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
+import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentAuthByPhoneNumBinding;
-import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
 public class NumberFragment extends BaseFragment<NumberViewModel> implements NumberBindingEvents {
@@ -28,23 +20,38 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         return new NumberFragment();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_auth_by_phone_num, container, false);
-        return binding.getRoot();
+    protected int getLayout() {
+        return R.layout.fragment_auth_by_phone_num;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    protected void afterCreateView(View view) {
+        binding = FragmentAuthByPhoneNumBinding.bind(view);
+        binding.setBindingEvents(this);
+        binding.setViewModel(viewModel);
         setCountyFlag();
         setListeners();
     }
 
     private void setListeners() {
         binding.fragmentPhoneAuthNumberEt.addTextChangedListener(textWatcher);
+        binding.fragmentPhoneAuthCodeEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.fragmentPhoneAuthCodeEt.setTextColor(Color.BLACK);
+            }
+        });
     }
 
     private void setCountyFlag() {
@@ -60,42 +67,43 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
     }
 
     @Override
-    protected int getLayout() {
-        return R.layout.fragment_auth_by_phone_num;
-    }
-
-    @Override
-    protected void afterCreateView(View view) {
-        binding = FragmentAuthByPhoneNumBinding.bind(view);
-        binding.setBindingEvents(this);
-        binding.setViewModel(viewModel);
-    }
-
-    @Override
     public void onGetCodeClicked() {
         String countryCode = binding.fragmentPhoneAuthCodeEt.getText().toString();
         String phoneNumber = binding.fragmentPhoneAuthNumberEt.getText().toString();
-        viewModel.getAuthCode(countryCode + phoneNumber);
+        String cleanNumber = getCleanNumber(phoneNumber);
+        if (cleanNumber.length() != 10){
+            binding.fragmentPhoneAuthWrongNumTv.setVisibility(View.VISIBLE);
+            binding.fragmentPhoneAuthNumberEt.setTextColor(Color.RED);
+        } else {
+            if (!countryCode.equals("+7")){
+                binding.fragmentPhoneAuthCodeEt.setTextColor(Color.RED);
+            } else {
+                viewModel.getAuthCode(countryCode + cleanNumber);
+            }
+        }
     }
 
 
     private class MyTextWatcher implements TextWatcher{
+        private boolean wasIncreased;
 
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        public void beforeTextChanged(CharSequence s, int start,
+                                      int count, int after) {
         }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            wasIncreased = count - before > 0;
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-            binding.fragmentPhoneAuthNumberEt.addTextChangedListener(null);
+            binding.fragmentPhoneAuthNumberEt.setTextColor(Color.BLACK);
+            binding.fragmentPhoneAuthNumberEt.removeTextChangedListener(textWatcher);
+            int position = binding.fragmentPhoneAuthNumberEt.getSelectionStart();
             String string = editable.toString();
-            String clean = string.replaceAll("[()-]", " ");
+            String clean = getCleanNumber(string);
             StringBuilder builder = new StringBuilder(clean);
             if (builder.length() > 0){
                 builder.insert(0, '(');
@@ -109,6 +117,26 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
             if (builder.length() > 11){
                 builder.insert(11 , "-");
             }
+            binding.fragmentPhoneAuthNumberEt.setText(builder);
+            if (wasIncreased){
+                if (position == 1 || position == 5 || position == 9 || position == 12){
+                    position += 1;
+                }
+            } else {
+                if (position == 1 || position == 5 || position == 9 || position == 12){
+                    position -= 1;
+                }
+                if (position == 0 && builder.length() != 0){
+                    position = 1;
+                }
+            }
+            binding.fragmentPhoneAuthNumberEt.setSelection(position);
+            binding.fragmentPhoneAuthNumberEt.addTextChangedListener(textWatcher);
         }
+    }
+
+    @NotNull
+    private String getCleanNumber(String string) {
+        return string.replaceAll("[()-]", "");
     }
 }

@@ -4,13 +4,14 @@ import javax.inject.Inject;
 
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.main.AuthNavigation;
+import timber.log.Timber;
 
 public class NumberViewModel extends BaseViewModel {
 
     @Inject
     AuthNavigation authNavigation;
     
-    NumberViewModel(){
+    public NumberViewModel(){
         inject(this);   
     }
     
@@ -23,7 +24,7 @@ public class NumberViewModel extends BaseViewModel {
         
     }
 
-    public void getAuthCode(String s) {
-
+    public void getAuthCode(String phoneNumber) {
+        Timber.d(phoneNumber);
     }
 }
