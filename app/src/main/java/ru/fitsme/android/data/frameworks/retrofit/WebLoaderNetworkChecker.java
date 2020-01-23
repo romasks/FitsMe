@@ -23,6 +23,7 @@ import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
+import ru.fitsme.android.domain.entities.auth.CodeSentInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
@@ -179,5 +180,9 @@ public class WebLoaderNetworkChecker extends WebLoader {
             return Single.error(new InternetConnectionException(
                     App.getInstance().getString(R.string.internet_connection_error)));
         }
+    }
+
+    public Single<OkResponse<CodeSentInfo>> sendPhoneNumber(String phoneNumber) {
+        return checkNetwork(super.sendPhoneNumber(phoneNumber));
     }
 }

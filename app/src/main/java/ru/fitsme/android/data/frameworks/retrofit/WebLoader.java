@@ -27,6 +27,7 @@ import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
+import ru.fitsme.android.domain.entities.auth.CodeSentInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
@@ -367,5 +368,10 @@ abstract class WebLoader {
                                 .subscribeOn(workThread)
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError));
+    }
+
+    protected Single<OkResponse<CodeSentInfo>> sendPhoneNumber(String phoneNumber) {
+        return apiService.sendPhoneNumber(phoneNumber)
+                .subscribeOn(workThread);
     }
 }

@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -78,7 +79,7 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
             if (!countryCode.equals("+7")){
                 binding.fragmentPhoneAuthCodeEt.setTextColor(Color.RED);
             } else {
-                viewModel.getAuthCode(countryCode + cleanNumber);
+                viewModel.sendPhoneNumber(countryCode + cleanNumber);
             }
         }
     }

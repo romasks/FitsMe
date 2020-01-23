@@ -24,6 +24,7 @@ import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
+import ru.fitsme.android.domain.entities.auth.CodeSentInfo;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
@@ -135,4 +136,8 @@ public interface ApiService {
 
     @GET("clothes/productnames")
     Single<OkResponse<List<RepoClotheProductName>>> getClotheProductNames(@Header("Authorization") String token);
+
+    @POST("/customers/sendcode/")
+    Single<OkResponse<CodeSentInfo>> sendPhoneNumber(@Path("phone_number") String phoneNumber);
+
 }
