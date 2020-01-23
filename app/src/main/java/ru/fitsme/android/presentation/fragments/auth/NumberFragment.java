@@ -1,6 +1,5 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;

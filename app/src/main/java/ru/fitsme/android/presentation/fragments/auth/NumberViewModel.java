@@ -1,11 +1,7 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import javax.inject.Inject;
 
-import io.reactivex.Single;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.main.AuthNavigation;

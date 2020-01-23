@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bindingEvents"
+            type="ru.fitsme.android.presentation.fragments.auth.CodeBindingEvents" />
+
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.auth.CodeViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/layout_app_bar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_bar"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="34dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="@string/auth_code_prompt"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <FrameLayout
+                android:id="@+id/pin_entry_code_layout"
+                android:layout_width="210dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_pin_code"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <com.alimuzaffar.lib.pin.PinEntryEditText
+                    android:id="@+id/pin_entry_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cursorVisible="false"
+                    android:digits="1234567890"
+                    android:focusable="true"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:textIsSelectable="false"
+                    app:pinBackgroundDrawable="@android:color/transparent"
+                    app:pinCharacterSpacing="10dp"
+                    app:pinLineColors="@color/white"
+                    app:pinRepeatedHint="*"
+                    app:pinTextBottomPadding="-4dp" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/error_wrong_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center_horizontal"
+                android:text="@string/auth_code_wrong_code"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/resend_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:enabled="false"
+                    android:focusable="true"
+                    android:text="@string/auth_code_resend_code"
+                    android:textColor="@color/resend_code"
+                    tools:textColor="@color/resendCodeInactive" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/colorDivideLine" />
+
+                <TextView
+                    android:id="@+id/timer_field"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/resendCodeInactive"
+                    tools:text="Через 00:59" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

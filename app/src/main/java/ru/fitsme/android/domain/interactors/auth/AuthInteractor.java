@@ -39,4 +39,9 @@ public class AuthInteractor implements IAuthInteractor {
     public Single<Boolean> sendPhoneNumber(String phoneNumber) {
         return authRepository.sendPhoneNumber(phoneNumber);
     }
+
+    @Override
+    public void verifyCode(CharSequence str) {
+
+    }
 }

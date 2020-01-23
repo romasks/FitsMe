@@ -8,4 +8,6 @@ public interface IAuthInteractor extends BaseInteractor {
     Single<AuthInfo> getAuthInfo();
 
     Single<Boolean> sendPhoneNumber(String phoneNumber);
+
+    void verifyCode(CharSequence str);
 }
