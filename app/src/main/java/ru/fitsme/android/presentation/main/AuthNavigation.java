@@ -72,4 +72,8 @@ public class AuthNavigation {
     public void goToCodeInput() {
         goNavigate(NAV_CODE_INPUT);
     }
+
+    public void goBack() {
+        getRouter().exit();
+    }
 }

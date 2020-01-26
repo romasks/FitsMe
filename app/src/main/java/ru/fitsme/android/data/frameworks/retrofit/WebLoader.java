@@ -9,6 +9,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import retrofit2.Response;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
+import ru.fitsme.android.data.frameworks.retrofit.entities.CodeRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
@@ -27,11 +28,13 @@ import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
-import ru.fitsme.android.domain.entities.auth.CodeSentInfo;
+import ru.fitsme.android.domain.entities.auth.CodeResponse;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
+import ru.fitsme.android.domain.entities.auth.TokenRequest;
+import ru.fitsme.android.domain.entities.auth.TokenResponse;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
@@ -370,8 +373,13 @@ abstract class WebLoader {
                         emitter::onError));
     }
 
-    protected Single<OkResponse<CodeSentInfo>> sendPhoneNumber(String phoneNumber) {
-        return apiService.sendPhoneNumber(phoneNumber)
+    protected Single<OkResponse<CodeResponse>> sendCodeRequest(CodeRequest codeRequest) {
+        return apiService.sendPhoneNumber(codeRequest)
+                .subscribeOn(workThread);
+    }
+
+    protected Single<OkResponse<TokenResponse>> sendCode(TokenRequest request) {
+        return apiService.sendCode(request)
                 .subscribeOn(workThread);
     }
 }

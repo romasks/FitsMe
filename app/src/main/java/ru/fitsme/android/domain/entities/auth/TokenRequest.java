@@ -1,21 +1,20 @@
 package ru.fitsme.android.domain.entities.auth;
 
-public class CodeSentInfo {
-
-    private String status;
+public class TokenRequest {
+    private String phoneNumber;
     private String verificationCode;
 
-    public CodeSentInfo(String status, String verificationCode) {
-        this.status = status;
+    public TokenRequest(String phoneNumber, String verificationCode) {
+        this.phoneNumber = phoneNumber;
         this.verificationCode = verificationCode;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getVerificationCode() {

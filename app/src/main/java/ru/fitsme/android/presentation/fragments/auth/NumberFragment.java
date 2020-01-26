@@ -73,6 +73,7 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         String cleanNumber = getCleanNumber(phoneNumber);
         if (cleanNumber.length() != 10){
             binding.fragmentPhoneAuthWrongNumTv.setVisibility(View.VISIBLE);
+            binding.fragmentPhoneAuthWrongNumTv.setText(getString(R.string.wrong_phone_number));
             binding.fragmentPhoneAuthNumberEt.setTextColor(Color.RED);
         } else {
             if (!countryCode.equals("+7")){

@@ -15,10 +15,12 @@ import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
 public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBindingEvents, BackClickListener {
 
+    private static final int REPEAT_TIME = 60;
+
     private FragmentCodeBinding binding;
 
     private Timer timer = null;
-    private int time = 9;
+    private int time = REPEAT_TIME;
 
     public static CodeFragment newInstance() {
         return new CodeFragment();
@@ -45,7 +47,7 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
         KeyboardUtils.open(requireActivity(), binding.pinEntryCode);
 
         binding.pinEntryCode.setOnPinEnteredListener(str -> {
-            if (str.length() == 4) viewModel.verifyCode(str);
+            if (str.length() == 4) viewModel.verifyCode(str.toString());
         });
 
         binding.resendCode.setOnClickListener(v -> {
@@ -84,6 +86,11 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
     }
 
     @Override
+    public void onBackPressed() {
+        viewModel.onBackPressed();
+    }
+
+    @Override
     public void goBack() {
         viewModel.onBackPressed();
     }
@@ -114,7 +121,7 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
         timer.purge();
         timer = null;
 
-        time = 9;
+        time = REPEAT_TIME;
     }
 
     @Override

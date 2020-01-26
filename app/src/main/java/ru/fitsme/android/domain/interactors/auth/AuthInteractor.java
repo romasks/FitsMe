@@ -34,14 +34,4 @@ public class AuthInteractor implements IAuthInteractor {
                 .observeOn(mainThread)
                 .cast(AuthInfo.class);
     }
-
-    @Override
-    public Single<Boolean> sendPhoneNumber(String phoneNumber) {
-        return authRepository.sendPhoneNumber(phoneNumber);
-    }
-
-    @Override
-    public void verifyCode(CharSequence str) {
-
-    }
 }

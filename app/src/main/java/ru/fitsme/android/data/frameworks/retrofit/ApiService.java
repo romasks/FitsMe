@@ -13,6 +13,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import ru.fitsme.android.data.frameworks.retrofit.entities.AuthToken;
+import ru.fitsme.android.data.frameworks.retrofit.entities.CodeRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
@@ -24,11 +25,13 @@ import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
-import ru.fitsme.android.domain.entities.auth.CodeSentInfo;
+import ru.fitsme.android.domain.entities.auth.CodeResponse;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
+import ru.fitsme.android.domain.entities.auth.TokenRequest;
+import ru.fitsme.android.domain.entities.auth.TokenResponse;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
@@ -138,6 +141,8 @@ public interface ApiService {
     Single<OkResponse<List<RepoClotheProductName>>> getClotheProductNames(@Header("Authorization") String token);
 
     @POST("/customers/sendcode/")
-    Single<OkResponse<CodeSentInfo>> sendPhoneNumber(@Path("phone_number") String phoneNumber);
+    Single<OkResponse<CodeResponse>> sendPhoneNumber(@Body CodeRequest codeRequest);
 
+    @POST("/customers/verifycode/")
+    Single<OkResponse<TokenResponse>> sendCode(@Body TokenRequest request);
 }

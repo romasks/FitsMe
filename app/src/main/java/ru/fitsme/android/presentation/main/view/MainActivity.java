@@ -44,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         List<Fragment> list  = getSupportFragmentManager().getFragments();
-        BaseFragment fragment = (BaseFragment) list.get(list.size() - 2); //сверху находится какой-то glide support fragment manager, поэтому беру второй
+        BaseFragment fragment;
+        if (list.size() > 1) {
+            fragment = (BaseFragment) list.get(list.size() - 2); //сверху находится какой-то glide support fragment manager, поэтому беру второй
+        } else {
+            fragment = (BaseFragment) list.get(0); // для случая при авторизации
+        }
         fragment.onBackPressed();
     }
 

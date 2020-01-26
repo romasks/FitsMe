@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
+import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.main.AuthNavigation;
 
@@ -14,7 +14,7 @@ public class CodeViewModel extends BaseViewModel {
     @Inject
     AuthNavigation authNavigation;
     @Inject
-    IAuthInteractor interactor;
+    ISignInteractor interactor;
 
     private MutableLiveData<Boolean> isCodeVerified = new MutableLiveData<>();
 
@@ -26,15 +26,29 @@ public class CodeViewModel extends BaseViewModel {
         return isCodeVerified;
     }
 
-    public void verifyCode(CharSequence str) {
-        interactor.verifyCode(str);
+    public void verifyCode(String code) {
+        interactor.verifyCode(code)
+                .subscribe(authInfo -> {
+                    if (authInfo.getToken() != null){
+                        receivedSuccess();
+                    } else {
+                        receivedError();
+                    }
+                }, error -> receivedError());
+
     }
 
     private void receivedSuccess() {
         isCodeVerified.setValue(true);
+        authNavigation.goToMainItem();
     }
 
     private void receivedError() {
         isCodeVerified.setValue(false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        authNavigation.goBack();
     }
 }

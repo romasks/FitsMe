@@ -1,17 +1,28 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.MutableLiveData;
+
 import javax.inject.Inject;
 
-import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.operators.observable.ObservableFilter;
+import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
+import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.main.AuthNavigation;
+import timber.log.Timber;
 
 public class NumberViewModel extends BaseViewModel {
 
     @Inject
     AuthNavigation authNavigation;
     @Inject
-    IAuthInteractor interactor;
+    ISignInteractor interactor;
+
+    public ObservableField<String> message = new ObservableField<String>();
 
     public NumberViewModel(){
         inject(this);   
@@ -27,11 +38,17 @@ public class NumberViewModel extends BaseViewModel {
     }
 
     public void sendPhoneNumber(String phoneNumber) {
-        interactor.sendPhoneNumber(phoneNumber)
-                .subscribe(isSent -> {
-                    if (isSent){
+        Disposable disposable = interactor.sendPhoneNumber(phoneNumber)
+                .subscribe(codeResponse -> {
+                    if (codeResponse.getStatus().equals("confirmation code sent")){
                         authNavigation.goToCodeInput();
                     }
+                }, error -> {
+                    if (error instanceof UserException) {
+                        UserException userException = (UserException) error;
+                        message.set(userException.getMessage());
+                    }
                 });
+        addDisposable(disposable);
     }
 }
