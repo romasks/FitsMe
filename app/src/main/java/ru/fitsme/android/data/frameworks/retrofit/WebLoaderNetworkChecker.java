@@ -7,13 +7,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import retrofit2.Response;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.app.NetworkStatus;
+import ru.fitsme.android.data.frameworks.retrofit.entities.CodeRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
@@ -23,10 +23,13 @@ import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
+import ru.fitsme.android.domain.entities.auth.CodeResponse;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
+import ru.fitsme.android.domain.entities.auth.TokenRequest;
+import ru.fitsme.android.domain.entities.auth.TokenResponse;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
@@ -179,5 +182,15 @@ public class WebLoaderNetworkChecker extends WebLoader {
             return Single.error(new InternetConnectionException(
                     App.getInstance().getString(R.string.internet_connection_error)));
         }
+    }
+
+    @Override
+    public Single<OkResponse<CodeResponse>> sendCodeRequest(CodeRequest codeRequest) {
+        return checkNetwork(super.sendCodeRequest(codeRequest));
+    }
+
+    @Override
+    public Single<OkResponse<TokenResponse>> sendCode(TokenRequest request) {
+        return checkNetwork(super.sendCode(request));
     }
 }

@@ -15,6 +15,8 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
+import ru.fitsme.android.domain.entities.auth.AuthInfo;
+import ru.fitsme.android.domain.entities.auth.CodeResponse;
 import ru.fitsme.android.domain.entities.auth.SignInUpResult;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
@@ -95,6 +97,29 @@ public class SignInteractor implements ISignInteractor {
                 .observeOn(mainThread)
                 .cast(SignInUpResult.class);
     }
+
+    @Override
+    public Single<CodeResponse> sendPhoneNumber(String phoneNumber) {
+        AuthInfo authInfo = new AuthInfo(phoneNumber, null);
+        authRepository.setAuthInfo(authInfo);
+        return signRepository
+                .sendPhoneNumber(phoneNumber)
+                .observeOn(mainThread);
+    }
+
+    @Override
+    public Single<AuthInfo> verifyCode(String code) {
+        AuthInfo info = authRepository.getAuthInfo();
+        return signRepository.verifyCode(info.getLogin(), code)
+                .map(authInfo -> {
+                    if (authInfo.getToken() != null){
+                        authRepository.setAuthInfo(authInfo);
+                    }
+                    return authInfo;
+                })
+                .observeOn(mainThread);
+    }
+
 
     private void checkLoginAndPass(SignInUpResult signInUpResult, String login, String password) {
         if (!textValidator.checkLogin(login)) {

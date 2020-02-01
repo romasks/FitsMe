@@ -2,6 +2,7 @@ package ru.fitsme.android.data.repositories;
 
 import ru.fitsme.android.data.frameworks.retrofit.entities.Error;
 import ru.fitsme.android.domain.entities.exceptions.user.ClotheNotFoundException;
+import ru.fitsme.android.domain.entities.exceptions.user.ForbiddenPhoneNumber;
 import ru.fitsme.android.domain.entities.exceptions.user.InvalidTokenException;
 import ru.fitsme.android.domain.entities.exceptions.user.LoginAlreadyExistException;
 import ru.fitsme.android.domain.entities.exceptions.user.ProductInListOfViewedException;
@@ -13,6 +14,7 @@ import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongLoginOrPasswordException;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongPasswordException;
+import ru.fitsme.android.domain.entities.exceptions.user.WrongPhoneNumber;
 import ru.fitsme.android.domain.entities.exceptions.user.WrongTokenException;
 
 public class ErrorRepository {
@@ -41,6 +43,10 @@ public class ErrorRepository {
                 return new ProductInListOfViewedException(error.getMessage());
             case ClotheNotFoundException.CODE:
                 return new ClotheNotFoundException(error.getMessage());
+            case WrongPhoneNumber.CODE:
+                return new WrongPhoneNumber(error.getMessage());
+            case ForbiddenPhoneNumber.CODE:
+                return new ForbiddenPhoneNumber(error.getMessage());
             default:
                 return new UnknowError();
         }

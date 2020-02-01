@@ -7,6 +7,9 @@ import javax.inject.Singleton;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+
+import ru.fitsme.android.presentation.fragments.auth.NumberViewModel;
+import ru.fitsme.android.presentation.fragments.auth.CodeViewModel;
 import ru.fitsme.android.presentation.fragments.cart.CartViewModel;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutViewModel;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
@@ -87,6 +90,10 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new FiltersViewModel();
         } else if (modelClass.isAssignableFrom(FeedbackViewModel.class)) {
             return (T) new FeedbackViewModel();
+        } else if (modelClass.isAssignableFrom(NumberViewModel.class)) {
+            return (T) new NumberViewModel();
+        } else if (modelClass.isAssignableFrom(CodeViewModel.class)) {
+            return (T) new CodeViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

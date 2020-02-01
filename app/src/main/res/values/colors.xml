@@ -26,4 +26,8 @@
     <color name="colorStatusRDY">#217F4E</color>
 
     <color name="errorInputField">#DEFF0000</color>
+
+    <color name="resendCodeActive">#8A940235</color>
+    <color name="resendCodeInactive">#36000000</color>
+    <color name="resendCodeError">#8AFF0000</color>
 </resources>

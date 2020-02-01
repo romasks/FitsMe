@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
+import ru.fitsme.android.presentation.fragments.auth.CodeFragment;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import ru.fitsme.android.presentation.fragments.checkout.CheckoutFragment;
@@ -37,6 +38,7 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_CART;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_CHECKOUT;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_CODE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_DETAIL_ITEM_INFO;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FAVOURITES;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FILTER;
@@ -121,7 +123,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                     navigation.goToCart();
                     return true;
                 case R.id.action_profile:
-                    navigation.goToMainProfile();
+//                    navigation.goToMainProfile();
+                    navigation.goToCode();
                     return true;
             }
             return false;
@@ -202,6 +205,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                         return ItemInfoFragment.newInstance(data);
                     case NAV_FILTER:
                         return FiltersFragment.newInstance();
+                    case NAV_CODE:
+                        return CodeFragment.newInstance();
                 }
                 throw new RuntimeException("Unknown screen key");
             }

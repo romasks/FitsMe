@@ -173,6 +173,7 @@
     <string name="filter_brands">Бренд</string>
     <string name="filter_colors">Цвет</string>
 
+    <!--feedback-->
     <string name="feedback_header_text">Оставить отзыв</string>
     <string name="feedback_btn_leave_feedback">Оставить отзыв</string>
     <string name="feedback_field_name">Ваше имя</string>
@@ -184,5 +185,16 @@
     <string name="feedback_error_text">Заполните это поле</string>
     <string name="set_color_type">Применять цветотип</string>
     <string name="set_color_type_hint">Цветотип можно указать в настройках профиля</string>
+
+    <string name="phone_auth_input_phone">Для входа в приложение введите номер телефона</string>
+    <string name="phone_auth_code_default">+7</string>
+    <string name="phone_auth_number_hint">(123)456-78-90</string>
+    <string name="auth_get_code">Получить код</string>
+    <string name="wrong_phone_number">Некорректный номер телефона</string>
+    <!--auth-->
+    <string name="auth_code_header_text">Введите код</string>
+    <string name="auth_code_resend_code">Отправить код повторно</string>
+    <string name="auth_code_prompt">Введите код из СМС</string>
+    <string name="auth_code_wrong_code">Неверный код</string>
 
 </resources>

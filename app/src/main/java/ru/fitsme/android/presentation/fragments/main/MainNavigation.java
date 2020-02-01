@@ -36,6 +36,7 @@ public class MainNavigation {
     static final String NAV_RETURNS_VERIFY_DATA = "ReturnsVerifyData";
     static final String NAV_DETAIL_ITEM_INFO = "DetailItemInfo";
     static final String NAV_FILTER = "Filter";
+    static final String NAV_CODE = "Code";
 
     private Cicerone<Router> cicerone;
 
@@ -102,6 +103,10 @@ public class MainNavigation {
 
     public void goToCart() {
         newChainNavigate(NAV_CART);
+    }
+
+    public void goToCode() {
+        newChainNavigate(NAV_CODE);
     }
 
     public void goToCheckout() {
