@@ -57,8 +57,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="@dimen/padding_medium"
-                    android:layout_marginTop="@dimen/padding_medium"
+                    android:layout_marginStart="@dimen/padding_16dp"
+                    android:layout_marginTop="@dimen/padding_16dp"
                     android:text="@{@string/returns_number_tv(returnsOrder.order)}"
                     tools:text="Заказ #123" />
 
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/order_number"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="@dimen/padding_medium"
+                    android:layout_marginStart="@dimen/padding_16dp"
                     android:paddingBottom="12dp"
                     android:text="@string/returns_status_title"
                     android:textColor="#8A000000"
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="@dimen/padding_medium"
+                    android:layout_margin="@dimen/padding_16dp"
                     android:layout_toEndOf="@id/order_status_value"
                     android:gravity="end"
                     android:text="@{returnsOrder.getFormattedDate()}"
@@ -105,8 +105,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/order_status_text"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="@dimen/padding_medium"
-                    android:layout_marginTop="@dimen/padding_medium"
+                    android:layout_marginStart="@dimen/padding_16dp"
+                    android:layout_marginTop="@dimen/padding_16dp"
                     android:text="@string/returns_list_text" />
 
                 <View
@@ -121,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/separator"
-                    android:layout_marginBottom="@dimen/padding_medium"
+                    android:layout_marginBottom="@dimen/padding_16dp"
                     android:clipToPadding="false"
                     android:orientation="vertical" />
 
@@ -130,7 +130,7 @@
                     style="@style/ReturnsItemTextStyle"
                     android:layout_below="@id/return_order_items_list_rv"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="@dimen/padding_medium"
+                    android:layout_marginStart="@dimen/padding_16dp"
                     android:text="@string/returns_price_title" />
 
                 <TextView
@@ -138,7 +138,7 @@
                     style="@style/ReturnsItemTextStyle"
                     android:layout_below="@id/return_order_items_list_rv"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:layout_marginEnd="@dimen/padding_16dp"
                     android:text="@{@string/returns_price_value(returnsOrder.summ)}"
                     tools:text="6000 руб" />
 
@@ -147,7 +147,7 @@
                     style="@style/ReturnsItemTextStyle"
                     android:layout_below="@id/item_return_price_text"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="@dimen/padding_medium"
+                    android:layout_marginStart="@dimen/padding_16dp"
                     android:text="@string/returns_calculation_methos_title" />
 
                 <TextView
@@ -155,7 +155,7 @@
                     style="@style/ReturnsItemTextStyle"
                     android:layout_below="@id/item_return_price"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:layout_marginEnd="@dimen/padding_16dp"
                     android:text="Банковская карта"
                     tools:text="Банковская карта" />
 
@@ -164,7 +164,7 @@
                     style="@style/ReturnsItemTextStyle"
                     android:layout_below="@id/item_return_calculation_method_text"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="@dimen/padding_medium"
+                    android:layout_marginStart="@dimen/padding_16dp"
                     android:text="@string/returns_requisites_title" />
 
                 <TextView
@@ -172,7 +172,7 @@
                     style="@style/ReturnsItemTextStyle"
                     android:layout_below="@id/item_return_calculation_method"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:layout_marginEnd="@dimen/padding_16dp"
                     android:text="@{returnsOrder.hiddenCardNumber}"
                     tools:text="**** **** **** 1234" />
 
@@ -183,7 +183,7 @@
             android:id="@+id/btn_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_large"
+            android:layout_margin="@dimen/padding_32dp"
             android:background="@drawable/bg_to_cart_btn"
             android:onClick="@{() -> bindingEvents.onContinueMakeReturn()}"
             android:text="@string/returns_button_continue"

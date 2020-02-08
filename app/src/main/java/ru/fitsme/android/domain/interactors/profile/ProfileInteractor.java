@@ -41,7 +41,7 @@ public class ProfileInteractor implements IProfileInteractor {
 
     private ObservableInt currentTopSizeTypeValue = new ObservableInt();
     private ObservableInt currentBottomSizeTypeValue = new ObservableInt();
-    private ObservableInt currentTopSizeIndex = new ObservableInt();
+    private ObservableInt currentTopSizeIndex = new ObservableInt(-1);
     private ObservableInt currentBottomSizeIndex = new ObservableInt();
     private MutableLiveData<List<String>> currentTopSizeArray = new MutableLiveData<>();
     private MutableLiveData<List<String>> currentBottomSizeArray = new MutableLiveData<>();
@@ -49,11 +49,12 @@ public class ProfileInteractor implements IProfileInteractor {
     private ObservableField<String> currentTopWaistSize = new ObservableField<>();
     private ObservableField<String> currentTopHipsSize = new ObservableField<>();
     private ObservableField<String> currentSleeveSize = new ObservableField<>();
-    private ObservableField<String> currentBottomWeistSize = new ObservableField<>();
+    private ObservableField<String> currentBottomWaistSize = new ObservableField<>();
     private ObservableField<String> currentBottomHipsSize = new ObservableField<>();
     private ObservableField<String> message = new ObservableField<>();
 
     private static final String MEASURE_UNIT = "см";
+    private ClotheSizeType sizeType = ClotheSizeType.Russia;
 
     @Inject
     ProfileInteractor(IClothesRepository clothesRepository,
@@ -69,8 +70,8 @@ public class ProfileInteractor implements IProfileInteractor {
 
     @Override
     public void updateInfo() {
-        currentTopSizeTypeValue.set(getSettingTopClothesSize().getValue());
-        currentBottomSizeTypeValue.set(getSettingBottomClothesSize().getValue());
+        currentTopSizeTypeValue.set(sizeType.getValue());
+        currentBottomSizeTypeValue.set(sizeType.getValue());
         getProfileFromRepo();
         getSizesFromRepo();
         setTopClothesSize();
@@ -127,7 +128,7 @@ public class ProfileInteractor implements IProfileInteractor {
                     ClotheSize bottomClotheSize = clotheSizes.get(bottomSizeId);
                     int bottomSizeIndex = clotheSizes.indexOfKey(bottomSizeId);
                     currentBottomSizeIndex.set(bottomSizeIndex);
-                    currentBottomWeistSize.set(bottomClotheSize.getWaistLow() +
+                    currentBottomWaistSize.set(bottomClotheSize.getWaistLow() +
                             "-" + bottomClotheSize.getWaistHigh() + " " + MEASURE_UNIT);
                     currentBottomHipsSize.set(bottomClotheSize.getHipsLow() +
                             "-" + bottomClotheSize.getHipsHigh() + " " + MEASURE_UNIT);
@@ -195,7 +196,7 @@ public class ProfileInteractor implements IProfileInteractor {
     @Override
     public void setTopClothesSizeType(ClotheSizeType clothesSizeType) {
         if (currentTopSizeTypeValue.get() != clothesSizeType.getValue()) {
-            currentTopSizeTypeValue.set(clothesSizeType.getValue());
+            currentTopSizeTypeValue.set(sizeType.getValue());
             clothesRepository.setSettingsTopClothesSizeType(clothesSizeType);
             setTopClothesSize();
         }
@@ -204,7 +205,7 @@ public class ProfileInteractor implements IProfileInteractor {
     @Override
     public void setBottomClotheSizeType(ClotheSizeType clothesSizeType) {
         if (currentBottomSizeTypeValue.get() != clothesSizeType.getValue()) {
-            currentBottomSizeTypeValue.set(clothesSizeType.getValue());
+            currentBottomSizeTypeValue.set(sizeType.getValue());
             clothesRepository.setSettingsBottomClothesSizeType(clothesSizeType);
             setBottomClothesSize();
         }
@@ -308,7 +309,7 @@ public class ProfileInteractor implements IProfileInteractor {
 
     @Override
     public ObservableField<String> getCurrentBottomWaistSize() {
-        return currentBottomWeistSize;
+        return currentBottomWaistSize;
     }
 
     @Override
@@ -355,7 +356,6 @@ public class ProfileInteractor implements IProfileInteractor {
                                 profileReplaySubject.onNext(updatedProfile);
                                 message.set(App.getInstance().getString(R.string.profile_message_to_user_saving_complete));
                             }, Timber::e);
-
         }
     }
 

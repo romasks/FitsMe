@@ -16,16 +16,13 @@ import ru.fitsme.android.domain.entities.clothes.FilterColor;
 
 public class FilterColorImageView extends AppCompatImageView implements Checkable {
     private FilterColor filterColor;
-    private Context context;
 
     public FilterColorImageView(Context context) {
         super(context);
-        this.context = context;
     }
 
     public FilterColorImageView(Context context, FilterColor filterColor){
         super(context);
-        this.context = context;
         this.filterColor = filterColor;
         setChecked(filterColor.isChecked());
         this.isClickable();
@@ -34,25 +31,23 @@ public class FilterColorImageView extends AppCompatImageView implements Checkabl
 
     public FilterColorImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
     }
 
     public FilterColorImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
     }
 
     @Override
     public void setChecked(boolean isChecked) {
         filterColor.setChecked(isChecked);
         if (isChecked){
-            Drawable checkedUnwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_check_circle_checked);
+            Drawable checkedUnwrappedDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.ic_check_circle_checked);
             Drawable checkedDrawable = checkedUnwrappedDrawable.getConstantState().newDrawable().mutate();
             Drawable checkedWrappedDrawable = DrawableCompat.wrap(checkedDrawable);
             DrawableCompat.setTint(checkedWrappedDrawable, Color.parseColor(filterColor.getColorHex()));
             if (filterColor.getColorHex().equals("#ffffff")){
                 Drawable[] layers = new Drawable[2];
-                layers[0] = (context.getResources().getDrawable(R.drawable.ic_check_circle_background));
+                layers[0] = (getContext().getResources().getDrawable(R.drawable.ic_check_circle_background));
                 layers[1] = checkedWrappedDrawable;
                 LayerDrawable layerDrawable = new LayerDrawable(layers);
                 setImageDrawable(layerDrawable);
@@ -61,20 +56,21 @@ public class FilterColorImageView extends AppCompatImageView implements Checkabl
             }
             
         } else {
-            Drawable uncheckedUnwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_check_circle_unchecked);
+            Drawable uncheckedUnwrappedDrawable = AppCompatResources.getDrawable(getContext(), R.drawable.ic_check_circle_unchecked);
             Drawable uncheckedDrawable = uncheckedUnwrappedDrawable.getConstantState().newDrawable().mutate();
             Drawable uncheckedWrappedDrawable = DrawableCompat.wrap(uncheckedDrawable);
-            DrawableCompat.setTint(uncheckedWrappedDrawable, Color.parseColor(filterColor.getColorHex()));
-            if (filterColor.getColorHex().equals("#ffffff")){
-                Drawable[] layers = new Drawable[2];
-                layers[0] = (context.getResources().getDrawable(R.drawable.ic_check_circle_background));
-                layers[1] = uncheckedWrappedDrawable;
-                LayerDrawable layerDrawable = new LayerDrawable(layers);
-                setImageDrawable(layerDrawable);
-            } else {
-                setImageDrawable(uncheckedWrappedDrawable);
+            if (filterColor.getColorHex() != null) {
+                DrawableCompat.setTint(uncheckedWrappedDrawable, Color.parseColor(filterColor.getColorHex()));
+                if (filterColor.getColorHex().equals("#ffffff")) {
+                    Drawable[] layers = new Drawable[2];
+                    layers[0] = (getResources().getDrawable(R.drawable.ic_check_circle_background));
+                    layers[1] = uncheckedWrappedDrawable;
+                    LayerDrawable layerDrawable = new LayerDrawable(layers);
+                    setImageDrawable(layerDrawable);
+                } else {
+                    setImageDrawable(uncheckedWrappedDrawable);
+                }
             }
-
         }
     }
 

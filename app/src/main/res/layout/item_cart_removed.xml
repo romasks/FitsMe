@@ -41,7 +41,7 @@
             android:focusable="true"
             android:text="@string/item_favourite_removed_undo_tv"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/text_size_minimal_medium"
+            android:textSize="@dimen/text_size_14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

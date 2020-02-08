@@ -40,22 +40,22 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentBottom="true"
                         android:onClick="@{() -> backClickListener.goBack()}"
-                        android:paddingStart="@dimen/padding_small"
-                        android:paddingTop="@dimen/padding_medium"
-                        android:paddingEnd="@dimen/padding_medium"
-                        android:paddingBottom="@dimen/padding_medium"
+                        android:paddingStart="@dimen/padding_8dp"
+                        android:paddingTop="@dimen/padding_16dp"
+                        android:paddingEnd="@dimen/padding_16dp"
+                        android:paddingBottom="@dimen/padding_16dp"
                         android:src="@drawable/ic_back_arrow"
                         tools:ignore="ContentDescription" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/padding_medium"
+                        android:layout_marginEnd="@dimen/padding_16dp"
                         android:gravity="center"
                         android:text="@{title}"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_header"
+                        android:textSize="@dimen/text_size_20sp"
                         android:textStyle="bold"
                         tools:text="Заголовок экрана" />
                 </RelativeLayout>

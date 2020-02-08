@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/app_bar"
-            android:layout_margin="@dimen/padding_medium"
+            android:layout_margin="@dimen/padding_16dp"
             android:text="@{@string/returns_number_tv(returnsOrder.orderId)}"
             tools:text="Заказ #123" />
 
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/app_bar"
             android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/padding_medium"
+            android:layout_margin="@dimen/padding_16dp"
             android:text="@{returnsOrder.orderDate()}"
             tools:text="31.12.2019" />
 
@@ -85,7 +85,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/padding_large"
+            android:layout_margin="@dimen/padding_32dp"
             android:background="@drawable/bg_to_cart_btn"
             android:onClick="@{() -> bindingEvents.onNext()}"
             android:text="@string/returns_button_next"

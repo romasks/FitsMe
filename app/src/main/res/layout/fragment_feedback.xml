@@ -40,7 +40,7 @@
                     android:id="@+id/name_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_medium"
+                    android:layout_margin="@dimen/padding_16dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -101,7 +101,7 @@
                     android:id="@+id/email_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_medium"
+                    android:layout_margin="@dimen/padding_16dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -162,7 +162,7 @@
                     android:id="@+id/message_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_medium"
+                    android:layout_margin="@dimen/padding_16dp"
                     android:orientation="vertical">
 
                     <TextView

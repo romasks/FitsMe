@@ -68,7 +68,7 @@
                 android:layout_marginBottom="40dp"
                 android:text="@string/orders_empty_list_title"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_18sp"
                 android:textStyle="bold" />
 
             <Button

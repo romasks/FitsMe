@@ -18,7 +18,7 @@
             android:id="@+id/item_cart_view_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/padding_medium">
+            android:padding="@dimen/padding_16dp">
 
             <ImageView
                 android:id="@+id/item_cart_delete_icon_right"
@@ -27,7 +27,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="@dimen/padding_extra_medium"
+                android:layout_marginEnd="@dimen/padding_20dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_delete_24dp"
                 android:visibility="invisible" />
@@ -39,7 +39,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/padding_extra_medium"
+                android:layout_marginStart="@dimen/padding_20dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_delete_24dp"
                 android:visibility="invisible" />
@@ -50,7 +50,7 @@
             android:id="@+id/item_cart_view_foreground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/padding_medium">
+            android:padding="@dimen/padding_16dp">
 
             <ImageView
                 android:id="@+id/item_cart_image"
@@ -59,7 +59,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="@dimen/padding_medium"
+                android:layout_marginEnd="@dimen/padding_16dp"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 app:defaultImage="@{@drawable/placeholder}"
@@ -71,13 +71,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_marginStart="@dimen/padding_16dp"
                 android:layout_toEndOf="@id/item_cart_image"
                 android:lines="2"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.brand}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_18sp"
                 android:textStyle="bold"
                 tools:text="@string/brand_name_hint_in_two_lines" />
 
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_cart_brand_name"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_marginStart="@dimen/padding_16dp"
                 android:layout_toEndOf="@id/item_cart_image"
                 android:lines="2"
                 android:paddingBottom="4dp"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_cart_name"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/padding_medium"
+                android:layout_marginStart="@dimen/padding_16dp"
                 android:layout_toEndOf="@id/item_cart_image"
                 android:paddingBottom="4dp"
                 android:text="@{@string/cart_amount_tv(clotheItem.price)}"

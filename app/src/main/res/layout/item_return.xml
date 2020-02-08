@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:padding="@dimen/padding_medium">
+            android:padding="@dimen/padding_16dp">
 
             <TextView
                 android:id="@+id/item_return_number"
@@ -137,8 +137,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
-                android:paddingTop="@dimen/padding_small"
-                android:paddingBottom="@dimen/padding_small"
+                android:paddingTop="@dimen/padding_8dp"
+                android:paddingBottom="@dimen/padding_8dp"
                 android:textAllCaps="false"
                 tools:text="Просмотреть детали" />
 

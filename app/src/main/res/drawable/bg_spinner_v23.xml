@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <layer-list>
-            <item android:drawable="@drawable/ic_spin_down_arrow" android:gravity="center_vertical|right" android:right="@dimen/padding_small" />
+            <item android:drawable="@drawable/ic_spin_down_arrow" android:gravity="center_vertical|right" android:right="@dimen/padding_8dp" />
         </layer-list>
     </item>
 </selector>

@@ -62,7 +62,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_16dp"
             android:gravity="center"
             android:text="@{@string/returns_order_item_price(clothesItem.price)}"
             android:textColor="@color/black"

@@ -36,7 +36,7 @@
             android:layout_toStartOf="@id/right_arrow"
             android:background="@color/white"
             android:orientation="vertical"
-            android:padding="@dimen/padding_medium">
+            android:padding="@dimen/padding_16dp">
 
             <TextView
                 android:id="@+id/item_return_number"
@@ -69,7 +69,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_16dp"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
         <View

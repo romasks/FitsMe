@@ -109,6 +109,7 @@
     <string name="profile_message_to_user_saving_complete">Изменения сохранены</string>
     <string name="profile_message_to_user_set_top_size">Установите верхний размер</string>
     <string name="dialog_fragment_rate_item_set_size_hint">Так вы сможете просматривать только подходящие по размеру вещи</string>
+    <string name="dialog_fragment_rate_item_set_size_hint_updated">Вы сможете добавить вещь в корзину после того, как укажете ваш разиер</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
 

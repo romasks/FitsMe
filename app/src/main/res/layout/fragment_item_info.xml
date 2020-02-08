@@ -207,7 +207,7 @@
 
                 </TableRow>
 
-                <TableRow android:layout_marginTop="@dimen/padding_medium">
+                <TableRow android:layout_marginTop="@dimen/padding_16dp">
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -30,7 +30,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/padding_extra_medium"
+                android:layout_margin="@dimen/padding_20dp"
                 android:onClick="@{() -> bindingEvents.goBack()}"
                 android:src="@drawable/ic_back_arrow_black_24dp"
                 tools:ignore="ContentDescription" />
@@ -42,7 +42,7 @@
                 android:text="@string/fragment_change_size_title"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_header" />
+                android:textSize="@dimen/text_size_20sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -63,14 +63,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipChildren="false"
-                android:padding="@dimen/padding_medium">
+                android:padding="@dimen/padding_16dp">
 
                 <RelativeLayout
                     android:id="@+id/fragment_change_size_top_chest_size_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:layout_marginEnd="@dimen/padding_16dp"
                     android:background="@drawable/rounded_layout"
                     app:layout_constraintEnd_toStartOf="@id/fragment_change_size_top_waist_size_layout"
                     app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +90,7 @@
                         android:id="@+id/fragment_change_size_top_chest_size_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_medium"
+                        android:layout_margin="@dimen/padding_16dp"
                         android:gravity="start"
                         android:text="@{viewModel.currentChestSize}"
                         tools:text="9-96 см" />
@@ -120,7 +120,7 @@
                         android:id="@+id/fragment_change_size_top_waist_size_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_medium"
+                        android:layout_margin="@dimen/padding_16dp"
                         android:gravity="start"
                         android:text="@{viewModel.currentTopWaistSize}"
                         tools:text="71-74 см" />
@@ -131,7 +131,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:layout_marginEnd="@dimen/padding_16dp"
                     android:background="@drawable/rounded_layout"
                     app:layout_constraintEnd_toStartOf="@id/fragment_change_size_top_sleeve_size_layout"
                     app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +151,7 @@
                         android:id="@+id/fragment_change_size_top_hips_size_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_medium"
+                        android:layout_margin="@dimen/padding_16dp"
                         android:gravity="start"
                         android:text="@{viewModel.currentTopHipsSize}"
                         tools:text="98-101 см" />
@@ -182,7 +182,7 @@
                         android:id="@+id/fragment_change_size_top_sleeve_size_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_medium"
+                        android:layout_margin="@dimen/padding_16dp"
                         android:gravity="start"
                         android:text="@{viewModel.currentSleeveSize}"
                         tools:text="60-62 см" />
@@ -213,7 +213,7 @@
                         android:id="@+id/fragment_change_size_bottom_waist_size_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_medium"
+                        android:layout_margin="@dimen/padding_16dp"
                         android:gravity="start"
                         android:text="@{viewModel.currentBottomWaistSize}"
                         tools:text="67-70 см" />
@@ -243,7 +243,7 @@
                         android:id="@+id/fragment_change_size_bottom_hips_size_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_medium"
+                        android:layout_margin="@dimen/padding_16dp"
                         android:gravity="start"
                         android:text="@{viewModel.currentBottomHipsSize}"
                         tools:text="98-101 см" />
@@ -267,7 +267,7 @@
                     style="@style/SpinnerDropdownTheme"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_medium"
+                    android:layout_marginStart="@dimen/padding_16dp"
                     android:gravity="start"
                     android:selection="@{viewModel.currentTopSizeIndex}"
                     android:spinnerMode="dropdown"
@@ -295,7 +295,7 @@
                     style="@style/SpinnerDropdownTheme"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_medium"
+                    android:layout_marginStart="@dimen/padding_16dp"
                     android:gravity="start"
                     android:selection="@{viewModel.currentBottomSizeIndex}"
                     android:spinnerMode="dropdown"
@@ -308,8 +308,8 @@
                     android:id="@+id/fragment_change_size_top_size_layout_title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/padding_small"
-                    android:paddingBottom="@dimen/padding_medium"
+                    android:paddingTop="@dimen/padding_8dp"
+                    android:paddingBottom="@dimen/padding_16dp"
                     android:text="@string/fragment_change_size_top_size_layout_title"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp"
@@ -323,7 +323,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="24dp"
-                    android:paddingBottom="@dimen/padding_medium"
+                    android:paddingBottom="@dimen/padding_16dp"
                     android:text="@string/fragment_change_size_bottom_size_layout_title"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12sp"

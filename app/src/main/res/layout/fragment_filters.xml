@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
                     android:onClick="@{() -> backClickListener.goBack()}"
-                    android:padding="@dimen/padding_extra_medium"
+                    android:padding="@dimen/padding_20dp"
                     android:src="@drawable/ic_back_arrow"
                     tools:ignore="ContentDescription" />
 
@@ -42,21 +42,21 @@
                     android:text="@string/filter_title"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_header"
+                    android:textSize="@dimen/text_size_20sp"
                     android:textStyle="bold"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:layout_marginEnd="@dimen/padding_16dp"
                     android:padding="@dimen/margin_8dp"
                     android:layout_gravity="center_vertical|end"
                     android:background="?android:attr/selectableItemBackground"
                     android:text="@string/filter_reset_button"
                     android:textAllCaps="false"
                     android:textColor="#8A000000"
-                    android:textSize="@dimen/text_size_minimal_medium"
+                    android:textSize="@dimen/text_size_14sp"
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="@{() -> bindingEvent.onResetClick()}"
@@ -80,7 +80,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_medium"
+            android:layout_margin="@dimen/padding_16dp"
             >
 
             <TextView

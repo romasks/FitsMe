@@ -33,7 +33,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             android:shadowColor="@android:color/holo_blue_dark"
-            android:layout_margin="@dimen/padding_medium" />
+            android:layout_margin="@dimen/padding_16dp" />
 
         <LinearLayout
             android:id="@+id/item_return_order_view_foreground"
@@ -74,7 +74,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_16dp"
             android:gravity="center"
             android:text="@{@string/returns_order_item_price(orderItem.clothe.price)}"
             android:textColor="@color/black"

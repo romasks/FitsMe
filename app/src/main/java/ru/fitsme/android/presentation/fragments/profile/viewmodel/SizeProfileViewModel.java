@@ -19,8 +19,8 @@ public class SizeProfileViewModel extends BaseViewModel {
     public ObservableInt selectedTopType;
     public ObservableInt selectedBottomType;
 
-    public ObservableInt currentTopSizeIndex;
-    public ObservableInt currentBottomSizeIndex;
+    private ObservableInt currentTopSizeIndex;
+    private ObservableInt currentBottomSizeIndex;
     private LiveData<List<String>> currentTopSizeArray;
     private LiveData<List<String>> currentBottomSizeArray;
     public ObservableField<String> currentChestSize;
@@ -94,7 +94,19 @@ public class SizeProfileViewModel extends BaseViewModel {
         profileInteractor.setCurrentTopSizeIndex(position);
     }
 
+    public void onTopSizeValueSelected(int position) {
+        profileInteractor.setCurrentTopSizeIndex(position);
+    }
+
     public void onBottomSizeValueSpinnerSelected(int position) {
         profileInteractor.setCurrentBottomSizeIndex(position);
+    }
+
+    public ObservableInt getCurrentTopSizeIndex(){
+        return currentTopSizeIndex;
+    }
+
+    public ObservableInt getCurrentBottomSizeIndex() {
+        return currentBottomSizeIndex;
     }
 }

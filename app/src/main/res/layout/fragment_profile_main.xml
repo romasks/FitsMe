@@ -61,7 +61,7 @@
                     android:gravity="start"
                     android:text="@string/profile_your_size"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_minimal_medium" />
+                    android:textSize="@dimen/text_size_14sp" />
 
                 <ImageView
                     android:id="@+id/fragment_profile_your_size"
@@ -111,7 +111,7 @@
                     android:gravity="start"
                     android:text="@string/profile_your_type"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_minimal_medium" />
+                    android:textSize="@dimen/text_size_14sp" />
 
                 <ImageView
                     android:id="@+id/fragment_profile_your_type"
@@ -176,7 +176,7 @@
                     android:gravity="start"
                     android:text="@string/profile_orders_history"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_minimal_medium" />
+                    android:textSize="@dimen/text_size_14sp" />
 
                 <ImageView
                     android:id="@+id/fragment_profile_orders_history"
@@ -226,7 +226,7 @@
                     android:gravity="start"
                     android:text="@string/profile_orders_return"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_minimal_medium" />
+                    android:textSize="@dimen/text_size_14sp" />
 
                 <ImageView
                     android:id="@+id/fragment_profile_orders_return"
@@ -291,7 +291,7 @@
                     android:gravity="start"
                     android:text="@string/profile_leave_feedback"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_minimal_medium" />
+                    android:textSize="@dimen/text_size_14sp" />
 
                 <ImageView
                     android:id="@+id/fragment_profile_leave_feedback"
@@ -357,7 +357,7 @@
                     android:gravity="start"
                     android:text="@string/profile_logout"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_minimal_medium" />
+                    android:textSize="@dimen/text_size_14sp" />
 
                 <ImageView
                     android:id="@+id/fragment_profile_logout"

@@ -68,7 +68,7 @@
                 android:layout_marginBottom="40dp"
                 android:text="@string/no_orders_to_return"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_18sp"
                 android:textStyle="bold" />
 
             <!--<Button
