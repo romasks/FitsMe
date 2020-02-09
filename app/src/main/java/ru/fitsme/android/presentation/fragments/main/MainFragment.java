@@ -123,8 +123,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                     navigation.goToCart();
                     return true;
                 case R.id.action_profile:
-//                    navigation.goToMainProfile();
-                    navigation.goToCode();
+                    navigation.goToMainProfile();
                     return true;
             }
             return false;

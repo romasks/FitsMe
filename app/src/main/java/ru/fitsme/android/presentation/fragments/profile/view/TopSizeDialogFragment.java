@@ -64,11 +64,8 @@ public class TopSizeDialogFragment extends DialogFragment
         if (savedInstanceState == null) {
             viewModel.init();
         }
+        binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
-//        setAdapterToTypeSpinners();
-//        setAdapterToTopSizeSpinner();
-//        setOnSizeTypeSpinnerClickListener();
-//        setOnSizeValueSpinnerClickListener();
         setSizeCheckers();
     }
 
@@ -128,68 +125,6 @@ public class TopSizeDialogFragment extends DialogFragment
                 r.getDisplayMetrics()
         );
     }
-//
-//    private void setAdapterToTypeSpinners() {
-//        if (getActivity() == null) return;
-//        String[] array = makeSizeTypeArray();
-//        TopSizeDialogFragment.SpinnerAdapter<String> adapter = new TopSizeDialogFragment.SpinnerAdapter<>(
-//                getActivity(), android.R.layout.simple_spinner_item, array);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        binding.dialogFragmentProfileTopSizeTypeSpinner.setAdapter(adapter);
-//    }
-//
-//    private void setAdapterToTopSizeSpinner() {
-//        if (getActivity() == null) return;
-//        ArrayList<String> arrayList = new ArrayList<>();
-//        TopSizeDialogFragment.SpinnerAdapter<String> adapter = new TopSizeDialogFragment.SpinnerAdapter<>(
-//                getActivity(), android.R.layout.simple_spinner_item, arrayList);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        binding.dialogFragmentProfileTopSizeValueSpinner.setAdapter(adapter);
-//        viewModel.getTopSizeArray().observe(this, list -> {
-//            adapter.clear();
-//            if (list != null) {
-//                if (list.isEmpty()) list.add("");
-//                adapter.addAll(list);
-//            }
-//            adapter.notifyDataSetChanged();
-//        });
-//    }
-//
-//    private void setOnSizeValueSpinnerClickListener() {
-//        binding.dialogFragmentProfileTopSizeValueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                viewModel.onTopSizeValueSpinnerSelected(position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//    }
-//
-//    private void setOnSizeTypeSpinnerClickListener() {
-//        binding.dialogFragmentProfileTopSizeTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                viewModel.onTopSizeTypeSpinnerSelected(position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-//    }
-
-//    private String[] makeSizeTypeArray() {
-//        ClotheSizeType[] clotheSizeTypes = ClotheSizeType.values();
-//        String[] strings = new String[clotheSizeTypes.length];
-//        for (int i = 0; i < clotheSizeTypes.length; i++) {
-//            strings[i] = clotheSizeTypes[i].getString();
-//        }
-//        return strings;
-//    }
 
     private void setMargins() {
         float width = 344.0f;
@@ -213,7 +148,7 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Override
     public void onOkButtonClicked() {
-        getDialog().dismiss();
+        dismiss();
     }
 
     @Override
@@ -222,27 +157,7 @@ public class TopSizeDialogFragment extends DialogFragment
             viewModel.onTopSizeValueSelected(lastSavedTopSize);
         }
         dismiss();
-        viewModel.goBack();
     }
-
-//    private class SpinnerAdapter<T> extends ArrayAdapter<T> {
-//
-//        SpinnerAdapter(@NonNull Context context, int resource, @NonNull T[] objects) {
-//            super(context, resource, objects);
-//        }
-//
-//        SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<T> objects) {
-//            super(context, resource, objects);
-//        }
-//
-//        @NonNull
-//        @Override
-//        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//            View view = super.getView(position, convertView, parent);
-//            view.setPadding(0, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
-//            return view;
-//        }
-//    }
 
     class TopSizeObserver {
         private SparseArray<SizeButton> buttons = new SparseArray<>();

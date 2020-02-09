@@ -59,12 +59,12 @@ public class SizeButton extends AppCompatButton {
     private void setParams(){
         setTextSize(getResources().getDimension(R.dimen.text_size_16sp));
         int padding = (int) getResources().getDimension(R.dimen.padding_8dp);
-        int margin = (int) getResources().getDimension(R.dimen.margin_8dp);
+        int margin = (int) getResources().getDimension(R.dimen.margin_4dp);
         setPadding(padding, 0, padding, 0);
         TableRow.LayoutParams params =
                 new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                         TableRow.LayoutParams.WRAP_CONTENT);
-        params.setMargins(margin, 0, 0, 0);
+        params.setMargins(margin, 0, margin, 0);
         setLayoutParams(params);
         setBackgroundResource(R.drawable.bg_rounded_corners_with_stroke);
         setTextColor(getResources().getColor(R.color.darkGrey));
