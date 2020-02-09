@@ -98,6 +98,10 @@ public class SizeProfileViewModel extends BaseViewModel {
         profileInteractor.setCurrentTopSizeIndex(position);
     }
 
+    public void onBottomSizeValueSelected(int position) {
+        profileInteractor.setCurrentBottomSizeIndex(position);
+    }
+
     public void onBottomSizeValueSpinnerSelected(int position) {
         profileInteractor.setCurrentBottomSizeIndex(position);
     }

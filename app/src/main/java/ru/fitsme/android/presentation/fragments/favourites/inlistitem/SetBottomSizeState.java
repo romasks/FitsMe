@@ -1,9 +1,13 @@
 package ru.fitsme.android.presentation.fragments.favourites.inlistitem;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesAdapter;
 import ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel;
+import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
 import timber.log.Timber;
 
 public class SetBottomSizeState extends InListItemState {
@@ -23,8 +27,8 @@ public class SetBottomSizeState extends InListItemState {
     @Override
     public void onButtonClick(FavouritesViewModel viewModel, int position) {
         Timber.d("Set bottom size state. onButtonClick()");
-//        DialogFragment dialogFragment = new TopSizeDialogFragment();
-//        FragmentManager fm = ((AppCompatActivity) viewHolder.binding.getRoot().getContext()).getSupportFragmentManager();
-//        dialogFragment.show(fm, "topSizeDf");
+        DialogFragment dialogFragment = new BottomSizeDialogFragment();
+        FragmentManager fm = ((AppCompatActivity) viewHolder.binding.getRoot().getContext()).getSupportFragmentManager();
+        dialogFragment.show(fm, "bottomSizeDf");
     }
 }

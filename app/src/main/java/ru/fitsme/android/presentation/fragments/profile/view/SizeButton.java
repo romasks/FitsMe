@@ -11,7 +11,7 @@ import ru.fitsme.android.R;
 public class SizeButton extends AppCompatButton {
 
     private Boolean isChecked = false;
-    private TopSizeDialogFragment.TopSizeObserver topSizeObserver;
+    private OnSizeButtonClickCallback sizeCallback;
     private int id;
 
 
@@ -43,8 +43,8 @@ public class SizeButton extends AppCompatButton {
 
     public void toggle(){
         isChecked = !isChecked;
-        if (topSizeObserver != null){
-            topSizeObserver.setState(id, isChecked);
+        if (sizeCallback != null){
+            sizeCallback.setState(id, isChecked);
         }
     }
 
@@ -70,13 +70,13 @@ public class SizeButton extends AppCompatButton {
         setTextColor(getResources().getColor(R.color.darkGrey));
     }
 
-    public void subscribeOnButton(TopSizeDialogFragment.TopSizeObserver topSizeObserver){
-        this.topSizeObserver = topSizeObserver;
-        topSizeObserver.addButton(id, this);
+    public void setCallback(OnSizeButtonClickCallback sizeCallBack){
+        this.sizeCallback = sizeCallBack;
+        sizeCallBack.addButton(id, this);
     }
 
-    public void unsubscribe(){
-        topSizeObserver.resetButton(id);
-        this.topSizeObserver = null;
+    interface OnSizeButtonClickCallback{
+        void setState(int id, Boolean isChecked);
+        void addButton(int id, SizeButton button);
     }
 }

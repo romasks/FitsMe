@@ -11,29 +11,29 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.databinding.DialogFragmentProfileBottomSizeBinding;
 import ru.fitsme.android.databinding.DialogFragmentProfileTopSizeBinding;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeDialogFragmentEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
-public class TopSizeDialogFragment extends DialogFragment
+public class BottomSizeDialogFragment extends DialogFragment
  implements SizeDialogFragmentEvents {
 
-    private DialogFragmentProfileTopSizeBinding binding;
+    private DialogFragmentProfileBottomSizeBinding binding;
     private SizeProfileViewModel viewModel;
-    private TopSizeObserver topSizeObserver = new TopSizeObserver();
-    private int lastSavedTopSize = -1;
+    private BottomSizeObserver bottomSizeObserver = new BottomSizeObserver();
+    private int lastSavedBottomSize = -1;
 
     @Inject
     IProfileInteractor interactor;
@@ -41,18 +41,18 @@ public class TopSizeDialogFragment extends DialogFragment
     @Inject
     ViewModelFactory viewModelFactory;
 
-    public TopSizeDialogFragment() {
+    public BottomSizeDialogFragment() {
         App.getInstance().getDi().inject(this);
     }
 
-    public static TopSizeDialogFragment newInstance() {
-        return new TopSizeDialogFragment();
+    public static BottomSizeDialogFragment newInstance() {
+        return new BottomSizeDialogFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_fragment_profile_top_size, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_fragment_profile_bottom_size, container, false);
         return binding.getRoot();
     }
 
@@ -70,8 +70,8 @@ public class TopSizeDialogFragment extends DialogFragment
     }
 
     private void setSizeCheckers() {
-        viewModel.getTopSizeArray().observe(this, list -> {
-            TableLayout tableLayout = binding.dialogFragmentProfileSizesTable;
+        viewModel.getBottomSizeArray().observe(this, list -> {
+            TableLayout tableLayout = binding.dialogFragmentProfileBottomSizesTable;
             int numOfColumns = 4;
             int length = list.size();
             int numOfRow = (int) Math.ceil((double) length / numOfColumns);
@@ -99,13 +99,13 @@ public class TopSizeDialogFragment extends DialogFragment
                     button.setOnClickListener(view -> {
                         button.toggle();
                     });
-                    button.setCallback(topSizeObserver);
+                    button.setCallback(bottomSizeObserver);
                 }
             }
-            if (viewModel.getCurrentTopSizeIndex().get() != -1){
-                lastSavedTopSize = viewModel.getCurrentTopSizeIndex().get();
-                topSizeObserver.checkedSizeIndex = lastSavedTopSize;
-                topSizeObserver.setState(lastSavedTopSize, true);
+            if (viewModel.getCurrentBottomSizeIndex().get() != -1){
+                lastSavedBottomSize = viewModel.getCurrentBottomSizeIndex().get();
+                bottomSizeObserver.checkedSizeIndex = lastSavedBottomSize;
+                bottomSizeObserver.setState(lastSavedBottomSize, true);
             }
         });
     }
@@ -153,13 +153,13 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Override
     public void onCancelButtonClicked() {
-        if (lastSavedTopSize != -1) {
-            viewModel.onTopSizeValueSelected(lastSavedTopSize);
+        if (lastSavedBottomSize != -1) {
+            viewModel.onBottomSizeValueSelected(lastSavedBottomSize);
         }
         dismiss();
     }
 
-    class TopSizeObserver implements SizeButton.OnSizeButtonClickCallback {
+    class BottomSizeObserver implements SizeButton.OnSizeButtonClickCallback{
         private SparseArray<SizeButton> buttons = new SparseArray<>();
         private int checkedSizeIndex = -1;
 
@@ -177,7 +177,7 @@ public class TopSizeDialogFragment extends DialogFragment
                 if (button != null) {
                     button.setChecked(true);
                 }
-                viewModel.onTopSizeValueSelected(id);
+                viewModel.onBottomSizeValueSelected(id);
             } else {
                 checkedSizeIndex = -1;
                 SizeButton button = buttons.get(id);

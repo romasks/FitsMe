@@ -1,6 +1,6 @@
 package ru.fitsme.android.presentation.fragments.profile.events;
 
-public interface TopSizeDialogFragmentEvents {
+public interface SizeDialogFragmentEvents {
     void onOkButtonClicked();
     void onCancelButtonClicked();
 }
