@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel" />
@@ -59,333 +58,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_panel_layout">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:padding="@dimen/padding_16dp">
-
-                <RelativeLayout
-                    android:id="@+id/fragment_change_size_top_chest_size_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/padding_16dp"
-                    android:background="@drawable/rounded_layout"
-                    app:layout_constraintEnd_toStartOf="@id/fragment_change_size_top_waist_size_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_size_layout_size_type_line">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="-11dp"
-                        android:background="@color/white"
-                        android:padding="4dp"
-                        android:text="@string/top_chest_size"
-                        android:textSize="@dimen/text_size_8sp" />
-
-                    <TextView
-                        android:id="@+id/fragment_change_size_top_chest_size_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_16dp"
-                        android:gravity="start"
-                        android:text="@{viewModel.currentChestSize}"
-                        tools:text="9-96 см" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/fragment_change_size_top_waist_size_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:background="@drawable/rounded_layout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/fragment_change_size_top_chest_size_layout"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_size_layout_size_type_line">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="-11dp"
-                        android:background="@color/white"
-                        android:padding="4dp"
-                        android:text="@string/top_waist_size"
-                        android:textSize="@dimen/text_size_8sp" />
-
-                    <TextView
-                        android:id="@+id/fragment_change_size_top_waist_size_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_16dp"
-                        android:gravity="start"
-                        android:text="@{viewModel.currentTopWaistSize}"
-                        tools:text="71-74 см" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/fragment_change_size_top_hips_size_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/padding_16dp"
-                    android:background="@drawable/rounded_layout"
-                    app:layout_constraintEnd_toStartOf="@id/fragment_change_size_top_sleeve_size_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_chest_size_layout">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="-11dp"
-                        android:background="@color/white"
-                        android:padding="4dp"
-                        android:text="@string/top_hips_size"
-                        android:textSize="@dimen/text_size_8sp" />
-
-                    <TextView
-                        android:id="@+id/fragment_change_size_top_hips_size_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_16dp"
-                        android:gravity="start"
-                        android:text="@{viewModel.currentTopHipsSize}"
-                        tools:text="98-101 см" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/fragment_change_size_top_sleeve_size_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:background="@drawable/rounded_layout"
-                    android:clipChildren="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/fragment_change_size_top_hips_size_layout"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_chest_size_layout">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="-11dp"
-                        android:background="@color/white"
-                        android:padding="4dp"
-                        android:text="@string/top_sleeve_size"
-                        android:textSize="@dimen/text_size_8sp" />
-
-                    <TextView
-                        android:id="@+id/fragment_change_size_top_sleeve_size_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_16dp"
-                        android:gravity="start"
-                        android:text="@{viewModel.currentSleeveSize}"
-                        tools:text="60-62 см" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/fragment_change_size_bottom_waist_size_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/rounded_layout"
-                    app:layout_constraintEnd_toStartOf="@id/fragment_change_size_bottom_hips_size_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_size_type_line">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="-11dp"
-                        android:background="@color/white"
-                        android:padding="4dp"
-                        android:text="@string/bottom_waist_size"
-                        android:textSize="@dimen/text_size_8sp" />
-
-                    <TextView
-                        android:id="@+id/fragment_change_size_bottom_waist_size_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_16dp"
-                        android:gravity="start"
-                        android:text="@{viewModel.currentBottomWaistSize}"
-                        tools:text="67-70 см" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/fragment_change_size_bottom_hips_size_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:background="@drawable/rounded_layout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/fragment_change_size_bottom_waist_size_layout"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_size_type_line">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="-11dp"
-                        android:background="@color/white"
-                        android:padding="4dp"
-                        android:text="@string/bottom_hips_size"
-                        android:textSize="@dimen/text_size_8sp" />
-
-                    <TextView
-                        android:id="@+id/fragment_change_size_bottom_hips_size_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_16dp"
-                        android:gravity="start"
-                        android:text="@{viewModel.currentBottomHipsSize}"
-                        tools:text="98-101 см" />
-                </RelativeLayout>
-
-                <Spinner
-                    android:id="@+id/fragment_change_size_top_size_layout_size_type_spinner"
-                    style="@style/SpinnerDropdownTheme"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:minWidth="150dp"
-                    android:selection="@{viewModel.selectedTopType}"
-                    android:spinnerMode="dropdown"
-                    app:layout_constraintEnd_toStartOf="@id/fragment_change_size_top_size_layout_size_value_spinner"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_size_layout_title_tv"
-                    tools:entries="@array/example" />
-
-                <Spinner
-                    android:id="@+id/fragment_change_size_top_size_layout_size_value_spinner"
-                    style="@style/SpinnerDropdownTheme"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_16dp"
-                    android:gravity="start"
-                    android:selection="@{viewModel.currentTopSizeIndex}"
-                    android:spinnerMode="dropdown"
-                    app:layout_constraintBottom_toBottomOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
-                    tools:entries="@array/example" />
-
-                <Spinner
-                    android:id="@+id/fragment_change_size_bottom_size_layout_size_type_spinner"
-                    style="@style/SpinnerDropdownTheme"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:minWidth="150dp"
-                    android:selection="@{viewModel.selectedBottomType}"
-                    android:spinnerMode="dropdown"
-                    app:layout_constraintEnd_toStartOf="@id/fragment_change_size_bottom_size_layout_size_value_spinner"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_title_tv"
-                    tools:entries="@array/example" />
-
-
-                <Spinner
-                    android:id="@+id/fragment_change_size_bottom_size_layout_size_value_spinner"
-                    style="@style/SpinnerDropdownTheme"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding_16dp"
-                    android:gravity="start"
-                    android:selection="@{viewModel.currentBottomSizeIndex}"
-                    android:spinnerMode="dropdown"
-                    app:layout_constraintBottom_toBottomOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
-                    tools:entries="@array/example" />
+                android:orientation="vertical"
+                android:padding="22dp"
+                >
 
                 <TextView
-                    android:id="@+id/fragment_change_size_top_size_layout_title_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/padding_8dp"
-                    android:paddingBottom="@dimen/padding_16dp"
-                    android:text="@string/fragment_change_size_top_size_layout_title"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/fragment_change_size_bottom_size_layout_title_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="24dp"
-                    android:paddingBottom="@dimen/padding_16dp"
-                    android:text="@string/fragment_change_size_bottom_size_layout_title"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_hips_size_layout" />
-
-                <TextView
-                    android:id="@+id/fragment_profile_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:paddingBottom="24dp"
-                    android:text="@{viewModel.message}"
-                    android:textColor="@color/darkGrey"
-                    android:textSize="@dimen/text_size_12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_waist_size_layout"
-                    tools:text="Изменения сохранены" />
+                    android:text="@string/profile_top"
+                    android:textSize="@dimen/text_size_24sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
 
-                <View
-                    android:id="@+id/fragment_change_size_top_size_layout_size_type_line"
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
-                    app:layout_constraintStart_toStartOf="@id/fragment_change_size_top_size_layout_size_type_spinner"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_size_layout_size_type_spinner" />
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/profile_top_size"
+                    />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:text="@string/profile_bottom"
+                    android:textSize="@dimen/text_size_24sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="@id/fragment_change_size_top_size_layout_size_value_spinner"
-                    app:layout_constraintStart_toStartOf="@id/fragment_change_size_top_size_layout_size_value_spinner"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_top_size_layout_size_value_spinner" />
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/profile_bottom_size"
+                    />
 
-                <View
-                    android:id="@+id/fragment_change_size_bottom_size_layout_size_type_line"
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
-                    app:layout_constraintStart_toStartOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_size_type_spinner" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="@id/fragment_change_size_bottom_size_layout_size_value_spinner"
-                    app:layout_constraintStart_toStartOf="@id/fragment_change_size_bottom_size_layout_size_value_spinner"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_change_size_bottom_size_layout_size_value_spinner" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </ScrollView>
 
