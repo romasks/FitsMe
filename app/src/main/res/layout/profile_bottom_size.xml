@@ -43,7 +43,7 @@
             android:gravity="start"
             android:textSize="@dimen/text_size_16sp"
             android:textColor="@color/black"
-            android:text="@{viewModel.currentTopHipsSize}"
+            android:text="@{viewModel.currentBottomHipsSize}"
             app:layout_constraintTop_toBottomOf="@id/bottom_size_profile_bottom_hips_size_tv_hint"
             app:layout_constraintStart_toEndOf="@id/bottom_size_profile_bottom_divider"
             tools:text="98-101 см" />
@@ -68,7 +68,7 @@
             android:gravity="start"
             android:textSize="@dimen/text_size_16sp"
             android:textColor="@color/black"
-            android:text="@{viewModel.currentTopWaistSize}"
+            android:text="@{viewModel.currentBottomWaistSize}"
             app:layout_constraintTop_toBottomOf="@id/bottom_size_profile_bottom_waist_size_tv_hint"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="71-74 см" />
@@ -78,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="*"
+            android:paddingTop="@dimen/padding_20dp"
             app:layout_constraintTop_toBottomOf="@id/bottom_size_profile_bottom_waist_size_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

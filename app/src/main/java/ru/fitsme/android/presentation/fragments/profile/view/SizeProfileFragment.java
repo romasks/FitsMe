@@ -62,10 +62,10 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel>
             if (getContext() != null) {
                 TableFiller.fillButtons(getContext(), topSizeObserver, list, tableLayout);
             }
-            if (viewModel.getCurrentBottomSizeIndex().get() != -1){
-                lastSavedTopSize = viewModel.getCurrentBottomSizeIndex().get();
-                bottomSizeObserver.setCheckedSizeIndex(lastSavedTopSize);
-                bottomSizeObserver.setState(lastSavedTopSize, true);
+            if (viewModel.getCurrentTopSizeIndex().get() != -1){
+                lastSavedTopSize = viewModel.getCurrentTopSizeIndex().get();
+                topSizeObserver.setCheckedSizeIndex(lastSavedTopSize);
+                topSizeObserver.setState(lastSavedTopSize, true);
             }
         });
     }

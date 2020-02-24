@@ -199,5 +199,6 @@
     <string name="auth_code_wrong_code">Неверный код</string>
     <string name="profile_top">Верх</string>
     <string name="profile_bottom">Низ</string>
+    <string name="profile_message_to_user_error">Ошибка сохранения размеров</string>
 
 </resources>

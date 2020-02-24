@@ -61,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/dialog_fragment_top_size_layout"
+                app:viewModel="@{viewModel}"
                 layout="@layout/profile_top_size"
                 />
 

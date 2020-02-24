@@ -16,13 +16,13 @@ import ru.fitsme.android.domain.interactors.BaseInteractor;
 public interface IProfileInteractor extends BaseInteractor {
     ReplaySubject<SparseArray<ClotheSize>> getSizes();
 
-    void setTopClothesSizeType(ClotheSizeType clothesSizeType);
+//    void setTopClothesSizeType(ClotheSizeType clothesSizeType);
+//
+//    void setBottomClotheSizeType(ClotheSizeType clothesSizeType);
 
-    void setBottomClotheSizeType(ClotheSizeType clothesSizeType);
-
-    ObservableInt getCurrentTopSizeTypeValue();
-
-    ObservableInt getCurrentBottomSizeTypeValue();
+//    ObservableInt getCurrentTopSizeTypeValue();
+//
+//    ObservableInt getCurrentBottomSizeTypeValue();
 
     LiveData<List<String>> getCurrentTopSizeArray();
 
