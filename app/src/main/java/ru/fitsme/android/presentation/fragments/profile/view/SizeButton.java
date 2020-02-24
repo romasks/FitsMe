@@ -2,6 +2,7 @@ package ru.fitsme.android.presentation.fragments.profile.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.TableRow;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -57,7 +58,7 @@ public class SizeButton extends AppCompatButton {
     }
 
     private void setParams(){
-        setTextSize(getResources().getDimension(R.dimen.text_size_16sp));
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, getResources().getDimension(R.dimen.text_size_10sp));
         int padding = (int) getResources().getDimension(R.dimen.padding_8dp);
         int margin = (int) getResources().getDimension(R.dimen.margin_4dp);
         setPadding(padding, 0, padding, 0);
@@ -65,6 +66,7 @@ public class SizeButton extends AppCompatButton {
                 new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                         TableRow.LayoutParams.WRAP_CONTENT);
         params.setMargins(margin, 0, margin, 0);
+        setTextAlignment(TEXT_ALIGNMENT_CENTER);
         setLayoutParams(params);
         setBackgroundResource(R.drawable.bg_rounded_corners_with_stroke);
         setTextColor(getResources().getColor(R.color.darkGrey));

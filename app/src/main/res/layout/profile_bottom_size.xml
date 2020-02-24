@@ -1,79 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+<layout>
 
-    <View
-        android:id="@+id/dialog_fragment_profile_bottom_divider"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+    <data>
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/dialog_fragment_profile_bottom_hips_size_tv_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingTop="20dp"
-        android:paddingBottom="4dp"
-        android:text="@string/top_hips_size"
-        android:textSize="@dimen/text_size_12sp"
-        app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_bottom_divider"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/dialog_fragment_profile_bottom_hips_size_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="@dimen/text_size_16sp"
-        android:textColor="@color/black"
-        android:text="@{viewModel.currentTopHipsSize}"
-        app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_bottom_hips_size_tv_hint"
-        app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_bottom_divider"
-        tools:text="98-101 см" />
-
-    <TextView
-        android:id="@+id/dialog_fragment_profile_bottom_waist_size_tv_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingTop="20dp"
-        android:paddingBottom="4dp"
-        android:text="@string/top_waist_size"
-        android:textSize="@dimen/text_size_12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/dialog_fragment_profile_bottom_waist_size_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="@dimen/text_size_16sp"
-        android:textColor="@color/black"
-        android:text="@{viewModel.currentTopWaistSize}"
-        app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_bottom_waist_size_tv_hint"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="71-74 см" />
-
-    <TableLayout
-        android:id="@+id/dialog_fragment_profile_bottom_sizes_table"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_bottom_waist_size_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         >
 
-    </TableLayout>
+        <View
+            android:id="@+id/bottom_size_profile_bottom_divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/bottom_size_profile_bottom_hips_size_tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="20dp"
+            android:paddingBottom="4dp"
+            android:text="@string/top_hips_size"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toEndOf="@id/bottom_size_profile_bottom_divider"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/bottom_size_profile_bottom_hips_size_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textSize="@dimen/text_size_16sp"
+            android:textColor="@color/black"
+            android:text="@{viewModel.currentTopHipsSize}"
+            app:layout_constraintTop_toBottomOf="@id/bottom_size_profile_bottom_hips_size_tv_hint"
+            app:layout_constraintStart_toEndOf="@id/bottom_size_profile_bottom_divider"
+            tools:text="98-101 см" />
+
+        <TextView
+            android:id="@+id/bottom_size_profile_bottom_waist_size_tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="20dp"
+            android:paddingBottom="4dp"
+            android:text="@string/top_waist_size"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/bottom_size_profile_bottom_waist_size_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textSize="@dimen/text_size_16sp"
+            android:textColor="@color/black"
+            android:text="@{viewModel.currentTopWaistSize}"
+            app:layout_constraintTop_toBottomOf="@id/bottom_size_profile_bottom_waist_size_tv_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="71-74 см" />
+
+        <TableLayout
+            android:id="@+id/bottom_size_profile_bottom_sizes_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            app:layout_constraintTop_toBottomOf="@id/bottom_size_profile_bottom_waist_size_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+        </TableLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -15,7 +15,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/dialog_fragment_profile_top_size_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="22dp"
@@ -44,8 +43,8 @@
             app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_title_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@string/dialog_fragment_rate_item_set_size_hint_updated" />
-
+            tools:text="@string/dialog_fragment_rate_item_set_size_hint_updated"
+            />
 
         <ScrollView
             android:id="@+id/dialog_fragment_profile_scrollview"
@@ -61,6 +60,7 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/dialog_fragment_top_size_layout"
                 layout="@layout/profile_top_size"
                 />
 

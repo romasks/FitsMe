@@ -15,7 +15,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/dialog_fragment_profile_bottom_size_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="22dp"
@@ -60,6 +59,7 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/dialog_fragment_bottom_size_layout"
                 layout="@layout/profile_bottom_size"
                 />
         </ScrollView>
