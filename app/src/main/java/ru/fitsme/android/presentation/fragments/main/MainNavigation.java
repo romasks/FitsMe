@@ -57,20 +57,16 @@ public class MainNavigation {
         getRouter().navigateTo(navigationKey);
     }
 
-    private void goNavigate(String navigationKey, Order returnsOrder) {
-        getRouter().navigateTo(navigationKey, returnsOrder);
-    }
-
-    private void goNavigate(String navigationKey, ReturnsItem returnsItem) {
-        getRouter().navigateTo(navigationKey, returnsItem);
-    }
-
-    private void goNavigate(String navigationKey, int returnId) {
-        getRouter().navigateTo(navigationKey, returnId);
+    private void goNavigate(String navigationKey, int data) {
+        getRouter().navigateTo(navigationKey, data);
     }
 
     private void goNavigate(String navigationKey, Object data) {
         getRouter().navigateTo(navigationKey, data);
+    }
+
+    private void replaceWith(String navigationKey) {
+        getRouter().replaceScreen(navigationKey);
     }
 
     private void newChainNavigate(String navigationKey) {
@@ -153,44 +149,44 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItems(int orderId) {
-        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, orderId);
+    public void goToReturnsChooseItems() {
+        goNavigate(NAV_RETURNS_CHOOSE_ITEMS);
     }
 
-    public void goToReturnsIndicateNumber(int returnId) {
-        goNavigate(NAV_RETURNS_INDICATE_NUMBER, returnId);
+    public void goToReturnsIndicateNumber() {
+        goNavigate(NAV_RETURNS_INDICATE_NUMBER);
     }
 
-    public void goToReturnsBillingInfo(int returnId) {
-        goNavigate(NAV_RETURNS_BILLING_INFO, returnId);
+    public void goToReturnsBillingInfo() {
+        goNavigate(NAV_RETURNS_BILLING_INFO);
     }
 
-    public void goToReturnsVerifyData(int returnId) {
-        goNavigate(NAV_RETURNS_VERIFY_DATA, returnId);
+    public void goToReturnsVerifyData() {
+        goNavigate(NAV_RETURNS_VERIFY_DATA);
     }
 
-    public void backToOrdersReturn() {
-        backNavigate(NAV_ORDER_RETURN_PROFILE);
+    public void goToReturnsChooseOrderWithReplace() {
+        replaceWith(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void backToReturnsHowTo() {
-        backNavigate(NAV_RETURNS_HOW_TO);
+    public void goToReturnsChooseItemsWithReplace() {
+        replaceWith(NAV_RETURNS_CHOOSE_ITEMS);
     }
 
-    public void backToReturnsChooseOrder() {
-        backNavigate(NAV_RETURNS_CHOOSE_ORDER);
+    public void goToReturnsIndicateNumberWithReplace() {
+        replaceWith(NAV_RETURNS_INDICATE_NUMBER);
     }
 
-    public void backToReturnsChooseItems() {
-        backNavigate(NAV_RETURNS_CHOOSE_ITEMS);
+    public void goToReturnsBillingInfoWithReplace() {
+        replaceWith(NAV_RETURNS_BILLING_INFO);
     }
 
-    public void backToReturnsIndicateNumber() {
-        backNavigate(NAV_RETURNS_INDICATE_NUMBER);
+    public void goToReturnsVerifyDataWithReplace() {
+        replaceWith(NAV_RETURNS_VERIFY_DATA);
     }
 
-    public void backToReturnsBillingInfo() {
-        backNavigate(NAV_RETURNS_BILLING_INFO);
+    public void goToOrdersReturnWithReplace() {
+        replaceWith(NAV_ORDER_RETURN_PROFILE);
     }
 
     public void goToDetailItemInfo(ClothesItem clothesItem) {

@@ -193,13 +193,13 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                     case NAV_RETURNS_CHOOSE_ORDER:
                         return ChooseOrderReturnFragment.newInstance();
                     case NAV_RETURNS_CHOOSE_ITEMS:
-                        return ChooseItemReturnFragment.newInstance((int) data);
+                        return ChooseItemReturnFragment.newInstance();
                     case NAV_RETURNS_INDICATE_NUMBER:
-                        return IndicateNumberReturnFragment.newInstance((int) data);
+                        return IndicateNumberReturnFragment.newInstance();
                     case NAV_RETURNS_BILLING_INFO:
-                        return BillingInfoReturnFragment.newInstance((int) data);
+                        return BillingInfoReturnFragment.newInstance();
                     case NAV_RETURNS_VERIFY_DATA:
-                        return VerifyDataReturnFragment.newInstance((int) data);
+                        return VerifyDataReturnFragment.newInstance();
                     case NAV_DETAIL_ITEM_INFO:
                         return ItemInfoFragment.newInstance(data);
                     case NAV_FILTER:

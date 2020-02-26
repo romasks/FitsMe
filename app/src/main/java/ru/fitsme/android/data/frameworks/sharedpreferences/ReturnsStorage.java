@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import ru.fitsme.android.utils.ReturnsOrderStep;
+
+@Singleton
 public class ReturnsStorage implements IReturnsStorage {
 
     private static final String PREF_NAME = "returnsPref";
@@ -20,8 +24,9 @@ public class ReturnsStorage implements IReturnsStorage {
     }
 
     @Override
-    public int getReturnOrderStep() {
-        return sharedPreferences.getInt(STEP_KEY, 0);
+    public ReturnsOrderStep getReturnOrderStep() {
+        int step = sharedPreferences.getInt(STEP_KEY, 0);
+        return ReturnsOrderStep.getByStepNumber(step);
     }
 
     @Override
@@ -35,9 +40,9 @@ public class ReturnsStorage implements IReturnsStorage {
     }
 
     @Override
-    public void setReturnOrderStep(int step) {
+    public void setReturnOrderStep(ReturnsOrderStep step) {
         sharedPreferences.edit()
-                .putInt(STEP_KEY, step)
+                .putInt(STEP_KEY, step.getStep())
                 .apply();
     }
 

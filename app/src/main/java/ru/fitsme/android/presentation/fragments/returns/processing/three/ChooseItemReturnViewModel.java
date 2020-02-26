@@ -1,14 +1,13 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
-import androidx.databinding.ObservableBoolean;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -16,6 +15,7 @@ import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.utils.ReturnsOrderStep;
 import timber.log.Timber;
 
 public class ChooseItemReturnViewModel extends BaseViewModel {
@@ -34,14 +34,15 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
 
     public ChooseItemReturnViewModel() {
         inject(this);
-        if (returnsInteractor.getReturnOrderStep() < 3)
-            returnsInteractor.setReturnOrderStep(3);
+        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.CHOOSE_ITEMS);
     }
 
-    void init(long orderId) {
+    @Override
+    protected void init() {
         errorMsgLiveData.postValue("");
         isLoading.set(true);
-        addDisposable(ordersInteractor.getOrderById((int) orderId)
+        int orderId = returnsInteractor.getReturnOrderId();
+        addDisposable(ordersInteractor.getOrderById(orderId)
                 .subscribe(this::onLoadOrder, this::onError));
     }
 
@@ -85,15 +86,14 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
             isLoading.set(false);
             errorMsgLiveData.postValue("");
             returnsInteractor.setReturnId(returnsOrder.getId());
-            navigation.goToReturnsIndicateNumber(returnsOrder.getId());
+            navigation.goToReturnsIndicateNumberWithReplace();
         }
     }
 
     private void onError(Throwable throwable) {
         isLoading.set(false);
         Timber.d(throwable);
-        errorMsgLiveData.postValue("Возможно, возврат для данного товара уже существует");
-//        Timber.e("Некоторые запросы закончились неудачей");
+        errorMsgLiveData.postValue("Некоторые запросы закончились неудачей");
     }
 
     @Override

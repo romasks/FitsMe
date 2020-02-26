@@ -11,6 +11,7 @@ import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
+import ru.fitsme.android.utils.ReturnsOrderStep;
 import timber.log.Timber;
 
 public class VerifyDataReturnViewModel extends BaseViewModel {
@@ -23,16 +24,17 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
 
     public VerifyDataReturnViewModel() {
         inject(this);
-        if (returnsInteractor.getReturnOrderStep() < 6)
-            returnsInteractor.setReturnOrderStep(6);
+        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.VERIFY_DATA);
     }
 
     public MutableLiveData<ReturnsOrder> getReturnsOrderLiveData() {
         return returnsOrderLiveData;
     }
 
-    void init(int returnId) {
+    @Override
+    protected void init() {
         isLoading.set(true);
+        int returnId = returnsInteractor.getReturnId();
         addDisposable(returnsInteractor.getReturnById(returnId)
                 .subscribe(this::onSuccess, this::onError));
     }
@@ -47,14 +49,15 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
         Timber.d(throwable);
     }
 
-    public void sendReturnOrder(int returnId) {
+    public void sendReturnOrder() {
+        int returnId = returnsInteractor.getReturnId();
         addDisposable(returnsInteractor.changeReturnsPayment(
                 new ReturnsPaymentRequest(returnId, null, null, OrderStatus.ISU.toString())
         ).subscribe(this::onSuccessConfirm, this::onError));
     }
 
     private void onSuccessConfirm(ReturnsOrderItem returnsOrderItem) {
-        returnsInteractor.setReturnOrderStep(0);
-        navigation.goToOrdersReturn();
+        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.HOW_TO);
+        navigation.goToOrdersReturnWithReplace();
     }
 }

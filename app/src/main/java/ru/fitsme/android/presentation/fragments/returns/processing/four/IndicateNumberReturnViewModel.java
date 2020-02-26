@@ -9,6 +9,7 @@ import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
+import ru.fitsme.android.utils.ReturnsOrderStep;
 import timber.log.Timber;
 
 public class IndicateNumberReturnViewModel extends BaseViewModel {
@@ -20,8 +21,7 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
 
     public IndicateNumberReturnViewModel() {
         inject(this);
-        if (returnsInteractor.getReturnOrderStep() < 4)
-            returnsInteractor.setReturnOrderStep(4);
+        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.INDICATE_NUMBER);
     }
 
     @Override
@@ -29,7 +29,8 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
         isLoading.set(false);
     }
 
-    public void goToReturnsBillingInfo(String indicationNumber, int returnId) {
+    public void goToReturnsBillingInfo(String indicationNumber) {
+        int returnId = returnsInteractor.getReturnId();
         addDisposable(returnsInteractor.changeReturnsPayment(
                 new ReturnsPaymentRequest(
                         returnId, indicationNumber, null, OrderStatus.FM.toString()
@@ -43,7 +44,6 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccess(ReturnsOrderItem returnsOrder) {
-        returnsInteractor.setReturnId(returnsOrder.getId());
-        navigation.goToReturnsBillingInfo(returnsOrder.getId());
+        navigation.goToReturnsBillingInfoWithReplace();
     }
 }

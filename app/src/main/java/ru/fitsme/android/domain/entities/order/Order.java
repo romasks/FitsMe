@@ -18,7 +18,7 @@ import ru.fitsme.android.utils.OrderStatus;
 
 public class Order implements Parcelable {
     @SerializedName("id")
-    private long orderId;
+    private int orderId;
 
     @SerializedName("city")
     private String city;
@@ -52,7 +52,7 @@ public class Order implements Parcelable {
     @Expose
     private String cardNumber = "";
 
-    public long getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
@@ -162,7 +162,7 @@ public class Order implements Parcelable {
     public int hashCode() {
         int result = 17;
         int prime = 31;
-        result = prime * result + (int) getOrderId();
+        result = prime * result + getOrderId();
         result = prime * result + getCity().hashCode();
         result = prime * result + getStreet().hashCode();
         result = prime * result + getHouseNumber().hashCode();
@@ -184,7 +184,7 @@ public class Order implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeLong(orderId);
+        out.writeInt(orderId);
         out.writeString(city);
         out.writeString(street);
         out.writeString(houseNumber);
@@ -209,7 +209,7 @@ public class Order implements Parcelable {
     };
 
     private Order(Parcel in) {
-        orderId = in.readLong();
+        orderId = in.readInt();
         city = in.readString();
         street = in.readString();
         houseNumber = in.readString();

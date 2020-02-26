@@ -1,6 +1,5 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.five;
 
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -17,21 +16,14 @@ import static ru.fitsme.android.utils.Constants.CARD_NUMBER_MASK;
 
 public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnViewModel> implements BillingInfoReturnBindingEvents, BackClickListener {
 
-    private static final String KEY_RETURN_ID = "RETURN_ID";
-
     private FragmentReturnBillingInfoBinding binding;
-    private int returnId;
 
     //    private boolean isMaskFilled = false;
     String a;
     int keyDel;
 
-    public static BillingInfoReturnFragment newInstance(int returnId) {
-        Bundle args = new Bundle();
-        args.putInt(KEY_RETURN_ID, returnId);
-        BillingInfoReturnFragment fragment = new BillingInfoReturnFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public static BillingInfoReturnFragment newInstance() {
+        return new BillingInfoReturnFragment();
     }
 
     @Override
@@ -50,9 +42,6 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
     }
 
     private void setUp() {
-        if (getArguments() != null) {
-            returnId = getArguments().getInt(KEY_RETURN_ID);
-        }
         initCardNumberFieldListener(binding.cardNumber);
     }
 
@@ -66,7 +55,7 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
         if (binding.cardNumber.length() < 19) {
             Toast.makeText(getContext(), R.string.warning_card_number_is_not_filled, Toast.LENGTH_SHORT).show();
         } else {
-            viewModel.goToReturnsVerifyData(String.valueOf(binding.cardNumber.getText()), returnId);
+            viewModel.goToReturnsVerifyData(String.valueOf(binding.cardNumber.getText()));
         }
     }
 

@@ -9,6 +9,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
+import ru.fitsme.android.utils.ReturnsOrderStep;
 
 public interface IReturnsInteractor extends BaseInteractor {
 
@@ -26,13 +27,13 @@ public interface IReturnsInteractor extends BaseInteractor {
 
     Single<ReturnsOrder> getReturnById(int returnId);
 
-    int getReturnOrderStep();
+    ReturnsOrderStep getReturnOrderStep();
 
     int getReturnOrderId();
 
     int getReturnId();
 
-    void setReturnOrderStep(int step);
+    void setReturnOrderStep(ReturnsOrderStep step);
 
     void setReturnOrderId(int orderId);
 
