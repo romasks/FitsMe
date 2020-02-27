@@ -124,7 +124,9 @@ public class DI {
 
     @NonNull
     private Gson gson() {
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        return new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .serializeNulls()
                 .create();
     }
 

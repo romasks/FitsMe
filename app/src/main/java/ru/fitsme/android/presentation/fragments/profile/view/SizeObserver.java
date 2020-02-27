@@ -28,7 +28,6 @@ public class SizeObserver implements SizeButton.OnSizeButtonClickCallback {
             if (button != null) {
                 button.setChecked(true);
             }
-            callback.onSizeValueSelected(tag, id);
         } else {
             checkedSizeIndex = -1;
             SizeButton button = buttons.get(id);
@@ -36,6 +35,7 @@ public class SizeObserver implements SizeButton.OnSizeButtonClickCallback {
                 buttons.get(id).setChecked(false);
             }
         }
+        callback.onSizeValueSelected(tag, checkedSizeIndex);
     }
 
     @Override
