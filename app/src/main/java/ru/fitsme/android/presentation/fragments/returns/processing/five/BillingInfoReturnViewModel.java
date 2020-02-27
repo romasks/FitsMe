@@ -9,6 +9,7 @@ import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
+import ru.fitsme.android.utils.ReturnsOrderStep;
 import timber.log.Timber;
 
 public class BillingInfoReturnViewModel extends BaseViewModel {
@@ -20,8 +21,7 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
 
     public BillingInfoReturnViewModel() {
         inject(this);
-        if (returnsInteractor.getReturnOrderStep() < 5)
-            returnsInteractor.setReturnOrderStep(5);
+        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.BILLING_INFO);
     }
 
     @Override
@@ -29,7 +29,8 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
         isLoading.set(false);
     }
 
-    public void goToReturnsVerifyData(String cardNumber, int returnId) {
+    public void goToReturnsVerifyData(String cardNumber) {
+        int returnId = returnsInteractor.getReturnId();
         addDisposable(returnsInteractor.changeReturnsPayment(
                 new ReturnsPaymentRequest(returnId, null, cardNumber, OrderStatus.FM.toString()))
                 .subscribe(this::onSuccess, this::onError)
@@ -41,7 +42,6 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccess(ReturnsOrderItem returnsOrder) {
-        returnsInteractor.setReturnId(returnsOrder.getId());
-        navigation.goToReturnsVerifyData(returnsOrder.getId());
+        navigation.goToReturnsVerifyDataWithReplace();
     }
 }

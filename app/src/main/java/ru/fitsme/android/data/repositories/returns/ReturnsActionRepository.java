@@ -10,7 +10,7 @@ import ru.fitsme.android.data.frameworks.sharedpreferences.IReturnsStorage;
 import ru.fitsme.android.domain.boundaries.retunrs.IReturnsActionRepository;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
-import ru.fitsme.android.utils.OrderStatus;
+import ru.fitsme.android.utils.ReturnsOrderStep;
 
 public class ReturnsActionRepository implements IReturnsActionRepository {
 
@@ -48,7 +48,7 @@ public class ReturnsActionRepository implements IReturnsActionRepository {
     }
 
     @Override
-    public int getReturnOrderStep() {
+    public ReturnsOrderStep getReturnOrderStep() {
         return storage.getReturnOrderStep();
     }
 
@@ -63,13 +63,14 @@ public class ReturnsActionRepository implements IReturnsActionRepository {
     }
 
     @Override
-    public void setReturnOrderStep(int step) {
-        storage.setReturnOrderStep(step);
+    public void setReturnOrderStep(ReturnsOrderStep step) {
+        if (getReturnOrderStep().before(step))
+            storage.setReturnOrderStep(step);
     }
 
     @Override
     public void setReturnOrderId(int orderId) {
-        storage.setReturnId(orderId);
+        storage.setReturnOrderId(orderId);
     }
 
     @Override

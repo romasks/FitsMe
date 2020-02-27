@@ -1,13 +1,9 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseItemBinding;
 import ru.fitsme.android.domain.entities.order.Order;
@@ -17,18 +13,11 @@ import timber.log.Timber;
 
 public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewModel> implements ChooseItemReturnBindingEvents, BackClickListener {
 
-    private static final String KEY_RETURNS_ORDER_ID = "RETURNS_ORDER_ID";
-
     private FragmentReturnChooseItemBinding binding;
     private ReturnOrderItemsAdapter adapter;
-    private int returnsOrderId;
 
-    public static ChooseItemReturnFragment newInstance(int orderId) {
-        Bundle args = new Bundle();
-        args.putInt(KEY_RETURNS_ORDER_ID, orderId);
-        ChooseItemReturnFragment fragment = new ChooseItemReturnFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public static ChooseItemReturnFragment newInstance() {
+        return new ChooseItemReturnFragment();
     }
 
     @Override
@@ -43,13 +32,6 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         binding.setViewModel(viewModel);
         binding.appBar.setBackClickListener(this);
         binding.appBar.setTitle(getResources().getString(R.string.returns_choose_items_header));
-        setUp();
-    }
-
-    private void setUp() {
-        if (getArguments() != null) {
-            returnsOrderId = getArguments().getInt(KEY_RETURNS_ORDER_ID);
-        }
     }
 
     @Override
@@ -66,15 +48,6 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
     protected void setUpObservers() {
         viewModel.getErrorMsgLiveData().observe(getViewLifecycleOwner(), this::onErrorMsg);
         viewModel.getOrderLiveData().observe(getViewLifecycleOwner(), this::onLoadOrder);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        if (savedInstanceState == null) {
-            viewModel.init(returnsOrderId);
-        }
     }
 
     private void onLoadOrder(Order order) {

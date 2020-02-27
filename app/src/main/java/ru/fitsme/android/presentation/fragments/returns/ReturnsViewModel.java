@@ -1,11 +1,10 @@
 package ru.fitsme.android.presentation.fragments.returns;
 
+import javax.inject.Inject;
+
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -41,23 +40,23 @@ public class ReturnsViewModel extends BaseViewModel {
 
     public void goToReturnsStepScreen() {
         switch (returnsInteractor.getReturnOrderStep()) {
-            case 1:
+            case HOW_TO:
                 navigation.goToReturnsHowTo();
                 return;
-            case 2:
+            case CHOOSE_ORDER:
                 navigation.goToReturnsChooseOrder();
                 return;
-            case 3:
-                navigation.goToReturnsChooseItems(returnsInteractor.getReturnOrderId());
+            case CHOOSE_ITEMS:
+                navigation.goToReturnsChooseItems();
                 return;
-            case 4:
-                navigation.goToReturnsIndicateNumber(returnsInteractor.getReturnId());
+            case INDICATE_NUMBER:
+                navigation.goToReturnsIndicateNumber();
                 return;
-            case 5:
-                navigation.goToReturnsBillingInfo(returnsInteractor.getReturnId());
+            case BILLING_INFO:
+                navigation.goToReturnsBillingInfo();
                 return;
-            case 6:
-                navigation.goToReturnsVerifyData(returnsInteractor.getReturnId());
+            case VERIFY_DATA:
+                navigation.goToReturnsVerifyData();
                 return;
             default:
                 navigation.goToReturnsHowTo();

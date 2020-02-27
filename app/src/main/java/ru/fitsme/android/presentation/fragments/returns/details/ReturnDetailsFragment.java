@@ -75,6 +75,9 @@ public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel> 
     private void onLoadReturnById(ReturnsOrder returnsOrder) {
         binding.setReturnsOrder(returnsOrder);
         adapter.setItems(returnsOrder.getReturnItemsList());
+        binding.btnNext.setVisibility(
+                returnsOrder.getDaysToReturn().equals("Возврат более невозможен") ? View.GONE : View.VISIBLE
+        );
     }
 
     @Override

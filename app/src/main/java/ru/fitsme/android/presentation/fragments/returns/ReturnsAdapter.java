@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemReturnBinding;
