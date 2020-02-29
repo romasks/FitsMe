@@ -18,6 +18,7 @@ import ru.fitsme.android.presentation.fragments.filters.FiltersViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoViewModel;
 import ru.fitsme.android.presentation.fragments.main.MainFragmentViewModel;
 import ru.fitsme.android.presentation.fragments.orders.OrdersHistoryViewModel;
+import ru.fitsme.android.presentation.fragments.orders.details.OrderDetailsViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
@@ -68,6 +69,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new SizeProfileViewModel();
         } else if (modelClass.isAssignableFrom(OrdersHistoryViewModel.class)) {
             return (T) new OrdersHistoryViewModel();
+        } else if (modelClass.isAssignableFrom(OrderDetailsViewModel.class)) {
+            return (T) new OrderDetailsViewModel();
         } else if (modelClass.isAssignableFrom(ReturnsViewModel.class)) {
             return (T) new ReturnsViewModel();
         } else if (modelClass.isAssignableFrom(ReturnDetailsViewModel.class)) {

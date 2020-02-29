@@ -51,10 +51,9 @@ public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel> 
 
     @Override
     protected void setUpRecyclers() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         adapter = new ReturnDetailsAdapter(viewModel);
 
-        binding.returnOrderItemsListRv.setLayoutManager(linearLayoutManager);
+        binding.returnOrderItemsListRv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.returnOrderItemsListRv.setHasFixedSize(true);
         binding.returnOrderItemsListRv.setAdapter(adapter);
     }

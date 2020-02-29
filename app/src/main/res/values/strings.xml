@@ -164,6 +164,7 @@
     <!--orders-->
     <string name="orders_empty_list_title">Вы пока ничего не заказали</string>
     <string name="orders_go_to_catalog_btn_text">Перейти в каталог</string>
+    <string name="orders_details_header">Детали заказа</string>
 
     <!-- FilterFragment -->
     <string name="filter_title">Фильтр</string>

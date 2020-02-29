@@ -10,59 +10,52 @@
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.fragments.orders.OrdersHistoryViewModel" />
+            type="ru.fitsme.android.presentation.fragments.orders.details.OrderDetailsViewModel" />
 
         <variable
-            name="order"
-            type="ru.fitsme.android.domain.entities.order.Order" />
+            name="orderItem"
+            type="ru.fitsme.android.domain.entities.order.OrderItem" />
     </data>
 
     <RelativeLayout
         android:id="@+id/return_order_item"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="@{v -> viewModel.goToOrderDetails(order)}"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/item_return_order_view_foreground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginStart="24dp"
             android:layout_toStartOf="@id/right_arrow"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_16dp">
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/item_return_number"
-                style="@style/ReturnsItemTextStyle"
-                android:text="@{@string/returns_number_tv(order.orderId)}"
-                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{orderItem.clothe.brand}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="Заказ #123" />
+                tools:text="Название бренда" />
 
             <TextView
                 android:id="@+id/item_return_date"
-                style="@style/ReturnsItemTextStyle"
-                android:text="@{@string/returns_order_date(order.orderDate())}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{orderItem.clothe.name}"
                 android:textSize="12sp"
-                tools:text="Дата заказа: 31.12.2018" />
-
-            <TextView
-                android:id="@+id/item_return_days_for_return_text"
-                style="@style/ReturnsItemTextStyle"
-                android:text="@{@string/returns_order_days_for_returns(order.daysForReturn())}"
-                android:textSize="12sp"
-                tools:text="Время на возврат: 6 дней" />
+                tools:text="Название товара" />
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/right_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +63,11 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="@dimen/padding_16dp"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+            android:gravity="center"
+            android:text="@{@string/returns_order_item_price(orderItem.price)}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="1000 руб." />
 
         <View
             android:layout_width="match_parent"

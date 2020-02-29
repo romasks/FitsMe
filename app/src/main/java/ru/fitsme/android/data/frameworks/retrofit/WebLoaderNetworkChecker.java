@@ -114,6 +114,11 @@ public class WebLoaderNetworkChecker extends WebLoader {
     }
 
     @Override
+    public Single<OkResponse<OrdersPage>> getOrders() {
+        return checkNetwork(super.getOrders());
+    }
+
+    @Override
     public Single<OkResponse<OrdersPage>> getOrders(OrderStatus status) {
         return checkNetwork(super.getOrders(status));
     }

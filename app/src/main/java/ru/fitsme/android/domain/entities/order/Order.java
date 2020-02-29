@@ -136,6 +136,14 @@ public class Order implements Parcelable {
         }
     }
 
+    public String getOrderSum() {
+        int sum = 0;
+        for (OrderItem item : orderItemList) {
+            sum += item.getPrice();
+        }
+        return String.valueOf(sum);
+    }
+
     public Order() {
     }
 

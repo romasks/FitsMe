@@ -22,14 +22,14 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.CodeResponse;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.domain.entities.auth.TokenRequest;
 import ru.fitsme.android.domain.entities.auth.TokenResponse;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
@@ -88,6 +88,9 @@ public interface ApiService {
                                              @Query("page") int page);
 
     @GET("orders/")
+    Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token);
+
+    @GET("orders/")
     Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
                                              @Query("status") OrderStatus status);
 
@@ -129,7 +132,7 @@ public interface ApiService {
 
     @POST("feedback")
     Single<OkResponse<Boolean>> sendFeedback(@Header("Authorization") String token,
-                                 @Body FeedbackRequest request);
+                                             @Body FeedbackRequest request);
 
     @GET("clothes/brands/")
     Single<OkResponse<List<RepoClotheBrand>>> getClotheBrands(@Header("Authorization") String token);

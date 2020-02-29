@@ -29,6 +29,8 @@ public interface IOrdersInteractor extends BaseInteractor {
 
     LiveData<PagedList<OrderItem>> getPagedListLiveData();
 
+    Single<List<Order>> getOrders();
+
     Single<List<Order>> getReturnOrders();
 
     Single<Order> makeOrder(OrderModel orderModel);
