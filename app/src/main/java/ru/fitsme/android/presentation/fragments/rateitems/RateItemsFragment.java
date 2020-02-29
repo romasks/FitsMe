@@ -5,23 +5,33 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import javax.inject.Inject;
 
+import androidx.lifecycle.LiveData;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheType;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         implements BindingEventsClickListener,
         RateItemTouchListener.Callback,
-        RateItemAnimation.Callback {
+        RateItemAnimation.Callback,
+        TopSizeDialogFragment.TopSizeDialogCallback,
+        BottomSizeDialogFragment.BottomSizeDialogCallback {
 
     private static final String KEY_ITEM_INFO_STATE = "state";
 
@@ -34,6 +44,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private boolean isFullItemInfoState;
     private RateItemTouchListener rateItemTouchListener;
     private ClotheInfo currentClotheInfo;
+
+    private LiveData<Boolean> isNeedShowSizeDialogForTop;
+    private LiveData<Boolean> isNeedShowSizeDialogForBottom;
 
 
     public static RateItemsFragment newInstance() {
@@ -64,6 +77,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         binding.setBindingEvents(this);
         setUp();
         viewModel.onAfterCreateView();
+        isNeedShowSizeDialogForTop = viewModel.getIsNeedShowSizeDialogForTop();
+        isNeedShowSizeDialogForBottom = viewModel.getIsNeedShowSizeDialogForBottom();
     }
 
     private void setUp() {
@@ -216,6 +231,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void likeItem() {
+        showSizeDialog();
         if (currentFragment != null) {
             viewModel.likeClothesItem(currentClotheInfo, true);
         }
@@ -226,5 +242,49 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         if (currentFragment != null) {
             viewModel.likeClothesItem(currentClotheInfo, false);
         }
+    }
+
+    private void showSizeDialog(){
+        if (isNeedShowSizeDialogForTop.getValue() != null && isNeedShowSizeDialogForBottom.getValue() != null &&
+                (isNeedShowSizeDialogForTop.getValue() || isNeedShowSizeDialogForBottom.getValue())) {
+            if (currentClotheInfo.getClothe() instanceof ClothesItem) {
+                ClothesItem item = (ClothesItem) currentClotheInfo.getClothe();
+                boolean sizeIsNotSet = (item.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED);
+                ClotheType type = item.getClotheType();
+                if (sizeIsNotSet){
+                    if (type.getType() == ClotheType.Type.TOP && isNeedShowSizeDialogForTop.getValue()){
+                        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this);
+                        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+                        dialogFragment.show(fm, "sizeDf");
+                    }
+                    if (type.getType() == ClotheType.Type.BOTTOM && isNeedShowSizeDialogForBottom.getValue()){
+                        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this);
+                        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+                        dialogFragment.show(fm, "sizeDf");
+                    }
+
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onTopOkButtonClick() {
+        viewModel.setIsNeedShowSizeDialogForTop(true);
+    }
+
+    @Override
+    public void onTopCancelButtonClick() {
+        viewModel.setIsNeedShowSizeDialogForTop(false);
+    }
+
+    @Override
+    public void onBottomOkButtonClick() {
+        viewModel.setIsNeedShowSizeDialogForBottom(true);
+    }
+
+    @Override
+    public void onBottomCancelButtonClick() {
+        viewModel.setIsNeedShowSizeDialogForBottom(false);
     }
 }

@@ -8,7 +8,6 @@ import javax.inject.Named;
 
 import io.reactivex.Scheduler;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
-import ru.fitsme.android.presentation.common.livedata.NonNullLiveData;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
@@ -21,6 +20,8 @@ public class RateItemsViewModel extends BaseViewModel {
 
     private LiveData<ClotheInfo> clotheInfoLiveData;
     private MutableLiveData<Boolean> filterIsChecked = new MutableLiveData<>();
+    private LiveData<Boolean> isNeedShowSizeDialogForTop;
+    private LiveData<Boolean> isNeedShowSizeDialogForBottom;
 
 
     public RateItemsViewModel() {
@@ -61,9 +62,27 @@ public class RateItemsViewModel extends BaseViewModel {
                 filterIsChecked.setValue(result);
             });
         clothesInteractor.updateClothesList();
+        isNeedShowSizeDialogForTop = clothesInteractor.getIsNeedShowSizeDialogForTop();
+        isNeedShowSizeDialogForBottom = clothesInteractor.getIsNeedShowSizeDialogForBottom();
     }
 
     public LiveData<Boolean> getFilterIconLiveData() {
         return filterIsChecked;
+    }
+
+    public LiveData<Boolean> getIsNeedShowSizeDialogForTop() {
+        return isNeedShowSizeDialogForTop;
+    }
+
+    public void setIsNeedShowSizeDialogForTop(Boolean flag){
+        clothesInteractor.setIsNeedShowSizeDialogForTop(flag);
+    }
+
+    public LiveData<Boolean> getIsNeedShowSizeDialogForBottom() {
+        return isNeedShowSizeDialogForBottom;
+    }
+
+    public void setIsNeedShowSizeDialogForBottom(Boolean flag){
+        clothesInteractor.setIsNeedShowSizeDialogForBottom(flag);
     }
 }

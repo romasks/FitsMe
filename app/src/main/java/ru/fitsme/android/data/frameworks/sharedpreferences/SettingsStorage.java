@@ -12,6 +12,8 @@ public class SettingsStorage implements ISettingsStorage {
     private static final String PREF_NAME = "settingsPref";
     private static final String TOP_SIZE_TYPE_KEY = "topSizeType";
     private static final String BOTTOM_SIZE_TYPE_KEY = "bottomSizeType";
+    private static final String IS_NEED_SHOW_SIZE_DIALOG_FOR_RATE_ITEMS_TOP = "showSDforRateTop";
+    private static final String IS_NEED_SHOW_SIZE_DIALOG_FOR_RATE_ITEMS_BOTTOM = "showSDforRateBot";
 
     private SharedPreferences sharedPreferences;
 
@@ -48,6 +50,19 @@ public class SettingsStorage implements ISettingsStorage {
                 .apply();
     }
 
+    @Override
+    public Boolean getIsNeedShowSizeDialogForRateItemsTop() {
+        return sharedPreferences
+                .getBoolean(IS_NEED_SHOW_SIZE_DIALOG_FOR_RATE_ITEMS_TOP, true);
+    }
+
+    @Override
+    public void setIsNeedShowSizeDialogForRateItemsTop(Boolean flag){
+        sharedPreferences.edit()
+                .putBoolean(IS_NEED_SHOW_SIZE_DIALOG_FOR_RATE_ITEMS_TOP, flag)
+                .apply();
+    }
+
     private ClotheSizeType getClotheSizeType(int value) {
         for (int i = 0; i < ClotheSizeType.values().length; i++) {
             if (ClotheSizeType.values()[i].getValue() == value) {
@@ -55,5 +70,19 @@ public class SettingsStorage implements ISettingsStorage {
             }
         }
         throw new IndexOutOfBoundsException("Value out of ClotheSizeType bounds");
+    }
+
+    @Override
+    public void setIsNeedShowSizeDialogForRateItemsBottom(Boolean flag){
+        sharedPreferences.edit()
+                .putBoolean(IS_NEED_SHOW_SIZE_DIALOG_FOR_RATE_ITEMS_BOTTOM, flag)
+                .apply();
+    }
+
+
+    @Override
+    public Boolean getIsNeedShowSizeDialogForRateItemsBottom() {
+        return sharedPreferences
+                .getBoolean(IS_NEED_SHOW_SIZE_DIALOG_FOR_RATE_ITEMS_BOTTOM, true);
     }
 }

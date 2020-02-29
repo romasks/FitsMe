@@ -36,13 +36,15 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Inject
     ViewModelFactory viewModelFactory;
+    private TopSizeDialogCallback callback;
 
-    public TopSizeDialogFragment() {
+    public TopSizeDialogFragment(TopSizeDialogCallback callback) {
+        this.callback = callback;
         App.getInstance().getDi().inject(this);
     }
 
-    public static TopSizeDialogFragment newInstance() {
-        return new TopSizeDialogFragment();
+    public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback) {
+        return new TopSizeDialogFragment(callback);
     }
 
     @Nullable
@@ -108,11 +110,17 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Override
     public void onOkButtonClicked() {
+        if (callback != null){
+            callback.onTopOkButtonClick();
+        }
         dismiss();
     }
 
     @Override
     public void onCancelButtonClicked() {
+        if (callback != null){
+            callback.onTopCancelButtonClick();
+        }
         if (lastSavedTopSize != -1) {
             viewModel.onTopSizeValueSelected(lastSavedTopSize);
         }
@@ -122,5 +130,10 @@ public class TopSizeDialogFragment extends DialogFragment
     @Override
     public void onSizeValueSelected(int tag, int id) {
         viewModel.onTopSizeValueSelected(id);
+    }
+
+    public interface TopSizeDialogCallback {
+        void onTopOkButtonClick();
+        void onTopCancelButtonClick();
     }
 }

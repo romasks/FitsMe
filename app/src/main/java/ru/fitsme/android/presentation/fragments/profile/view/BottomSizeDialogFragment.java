@@ -36,13 +36,15 @@ public class BottomSizeDialogFragment extends DialogFragment
 
     @Inject
     ViewModelFactory viewModelFactory;
+    private BottomSizeDialogCallback callback;
 
-    public BottomSizeDialogFragment() {
+    public BottomSizeDialogFragment(BottomSizeDialogCallback callback) {
+        this.callback = callback;
         App.getInstance().getDi().inject(this);
     }
 
-    public static BottomSizeDialogFragment newInstance() {
-        return new BottomSizeDialogFragment();
+    public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback) {
+        return new BottomSizeDialogFragment(callback);
     }
 
     @Nullable
@@ -107,11 +109,17 @@ public class BottomSizeDialogFragment extends DialogFragment
 
     @Override
     public void onOkButtonClicked() {
+        if (callback != null) {
+            callback.onBottomOkButtonClick();
+        }
         dismiss();
     }
 
     @Override
     public void onCancelButtonClicked() {
+        if (callback != null){
+            callback.onBottomCancelButtonClick();
+        }
         if (lastSavedBottomSize != -1) {
             viewModel.onBottomSizeValueSelected(lastSavedBottomSize);
         }
@@ -121,5 +129,10 @@ public class BottomSizeDialogFragment extends DialogFragment
     @Override
     public void onSizeValueSelected(int tag, int id) {
         viewModel.onBottomSizeValueSelected(id);
+    }
+
+    public interface BottomSizeDialogCallback {
+        void onBottomOkButtonClick();
+        void onBottomCancelButtonClick();
     }
 }
