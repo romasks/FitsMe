@@ -15,7 +15,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/dialog_fragment_profile_top_size_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="22dp"
@@ -44,8 +43,8 @@
             app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_title_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@string/dialog_fragment_rate_item_set_size_hint_updated" />
-
+            tools:text="@string/dialog_fragment_rate_item_set_size_hint_updated"
+            />
 
         <ScrollView
             android:id="@+id/dialog_fragment_profile_scrollview"
@@ -58,132 +57,13 @@
             app:layout_constraintBottom_toTopOf="@id/dialog_fragment_profile_top_ok_btn"
             >
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <include
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <View
-                    android:id="@+id/dialog_fragment_profile_divider"
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/dialog_fragment_profile_top_chest_size_tv_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="4dp"
-                    android:text="@string/top_chest_size"
-                    android:textSize="@dimen/text_size_12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/dialog_fragment_profile_top_chest_size_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/black"
-                    android:text="@{viewModel.currentChestSize}"
-                    app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_chest_size_tv_hint"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="9-96 см" />
-
-                <TextView
-                    android:id="@+id/dialog_fragment_profile_top_hips_size_tv_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="4dp"
-                    android:text="@string/top_hips_size"
-                    android:textSize="@dimen/text_size_12sp"
-                    app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_divider"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/dialog_fragment_profile_top_hips_size_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/black"
-                    android:text="@{viewModel.currentTopHipsSize}"
-                    app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_hips_size_tv_hint"
-                    app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_divider"
-                    tools:text="98-101 см" />
-
-                <TextView
-                    android:id="@+id/dialog_fragment_profile_top_waist_size_tv_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="4dp"
-                    android:text="@string/top_waist_size"
-                    android:textSize="@dimen/text_size_12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_chest_size_tv"
-                    />
-
-                <TextView
-                    android:id="@+id/dialog_fragment_profile_top_waist_size_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/black"
-                    android:text="@{viewModel.currentTopWaistSize}"
-                    app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_waist_size_tv_hint"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="71-74 см" />
-
-
-                <TextView
-                    android:id="@+id/dialog_fragment_profile_top_sleeve_size_tv_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="4dp"
-                    android:text="@string/top_sleeve_size"
-                    android:textSize="@dimen/text_size_12sp"
-                    app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_divider"
-                    app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_hips_size_tv"
-                    />
-
-                <TextView
-                    android:id="@+id/dialog_fragment_profile_top_sleeve_size_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/black"
-                    android:text="@{viewModel.currentSleeveSize}"
-                    app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_sleeve_size_tv_hint"
-                    app:layout_constraintStart_toEndOf="@id/dialog_fragment_profile_divider"
-                    tools:text="60-62 см" />
-
-
-                <TableLayout
-                    android:id="@+id/dialog_fragment_profile_sizes_table"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_waist_size_tv"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    >
-
-                </TableLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content"
+                android:id="@+id/dialog_fragment_top_size_layout"
+                app:viewModel="@{viewModel}"
+                layout="@layout/profile_top_size"
+                />
 
         </ScrollView>
 

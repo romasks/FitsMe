@@ -1,27 +1,24 @@
 package ru.fitsme.android.presentation.fragments.profile.view;
 
-import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.TableLayout;
 
 import ru.fitsme.android.R;
-import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.databinding.FragmentProfileChangeSizeBinding;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
-public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> implements SizeProfileBindingEvents {
+public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel>
+        implements SizeProfileBindingEvents, SizeObserver.Callback {
 
     private FragmentProfileChangeSizeBinding binding;
+    private static final int TOP_TAG = 1;
+    private SizeObserver topSizeObserver = new SizeObserver(this, TOP_TAG);
+    private int lastSavedTopSize = -1;
+    private static final int BOTTOM_TAG = 2;
+    private SizeObserver bottomSizeObserver = new SizeObserver(this, BOTTOM_TAG);
+    private int lastSavedBottomSize = -1;
 
     public static SizeProfileFragment newInstance() {
         return new SizeProfileFragment();
@@ -41,101 +38,34 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
     }
 
     private void setUp() {
-        setAdapterToTypeSpinners();
-        setAdapterToTopSizeSpinner();
-        setAdapterToBottomSizeSpinner();
-        setOnSizeTypeSpinnersClickListeners();
-        setOnSizeValueSpinnersClickListeners();
+        setTopSizeCheckers();
+        setBottomSizeCheckers();
     }
 
-    private void setAdapterToTypeSpinners() {
-        if (getActivity() == null) return;
-        String[] array = makeSizeTypeArray();
-        SpinnerAdapter<String> adapter = new SpinnerAdapter<>(
-                getActivity(), android.R.layout.simple_spinner_item, array);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.fragmentChangeSizeTopSizeLayoutSizeTypeSpinner.setAdapter(adapter);
-        binding.fragmentChangeSizeBottomSizeLayoutSizeTypeSpinner.setAdapter(adapter);
-    }
-
-    private void setAdapterToTopSizeSpinner() {
-        if (getActivity() == null) return;
-        ArrayList<String> arrayList = new ArrayList<>();
-        SpinnerAdapter<String> adapter = new SpinnerAdapter<>(
-                getActivity(), android.R.layout.simple_spinner_item, arrayList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.fragmentChangeSizeTopSizeLayoutSizeValueSpinner.setAdapter(adapter);
-        viewModel.getTopSizeArray().observe(this, list -> {
-            adapter.clear();
-            if (list != null) {
-                if (list.isEmpty()) list.add("");
-                adapter.addAll(list);
-            }
-            adapter.notifyDataSetChanged();
-        });
-    }
-
-    private void setAdapterToBottomSizeSpinner() {
-        if (getActivity() == null) return;
-        ArrayList<String> arrayList = new ArrayList<>();
-        SpinnerAdapter<String> adapter = new SpinnerAdapter<>(
-                getActivity(), android.R.layout.simple_spinner_item, arrayList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.fragmentChangeSizeBottomSizeLayoutSizeValueSpinner.setAdapter(adapter);
+    private void setBottomSizeCheckers() {
         viewModel.getBottomSizeArray().observe(this, list -> {
-            adapter.clear();
-            if (list != null) {
-                if (list.isEmpty()) list.add("");
-                adapter.addAll(list);
+            TableLayout tableLayout = binding.fragmentProfileBottomSizeLayout.bottomSizeProfileBottomSizesTable;
+            if (getContext() != null) {
+                TableFiller.fillButtons(getContext(), bottomSizeObserver, list, tableLayout);
             }
-            adapter.notifyDataSetChanged();
-        });
-    }
-
-    private void setOnSizeValueSpinnersClickListeners() {
-        binding.fragmentChangeSizeTopSizeLayoutSizeValueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.onTopSizeValueSpinnerSelected(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        binding.fragmentChangeSizeBottomSizeLayoutSizeValueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.onBottomSizeValueSpinnerSelected(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            if (viewModel.getCurrentBottomSizeIndex().get() != -1){
+                lastSavedBottomSize = viewModel.getCurrentBottomSizeIndex().get();
+                bottomSizeObserver.setCheckedSizeIndex(lastSavedBottomSize);
+                bottomSizeObserver.setState(lastSavedBottomSize, true);
             }
         });
     }
 
-    private void setOnSizeTypeSpinnersClickListeners() {
-        binding.fragmentChangeSizeTopSizeLayoutSizeTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.onTopSizeTypeSpinnerSelected(position);
+    private void setTopSizeCheckers() {
+        viewModel.getTopSizeArray().observe(this, list -> {
+            TableLayout tableLayout = binding.fragmentProfileTopSizeLayout.topSizeProfileSizesTable;
+            if (getContext() != null) {
+                TableFiller.fillButtons(getContext(), topSizeObserver, list, tableLayout);
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        binding.fragmentChangeSizeBottomSizeLayoutSizeTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.onBottomSizeTypeSpinnerSelected(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            if (viewModel.getCurrentTopSizeIndex().get() != -1){
+                lastSavedTopSize = viewModel.getCurrentTopSizeIndex().get();
+                topSizeObserver.setCheckedSizeIndex(lastSavedTopSize);
+                topSizeObserver.setState(lastSavedTopSize, true);
             }
         });
     }
@@ -145,31 +75,17 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel> impl
         viewModel.goBack();
     }
 
-    private String[] makeSizeTypeArray() {
-        ClotheSizeType[] clotheSizeTypes = ClotheSizeType.values();
-        String[] strings = new String[clotheSizeTypes.length];
-        for (int i = 0; i < clotheSizeTypes.length; i++) {
-            strings[i] = clotheSizeTypes[i].getString();
-        }
-        return strings;
-    }
-
-    private class SpinnerAdapter<T> extends ArrayAdapter<T> {
-
-        SpinnerAdapter(@NonNull Context context, int resource, @NonNull T[] objects) {
-            super(context, resource, objects);
-        }
-
-        SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<T> objects) {
-            super(context, resource, objects);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            View view = super.getView(position, convertView, parent);
-            view.setPadding(0, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
-            return view;
+    @Override
+    public void onSizeValueSelected(int tag, int id) {
+        switch (tag){
+            case TOP_TAG:{
+                viewModel.onTopSizeValueSelected(id);
+                break;
+            }
+            case BOTTOM_TAG:{
+                viewModel.onBottomSizeValueSelected(id);
+                break;
+            }
         }
     }
 }

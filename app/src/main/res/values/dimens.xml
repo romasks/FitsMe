@@ -32,5 +32,6 @@
     <dimen name="item_info_card_padding">24dp</dimen>
 
     <dimen name="item_credit_card_radius">16dp</dimen>
+    <dimen name="text_size_24sp">24sp</dimen>
 
 </resources>
