@@ -45,6 +45,25 @@ public class OrdersActionRepository implements IOrdersActionRepository {
 
     @NonNull
     @Override
+    public Single<OrdersPage> getOrdersWithoutStatus() {
+        return Single.create(emitter -> webLoader.getOrders()
+                .subscribe(ordersPageOkResponse -> {
+                    OrdersPage ordersPage = ordersPageOkResponse.getResponse();
+                    if (ordersPage != null) {
+                        emitter.onSuccess(ordersPage);
+                    } else {
+                        UserException error = ErrorRepository.makeError(ordersPageOkResponse.getError());
+                        Timber.e(error);
+                        emitter.onSuccess(new OrdersPage());
+                    }
+                }, error -> {
+                    Timber.e(error);
+                    emitter.onSuccess(new OrdersPage());
+                }));
+    }
+
+    @NonNull
+    @Override
     public Single<OrdersPage> getReturnsOrders() {
         return Single.create(emitter -> webLoader.getReturnsOrders()
                 .subscribe(ordersPageOkResponse -> {

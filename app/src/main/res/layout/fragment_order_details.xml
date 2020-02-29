@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="order"
+            type="ru.fitsme.android.domain.entities.order.Order" />
+
+        <variable
+            name="viewModel"
+            type="ru.fitsme.android.presentation.fragments.orders.details.OrderDetailsViewModel" />
+
+        <variable
+            name="bindingEvents"
+            type="ru.fitsme.android.presentation.fragments.orders.details.OrderDetailsBindingEvents" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/layout_app_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/order_number"
+                    style="@style/ReturnsItemTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="@dimen/padding_16dp"
+                    android:layout_marginTop="@dimen/padding_16dp"
+                    android:text="@{@string/returns_number_tv(order.orderId)}"
+                    tools:text="Заказ #123" />
+
+                <TextView
+                    android:id="@+id/order_date"
+                    style="@style/ReturnsItemTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/padding_16dp"
+                    android:layout_toEndOf="@id/order_number"
+                    android:gravity="end"
+                    android:text="@{order.orderDate()}"
+                    tools:text="31.12.2019" />
+
+                <TextView
+                    android:id="@+id/returns_list_text"
+                    style="@style/ReturnsItemTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/order_number"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/padding_16dp"
+                    android:layout_marginTop="@dimen/padding_16dp"
+                    android:text="@string/returns_list_text" />
+
+                <View
+                    android:id="@+id/separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/returns_list_text"
+                    android:background="#AAAAAAAA" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/order_items_list_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/separator"
+                    android:layout_marginBottom="@dimen/padding_16dp"
+                    android:clipToPadding="false"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/item_return_price_text"
+                    style="@style/ReturnsItemTextStyle"
+                    android:layout_below="@id/order_items_list_rv"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/padding_16dp"
+                    android:text="@string/returns_price_title" />
+
+                <TextView
+                    android:id="@+id/item_return_price"
+                    style="@style/ReturnsItemTextStyle"
+                    android:layout_below="@id/order_items_list_rv"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/padding_16dp"
+                    android:text="@{@string/returns_price_value(order.getOrderSum())}"
+                    tools:text="6000 руб" />
+
+            </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

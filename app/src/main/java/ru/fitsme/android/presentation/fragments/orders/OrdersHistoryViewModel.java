@@ -30,7 +30,7 @@ public class OrdersHistoryViewModel extends BaseViewModel {
     protected void init() {
         isLoading.set(true);
         ordersListIsEmpty.setValue(true);
-        addDisposable(ordersInteractor.getReturnOrders()
+        addDisposable(ordersInteractor.getOrders()
                 .subscribe(this::onGetResult, this::onError));
     }
 
@@ -55,5 +55,9 @@ public class OrdersHistoryViewModel extends BaseViewModel {
 
     public void goToFavourites() {
         navigation.goToFavourites();
+    }
+
+    public void goToOrderDetails(Order order) {
+        navigation.goToOrderDetails(order);
     }
 }

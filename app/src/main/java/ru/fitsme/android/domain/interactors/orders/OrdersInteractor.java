@@ -115,6 +115,15 @@ public class OrdersInteractor implements IOrdersInteractor {
     }
 
     @Override
+    public Single<List<Order>> getOrders() {
+        return Single.create(emitter ->
+                ordersActionRepository.getOrdersWithoutStatus()
+                        .observeOn(mainThread)
+                        .subscribe(ordersPage -> emitter.onSuccess(ordersPage.getOrdersList()),
+                                emitter::onError));
+    }
+
+    @Override
     public Single<List<Order>> getReturnOrders() {
         return Single.create(emitter ->
                 ordersActionRepository.getReturnsOrders()

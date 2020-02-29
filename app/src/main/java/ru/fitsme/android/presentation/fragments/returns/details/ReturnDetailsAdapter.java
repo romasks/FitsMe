@@ -18,7 +18,7 @@ import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 public class ReturnDetailsAdapter extends RecyclerView.Adapter<ReturnDetailsAdapter.ReturnDetailsItemViewHolder> {
 
     private ReturnDetailsViewModel viewModel;
-    private List<ReturnsOrderItem> items;
+    private List<ReturnsOrderItem> returnsOrderItems;
 
     ReturnDetailsAdapter(ReturnDetailsViewModel viewModel) {
         this.viewModel = viewModel;
@@ -39,16 +39,17 @@ public class ReturnDetailsAdapter extends RecyclerView.Adapter<ReturnDetailsAdap
 
     @Override
     public int getItemCount() {
-        return items == null ? 0 : items.size();
+        return returnsOrderItems == null ? 0 : returnsOrderItems.size();
     }
 
     void setItems(List<ReturnsOrderItem> items) {
-        this.items = items;
+        returnsOrderItems.clear();
+        returnsOrderItems.addAll(items);
         notifyDataSetChanged();
     }
 
     private ReturnsOrderItem getItem(int position) {
-        return items.get(position);
+        return returnsOrderItems.get(position);
     }
 
     class ReturnDetailsItemViewHolder extends RecyclerView.ViewHolder {

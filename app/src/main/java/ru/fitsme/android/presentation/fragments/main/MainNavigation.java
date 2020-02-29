@@ -26,6 +26,7 @@ public class MainNavigation {
     static final String NAV_TYPE_PROFILE = "TypeProfile";
     static final String NAV_ORDER_HISTORY_PROFILE = "OrderProfile";
     static final String NAV_ORDER_RETURN_PROFILE = "ReturnProfile";
+    static final String NAV_ORDER_DETAILS = "OrderDetails";
     static final String NAV_LEAVE_FEEDBACK = "LeaveFeedback";
     static final String NAV_RETURN_DETAILS = "ReturnDetails";
     static final String NAV_RETURNS_HOW_TO = "ReturnsHowTo";
@@ -203,5 +204,9 @@ public class MainNavigation {
 
     public void goToFilter() {
         goNavigate(NAV_FILTER);
+    }
+
+    public void goToOrderDetails(Order order) {
+        goNavigate(NAV_ORDER_DETAILS, order);
     }
 }

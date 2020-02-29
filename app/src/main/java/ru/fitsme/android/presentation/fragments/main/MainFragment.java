@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentMainBinding;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.presentation.fragments.auth.CodeFragment;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
@@ -22,6 +23,7 @@ import ru.fitsme.android.presentation.fragments.feedback.FeedbackFragment;
 import ru.fitsme.android.presentation.fragments.filters.FiltersFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.orders.OrdersHistoryFragment;
+import ru.fitsme.android.presentation.fragments.orders.details.OrderDetailsFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.MainProfileFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.SizeProfileFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
@@ -44,6 +46,7 @@ import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_F
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_FILTER;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_LEAVE_FEEDBACK;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_MAIN_PROFILE;
+import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_DETAILS;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_HISTORY_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_ORDER_RETURN_PROFILE;
 import static ru.fitsme.android.presentation.fragments.main.MainNavigation.NAV_RATE_ITEMS;
@@ -184,6 +187,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel> {
                         return OrdersHistoryFragment.newInstance();
                     case NAV_ORDER_RETURN_PROFILE:
                         return ReturnsFragment.newInstance();
+                    case NAV_ORDER_DETAILS:
+                        return OrderDetailsFragment.newInstance((Order) data);
                     case NAV_LEAVE_FEEDBACK:
                         return FeedbackFragment.newInstance();
                     case NAV_RETURN_DETAILS:

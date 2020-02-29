@@ -42,10 +42,9 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
 
     @Override
     protected void setUpRecyclers() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         adapter = new OrdersHistoryAdapter(viewModel);
 
-        binding.returnOrdersListRv.setLayoutManager(linearLayoutManager);
+        binding.returnOrdersListRv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.returnOrdersListRv.setHasFixedSize(true);
         binding.returnOrdersListRv.setAdapter(adapter);
     }
