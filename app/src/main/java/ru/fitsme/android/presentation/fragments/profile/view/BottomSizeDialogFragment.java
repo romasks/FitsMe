@@ -23,13 +23,15 @@ import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeDialogFragmentEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
+import static ru.fitsme.android.presentation.fragments.profile.view.SizeObserver.NO_SIZE;
+
 public class BottomSizeDialogFragment extends DialogFragment
  implements SizeDialogFragmentEvents, SizeObserver.Callback {
 
     private DialogFragmentProfileBottomSizeBinding binding;
     private SizeProfileViewModel viewModel;
     private SizeObserver sizeObserver = new SizeObserver(this, 0);
-    private int lastSavedBottomSize = -1;
+    private int lastSavedBottomSize = NO_SIZE;
 
     @Inject
     IProfileInteractor interactor;
@@ -37,14 +39,20 @@ public class BottomSizeDialogFragment extends DialogFragment
     @Inject
     ViewModelFactory viewModelFactory;
     private BottomSizeDialogCallback callback;
+    private boolean isObligatory;
 
-    public BottomSizeDialogFragment(BottomSizeDialogCallback callback) {
+    public BottomSizeDialogFragment(BottomSizeDialogCallback callback, boolean isObligatory) {
         this.callback = callback;
+        this.isObligatory = isObligatory;
         App.getInstance().getDi().inject(this);
     }
 
     public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback) {
-        return new BottomSizeDialogFragment(callback);
+        return newInstance(callback, false);
+    }
+
+    public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback, boolean isObligatory) {
+        return new BottomSizeDialogFragment(callback, isObligatory);
     }
 
     @Nullable
@@ -64,6 +72,9 @@ public class BottomSizeDialogFragment extends DialogFragment
         }
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        if (isObligatory) {
+            binding.dialogFragmentProfileBottomCancelBtn.setEnabled(false);
+        }
         setSizeCheckers();
     }
 
@@ -73,7 +84,7 @@ public class BottomSizeDialogFragment extends DialogFragment
             if (getContext() != null) {
                 TableFiller.fillButtons(getContext(), sizeObserver, list, tableLayout);
             }
-            if (viewModel.getCurrentBottomSizeIndex().get() != -1){
+            if (viewModel.getCurrentBottomSizeIndex().get() != NO_SIZE){
                 lastSavedBottomSize = viewModel.getCurrentBottomSizeIndex().get();
                 sizeObserver.setCheckedSizeIndex(lastSavedBottomSize);
                 sizeObserver.setState(lastSavedBottomSize, true);
@@ -120,7 +131,7 @@ public class BottomSizeDialogFragment extends DialogFragment
         if (callback != null){
             callback.onBottomCancelButtonClick();
         }
-        if (lastSavedBottomSize != -1) {
+        if (lastSavedBottomSize != NO_SIZE) {
             viewModel.onBottomSizeValueSelected(lastSavedBottomSize);
         }
         dismiss();
@@ -128,6 +139,13 @@ public class BottomSizeDialogFragment extends DialogFragment
 
     @Override
     public void onSizeValueSelected(int tag, int id) {
+        if (isObligatory){
+            if (id == NO_SIZE){
+                binding.dialogFragmentProfileBottomOkBtn.setEnabled(false);
+            } else {
+                binding.dialogFragmentProfileBottomOkBtn.setEnabled(true);
+            }
+        }
         viewModel.onBottomSizeValueSelected(id);
     }
 

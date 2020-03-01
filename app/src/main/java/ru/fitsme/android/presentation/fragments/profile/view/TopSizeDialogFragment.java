@@ -23,13 +23,15 @@ import ru.fitsme.android.presentation.fragments.base.ViewModelFactory;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeDialogFragmentEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
+import static ru.fitsme.android.presentation.fragments.profile.view.SizeObserver.NO_SIZE;
+
 public class TopSizeDialogFragment extends DialogFragment
  implements SizeDialogFragmentEvents, SizeObserver.Callback {
 
     private DialogFragmentProfileTopSizeBinding binding;
     private SizeProfileViewModel viewModel;
     private SizeObserver topSizeObserver = new SizeObserver(this, 0);
-    private int lastSavedTopSize = -1;
+    private int lastSavedTopSize = NO_SIZE;
 
     @Inject
     IProfileInteractor interactor;
@@ -37,14 +39,20 @@ public class TopSizeDialogFragment extends DialogFragment
     @Inject
     ViewModelFactory viewModelFactory;
     private TopSizeDialogCallback callback;
+    private boolean isObligatory;
 
-    public TopSizeDialogFragment(TopSizeDialogCallback callback) {
+    public TopSizeDialogFragment(TopSizeDialogCallback callback, boolean isObligatory) {
         this.callback = callback;
+        this.isObligatory = isObligatory;
         App.getInstance().getDi().inject(this);
     }
 
     public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback) {
-        return new TopSizeDialogFragment(callback);
+        return newInstance(callback, false);
+    }
+
+    public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback, boolean isObligatory) {
+        return new TopSizeDialogFragment(callback, isObligatory);
     }
 
     @Nullable
@@ -64,6 +72,9 @@ public class TopSizeDialogFragment extends DialogFragment
         }
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        if (isObligatory) {
+            binding.dialogFragmentProfileTopCancelBtn.setEnabled(false);
+        }
         setSizeCheckers();
     }
 
@@ -73,7 +84,7 @@ public class TopSizeDialogFragment extends DialogFragment
             if (getContext() != null) {
                 TableFiller.fillButtons(getContext(), topSizeObserver, list, tableLayout);
             }
-            if (viewModel.getCurrentTopSizeIndex().get() != -1){
+            if (viewModel.getCurrentTopSizeIndex().get() != NO_SIZE){
                 lastSavedTopSize = viewModel.getCurrentTopSizeIndex().get();
                 topSizeObserver.setCheckedSizeIndex(lastSavedTopSize);
                 topSizeObserver.setState(lastSavedTopSize, true);
@@ -121,7 +132,7 @@ public class TopSizeDialogFragment extends DialogFragment
         if (callback != null){
             callback.onTopCancelButtonClick();
         }
-        if (lastSavedTopSize != -1) {
+        if (lastSavedTopSize != NO_SIZE) {
             viewModel.onTopSizeValueSelected(lastSavedTopSize);
         }
         dismiss();
@@ -129,6 +140,13 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Override
     public void onSizeValueSelected(int tag, int id) {
+        if (isObligatory){
+            if (id == NO_SIZE){
+                binding.dialogFragmentProfileTopOkBtn.setEnabled(false);
+            } else {
+                binding.dialogFragmentProfileTopOkBtn.setEnabled(true);
+            }
+        }
         viewModel.onTopSizeValueSelected(id);
     }
 

@@ -251,6 +251,11 @@ public class OrdersInteractor implements IOrdersInteractor {
                 .observeOn(mainThread);
     }
 
+    @Override
+    public void updateList() {
+        ordersDataSourceFactory.invalidate();
+    }
+
     public static void setCartMessage(String string) {
         cartMessage.set(string);
     }

@@ -5,7 +5,9 @@ import android.util.SparseArray;
 public class SizeObserver implements SizeButton.OnSizeButtonClickCallback {
     private SparseArray<SizeButton> buttons = new SparseArray<>();
 
-    private int checkedSizeIndex = -1;
+    public static final int NO_SIZE = -1;
+
+    private int checkedSizeIndex = NO_SIZE;
     private Callback callback;
     private int tag;
 
@@ -17,7 +19,7 @@ public class SizeObserver implements SizeButton.OnSizeButtonClickCallback {
     @Override
     public void setState(int id, Boolean isChecked) {
         if (isChecked){
-            if (checkedSizeIndex != -1) {
+            if (checkedSizeIndex != NO_SIZE) {
                 SizeButton button = buttons.get(checkedSizeIndex);
                 if (button != null) {
                     button.setChecked(false);
@@ -29,7 +31,7 @@ public class SizeObserver implements SizeButton.OnSizeButtonClickCallback {
                 button.setChecked(true);
             }
         } else {
-            checkedSizeIndex = -1;
+            checkedSizeIndex = NO_SIZE;
             SizeButton button = buttons.get(id);
             if (button != null) {
                 buttons.get(id).setChecked(false);

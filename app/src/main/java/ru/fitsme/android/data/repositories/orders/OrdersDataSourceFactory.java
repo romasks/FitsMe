@@ -26,4 +26,8 @@ public class OrdersDataSourceFactory extends DataSource.Factory<Integer, OrderIt
         sourceLiveData.postValue(latestSource);
         return latestSource;
     }
+
+    public void invalidate(){
+        latestSource.invalidate();
+    }
 }

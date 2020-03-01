@@ -8,8 +8,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,8 +20,11 @@ import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemCartBinding;
 import ru.fitsme.android.databinding.ItemCartRemovedBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 import timber.log.Timber;
 
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartViewHolder> {
@@ -28,6 +34,9 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
     private static final int NORMAL_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
+
+    private boolean isTopSizeDialogShown = false;
+    private boolean isBottomSizeDialogShown = false;
 
     CartAdapter(CartViewModel viewModel, CartAdapter.OnItemClickCallback callback) {
         super(OrderItem.DIFF_CALLBACK);
@@ -71,7 +80,9 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
         abstract void bind(int position);
     }
 
-    class NormalViewHolder extends CartViewHolder {
+    class NormalViewHolder extends CartViewHolder
+            implements TopSizeDialogFragment.TopSizeDialogCallback,
+            BottomSizeDialogFragment.BottomSizeDialogCallback  {
         final ViewDataBinding binding;
         final ImageView rightDeleteIcon;
         final ImageView leftDeleteIcon;
@@ -91,11 +102,51 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
             OrderItem orderItem = getItem(position);
             ClothesItem clothesItem = orderItem == null ? new ClothesItem() : orderItem.getClothe();
 
+            if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED) {
+                if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP && !isTopSizeDialogShown){
+                    showTopSizeDialog();
+                } else if (clothesItem.getClotheType().getType() == ClotheType.Type.BOTTOM && !isBottomSizeDialogShown){
+                    showBottomSizeDialog();
+                }
+            }
+
             binding.setVariable(BR.clotheItem, clothesItem);
             binding.executePendingBindings();
             binding.getRoot().setOnClickListener(view -> {
                 callback.setDetailView(getItem(position));
             });
+        }
+
+        private void showTopSizeDialog(){
+            DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, true);
+            FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+            dialogFragment.show(fm, "topSizeDf");
+        }
+
+        private void showBottomSizeDialog(){
+            DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, true);
+            FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+            dialogFragment.show(fm, "bottomSizeDf");
+        }
+
+        @Override
+        public void onBottomOkButtonClick() {
+            viewModel.updateList();
+        }
+
+        @Override
+        public void onBottomCancelButtonClick() {
+
+        }
+
+        @Override
+        public void onTopOkButtonClick() {
+            viewModel.updateList();
+        }
+
+        @Override
+        public void onTopCancelButtonClick() {
+
         }
     }
 

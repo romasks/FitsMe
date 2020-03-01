@@ -68,4 +68,8 @@ public class CartViewModel extends BaseViewModel {
     public void goToRateItems() {
         navigation.goToRateItems();
     }
+
+    public void updateList() {
+        ordersInteractor.updateList();
+    }
 }
