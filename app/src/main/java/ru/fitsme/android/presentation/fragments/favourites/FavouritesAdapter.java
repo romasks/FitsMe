@@ -95,7 +95,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         final public TextView name;
         final public TextView price;
         final public Button button;
-        InListItemState state;
+        private InListItemState state;
         private FavouritesItem favouritesItem;
 
         InListViewHolder(ViewDataBinding binding) {
