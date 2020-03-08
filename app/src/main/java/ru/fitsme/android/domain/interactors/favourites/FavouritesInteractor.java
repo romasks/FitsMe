@@ -164,4 +164,9 @@ public class FavouritesInteractor implements IFavouritesInteractor {
     public LiveData<Boolean> getFavouritesIsEmpty() {
         return favouritesIsEmpty;
     }
+
+    @Override
+    public void updateList() {
+        favouritesDataSourceFactory.invalidate();
+    }
 }

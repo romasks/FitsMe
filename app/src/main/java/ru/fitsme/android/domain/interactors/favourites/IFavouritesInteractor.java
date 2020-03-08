@@ -24,4 +24,6 @@ public interface IFavouritesInteractor extends BaseInteractor {
     boolean itemIsRemoved(int position);
 
     LiveData<Boolean> getFavouritesIsEmpty();
+
+    void updateList();
 }
