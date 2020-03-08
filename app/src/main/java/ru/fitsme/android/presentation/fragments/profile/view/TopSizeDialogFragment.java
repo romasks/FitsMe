@@ -73,6 +73,7 @@ public class TopSizeDialogFragment extends DialogFragment
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
         if (isObligatory) {
+            setCancelable(false);
             binding.dialogFragmentProfileTopCancelBtn.setEnabled(false);
         }
         setSizeCheckers();

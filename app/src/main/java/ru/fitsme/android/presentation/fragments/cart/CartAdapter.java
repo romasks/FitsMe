@@ -118,12 +118,14 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
         }
 
         private void showTopSizeDialog(){
+            isTopSizeDialogShown = true;
             DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, true);
             FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
             dialogFragment.show(fm, "topSizeDf");
         }
 
         private void showBottomSizeDialog(){
+            isBottomSizeDialogShown = true;
             DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, true);
             FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
             dialogFragment.show(fm, "bottomSizeDf");
@@ -131,6 +133,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
         @Override
         public void onBottomOkButtonClick() {
+            isBottomSizeDialogShown = false;
             viewModel.updateList();
         }
 
@@ -141,6 +144,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
         @Override
         public void onTopOkButtonClick() {
+            isTopSizeDialogShown = false;
             viewModel.updateList();
         }
 

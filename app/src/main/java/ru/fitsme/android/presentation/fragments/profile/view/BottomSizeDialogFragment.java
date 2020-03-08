@@ -73,6 +73,7 @@ public class BottomSizeDialogFragment extends DialogFragment
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
         if (isObligatory) {
+            setCancelable(false);
             binding.dialogFragmentProfileBottomCancelBtn.setEnabled(false);
         }
         setSizeCheckers();
