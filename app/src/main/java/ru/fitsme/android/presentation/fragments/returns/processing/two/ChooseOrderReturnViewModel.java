@@ -1,12 +1,13 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.two;
 
+import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.databinding.ObservableBoolean;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
@@ -56,7 +57,7 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
 
     public void goToReturnsChooseItems(int orderId) {
         returnsInteractor.setReturnOrderId(orderId);
-        navigation.goToReturnsChooseItems();
+        navigation.goToReturnsChooseItems(orderId);
     }
 
     LiveData<Boolean> getReturnsOrdersIsEmpty() {

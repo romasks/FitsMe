@@ -1,13 +1,14 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
+import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.databinding.ObservableBoolean;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -37,11 +38,9 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
         returnsInteractor.setReturnOrderStep(ReturnsOrderStep.CHOOSE_ITEMS);
     }
 
-    @Override
-    protected void init() {
+    void init(int orderId) {
         errorMsgLiveData.postValue("");
         isLoading.set(true);
-        int orderId = returnsInteractor.getReturnOrderId();
         addDisposable(ordersInteractor.getOrderById(orderId)
                 .subscribe(this::onLoadOrder, this::onError));
     }

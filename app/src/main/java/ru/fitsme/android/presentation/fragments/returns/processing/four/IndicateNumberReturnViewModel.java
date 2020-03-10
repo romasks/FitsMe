@@ -46,4 +46,9 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
     private void onSuccess(ReturnsOrderItem returnsOrder) {
         navigation.goToReturnsBillingInfo();
     }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goToReturnsChooseItems();
+    }
 }

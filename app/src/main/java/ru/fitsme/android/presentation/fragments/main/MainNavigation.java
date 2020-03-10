@@ -3,10 +3,8 @@ package ru.fitsme.android.presentation.fragments.main;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.entities.returns.ReturnsItem;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -150,8 +148,8 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItems() {
-        goNavigate(NAV_RETURNS_CHOOSE_ITEMS);
+    public void goToReturnsChooseItems(int orderId) {
+        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, orderId);
     }
 
     public void goToReturnsIndicateNumber() {

@@ -1,9 +1,13 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.three;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseItemBinding;
 import ru.fitsme.android.domain.entities.order.Order;
@@ -16,7 +20,14 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
     private FragmentReturnChooseItemBinding binding;
     private ReturnOrderItemsAdapter adapter;
 
-    public static ChooseItemReturnFragment newInstance() {
+    private static final String ORDER_ID = "ORDER_ID";
+    private int orderId = 0;
+
+    public static ChooseItemReturnFragment newInstance(int orderId) {
+        Bundle args = new Bundle();
+        args.putInt(ORDER_ID, orderId);
+        ChooseItemReturnFragment fragment = new ChooseItemReturnFragment();
+        fragment.setArguments(args);
         return new ChooseItemReturnFragment();
     }
 
@@ -32,6 +43,16 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         binding.setViewModel(viewModel);
         binding.appBar.setBackClickListener(this);
         binding.appBar.setTitle(getResources().getString(R.string.returns_choose_items_header));
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            orderId = getArguments().getInt(ORDER_ID);
+        }
+        if (savedInstanceState == null) {
+            viewModel.init(orderId);
+        }
     }
 
     @Override
