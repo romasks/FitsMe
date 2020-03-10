@@ -1,10 +1,9 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.six;
 
-import androidx.databinding.ObservableBoolean;
-import androidx.lifecycle.MutableLiveData;
-
 import javax.inject.Inject;
 
+import androidx.databinding.ObservableBoolean;
+import androidx.lifecycle.MutableLiveData;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
@@ -19,6 +18,8 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
     @Inject
     IReturnsInteractor returnsInteractor;
 
+    private int returnId = 0;
+
     public ObservableBoolean isLoading = new ObservableBoolean(true);
     private MutableLiveData<ReturnsOrder> returnsOrderLiveData = new MutableLiveData<>();
 
@@ -31,10 +32,9 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
         return returnsOrderLiveData;
     }
 
-    @Override
-    protected void init() {
+    void init(int returnId) {
         isLoading.set(true);
-        int returnId = returnsInteractor.getReturnId();
+        this.returnId = returnId;
         addDisposable(returnsInteractor.getReturnById(returnId)
                 .subscribe(this::onSuccess, this::onError));
     }
@@ -49,8 +49,7 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
         Timber.d(throwable);
     }
 
-    public void sendReturnOrder() {
-        int returnId = returnsInteractor.getReturnId();
+    public void sendReturnOrder(int returnId) {
         addDisposable(returnsInteractor.changeReturnsPayment(
                 new ReturnsPaymentRequest(returnId, null, null, OrderStatus.ISU.toString())
         ).subscribe(this::onSuccessConfirm, this::onError));
@@ -59,5 +58,10 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
     private void onSuccessConfirm(ReturnsOrderItem returnsOrderItem) {
         returnsInteractor.setReturnOrderStep(ReturnsOrderStep.HOW_TO);
         navigation.goToOrdersReturn();
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goToReturnsBillingInfo(returnId);
     }
 }

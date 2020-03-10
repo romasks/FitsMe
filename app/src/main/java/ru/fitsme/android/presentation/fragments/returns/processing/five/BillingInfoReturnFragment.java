@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.five;
 
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnBillingInfoBinding;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
@@ -22,8 +25,15 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
     String a;
     int keyDel;
 
-    public static BillingInfoReturnFragment newInstance() {
-        return new BillingInfoReturnFragment();
+    private static final String RETURN_ID = "RETURN_ID";
+    private int returnId = 0;
+
+    public static BillingInfoReturnFragment newInstance(int returnId) {
+        Bundle args = new Bundle();
+        args.putInt(RETURN_ID, returnId);
+        BillingInfoReturnFragment fragment = new BillingInfoReturnFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -39,6 +49,16 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
         binding.appBar.setBackClickListener(this);
         binding.appBar.setTitle(getString(R.string.returns_billing_info_header));
         setUp();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            returnId = getArguments().getInt(RETURN_ID);
+        }
+        if (savedInstanceState == null) {
+            viewModel.init(returnId);
+        }
     }
 
     private void setUp() {

@@ -85,7 +85,7 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
             isLoading.set(false);
             errorMsgLiveData.postValue("");
             returnsInteractor.setReturnId(returnsOrder.getId());
-            navigation.goToReturnsIndicateNumber();
+            navigation.goToReturnsIndicateNumber(returnsOrder.getId());
         }
     }
 

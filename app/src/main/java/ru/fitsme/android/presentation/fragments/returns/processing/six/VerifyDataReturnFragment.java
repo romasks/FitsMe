@@ -1,7 +1,10 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.six;
 
+import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnVerifyDataBinding;
@@ -15,8 +18,15 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
     private FragmentReturnVerifyDataBinding binding;
     private SelectedReturnOrderItemsAdapter adapter;
 
-    public static VerifyDataReturnFragment newInstance() {
-        return new VerifyDataReturnFragment();
+    private static final String RETURN_ID = "RETURN_ID";
+    private int returnId = 0;
+
+    public static VerifyDataReturnFragment newInstance(int returnId) {
+        Bundle args = new Bundle();
+        args.putInt(RETURN_ID, returnId);
+        VerifyDataReturnFragment fragment = new VerifyDataReturnFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -31,6 +41,16 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
         binding.setViewModel(viewModel);
         binding.appBar.setBackClickListener(this);
         binding.appBar.setTitle(getResources().getString(R.string.returns_verify_data_header));
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            returnId = getArguments().getInt(RETURN_ID);
+        }
+        if (savedInstanceState == null) {
+            viewModel.init(returnId);
+        }
     }
 
     @Override
@@ -60,7 +80,7 @@ public class VerifyDataReturnFragment extends BaseFragment<VerifyDataReturnViewM
 
     @Override
     public void onNext() {
-        viewModel.sendReturnOrder();
+        viewModel.sendReturnOrder(returnId);
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).showBottomNavbar();
         }

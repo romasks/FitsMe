@@ -1,9 +1,8 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.four;
 
-import androidx.databinding.ObservableBoolean;
-
 import javax.inject.Inject;
 
+import androidx.databinding.ObservableBoolean;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
@@ -29,8 +28,7 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
         isLoading.set(false);
     }
 
-    public void goToReturnsBillingInfo(String indicationNumber) {
-        int returnId = returnsInteractor.getReturnId();
+    public void goToReturnsBillingInfo(int returnId, String indicationNumber) {
         addDisposable(returnsInteractor.changeReturnsPayment(
                 new ReturnsPaymentRequest(
                         returnId, indicationNumber, null, OrderStatus.FM.toString()
@@ -44,11 +42,11 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccess(ReturnsOrderItem returnsOrder) {
-        navigation.goToReturnsBillingInfo();
+        navigation.goToReturnsBillingInfo(returnsOrder.getId());
     }
 
     @Override
     public void onBackPressed() {
-        navigation.goToReturnsChooseItems();
+        navigation.goToReturnsChooseOrder();
     }
 }

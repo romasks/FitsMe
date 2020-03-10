@@ -152,16 +152,16 @@ public class MainNavigation {
         goNavigate(NAV_RETURNS_CHOOSE_ITEMS, orderId);
     }
 
-    public void goToReturnsIndicateNumber() {
-        goNavigate(NAV_RETURNS_INDICATE_NUMBER);
+    public void goToReturnsIndicateNumber(int returnId) {
+        goNavigate(NAV_RETURNS_INDICATE_NUMBER, returnId);
     }
 
-    public void goToReturnsBillingInfo() {
-        goNavigate(NAV_RETURNS_BILLING_INFO);
+    public void goToReturnsBillingInfo(int returnId) {
+        goNavigate(NAV_RETURNS_BILLING_INFO, returnId);
     }
 
-    public void goToReturnsVerifyData() {
-        goNavigate(NAV_RETURNS_VERIFY_DATA);
+    public void goToReturnsVerifyData(int returnId) {
+        goNavigate(NAV_RETURNS_VERIFY_DATA, returnId);
     }
 
     public void goToReturnsChooseOrderWithReplace() {

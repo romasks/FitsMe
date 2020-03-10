@@ -43,11 +43,11 @@ public class ReturnsViewModel extends BaseViewModel {
         if (returnsOrder.getReturnItemsList().isEmpty()) {
             navigation.goToReturnsChooseOrder();
         } else if (returnsOrder.getDeliveryDetails() == null || returnsOrder.getDeliveryDetails().isEmpty()) {
-            navigation.goToReturnsIndicateNumber();
+            navigation.goToReturnsIndicateNumber(returnsOrder.getId());
         } else if (returnsOrder.getPaymentDetails() == null || returnsOrder.getPaymentDetails().isEmpty()) {
-            navigation.goToReturnsBillingInfo();
+            navigation.goToReturnsBillingInfo(returnsOrder.getId());
         } else if (returnsOrder.getStatus().equals("FM")) {
-            navigation.goToReturnsVerifyData();
+            navigation.goToReturnsVerifyData(returnsOrder.getId());
         } else {
             navigation.goToReturnsHowTo();
         }

@@ -1,8 +1,11 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.four;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnIndicateNumberBinding;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
@@ -12,8 +15,15 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
 
     private FragmentReturnIndicateNumberBinding binding;
 
-    public static IndicateNumberReturnFragment newInstance() {
-        return new IndicateNumberReturnFragment();
+    private static final String RETURN_ID = "RETURN_ID";
+    private int returnId = 0;
+
+    public static IndicateNumberReturnFragment newInstance(int returnId) {
+        Bundle args = new Bundle();
+        args.putInt(RETURN_ID, returnId);
+        IndicateNumberReturnFragment fragment = new IndicateNumberReturnFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -31,6 +41,13 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            returnId = getArguments().getInt(RETURN_ID);
+        }
+    }
+
+    @Override
     public void goBack() {
         viewModel.onBackPressed();
     }
@@ -40,7 +57,7 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
         if (binding.indicateNumber.length() < 13) {
             Toast.makeText(getContext(), R.string.warning_indicate_number_is_not_filled, Toast.LENGTH_SHORT).show();
         } else {
-            viewModel.goToReturnsBillingInfo(String.valueOf(binding.indicateNumber.getText()));
+            viewModel.goToReturnsBillingInfo(returnId, String.valueOf(binding.indicateNumber.getText()));
         }
     }
 }

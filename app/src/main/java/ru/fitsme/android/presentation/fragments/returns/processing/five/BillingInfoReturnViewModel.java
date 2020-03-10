@@ -17,6 +17,8 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
     @Inject
     IReturnsInteractor returnsInteractor;
 
+    private int returnId = 0;
+
     public ObservableBoolean isLoading = new ObservableBoolean(true);
 
     public BillingInfoReturnViewModel() {
@@ -24,13 +26,12 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
         returnsInteractor.setReturnOrderStep(ReturnsOrderStep.BILLING_INFO);
     }
 
-    @Override
-    protected void init() {
+    void init(int returnId) {
         isLoading.set(false);
+        this.returnId = returnId;
     }
 
     public void goToReturnsVerifyData(String cardNumber) {
-        int returnId = returnsInteractor.getReturnId();
         addDisposable(returnsInteractor.changeReturnsPayment(
                 new ReturnsPaymentRequest(returnId, null, cardNumber, OrderStatus.FM.toString()))
                 .subscribe(this::onSuccess, this::onError)
@@ -42,6 +43,11 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccess(ReturnsOrderItem returnsOrder) {
-        navigation.goToReturnsVerifyData();
+        navigation.goToReturnsVerifyData(returnsOrder.getId());
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.goToReturnsIndicateNumber(returnId);
     }
 }
