@@ -44,6 +44,6 @@ public class IndicateNumberReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccess(ReturnsOrderItem returnsOrder) {
-        navigation.goToReturnsBillingInfoWithReplace();
+        navigation.goToReturnsBillingInfo();
     }
 }

@@ -2,6 +2,7 @@ package ru.fitsme.android.presentation.fragments.returns.inlistitem;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsAdapter;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
 
@@ -16,7 +17,7 @@ public class InCartState extends InListItemState {
     }
 
     @Override
-    public void onClick(ReturnsViewModel viewModel, int position, int returnsId) {
-        viewModel.goToReturnsStepScreen();
+    public void onClick(ReturnsViewModel viewModel, ReturnsOrder returnsOrder) {
+        viewModel.goToReturnsStepScreen(returnsOrder);
     }
 }

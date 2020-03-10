@@ -9,6 +9,6 @@ public class HowToReturnViewModel extends BaseViewModel {
     }
 
     public void goToReturnsChooseOrder() {
-        navigation.goToReturnsChooseOrderWithReplace();
+        navigation.goToReturnsChooseOrder();
     }
 }

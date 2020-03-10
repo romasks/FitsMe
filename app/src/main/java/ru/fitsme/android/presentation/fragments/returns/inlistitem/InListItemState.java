@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.returns.inlistitem;
 
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsAdapter;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
 
@@ -10,5 +11,5 @@ public abstract class InListItemState {
         this.viewHolder = viewHolder;
     }
 
-    public abstract void onClick(ReturnsViewModel viewModel, int position, int returnsId);
+    public abstract void onClick(ReturnsViewModel viewModel, ReturnsOrder returnsOrder);
 }

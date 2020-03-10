@@ -58,6 +58,6 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
 
     private void onSuccessConfirm(ReturnsOrderItem returnsOrderItem) {
         returnsInteractor.setReturnOrderStep(ReturnsOrderStep.HOW_TO);
-        navigation.goToOrdersReturnWithReplace();
+        navigation.goToOrdersReturn();
     }
 }

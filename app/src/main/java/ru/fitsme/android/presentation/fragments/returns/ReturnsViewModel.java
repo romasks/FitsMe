@@ -38,8 +38,20 @@ public class ReturnsViewModel extends BaseViewModel {
 //        mainFragment.goToCheckout();
     }
 
-    public void goToReturnsStepScreen() {
-        switch (returnsInteractor.getReturnOrderStep()) {
+    public void goToReturnsStepScreen(ReturnsOrder returnsOrder) {
+        if (returnsOrder.getReturnItemsList().isEmpty()) {
+            navigation.goToReturnsChooseOrder();
+        } else if (returnsOrder.getDeliveryDetails().isEmpty()) {
+            navigation.goToReturnsIndicateNumber();
+        } else if (returnsOrder.getPaymentDetails().isEmpty()) {
+            navigation.goToReturnsBillingInfo();
+        } else if (returnsOrder.getStatus().equals("FM")) {
+            navigation.goToReturnsVerifyData();
+        } else {
+            navigation.goToReturnsHowTo();
+        }
+
+        /*switch (returnsInteractor.getReturnOrderStep()) {
             case HOW_TO:
                 navigation.goToReturnsHowTo();
                 return;
@@ -60,7 +72,7 @@ public class ReturnsViewModel extends BaseViewModel {
                 return;
             default:
                 navigation.goToReturnsHowTo();
-        }
+        }*/
     }
 
     public void goToReturnsHowTo() {

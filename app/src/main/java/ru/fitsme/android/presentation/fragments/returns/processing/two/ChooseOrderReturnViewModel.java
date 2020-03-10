@@ -56,7 +56,7 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
 
     public void goToReturnsChooseItems(int orderId) {
         returnsInteractor.setReturnOrderId(orderId);
-        navigation.goToReturnsChooseItemsWithReplace();
+        navigation.goToReturnsChooseItems();
     }
 
     LiveData<Boolean> getReturnsOrdersIsEmpty() {

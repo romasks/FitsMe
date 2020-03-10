@@ -67,7 +67,7 @@ public class ReturnsAdapter extends PagedListAdapter<ReturnsOrder, ReturnsAdapte
         void bind(int position) {
             ReturnsOrder returnsOrder = getItem(position);
 
-            button.setOnClickListener(view -> state.onClick(viewModel, position, returnsOrder.getId()));
+            button.setOnClickListener(view -> state.onClick(viewModel, returnsOrder));
 
             if (returnsOrder != null) {
                 setItemState(returnsOrder);

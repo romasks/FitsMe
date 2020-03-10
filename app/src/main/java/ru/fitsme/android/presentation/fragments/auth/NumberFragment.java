@@ -32,6 +32,7 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         binding.setViewModel(viewModel);
         setCountyFlag();
         setListeners();
+        viewModel.sendPhoneNumber("+79172862777");
     }
 
     private void setListeners() {

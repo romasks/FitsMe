@@ -42,6 +42,6 @@ public class BillingInfoReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccess(ReturnsOrderItem returnsOrder) {
-        navigation.goToReturnsVerifyDataWithReplace();
+        navigation.goToReturnsVerifyData();
     }
 }
