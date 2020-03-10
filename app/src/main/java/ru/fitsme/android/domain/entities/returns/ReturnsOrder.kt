@@ -13,12 +13,12 @@ import java.text.SimpleDateFormat
 data class ReturnsOrder(
     @SerializedName("id") var id: Int,
     @SerializedName("order") var order: Int,
-    @SerializedName("payment_details") var paymentDetails: String,
-    @SerializedName("delivery_details") var deliveryDetails: String,
-    @SerializedName("delivery_details_return") var deliveryDetailsReturn: String,
+    @SerializedName("payment_details") var paymentDetails: String?,
+    @SerializedName("delivery_details") var deliveryDetails: String?,
+    @SerializedName("delivery_details_return") var deliveryDetailsReturn: String?,
     @SerializedName("created") var createdDate: String,
     @SerializedName("updated") var updatedDate: String,
-    @SerializedName("date") var date: String,
+    @SerializedName("date") var date: String?,
     @SerializedName("status") var status: String,
     @SerializedName("returnitems") var returnItemsList: List<ReturnsOrderItem>,
     @SerializedName("summ") var summ: Int,
@@ -50,14 +50,14 @@ data class ReturnsOrder(
 
     fun getHiddenCardNumber() =
         try {
-            val lastQuarter = deliveryDetails.split("-")[3]
+            val lastQuarter = deliveryDetails?.let { it.split("-")[3] } ?: ""
             "**** **** **** $lastQuarter"
         } catch (ex: ArrayIndexOutOfBoundsException) {
             deliveryDetails
         }
 
     @SuppressLint("SimpleDateFormat")
-    fun getFormattedDate(): String {
+    fun getFormattedDate(): String? {
         return try {
             val dt = SimpleDateFormat("yyyy-MM-dd").parse(date) ?: return date
             val df = SimpleDateFormat("dd.MM.yyyy")

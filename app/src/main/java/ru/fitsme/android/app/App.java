@@ -1,6 +1,6 @@
 package ru.fitsme.android.app;
 
-import android.app.Application;
+import androidx.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -10,7 +10,7 @@ import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import timber.log.Timber;
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private static App instance;
     private DI di;
