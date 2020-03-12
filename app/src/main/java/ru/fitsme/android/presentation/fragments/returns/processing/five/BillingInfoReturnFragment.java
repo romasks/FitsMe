@@ -10,8 +10,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnBillingInfoBinding;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
@@ -22,8 +24,8 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
     private FragmentReturnBillingInfoBinding binding;
 
     //    private boolean isMaskFilled = false;
-    String a;
-    int keyDel;
+    private String a;
+    private int keyDel;
 
     private static final String RETURN_ID = "RETURN_ID";
     private int returnId = 0;
@@ -61,6 +63,11 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
         }
     }
 
+    @Override
+    protected void setUpObservers() {
+        viewModel.getReturnsOrderLiveData().observe(getViewLifecycleOwner(), this::onLoadReturnsOrder);
+    }
+
     private void setUp() {
         initCardNumberFieldListener(binding.cardNumber);
     }
@@ -79,6 +86,12 @@ public class BillingInfoReturnFragment extends BaseFragment<BillingInfoReturnVie
         }
     }
 
+    private void onLoadReturnsOrder(ReturnsOrder returnsOrder) {
+        if (returnsOrder.getDeliveryDetails() != null) {
+            binding.cardNumber.setText(returnsOrder.getDeliveryDetails());
+            // TODO: Try to change field value. For now it's no effect
+        }
+    }
 
     private void initCardNumberFieldListener(EditText cardField) {
         // Method 4:

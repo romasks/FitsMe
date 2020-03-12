@@ -11,6 +11,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Arrays;
+
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemReturnBinding;
@@ -41,14 +44,13 @@ public class ReturnsAdapter extends PagedListAdapter<ReturnsOrder, ReturnsAdapte
         holder.bind(position);
     }
 
-    abstract class ReturnsViewHolder extends RecyclerView.ViewHolder {
+    abstract static class ReturnsViewHolder extends RecyclerView.ViewHolder {
         ReturnsViewHolder(@NonNull View itemView) {
             super(itemView);
         }
 
         abstract void bind(int position);
     }
-
 
     public class InListViewHolder extends ReturnsViewHolder {
         final public ViewDataBinding binding;
@@ -80,15 +82,11 @@ public class ReturnsAdapter extends PagedListAdapter<ReturnsOrder, ReturnsAdapte
         }
 
         private void setItemState(ReturnsOrder returnsOrder) {
-            switch (returnsOrder.getStatus()) {
-                case "FM":
-                    state = new InCartState(this);
-                    break;
-                case "ISU":
-                case "CNC":
-                case "RDY":
-                default:
-                    state = new NormalState(this);
+            if (!"FM".equals(returnsOrder.getStatus()) ||
+                Arrays.asList("Возврат более невозможен", "0 дней").contains(returnsOrder.getDaysToReturn())) {
+                state = new NormalState(this);
+            } else {
+                state = new InCartState(this);
             }
         }
     }

@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.fitsme.android.BR;
@@ -18,7 +19,7 @@ import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 public class ReturnDetailsAdapter extends RecyclerView.Adapter<ReturnDetailsAdapter.ReturnDetailsItemViewHolder> {
 
     private ReturnDetailsViewModel viewModel;
-    private List<ReturnsOrderItem> returnsOrderItems;
+    private List<ReturnsOrderItem> returnsOrderItems = new ArrayList<>();
 
     ReturnDetailsAdapter(ReturnDetailsViewModel viewModel) {
         this.viewModel = viewModel;
@@ -39,7 +40,7 @@ public class ReturnDetailsAdapter extends RecyclerView.Adapter<ReturnDetailsAdap
 
     @Override
     public int getItemCount() {
-        return returnsOrderItems == null ? 0 : returnsOrderItems.size();
+        return returnsOrderItems.size();
     }
 
     void setItems(List<ReturnsOrderItem> items) {

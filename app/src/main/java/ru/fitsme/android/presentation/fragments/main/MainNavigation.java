@@ -68,6 +68,10 @@ public class MainNavigation {
         getRouter().replaceScreen(navigationKey);
     }
 
+    private void replaceWith(String navigationKey, int data) {
+        getRouter().navigateTo(navigationKey, data);
+    }
+
     private void newChainNavigate(String navigationKey) {
         getRouter().newScreenChain(navigationKey);
     }
@@ -168,20 +172,24 @@ public class MainNavigation {
         replaceWith(NAV_RETURNS_CHOOSE_ORDER);
     }
 
-    public void goToReturnsChooseItemsWithReplace() {
-        replaceWith(NAV_RETURNS_CHOOSE_ITEMS);
+    public void goToReturnsHowToWithReplace() {
+        replaceWith(NAV_RETURNS_HOW_TO);
     }
 
-    public void goToReturnsIndicateNumberWithReplace() {
-        replaceWith(NAV_RETURNS_INDICATE_NUMBER);
+    public void goToReturnsChooseItemsWithReplace(int orderId) {
+        replaceWith(NAV_RETURNS_CHOOSE_ITEMS, orderId);
     }
 
-    public void goToReturnsBillingInfoWithReplace() {
-        replaceWith(NAV_RETURNS_BILLING_INFO);
+    public void goToReturnsIndicateNumberWithReplace(int returnId) {
+        replaceWith(NAV_RETURNS_INDICATE_NUMBER, returnId);
     }
 
-    public void goToReturnsVerifyDataWithReplace() {
-        replaceWith(NAV_RETURNS_VERIFY_DATA);
+    public void goToReturnsBillingInfoWithReplace(int returnId) {
+        replaceWith(NAV_RETURNS_BILLING_INFO, returnId);
+    }
+
+    public void goToReturnsVerifyDataWithReplace(int returnId) {
+        replaceWith(NAV_RETURNS_VERIFY_DATA, returnId);
     }
 
     public void goToOrdersReturnWithReplace() {

@@ -1,16 +1,16 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.six;
 
-import javax.inject.Inject;
-
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
+
+import javax.inject.Inject;
+
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
-import ru.fitsme.android.utils.ReturnsOrderStep;
 import timber.log.Timber;
 
 public class VerifyDataReturnViewModel extends BaseViewModel {
@@ -25,7 +25,6 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
 
     public VerifyDataReturnViewModel() {
         inject(this);
-        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.VERIFY_DATA);
     }
 
     public MutableLiveData<ReturnsOrder> getReturnsOrderLiveData() {
@@ -56,12 +55,11 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccessConfirm(ReturnsOrderItem returnsOrderItem) {
-        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.HOW_TO);
-        navigation.goToOrdersReturn();
+        navigation.goToOrdersReturnWithReplace();
     }
 
     @Override
     public void onBackPressed() {
-        navigation.goToReturnsBillingInfo(returnId);
+        navigation.goToReturnsBillingInfoWithReplace(returnId);
     }
 }

@@ -2,14 +2,14 @@ package ru.fitsme.android.data.frameworks.retrofit.entities;
 
 public class ReturnsPaymentRequest {
     private long returnId;
-    private String payment_details;
     private String delivery_details;
+    private String payment_details;
     private String status;
 
-    public ReturnsPaymentRequest(int returnId, String orderitems_id, String delivery_details, String quantity) {
+    public ReturnsPaymentRequest(int returnId, String delivery_details, String payment_details, String quantity) {
         this.returnId = returnId;
-        this.payment_details = orderitems_id;
         this.delivery_details = delivery_details;
+        this.payment_details = payment_details;
         this.status = quantity;
     }
 
@@ -17,12 +17,12 @@ public class ReturnsPaymentRequest {
         return returnId;
     }
 
-    public String getPaymentDetails() {
-        return payment_details;
-    }
-
     public String getDeliveryDetails() {
         return delivery_details;
+    }
+
+    public String getPaymentDetails() {
+        return payment_details;
     }
 
     public String getStatus() {

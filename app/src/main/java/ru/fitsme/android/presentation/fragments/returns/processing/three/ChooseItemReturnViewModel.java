@@ -16,7 +16,6 @@ import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
-import ru.fitsme.android.utils.ReturnsOrderStep;
 import timber.log.Timber;
 
 public class ChooseItemReturnViewModel extends BaseViewModel {
@@ -35,7 +34,6 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
 
     public ChooseItemReturnViewModel() {
         inject(this);
-        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.CHOOSE_ITEMS);
     }
 
     void init(int orderId) {
@@ -84,8 +82,7 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
         } else {
             isLoading.set(false);
             errorMsgLiveData.postValue("");
-            returnsInteractor.setReturnId(returnsOrder.getId());
-            navigation.goToReturnsIndicateNumber(returnsOrder.getId());
+            navigation.goToReturnsIndicateNumberWithReplace(returnsOrder.getId());
         }
     }
 
@@ -98,6 +95,6 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
     @Override
     public void onBackPressed() {
         isLoading.set(false);
-        super.onBackPressed();
+        navigation.goToReturnsChooseOrderWithReplace();
     }
 }

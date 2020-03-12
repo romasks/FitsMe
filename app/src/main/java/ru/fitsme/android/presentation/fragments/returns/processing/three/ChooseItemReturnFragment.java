@@ -28,7 +28,7 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
         args.putInt(ORDER_ID, orderId);
         ChooseItemReturnFragment fragment = new ChooseItemReturnFragment();
         fragment.setArguments(args);
-        return new ChooseItemReturnFragment();
+        return fragment;
     }
 
     @Override

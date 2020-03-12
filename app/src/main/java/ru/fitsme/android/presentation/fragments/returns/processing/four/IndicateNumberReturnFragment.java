@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnIndicateNumberBinding;
+import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
@@ -45,6 +46,14 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
         if (getArguments() != null) {
             returnId = getArguments().getInt(RETURN_ID);
         }
+        if (savedInstanceState == null) {
+            viewModel.init(returnId);
+        }
+    }
+
+    @Override
+    protected void setUpObservers() {
+        viewModel.getReturnsOrderLiveData().observe(getViewLifecycleOwner(), this::onLoadReturnsOrder);
     }
 
     @Override
@@ -58,6 +67,12 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
             Toast.makeText(getContext(), R.string.warning_indicate_number_is_not_filled, Toast.LENGTH_SHORT).show();
         } else {
             viewModel.goToReturnsBillingInfo(returnId, String.valueOf(binding.indicateNumber.getText()));
+        }
+    }
+
+    private void onLoadReturnsOrder(ReturnsOrder returnsOrder) {
+        if (returnsOrder.getDeliveryDetails() != null) {
+            binding.indicateNumber.setText(returnsOrder.getDeliveryDetails());
         }
     }
 }

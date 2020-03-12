@@ -50,9 +50,11 @@ data class ReturnsOrder(
 
     fun getHiddenCardNumber() =
         try {
-            val lastQuarter = deliveryDetails?.let { it.split("-")[3] } ?: ""
+            val lastQuarter = deliveryDetails?.let { it.split("-")[3] }
             "**** **** **** $lastQuarter"
         } catch (ex: ArrayIndexOutOfBoundsException) {
+            deliveryDetails
+        } catch (ex: IndexOutOfBoundsException) {
             deliveryDetails
         }
 

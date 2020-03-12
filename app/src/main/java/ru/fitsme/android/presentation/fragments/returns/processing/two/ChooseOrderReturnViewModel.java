@@ -12,7 +12,6 @@ import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.domain.interactors.returns.IReturnsInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
-import ru.fitsme.android.utils.ReturnsOrderStep;
 import timber.log.Timber;
 
 public class ChooseOrderReturnViewModel extends BaseViewModel {
@@ -29,7 +28,6 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
 
     public ChooseOrderReturnViewModel() {
         inject(this);
-        returnsInteractor.setReturnOrderStep(ReturnsOrderStep.CHOOSE_ORDER);
     }
 
     @Override
@@ -56,15 +54,15 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
     }
 
     public void goToReturnsChooseItems(int orderId) {
-        returnsInteractor.setReturnOrderId(orderId);
-        navigation.goToReturnsChooseItems(orderId);
+        navigation.goToReturnsChooseItemsWithReplace(orderId);
     }
 
     LiveData<Boolean> getReturnsOrdersIsEmpty() {
         return returnsOrdersListIsEmpty;
     }
 
-    public void goToCart() {
-        navigation.goToCart();
+    @Override
+    public void onBackPressed() {
+        navigation.goToReturnsHowToWithReplace();
     }
 }
