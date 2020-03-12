@@ -69,7 +69,7 @@ public class MainNavigation {
     }
 
     private void replaceWith(String navigationKey, int data) {
-        getRouter().navigateTo(navigationKey, data);
+        getRouter().replaceScreen(navigationKey, data);
     }
 
     private void newChainNavigate(String navigationKey) {

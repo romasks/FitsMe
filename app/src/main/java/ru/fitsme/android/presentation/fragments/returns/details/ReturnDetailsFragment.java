@@ -6,13 +6,17 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import java.util.Arrays;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnDetailsBinding;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
-public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel> implements ReturnDetailsBindingEvents, BackClickListener {
+public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel>
+    implements ReturnDetailsBindingEvents, BackClickListener {
 
     private static final String KEY_RETURN_ID = "RETURN_ID";
 
@@ -75,7 +79,10 @@ public class ReturnDetailsFragment extends BaseFragment<ReturnDetailsViewModel> 
         binding.setReturnsOrder(returnsOrder);
         adapter.setItems(returnsOrder.getReturnItemsList());
         binding.btnNext.setVisibility(
-                returnsOrder.getDaysToReturn().equals("Возврат более невозможен") ? View.GONE : View.VISIBLE
+            Arrays.asList(
+                "Возврат более невозможен",
+                "0 дней"
+            ).contains(returnsOrder.getDaysToReturn()) ? View.GONE : View.VISIBLE
         );
     }
 

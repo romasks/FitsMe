@@ -16,12 +16,12 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
 
     private FragmentReturnIndicateNumberBinding binding;
 
-    private static final String RETURN_ID = "RETURN_ID";
+    private static final String KEY_RETURN_ID = "RETURN_ID";
     private int returnId = 0;
 
     public static IndicateNumberReturnFragment newInstance(int returnId) {
         Bundle args = new Bundle();
-        args.putInt(RETURN_ID, returnId);
+        args.putInt(KEY_RETURN_ID, returnId);
         IndicateNumberReturnFragment fragment = new IndicateNumberReturnFragment();
         fragment.setArguments(args);
         return fragment;
@@ -44,7 +44,7 @@ public class IndicateNumberReturnFragment extends BaseFragment<IndicateNumberRet
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
-            returnId = getArguments().getInt(RETURN_ID);
+            returnId = getArguments().getInt(KEY_RETURN_ID);
         }
         if (savedInstanceState == null) {
             viewModel.init(returnId);

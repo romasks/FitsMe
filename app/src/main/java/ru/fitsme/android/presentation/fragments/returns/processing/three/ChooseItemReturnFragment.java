@@ -20,12 +20,12 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
     private FragmentReturnChooseItemBinding binding;
     private ReturnOrderItemsAdapter adapter;
 
-    private static final String ORDER_ID = "ORDER_ID";
+    private static final String KEY_ORDER_ID = "ORDER_ID";
     private int orderId = 0;
 
     public static ChooseItemReturnFragment newInstance(int orderId) {
         Bundle args = new Bundle();
-        args.putInt(ORDER_ID, orderId);
+        args.putInt(KEY_ORDER_ID, orderId);
         ChooseItemReturnFragment fragment = new ChooseItemReturnFragment();
         fragment.setArguments(args);
         return fragment;
@@ -48,7 +48,7 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
-            orderId = getArguments().getInt(ORDER_ID);
+            orderId = getArguments().getInt(KEY_ORDER_ID);
         }
         if (savedInstanceState == null) {
             viewModel.init(orderId);

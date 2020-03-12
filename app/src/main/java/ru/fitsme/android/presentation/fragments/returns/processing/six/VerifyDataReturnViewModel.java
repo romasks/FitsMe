@@ -55,7 +55,7 @@ public class VerifyDataReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccessConfirm(ReturnsOrderItem returnsOrderItem) {
-        navigation.goToOrdersReturnWithReplace();
+        navigation.goBack();
     }
 
     @Override

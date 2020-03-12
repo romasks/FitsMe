@@ -34,11 +34,6 @@ public class ReturnsViewModel extends BaseViewModel {
         return returnsInteractor.getReturnsIsEmpty();
     }
 
-    public void goToCheckout() {
-        navigation.goToCheckout();
-//        mainFragment.goToCheckout();
-    }
-
     public void goToReturnsStepScreen(ReturnsOrder returnsOrder) {
         if (returnsOrder.getReturnItemsList().isEmpty()) {
             navigation.goToReturnsChooseOrder();
