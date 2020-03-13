@@ -27,6 +27,7 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.utils.OrderStatus;
@@ -223,7 +224,6 @@ public class OrdersInteractor implements IOrdersInteractor {
         if (pagedList != null && pagedList.size() > position) {
             OrderItem item = pagedList.get(position);
             if (item != null) {
-                updateTotalPrice();
                 return removedClotheIdList.contains(item.getClothe().getId());
             }
         }
@@ -242,7 +242,9 @@ public class OrdersInteractor implements IOrdersInteractor {
             for (OrderItem oi : pagedListLiveData.getValue()) {
                 int clotheId = oi.getClothe().getId();
                 if (!removedClotheIdList.contains(clotheId)) {
-                    tmpPrice += oi.getPrice();
+                    if (oi.getClothe().getSizeInStock() == ClothesItem.SizeInStock.YES) {
+                        tmpPrice += oi.getPrice();
+                    }
                 }
             }
             totalPrice.set(tmpPrice);
@@ -258,6 +260,11 @@ public class OrdersInteractor implements IOrdersInteractor {
     public Single<Order> getOrderById(int orderId) {
         return ordersActionRepository.getOrderById(orderId)
                 .observeOn(mainThread);
+    }
+
+    @Override
+    public void updateList() {
+        ordersDataSourceFactory.invalidate();
     }
 
     public static void setCartMessage(String string) {

@@ -29,4 +29,8 @@ public class FavouritesDataSourceFactory extends DataSource.Factory<Integer, Fav
         sourceLiveData.postValue(latestSource);
         return latestSource;
     }
+
+    public void invalidate(){
+        latestSource.invalidate();
+    }
 }

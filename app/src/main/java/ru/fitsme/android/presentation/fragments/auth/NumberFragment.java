@@ -4,17 +4,22 @@ import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
+
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentAuthByPhoneNumBinding;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+
+import static ru.fitsme.android.utils.Constants.PHONE_MASK_WITHOUT_CODE;
 
 public class NumberFragment extends BaseFragment<NumberViewModel> implements NumberBindingEvents {
 
     private FragmentAuthByPhoneNumBinding binding;
-    private MyTextWatcher textWatcher = new MyTextWatcher();
 
     public static NumberFragment newInstance() {
         return new NumberFragment();
@@ -36,7 +41,7 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
     }
 
     private void setListeners() {
-        binding.fragmentPhoneAuthNumberEt.addTextChangedListener(textWatcher);
+        initPhoneFieldListener(binding.fragmentPhoneAuthNumberEt);
         binding.fragmentPhoneAuthCodeEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -51,6 +56,7 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
             @Override
             public void afterTextChanged(Editable s) {
                 binding.fragmentPhoneAuthCodeEt.setTextColor(Color.BLACK);
+                setCountyFlag();
             }
         });
     }
@@ -59,12 +65,15 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         if (binding.fragmentPhoneAuthCodeEt.getText().toString().equals("+7")){
             binding.fragmentPhoneAuthCodeEt
                     .setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_rus_flag, 0, 0, 0);
+        } else {
+            binding.fragmentPhoneAuthCodeEt
+                    .setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
     }
 
     @Override
     public void onBackPressed() {
-        viewModel.onBackPressed();
+        getActivity().finish();
     }
 
     @Override
@@ -85,60 +94,17 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         }
     }
 
-
-    private class MyTextWatcher implements TextWatcher{
-        private boolean wasIncreased;
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start,
-                                      int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            wasIncreased = count - before > 0;
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-            binding.fragmentPhoneAuthNumberEt.setTextColor(Color.BLACK);
-            binding.fragmentPhoneAuthNumberEt.removeTextChangedListener(textWatcher);
-            int position = binding.fragmentPhoneAuthNumberEt.getSelectionStart();
-            String string = editable.toString();
-            String clean = getCleanNumber(string);
-            StringBuilder builder = new StringBuilder(clean);
-            if (builder.length() > 0){
-                builder.insert(0, '(');
-            }
-            if (builder.length() > 4){
-                builder.insert(4, ")");
-            }
-            if (builder.length() > 8){
-                builder.insert(8, "-");
-            }
-            if (builder.length() > 11){
-                builder.insert(11 , "-");
-            }
-            binding.fragmentPhoneAuthNumberEt.setText(builder);
-            if (wasIncreased){
-                if (position == 1 || position == 5 || position == 9 || position == 12){
-                    position += 1;
-                }
-            } else {
-                if (position == 1 || position == 5 || position == 9 || position == 12){
-                    position -= 1;
-                }
-                if (position == 0 && builder.length() != 0){
-                    position = 1;
-                }
-            }
-            binding.fragmentPhoneAuthNumberEt.setSelection(position);
-            binding.fragmentPhoneAuthNumberEt.addTextChangedListener(textWatcher);
-        }
+    private void initPhoneFieldListener(EditText phoneField) {
+        MaskedTextChangedListener.Companion.installOn(
+                phoneField,
+                PHONE_MASK_WITHOUT_CODE,
+                (maskFilled, extractedValue) -> phoneField.setTextColor(getContext().getResources().getColor(R.color.black))
+        );
+        phoneField.requestFocus();
     }
 
     @NotNull
     private String getCleanNumber(String string) {
-        return string.replaceAll("[()-]", "");
+        return string.replaceAll("[()-[\\s]]", "");
     }
 }

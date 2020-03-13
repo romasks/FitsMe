@@ -31,9 +31,10 @@ public class ClothesInteractor implements IClothesInteractor {
     private final Scheduler mainThread;
 
     private MutableLiveData<ClotheInfo> clotheInfoMutableLiveData = new MutableLiveData<>();
-
     private LinkedList<ClotheInfo> clotheInfoList;
     private PreviousClotheInfoList previousItemInfoList = new PreviousClotheInfoList();
+    private MutableLiveData<Boolean> isNeedShowSizeDialogForTop = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isNeedShowSizeDialogForBottom = new MutableLiveData<>();
 
     @Inject
     ClothesInteractor(IClothesRepository clothesRepository,
@@ -149,5 +150,31 @@ public class ClothesInteractor implements IClothesInteractor {
     @Override
     public Single<Boolean> isFiltersChecked() {
         return clothesRepository.isFiltersChecked();
+    }
+
+    @Override
+    public LiveData<Boolean> getIsNeedShowSizeDialogForTop() {
+        boolean flag = clothesRepository.getIsNeedShowSizeDialogTop();
+        isNeedShowSizeDialogForTop.setValue(flag);
+        return isNeedShowSizeDialogForTop;
+    }
+
+    @Override
+    public void setIsNeedShowSizeDialogForTop(Boolean flag){
+        isNeedShowSizeDialogForTop.setValue(flag);
+        clothesRepository.setIsNeedShowSizeDialogTop(flag);
+    }
+
+    @Override
+    public LiveData<Boolean> getIsNeedShowSizeDialogForBottom() {
+        boolean flag = clothesRepository.getIsNeedShowSizeDialogBottom();
+        isNeedShowSizeDialogForBottom.setValue(flag);
+        return isNeedShowSizeDialogForBottom;
+    }
+
+    @Override
+    public void setIsNeedShowSizeDialogForBottom(Boolean flag){
+        isNeedShowSizeDialogForBottom.setValue(flag);
+        clothesRepository.setIsNeedShowSizeDialogBottom(flag);
     }
 }

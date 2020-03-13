@@ -63,4 +63,8 @@ public class FavouritesViewModel extends BaseViewModel {
     public void goToRateItems() {
         navigation.goToRateItems();
     }
+
+    void updateList() {
+        favouritesInteractor.updateList();
+    }
 }

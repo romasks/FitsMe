@@ -10,4 +10,12 @@ public interface ISettingsStorage {
     ClotheSizeType getBottomSizeType();
 
     void setBottomSizeType(ClotheSizeType clotheSizeType);
+
+    Boolean getIsNeedShowSizeDialogForRateItemsTop();
+
+    void setIsNeedShowSizeDialogForRateItemsTop(Boolean flag);
+
+    Boolean getIsNeedShowSizeDialogForRateItemsBottom();
+
+    void setIsNeedShowSizeDialogForRateItemsBottom(Boolean flag);
 }

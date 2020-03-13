@@ -375,6 +375,26 @@ public class ClothesRepository implements IClothesRepository {
         });
     }
 
+    @Override
+    public Boolean getIsNeedShowSizeDialogTop() {
+        return storage.getIsNeedShowSizeDialogForRateItemsTop();
+    }
+
+    @Override
+    public void setIsNeedShowSizeDialogTop(Boolean flag) {
+        storage.setIsNeedShowSizeDialogForRateItemsTop(flag);
+    }
+
+    @Override
+    public Boolean getIsNeedShowSizeDialogBottom() {
+        return storage.getIsNeedShowSizeDialogForRateItemsBottom();
+    }
+
+    @Override
+    public void setIsNeedShowSizeDialogBottom(Boolean flag) {
+        storage.setIsNeedShowSizeDialogForRateItemsBottom(flag);
+    }
+
     private void resetColorFilters() {
         ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
         colorsDao.getCheckedColors()

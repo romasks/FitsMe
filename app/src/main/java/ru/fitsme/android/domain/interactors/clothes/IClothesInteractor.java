@@ -36,4 +36,12 @@ public interface IClothesInteractor extends BaseInteractor {
     void resetCheckedFilters();
 
     Single<Boolean> isFiltersChecked();
+
+    LiveData<Boolean> getIsNeedShowSizeDialogForTop();
+
+    void setIsNeedShowSizeDialogForTop(Boolean flag);
+
+    LiveData<Boolean> getIsNeedShowSizeDialogForBottom();
+
+    void setIsNeedShowSizeDialogForBottom(Boolean flag);
 }

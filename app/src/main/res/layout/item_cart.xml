@@ -109,6 +109,23 @@
                 android:textStyle="bold"
                 tools:text="@string/clothe_price_hint" />
 
+            <TextView
+                android:id="@+id/item_cart_no_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_cart_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/padding_16dp"
+                android:layout_toEndOf="@id/item_cart_image"
+                android:paddingBottom="4dp"
+                android:text="@string/item_cart_no_size"
+                android:textColor="@color/colorRed"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                tools:text="@string/item_cart_no_size"
+                tools:visibility="visible"
+                />
+
         </RelativeLayout>
 
         <View

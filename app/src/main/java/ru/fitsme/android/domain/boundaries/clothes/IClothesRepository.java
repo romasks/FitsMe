@@ -54,4 +54,12 @@ public interface IClothesRepository {
     void resetCheckedFilters();
 
     Single<Boolean> isFiltersChecked();
+
+    Boolean getIsNeedShowSizeDialogTop();
+
+    void setIsNeedShowSizeDialogTop(Boolean flag);
+
+    Boolean getIsNeedShowSizeDialogBottom();
+
+    void setIsNeedShowSizeDialogBottom(Boolean flag);
 }

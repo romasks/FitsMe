@@ -27,6 +27,8 @@ import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NoMatchSiz
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.NormalState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetBottomSizeState;
 import ru.fitsme.android.presentation.fragments.favourites.inlistitem.SetTopSizeState;
+import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 import timber.log.Timber;
 
 public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, FavouritesAdapter.FavouritesViewHolder> {
@@ -80,7 +82,9 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     }
 
 
-    public class InListViewHolder extends FavouritesViewHolder {
+    public class InListViewHolder extends FavouritesViewHolder
+    implements TopSizeDialogFragment.TopSizeDialogCallback,
+            BottomSizeDialogFragment.BottomSizeDialogCallback {
         final public ViewDataBinding binding;
         final ImageView rightDeleteIcon;
         final ImageView leftDeleteIcon;
@@ -91,7 +95,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         final public TextView name;
         final public TextView price;
         final public Button button;
-        InListItemState state;
+        private InListItemState state;
         private FavouritesItem favouritesItem;
 
         InListViewHolder(ViewDataBinding binding) {
@@ -155,6 +159,26 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
         public FavouritesItem getFavouritesItem() {
             return favouritesItem;
+        }
+
+        @Override
+        public void onBottomOkButtonClick() {
+            viewModel.updateList();
+        }
+
+        @Override
+        public void onBottomCancelButtonClick() {
+
+        }
+
+        @Override
+        public void onTopOkButtonClick() {
+            viewModel.updateList();
+        }
+
+        @Override
+        public void onTopCancelButtonClick() {
+
         }
     }
 

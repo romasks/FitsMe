@@ -201,5 +201,6 @@
     <string name="profile_top">Верх</string>
     <string name="profile_bottom">Низ</string>
     <string name="profile_message_to_user_error">Ошибка сохранения размеров</string>
+    <string name="item_cart_no_size">Размера нет в наличии</string>
 
 </resources>
