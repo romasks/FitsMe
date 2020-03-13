@@ -21,10 +21,6 @@ import ru.fitsme.android.presentation.fragments.auth.CodeFragment;
 import ru.fitsme.android.presentation.fragments.auth.NumberFragment;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
-import ru.fitsme.android.presentation.fragments.main.MainNavigation;
-import ru.fitsme.android.presentation.fragments.signinup.view.SignInFragment;
-import ru.fitsme.android.presentation.fragments.signinup.view.SignInUpFragment;
-import ru.fitsme.android.presentation.fragments.signinup.view.SignUpFragment;
 import ru.fitsme.android.presentation.fragments.splash.SplashFragment;
 import ru.fitsme.android.presentation.main.AuthNavigation;
 import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
@@ -103,12 +99,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Fragment createFragment(String screenKey, Object data) {
                 switch (screenKey) {
-                    case NAV_SIGN_IN_UP:
-                        return SignInUpFragment.newInstance();
-                    case NAV_SIGN_UP:
-                        return SignUpFragment.newInstance();
-                    case NAV_SIGN_IN:
-                        return SignInFragment.newInstance();
                     case NAV_MAIN_ITEM:
                         return MainFragment.newInstance();
                     case NAV_SPLASH:

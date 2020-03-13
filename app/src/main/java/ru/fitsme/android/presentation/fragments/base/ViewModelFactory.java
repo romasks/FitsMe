@@ -30,9 +30,6 @@ import ru.fitsme.android.presentation.fragments.returns.processing.one.HowToRetu
 import ru.fitsme.android.presentation.fragments.returns.processing.six.VerifyDataReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.three.ChooseItemReturnViewModel;
 import ru.fitsme.android.presentation.fragments.returns.processing.two.ChooseOrderReturnViewModel;
-import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInUpViewModel;
-import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignInViewModel;
-import ru.fitsme.android.presentation.fragments.signinup.viewmodel.SignUpViewModel;
 import ru.fitsme.android.presentation.fragments.splash.SplashViewModel;
 
 @Singleton
@@ -55,12 +52,6 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new ItemInfoViewModel();
         } else if (modelClass.isAssignableFrom(RateItemsViewModel.class)) {
             return (T) new RateItemsViewModel();
-        } else if (modelClass.isAssignableFrom(SignInViewModel.class)) {
-            return (T) new SignInViewModel();
-        } else if (modelClass.isAssignableFrom(SignInUpViewModel.class)) {
-            return (T) new SignInUpViewModel();
-        } else if (modelClass.isAssignableFrom(SignUpViewModel.class)) {
-            return (T) new SignUpViewModel();
         } else if (modelClass.isAssignableFrom(SplashViewModel.class)) {
             return (T) new SplashViewModel();
         } else if (modelClass.isAssignableFrom(MainProfileViewModel.class)) {
