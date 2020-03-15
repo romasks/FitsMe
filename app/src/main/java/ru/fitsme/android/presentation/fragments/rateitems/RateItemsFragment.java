@@ -194,24 +194,32 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void maybeLikeItem(float alpha) {
-        currentFragment.showYes(true, alpha);
+        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
+            currentFragment.showYes(true, alpha);
+        }
     }
 
     @Override
     public void startToLikeItem() {
-        currentFragment.showYes(true);
-        itemAnimation.moveViewOutOfScreenToRight();
+        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
+            currentFragment.showYes(true);
+            itemAnimation.moveViewOutOfScreenToRight();
+        }
     }
 
     @Override
     public void maybeDislikeItem(float alpha) {
-        currentFragment.showNo(true, alpha);
+        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
+            currentFragment.showNo(true, alpha);
+        }
     }
 
     @Override
     public void startToDislikeItem() {
-        currentFragment.showNo(true);
-        itemAnimation.moveViewOutOfScreenToLeft();
+        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
+            currentFragment.showNo(true);
+            itemAnimation.moveViewOutOfScreenToLeft();
+        }
     }
 
     @Override

@@ -35,6 +35,7 @@ public class ClothesInteractor implements IClothesInteractor {
     private PreviousClotheInfoList previousItemInfoList = new PreviousClotheInfoList();
     private MutableLiveData<Boolean> isNeedShowSizeDialogForTop = new MutableLiveData<>();
     private MutableLiveData<Boolean> isNeedShowSizeDialogForBottom = new MutableLiveData<>();
+    private boolean isLikeRequestInProgress = false;
 
     @Inject
     ClothesInteractor(IClothesRepository clothesRepository,
@@ -81,12 +82,16 @@ public class ClothesInteractor implements IClothesInteractor {
     @SuppressLint("CheckResult")
     @Override
     public void setLikeToClothesItem(ClotheInfo clotheInfo, boolean liked) {
-        clothesRepository.likeItem(clotheInfo, liked)
-                .observeOn(mainThread)
-                .subscribe(callback -> {
-                    setNextClotheInfo();
-                    previousItemInfoList.add(callback);
-                });
+        if (!isLikeRequestInProgress) {
+            isLikeRequestInProgress = true;
+            clothesRepository.likeItem(clotheInfo, liked)
+                    .observeOn(mainThread)
+                    .subscribe(callback -> {
+                        isLikeRequestInProgress = false;
+                        setNextClotheInfo();
+                        previousItemInfoList.add(callback);
+                    });
+        }
     }
 
     @Override

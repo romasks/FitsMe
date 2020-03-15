@@ -79,12 +79,16 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             onError(clotheInfo.getError());
         } else if (clotheInfo.getClothe() instanceof ClothesItem) {
             onClothesItem((ClothesItem) clotheInfo.getClothe());
+            setListeners();
         } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
             onLikedClothesItem();
+            setListeners();
         } else {
             throw new TypeNotPresentException(clotheInfo.getClothe().toString(), null);
         }
+    }
 
+    private void setListeners() {
         binding.itemInfoScrollView.setListener(rateItemTouchListener);
         binding.itemInfoScrollView.setListener(new ItemInfoTouchListener(this));
         setOnBrandNameTouchListener();
@@ -111,6 +115,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     private void onError(UserException error) {
         binding.itemInfoMessage.setText(error.getMessage());
+        binding.itemInfoItemInfoCard.setVisibility(View.INVISIBLE);
     }
 
     private void onClothesItem(ClothesItem clothesItem) {
