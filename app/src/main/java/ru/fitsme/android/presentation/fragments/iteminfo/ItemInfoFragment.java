@@ -31,7 +31,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     IClothesInteractor clothesInteractor;
 
     private static ClotheInfo clotheInfo;
-    private static boolean isDetailState;
     private static int containerHeight;
     private static int containerWidth;
     private FragmentItemInfoBinding binding;
@@ -39,14 +38,13 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     private static RateItemTouchListener rateItemTouchListener;
 
-    public static ItemInfoFragment newInstance(ClotheInfo item, boolean isFullItemInfoState,
+    public static ItemInfoFragment newInstance(ClotheInfo item,
                                                int containerHeight, int containerWidth,
                                                RateItemTouchListener rateItemTouchListener) {
         ItemInfoFragment.rateItemTouchListener = rateItemTouchListener;
         ItemInfoFragment fragment = new ItemInfoFragment();
 
         ItemInfoFragment.clotheInfo = item;
-        ItemInfoFragment.isDetailState = isFullItemInfoState;
         ItemInfoFragment.containerHeight = containerHeight;
         ItemInfoFragment.containerWidth = containerWidth;
         return fragment;
@@ -57,7 +55,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         ItemInfoFragment fragment = new ItemInfoFragment();
 
         ItemInfoFragment.clotheInfo = new ClotheInfo(clothesItem);
-        ItemInfoFragment.isDetailState = true;
         ItemInfoFragment.containerHeight = 0;
         ItemInfoFragment.containerWidth = 0;
         return fragment;
@@ -77,7 +74,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     private void setUp() {
         setMargins();
-        setFullState(isDetailState);
 
         if (clotheInfo.getClothe() == null) {
             onError(clotheInfo.getError());
@@ -213,8 +209,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     private void setSummaryState() {
-        isDetailState = false;
-
         binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
         binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
         binding.ivPhoto.requestLayout();
@@ -234,8 +228,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     private void setDetailState() {
-        isDetailState = true;
-
         binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
         binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
         binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);

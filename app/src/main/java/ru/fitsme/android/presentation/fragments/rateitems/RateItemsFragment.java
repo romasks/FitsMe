@@ -94,6 +94,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private void onChange(ClotheInfo clotheInfo) {
         currentClotheInfo = clotheInfo;
         setClotheInfo(clotheInfo);
+        setFullItemInfoState(false);
     }
 
     private void onFilterIconChange(Boolean isChecked){
@@ -111,7 +112,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         rateItemTouchListener = new RateItemTouchListener(this);
         currentFragment = ItemInfoFragment.newInstance(
                 clotheInfo,
-                isFullItemInfoState,
                 containerHeight, containerWidth,
                 rateItemTouchListener
         );
