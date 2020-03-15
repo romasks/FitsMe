@@ -104,7 +104,6 @@
                 app:layout_constraintTop_toTopOf="@id/fragment_rate_items_filter_btn"
                 app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_filter_btn"
                 android:contentDescription="@null"
-                android:visibility="invisible"
                 tools:visibility="visible"
                 />
 

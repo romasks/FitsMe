@@ -161,6 +161,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         if (b) {
             binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
+            binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.INVISIBLE);
             if (getParentFragment() != null) {
                 ((MainFragment) getParentFragment()).showBottomNavigation(false);
             }
@@ -168,6 +169,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         } else {
             binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
+            boolean filterIsChecked = viewModel.getFilterIconLiveData().getValue();
+            if (filterIsChecked){
+                binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.VISIBLE);
+            }
             if (getParentFragment() != null) {
                 ((MainFragment) getParentFragment()).showBottomNavigation(true);
             }
