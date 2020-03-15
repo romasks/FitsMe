@@ -160,14 +160,13 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_UP:
                         if (binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE) {
                             ItemInfoFragment.this.setDetailState();
                         } else {
                             ItemInfoFragment.this.setSummaryState();
                         }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.performClick();
                         break;
                     default:
                         break;

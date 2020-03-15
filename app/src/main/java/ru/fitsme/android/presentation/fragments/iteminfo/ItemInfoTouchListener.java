@@ -1,8 +1,11 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import timber.log.Timber;
 
 public class ItemInfoTouchListener implements View.OnTouchListener  {
 
@@ -13,7 +16,7 @@ public class ItemInfoTouchListener implements View.OnTouchListener  {
     private int windowWidth;
     private int windowHeight;
     private int screenHorizontalCenter;
-    private int screenVerticalCenter;
+    private int screenVerticalBottomQuarterCenter;
 
     private int downEventX;
     private int downEvenY;
@@ -28,7 +31,7 @@ public class ItemInfoTouchListener implements View.OnTouchListener  {
         windowWidth = displayMetrics.widthPixels;
         windowHeight = displayMetrics.heightPixels;
         screenHorizontalCenter = windowWidth / 2;
-        screenVerticalCenter = windowHeight / 2;
+        screenVerticalBottomQuarterCenter = windowHeight / 4;
     }
 
     @Override
