@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "929078109191",
+    "firebase_url": "https://fitsme-122b9.firebaseio.com",
+    "project_id": "fitsme-122b9",
+    "storage_bucket": "fitsme-122b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929078109191:android:fafce566f00eb73de9f6a2",
+        "android_client_info": {
+          "package_name": "ru.fitsme.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929078109191-aufn3onoifuh1j522nla19s7apqcpbtl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6f6SSRey3cZdtd5sgoHjhB0M50Iyxt_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929078109191-aufn3onoifuh1j522nla19s7apqcpbtl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "929078109191-pccl8hrqris04t51on936ner9atkvaeq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ru.fitsme.ios.beta"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
