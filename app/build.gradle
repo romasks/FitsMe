@@ -9,8 +9,8 @@ android {
         applicationId "ru.fitsme.android"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 37
-        versionName "2.6.13"
+        versionCode 38
+        versionName "2.6.14"
         setProperty("archivesBaseName", "FitsMe-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
