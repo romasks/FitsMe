@@ -43,6 +43,7 @@ ext {
     pagingVersion = '2.1.1'
     glideVersion = '4.11.0'
     roomVersion = '2.2.4'
+
 }
 
 dependencies {
@@ -104,7 +105,7 @@ dependencies {
     testImplementation "com.github.stephanenicolas.toothpick:toothpick-testing:$toothpickVersion"
 
     // Masked text
-    implementation 'com.redmadrobot:inputmask:4.0.0'
+    implementation 'com.redmadrobot:input-mask-android:5.0.0'
     implementation "ru.tinkoff.decoro:decoro:1.1.1"
 
     // Pin Code
@@ -116,6 +117,10 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-rxjava2:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
+
+    // Kotlin
+    implementation "androidx.core:core-ktx:1.2.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // Prefs
     // TODO: added Hawk

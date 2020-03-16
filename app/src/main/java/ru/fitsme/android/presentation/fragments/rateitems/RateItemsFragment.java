@@ -94,6 +94,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private void onChange(ClotheInfo clotheInfo) {
         currentClotheInfo = clotheInfo;
         setClotheInfo(clotheInfo);
+        setFullItemInfoState(false);
     }
 
     private void onFilterIconChange(Boolean isChecked){
@@ -111,7 +112,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         rateItemTouchListener = new RateItemTouchListener(this);
         currentFragment = ItemInfoFragment.newInstance(
                 clotheInfo,
-                isFullItemInfoState,
                 containerHeight, containerWidth,
                 rateItemTouchListener
         );
@@ -161,6 +161,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         if (b) {
             binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
+            binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.INVISIBLE);
             if (getParentFragment() != null) {
                 ((MainFragment) getParentFragment()).showBottomNavigation(false);
             }
@@ -168,6 +169,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         } else {
             binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
+            boolean filterIsChecked = viewModel.getFilterIconLiveData().getValue();
+            if (filterIsChecked){
+                binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.VISIBLE);
+            }
             if (getParentFragment() != null) {
                 ((MainFragment) getParentFragment()).showBottomNavigation(true);
             }
@@ -189,24 +194,32 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void maybeLikeItem(float alpha) {
-        currentFragment.showYes(true, alpha);
+        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
+            currentFragment.showYes(true, alpha);
+        }
     }
 
     @Override
     public void startToLikeItem() {
-        currentFragment.showYes(true);
-        itemAnimation.moveViewOutOfScreenToRight();
+        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
+            currentFragment.showYes(true);
+            itemAnimation.moveViewOutOfScreenToRight();
+        }
     }
 
     @Override
     public void maybeDislikeItem(float alpha) {
-        currentFragment.showNo(true, alpha);
+        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
+            currentFragment.showNo(true, alpha);
+        }
     }
 
     @Override
     public void startToDislikeItem() {
-        currentFragment.showNo(true);
-        itemAnimation.moveViewOutOfScreenToLeft();
+        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
+            currentFragment.showNo(true);
+            itemAnimation.moveViewOutOfScreenToLeft();
+        }
     }
 
     @Override

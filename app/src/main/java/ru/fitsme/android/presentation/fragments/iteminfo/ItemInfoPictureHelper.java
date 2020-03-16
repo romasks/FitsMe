@@ -63,11 +63,21 @@ class ItemInfoPictureHelper {
     }
 
     private void setPicture(int i) {
+        setLoadingInProgress();
         pictureItemList.get(i).subscribe(this);
         setActiveCountIndicatorItem(i);
     }
 
-    public void setNextPicture() {
+    private void setLoadingInProgress() {
+        binding.itemInfoMessage.setText(App.getInstance().getText(R.string.loading));
+
+        binding.itemInfoItemInfoCard.setVisibility(View.INVISIBLE);
+        binding.itemInfoBrandNameCard.setVisibility(View.INVISIBLE);
+
+        binding.ivPhoto.setImageBitmap(null);
+    }
+
+    void setNextPicture() {
         if (currentPictureIndex < pictureItemList.size() - 1) {
             pictureItemList.get(currentPictureIndex).unsubscribe();
             currentPictureIndex++;
@@ -82,7 +92,7 @@ class ItemInfoPictureHelper {
         }
     }
 
-    public void setPreviousPicture() {
+    void setPreviousPicture() {
         if (currentPictureIndex > 0) {
             pictureItemList.get(currentPictureIndex).unsubscribe();
             currentPictureIndex--;

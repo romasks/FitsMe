@@ -80,7 +80,7 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
     private void initPhoneFieldListener(EditText phoneField) {
         final MaskedTextChangedListener phoneListener = new MaskedTextChangedListener(
                 RU_PHONE_MASK, phoneField,
-                (maskFilled, extractedValue) -> isMaskFilled = maskFilled
+                (maskFilled, extractedValue, formattedValue) -> isMaskFilled = maskFilled
         ) {
             @SuppressLint("SetTextI18n")
             @Override
