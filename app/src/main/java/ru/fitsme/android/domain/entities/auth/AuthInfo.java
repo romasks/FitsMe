@@ -11,7 +11,7 @@ public class AuthInfo {
     public AuthInfo(String login, String token) {
         this.login = login;
         this.token = token;
-        if (login == null || token == null){
+        if (login == null || token == null) {
             this.isAuth = false;
         } else {
             this.isAuth = true;

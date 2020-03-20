@@ -10,9 +10,6 @@ import ru.terrakok.cicerone.Router;
 
 @Singleton
 public class AuthNavigation {
-    public static final String NAV_SIGN_IN_UP = "SignInUp";
-    public static final String NAV_SIGN_UP = "SignUp";
-    public static final String NAV_SIGN_IN = "SignIn";
     public static final String NAV_MAIN_ITEM = "MainItem";
     public static final String NAV_SPLASH = "Splash";
     public static final String NAV_AUTH = "Auth";
@@ -45,28 +42,16 @@ public class AuthNavigation {
         getNavigatorHolder().removeNavigator();
     }
 
-    public void goSignInUp() {
-        getRouter().newRootScreen(NAV_SIGN_IN_UP);
-    }
-
-    public void goSignIn() {
-        goNavigate(NAV_SIGN_IN);
-    }
-
-    public void goSignUp() {
-        goNavigate(NAV_SIGN_UP);
-    }
-
     public void goToMainItem() {
         getRouter().newRootScreen(NAV_MAIN_ITEM);
     }
 
-    public void goToSplash(){
+    public void goToSplash() {
         goNavigate(NAV_SPLASH);
     }
 
     public void goToAuth() {
-        goNavigate(NAV_AUTH);
+        getRouter().newRootScreen(NAV_AUTH);
     }
 
     public void goToCodeInput() {

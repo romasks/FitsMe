@@ -11,7 +11,7 @@ import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileVie
 
 public class MainProfileFragment extends BaseFragment<MainProfileViewModel> implements MainProfileBindingEvents {
 
-    FragmentProfileMainBinding binding;
+    private FragmentProfileMainBinding binding;
 
     @Override
     protected int getLayout() {
@@ -64,6 +64,6 @@ public class MainProfileFragment extends BaseFragment<MainProfileViewModel> impl
 
     @Override
     public void onLogoutClick() {
-        viewModel.logout(getActivity());
+        viewModel.logout();
     }
 }

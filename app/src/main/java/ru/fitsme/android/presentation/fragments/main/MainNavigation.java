@@ -10,8 +10,6 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
-import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_IN_UP;
-
 @Singleton
 public class MainNavigation {
 
@@ -86,10 +84,6 @@ public class MainNavigation {
 
     public void removeNavigator() {
         getNavigatorHolder().removeNavigator();
-    }
-
-    public void goSignInUp() {
-        getRouter().newRootScreen(NAV_SIGN_IN_UP);
     }
 
     public void goToRateItems() {

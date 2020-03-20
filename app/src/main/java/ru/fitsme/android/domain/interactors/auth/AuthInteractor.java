@@ -34,4 +34,9 @@ public class AuthInteractor implements IAuthInteractor {
                 .observeOn(mainThread)
                 .cast(AuthInfo.class);
     }
+
+    @Override
+    public void clearAuthInfo() {
+        authRepository.clearAuthInfo();
+    }
 }

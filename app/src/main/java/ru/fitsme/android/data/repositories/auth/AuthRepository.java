@@ -34,6 +34,12 @@ public class AuthRepository implements IAuthRepository {
         updateAppAuthInfo();
     }
 
+    @Override
+    public void clearAuthInfo() {
+        authInfoStorage.clearAuthInfo();
+        updateAppAuthInfo();
+    }
+
     private void updateAppAuthInfo(){
         AuthInfo authInfo = authInfoStorage.getAuthInfo();
         App.getInstance().setAuthInfo(authInfo);
