@@ -10,7 +10,7 @@ import androidx.paging.PagedList;
 import java.util.List;
 
 import io.reactivex.Single;
-import ru.fitsme.android.data.models.OrderModel;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
@@ -33,7 +33,7 @@ public interface IOrdersInteractor extends BaseInteractor {
 
     Single<List<Order>> getReturnOrders();
 
-    Single<Order> makeOrder(OrderModel orderModel);
+    Single<Order> makeOrder(OrderRequest orderModel);
 
     LiveData<Boolean> getCartIsEmpty();
 

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
@@ -82,11 +83,9 @@ public class OrdersActionRepository implements IOrdersActionRepository {
     }
 
     @Override
-    public Single<Order> makeOrder(
-            long orderId, String phoneNumber, String street, String houseNumber,
-            String apartment, OrderStatus orderStatus) {
+    public Single<Order> makeOrder(OrderRequest orderRequest) {
         return Single.create(emitter ->
-                webLoader.makeOrder(orderId, phoneNumber, street, houseNumber, apartment, orderStatus)
+                webLoader.makeOrder(orderRequest)
                         .subscribe(orderOkResponse -> {
                             Order order = orderOkResponse.getResponse();
                             if (order != null) {

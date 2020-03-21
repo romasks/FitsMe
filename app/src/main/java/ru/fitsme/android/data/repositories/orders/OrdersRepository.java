@@ -36,7 +36,7 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, OrderItem> callback) {
         OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.loading));
-        webLoader.getOrdersPage(1)
+        webLoader.getOrdersInCart()
                 .subscribe(ordersPageOkResponse -> {
                     OrdersPage ordersPage = ordersPageOkResponse.getResponse();
                     if (ordersPage != null) {
@@ -70,7 +70,7 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, OrderItem> callback) {
         OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.loading));
-        webLoader.getOrdersPage(params.key)
+        webLoader.getOrdersInCart()
                 .subscribe(ordersPageOkResponse -> {
                     OrdersPage ordersPage = ordersPageOkResponse.getResponse();
                     if (ordersPage != null) {

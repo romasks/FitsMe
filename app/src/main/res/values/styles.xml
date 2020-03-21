@@ -47,4 +47,22 @@
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
     </style>
 
+    <style name="CheckoutFieldStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/delivery_address_field_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:textSize">@dimen/delivery_address_edit_field_text</item>
+    </style>
+
+    <style name="CheckoutTextFieldStyle" parent="CheckoutFieldStyle">
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">12</item>
+    </style>
+
+    <style name="CheckoutNumberFieldStyle" parent="CheckoutFieldStyle">
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">3</item>
+    </style>
+
 </resources>

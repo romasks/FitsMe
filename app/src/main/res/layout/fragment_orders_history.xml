@@ -54,12 +54,13 @@
             android:id="@+id/returns_order_no_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{!viewModel.isLoading &amp;&amp; viewModel.isEmpty ? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:id="@+id/cart_no_item_tv"

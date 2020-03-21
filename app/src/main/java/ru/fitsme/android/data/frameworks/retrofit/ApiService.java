@@ -17,7 +17,7 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.CodeRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.LikedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
-import ru.fitsme.android.data.frameworks.retrofit.entities.OrderUpdate;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
@@ -104,7 +104,7 @@ public interface ApiService {
     @PUT("orders/{id}/")
     Single<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
                                               @Path("id") long orderId,
-                                              @Body OrderUpdate order);
+                                              @Body OrderRequest order);
 
     @GET("profile/")
     Single<OkResponse<Profile>> getProfile(@Header("Authorization") String token);

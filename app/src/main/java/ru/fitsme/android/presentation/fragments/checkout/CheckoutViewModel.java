@@ -1,13 +1,15 @@
 package ru.fitsme.android.presentation.fragments.checkout;
 
-import org.jetbrains.annotations.NotNull;
-
-import javax.inject.Inject;
-
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import org.jetbrains.annotations.NotNull;
+
+import javax.inject.Inject;
+
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
@@ -20,7 +22,6 @@ public class CheckoutViewModel extends BaseViewModel {
     @Inject
     IOrdersInteractor ordersInteractor;
 
-    private MutableLiveData<Order> orderLiveData;
     private MutableLiveData<Boolean> successMakeOrderLiveData;
 
     public ObservableBoolean isLoading;
@@ -30,22 +31,26 @@ public class CheckoutViewModel extends BaseViewModel {
         inject(this);
     }
 
-    LiveData<Order> getOrderLiveData() {
-        return orderLiveData;
-    }
-
     LiveData<Boolean> getSuccessMakeOrderLiveData() {
         return successMakeOrderLiveData;
     }
 
+    void onClickMakeOrder() {
+        addDisposable(ordersInteractor.makeOrder(new OrderRequest(orderModel.get()))
+                .subscribe(this::onMakeOrder, Timber::e));
+    }
+
     @Override
     protected void init() {
-        orderLiveData = new MutableLiveData<>();
-        successMakeOrderLiveData = new MutableLiveData<>();
-        successMakeOrderLiveData.setValue(false);
+        successMakeOrderLiveData = new MutableLiveData<>(false);
         isLoading = ordersInteractor.getCheckOutIsLoading();
         orderModel = new ObservableField<>();
         loadOrder();
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.finish();
     }
 
     private void loadOrder() {
@@ -53,14 +58,9 @@ public class CheckoutViewModel extends BaseViewModel {
                 .subscribe(this::onOrder, Timber::e));
     }
 
-    void onClickMakeOrder() {
-        addDisposable(ordersInteractor.makeOrder(orderModel.get())
-                .subscribe(this::onMakeOrder, Timber::e));
-    }
-
     private void onOrder(@NotNull Order order) {
         if (order.getOrderId() != 0) {
-            orderLiveData.setValue(order);
+            orderModel.set(new OrderModel(order));
         }
     }
 
@@ -69,10 +69,5 @@ public class CheckoutViewModel extends BaseViewModel {
             Timber.tag(getClass().getName()).d("SUCCESS");
             successMakeOrderLiveData.setValue(true);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigation.finish();
     }
 }
