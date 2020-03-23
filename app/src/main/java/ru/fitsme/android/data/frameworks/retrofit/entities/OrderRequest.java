@@ -25,22 +25,13 @@ public class OrderRequest {
     @SerializedName("status")
     private OrderStatus status;
 
-    public OrderRequest(long id, String phoneNumber, String street, String houseNumber, String apartment) {
-        this.id = id;
-        this.phoneNumber = phoneNumber.replaceAll("[^\\d]", "");
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.apartment = apartment;
-        this.status = OrderStatus.ISU;
-    }
-
     public OrderRequest(OrderModel orderModel) {
         this.id = orderModel.getOrderId();
         this.phoneNumber = orderModel.getPhoneNumber().replaceAll("[^\\d]", "");
         this.street = orderModel.getStreet();
         this.houseNumber = orderModel.getHouseNumber();
         this.apartment = orderModel.getApartment();
-        this.status = OrderStatus.ISU;
+        this.status = OrderStatus.ACP;
     }
 
     public long getId() {
