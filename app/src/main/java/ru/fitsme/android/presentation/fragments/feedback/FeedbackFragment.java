@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFeedbackBinding;
+import ru.fitsme.android.domain.entities.feedback.FeedbackStatus;
 import ru.fitsme.android.presentation.common.keyboard.KeyboardUtils;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -58,12 +59,22 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
 
     @Override
     protected void setUpObservers() {
-        viewModel.getSuccessSendFeedbackLiveData().observe(getViewLifecycleOwner(), this::onSuccessSendFeedback);
+        viewModel.getFeedbackStatusLiveData().observe(getViewLifecycleOwner(), this::onSuccessSendFeedback);
     }
 
-    private void onSuccessSendFeedback(Boolean successSendFeedback) {
-        if (successSendFeedback) goBack();
-        else Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
+    private void onSuccessSendFeedback(FeedbackStatus feedbackStatus) {
+        switch (feedbackStatus) {
+            case ERROR: {
+                Toast.makeText(getActivity(), "Error send feedback", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case SUCCESS: {
+                Toast.makeText(getActivity(), "Successfully sent", Toast.LENGTH_SHORT).show();
+                goBack();
+                break;
+            }
+            case LOADING:
+        }
     }
 
     @Override

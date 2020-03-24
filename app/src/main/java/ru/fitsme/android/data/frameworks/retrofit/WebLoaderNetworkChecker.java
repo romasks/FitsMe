@@ -35,6 +35,7 @@ import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.feedback.FeedbackResponse;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.entities.profile.Profile;
@@ -165,7 +166,7 @@ public class WebLoaderNetworkChecker extends WebLoader {
     }
 
     @Override
-    public Single<OkResponse<Boolean>> sendFeedback(FeedbackRequest request) {
+    public Single<OkResponse<FeedbackResponse>> sendFeedback(FeedbackRequest request) {
         return checkNetwork(super.sendFeedback(request));
     }
 

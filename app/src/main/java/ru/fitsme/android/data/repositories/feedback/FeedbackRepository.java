@@ -7,6 +7,7 @@ import io.reactivex.Single;
 import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.domain.boundaries.IFeedbackRepository;
+import ru.fitsme.android.domain.entities.feedback.FeedbackResponse;
 
 @Singleton
 public class FeedbackRepository implements IFeedbackRepository {
@@ -19,9 +20,9 @@ public class FeedbackRepository implements IFeedbackRepository {
     }
 
     @Override
-    public Single<Boolean> sendFeedback(String name, String email, String message) {
+    public Single<FeedbackResponse> sendFeedback(FeedbackRequest request) {
         return Single.create(emitter ->
-                webLoader.sendFeedback(new FeedbackRequest(message))
+                webLoader.sendFeedback(request)
                         .subscribe(orderOkResponse -> emitter.onSuccess(orderOkResponse.getResponse()),
                                 emitter::onError));
     }

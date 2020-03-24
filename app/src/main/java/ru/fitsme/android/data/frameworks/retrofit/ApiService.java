@@ -35,6 +35,7 @@ import ru.fitsme.android.domain.entities.auth.TokenResponse;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.feedback.FeedbackResponse;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.entities.profile.Profile;
@@ -130,9 +131,9 @@ public interface ApiService {
     Single<OkResponse<ReturnsOrder>> getReturnById(@Header("Authorization") String token,
                                                    @Path("id") long returnId);
 
-    @POST("feedback")
-    Single<OkResponse<Boolean>> sendFeedback(@Header("Authorization") String token,
-                                             @Body FeedbackRequest request);
+    @POST("feedback/")
+    Single<OkResponse<FeedbackResponse>> sendFeedback(@Header("Authorization") String token,
+                                                      @Body FeedbackRequest request);
 
     @GET("clothes/brands/")
     Single<OkResponse<List<RepoClotheBrand>>> getClotheBrands(@Header("Authorization") String token);
