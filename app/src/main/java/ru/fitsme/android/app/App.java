@@ -2,6 +2,9 @@ package ru.fitsme.android.app;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 import ru.fitsme.android.app.di.DI;
 import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
@@ -25,6 +28,9 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         AppDatabase.create(this);
+
+        FirebaseAnalytics.getInstance(this);
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
 
         Timber.plant(new Timber.DebugTree());
 
