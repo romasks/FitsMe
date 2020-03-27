@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,31 +24,31 @@ public class Order implements Parcelable {
     private int orderId;
 
     @SerializedName("city")
-    private String city;
+    private String city = "";
 
     @SerializedName("street")
-    private String street;
+    private String street = "";
 
     @SerializedName("house_number")
-    private String houseNumber;
+    private String houseNumber = "";
 
     @SerializedName("apartment")
-    private String apartment;
+    private String apartment = "";
 
     @SerializedName("tel")
-    private String phoneNumber;
+    private String phoneNumber = "";
 
     @SerializedName("created")
-    private String orderCreateDate;
+    private String orderCreateDate = "";
 
     @SerializedName("updated")
-    private String orderUpdatedDate;
+    private String orderUpdatedDate = "";
 
     @SerializedName("status")
     private OrderStatus orderStatus;
 
     @SerializedName("orderitems")
-    private List<OrderItem> orderItemList;
+    private List<OrderItem> orderItemList = new ArrayList<>();
 
     @Expose
     private String indicationNumber = "";
@@ -183,6 +186,24 @@ public class Order implements Parcelable {
         result = prime * result + getIndicationNumber().hashCode();
         result = prime * result + getCardNumber().hashCode();
         return result;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Order("
+                + "id=" + getOrderId()
+                + ", city=" + getCity()
+                + ", street=" + getStreet()
+                + ", houseNumber=" + getHouseNumber()
+                + ", apartment=" + getApartment()
+                + ", phoneNumber=" + getPhoneNumber()
+                + ", orderCreateDate=" + getOrderCreateDate()
+                + ", orderUpdatedDate=" + getOrderUpdatedDate()
+                + ", orderStatus=" + getOrderStatus()
+                + ", orderItemList=" + getOrderItemList()
+                + ", indicationNumber=" + getIndicationNumber()
+                + ", cardNumber=" + getCardNumber() + ")";
     }
 
     @Override
