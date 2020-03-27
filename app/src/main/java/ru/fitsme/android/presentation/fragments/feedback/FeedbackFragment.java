@@ -63,13 +63,14 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
     }
 
     private void onSuccessSendFeedback(FeedbackStatus feedbackStatus) {
+        binding.btnSendFeedback.setEnabled(true);
         switch (feedbackStatus) {
             case ERROR: {
-                Toast.makeText(getActivity(), "Error send feedback", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Ошибка отправки", Toast.LENGTH_SHORT).show();
                 break;
             }
             case SUCCESS: {
-                Toast.makeText(getActivity(), "Successfully sent", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Успешно отправлено", Toast.LENGTH_SHORT).show();
                 goBack();
                 break;
             }
@@ -79,6 +80,7 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
 
     @Override
     public void onClickSendFeedback() {
+        binding.btnSendFeedback.setEnabled(false);
         KeyboardUtils.hide(getActivity(), binding.getRoot());
         binding.nameErrorIcon.setVisibility(View.GONE);
         binding.nameErrorLine.setVisibility(View.GONE);
