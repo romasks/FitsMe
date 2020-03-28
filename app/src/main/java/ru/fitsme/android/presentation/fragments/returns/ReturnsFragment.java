@@ -37,7 +37,7 @@ public class ReturnsFragment extends BaseFragment<ReturnsViewModel> implements R
 
     private void setUp() {
         if (getParentFragment() != null) {
-            ((MainFragment) getParentFragment()).showBottomNavigation(false);
+            ((MainFragment) getParentFragment()).hideBottomNavbar();
         }
     }
 
