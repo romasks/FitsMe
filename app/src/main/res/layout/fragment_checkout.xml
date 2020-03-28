@@ -114,30 +114,18 @@
 
                         <EditText
                             android:id="@+id/address_city"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/delivery_address_field_height"
+                            style="@style/CheckoutTextFieldStyle"
                             android:layout_marginEnd="@dimen/padding_16dp"
-                            android:layout_weight="1"
                             android:hint="@string/checkout_hint_enter_city"
-                            android:inputType="text"
-                            android:lines="1"
-                            android:maxLength="12"
                             android:text="@={viewModel.orderModel.city}"
-                            android:textSize="@dimen/delivery_address_edit_field_text"
                             tools:ignore="Autofill" />
 
                         <EditText
                             android:id="@+id/address_street"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/delivery_address_field_height"
+                            style="@style/CheckoutTextFieldStyle"
                             android:layout_marginStart="@dimen/padding_16dp"
-                            android:layout_weight="1"
                             android:hint="@string/checkout_hint_enter_street"
-                            android:inputType="text"
-                            android:lines="1"
-                            android:maxLength="12"
                             android:text="@={viewModel.orderModel.street}"
-                            android:textSize="@dimen/delivery_address_edit_field_text"
                             tools:ignore="Autofill" />
 
                     </LinearLayout>
@@ -149,30 +137,18 @@
 
                         <EditText
                             android:id="@+id/address_house"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/delivery_address_field_height"
+                            style="@style/CheckoutNumberFieldStyle"
                             android:layout_marginEnd="@dimen/padding_16dp"
-                            android:layout_weight="1"
                             android:hint="@string/checkout_hint_enter_house_number"
-                            android:inputType="number"
-                            android:lines="1"
-                            android:maxLength="3"
                             android:text="@={viewModel.orderModel.houseNumber}"
-                            android:textSize="@dimen/delivery_address_edit_field_text"
                             tools:ignore="Autofill" />
 
                         <EditText
                             android:id="@+id/address_apartment"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/delivery_address_field_height"
+                            style="@style/CheckoutNumberFieldStyle"
                             android:layout_marginStart="@dimen/padding_16dp"
-                            android:layout_weight="1"
                             android:hint="@string/checkout_hint_enter_flat_number"
-                            android:inputType="number"
-                            android:lines="1"
-                            android:maxLength="3"
                             android:text="@={viewModel.orderModel.apartment}"
-                            android:textSize="@dimen/delivery_address_edit_field_text"
                             tools:ignore="Autofill" />
 
                     </LinearLayout>

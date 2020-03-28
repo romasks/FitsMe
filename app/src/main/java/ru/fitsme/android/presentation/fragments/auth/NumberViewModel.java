@@ -14,22 +14,20 @@ public class NumberViewModel extends BaseViewModel {
 
     @Inject
     AuthNavigation authNavigation;
+
     @Inject
     ISignInteractor interactor;
 
     public ObservableField<String> message = new ObservableField<String>();
     private boolean numberSendingInProgress = false;
 
-    public NumberViewModel(){
+    public NumberViewModel() {
         inject(this);   
     }
     
     @Override
     public void onBackPressed() {
-    }
-
-    public void init() {
-        
+        authNavigation.goBack();
     }
 
     public void sendPhoneNumber(String phoneNumber) {

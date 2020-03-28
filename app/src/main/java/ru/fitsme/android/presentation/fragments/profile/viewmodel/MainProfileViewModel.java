@@ -1,16 +1,20 @@
 package ru.fitsme.android.presentation.fragments.profile.viewmodel;
 
-import android.app.Activity;
-
 import javax.inject.Inject;
 
-import ru.fitsme.android.app.App;
+import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
-import ru.fitsme.android.presentation.main.view.MainActivity;
+import ru.fitsme.android.presentation.main.AuthNavigation;
 
 @SuppressWarnings("Injectable")
 public class MainProfileViewModel extends BaseViewModel {
+
+    @Inject
+    AuthNavigation authNavigation;
+
+    @Inject
+    IAuthInteractor authInteractor;
 
     @Inject
     IProfileInteractor profileInteractor;
@@ -19,13 +23,9 @@ public class MainProfileViewModel extends BaseViewModel {
         inject(this);
     }
 
-    public void init() {
-
-    }
-
-    public void logout(Activity activity) {
-        App.getInstance().getAuthInfo().clearToken();
-        ((MainActivity) activity).logout();
+    public void logout() {
+        authInteractor.clearAuthInfo();
+        authNavigation.goToAuth();
     }
 
     public void goToSizeProfile() {

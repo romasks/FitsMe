@@ -3,6 +3,8 @@ package ru.fitsme.android.data.repositories.orders;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
@@ -20,6 +22,7 @@ public class OrdersDataSourceFactory extends DataSource.Factory<Integer, OrderIt
         this.webLoader = webLoader;
     }
 
+    @NotNull
     @Override
     public DataSource<Integer, OrderItem> create() {
         latestSource = new OrdersRepository(webLoader);
@@ -27,7 +30,7 @@ public class OrdersDataSourceFactory extends DataSource.Factory<Integer, OrderIt
         return latestSource;
     }
 
-    public void invalidate(){
+    public void invalidate() {
         latestSource.invalidate();
     }
 }

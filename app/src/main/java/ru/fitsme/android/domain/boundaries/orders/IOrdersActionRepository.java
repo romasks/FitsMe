@@ -3,6 +3,7 @@ package ru.fitsme.android.domain.boundaries.orders;
 import androidx.annotation.NonNull;
 
 import io.reactivex.Single;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -19,8 +20,7 @@ public interface IOrdersActionRepository {
     @NonNull
     Single<OrdersPage> getReturnsOrders();
 
-    Single<Order> makeOrder(long orderId, String phoneNumber, String street, String houseNumber,
-                            String apartment, OrderStatus orderStatus);
+    Single<Order> makeOrder(OrderRequest orderRequest);
 
     Single<OrderItem> removeItemFromOrder(OrderItem item);
 

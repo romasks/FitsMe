@@ -24,7 +24,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.data.models.OrderModel;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
@@ -60,10 +60,12 @@ public class OrdersInteractor implements IOrdersInteractor {
     private HashSet<Integer> removedClotheIdList = new HashSet<>();
 
     @Inject
-    OrdersInteractor(IOrdersActionRepository ordersActionRepository,
-                     OrdersDataSourceFactory ordersDataSourceFactory,
-                     @Named("work") Scheduler workThread,
-                     @Named("main") Scheduler mainThread) {
+    OrdersInteractor(
+            IOrdersActionRepository ordersActionRepository,
+            OrdersDataSourceFactory ordersDataSourceFactory,
+            @Named("work") Scheduler workThread,
+            @Named("main") Scheduler mainThread
+    ) {
         this.ordersActionRepository = ordersActionRepository;
         this.ordersDataSourceFactory = ordersDataSourceFactory;
         this.workThread = workThread;
@@ -120,8 +122,10 @@ public class OrdersInteractor implements IOrdersInteractor {
         return Single.create(emitter ->
                 ordersActionRepository.getOrdersWithoutStatus()
                         .observeOn(mainThread)
-                        .subscribe(ordersPage -> emitter.onSuccess(ordersPage.getOrdersList()),
-                                emitter::onError));
+                        .subscribe(
+                                ordersPage -> emitter.onSuccess(ordersPage.getOrdersList()),
+                                emitter::onError
+                        ));
     }
 
     @Override
@@ -129,8 +133,10 @@ public class OrdersInteractor implements IOrdersInteractor {
         return Single.create(emitter ->
                 ordersActionRepository.getReturnsOrders()
                         .observeOn(mainThread)
-                        .subscribe(ordersPage -> emitter.onSuccess(ordersPage.getOrdersList()),
-                                emitter::onError));
+                        .subscribe(
+                                ordersPage -> emitter.onSuccess(ordersPage.getOrdersList()),
+                                emitter::onError
+                        ));
     }
 
     @NonNull
@@ -197,15 +203,10 @@ public class OrdersInteractor implements IOrdersInteractor {
 
     @NonNull
     @Override
-    public Single<Order> makeOrder(OrderModel orderModel) {
-        return ordersActionRepository.makeOrder(
-                orderModel.getOrderId(),
-                orderModel.getPhoneNumber().replaceAll("[^\\d]", ""),
-                orderModel.getStreet(),
-                orderModel.getHouseNumber(),
-                orderModel.getApartment(),
-                OrderStatus.ISU)
-                .observeOn(mainThread);
+    public Single<Order> makeOrder(OrderRequest orderRequest) {
+        return ordersActionRepository.makeOrder(orderRequest)
+                .observeOn(mainThread)
+                .doAfterSuccess(order -> ordersDataSourceFactory.invalidate());
     }
 
     @Override

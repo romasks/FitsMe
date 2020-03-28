@@ -30,9 +30,6 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_AUTH;
 import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_CODE_INPUT;
 import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_MAIN_ITEM;
-import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_IN;
-import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_IN_UP;
-import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SIGN_UP;
 import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_SPLASH;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         List<Fragment> list  = getSupportFragmentManager().getFragments();
         BaseFragment fragment;
-        if (list.size() > 1) {
-            fragment = (BaseFragment) list.get(list.size() - 2); //сверху находится какой-то glide support fragment manager, поэтому беру второй
-        } else {
-            fragment = (BaseFragment) list.get(0); // для случая при авторизации
+        try {
+            fragment = (BaseFragment) list.get(list.size() - 1);
+        } catch (ClassCastException ex) {
+            fragment = (BaseFragment) list.get(list.size() - 2);
         }
         fragment.onBackPressed();
     }
@@ -87,10 +84,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         authNavigation.removeNavigator();
-    }
-
-    public void logout() {
-        authNavigation.goSignInUp();
     }
 
     @NonNull

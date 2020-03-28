@@ -6,7 +6,9 @@ import javax.inject.Singleton;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.domain.boundaries.IFeedbackRepository;
+import ru.fitsme.android.domain.entities.feedback.FeedbackResponse;
 
 @Singleton
 public class FeedbackInteractor implements IFeedbackInteractor {
@@ -22,9 +24,9 @@ public class FeedbackInteractor implements IFeedbackInteractor {
     }
 
     @Override
-    public Single<Boolean> sendFeedback(String name, String email, String message) {
+    public Single<FeedbackResponse> sendFeedback(FeedbackRequest request) {
         return Single.create(emitter ->
-                feedbackRepository.sendFeedback(name, email, message)
+                feedbackRepository.sendFeedback(request)
                         .observeOn(mainThread)
                         .subscribe(isSuccess -> emitter.onSuccess(isSuccess),
                                 emitter::onError));

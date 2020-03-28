@@ -1,8 +1,6 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
 import android.graphics.Color;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
@@ -68,11 +66,6 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
             binding.fragmentPhoneAuthCodeEt
                     .setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        getActivity().finish();
     }
 
     @Override

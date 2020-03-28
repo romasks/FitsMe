@@ -16,29 +16,31 @@ import ru.fitsme.android.app.NetworkStatus;
 import ru.fitsme.android.data.frameworks.retrofit.entities.CodeRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.FeedbackRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OkResponse;
+import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.data.repositories.favourites.entity.FavouritesPage;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.data.repositories.returns.entity.ReturnsPage;
 import ru.fitsme.android.domain.entities.auth.AuthInfo;
 import ru.fitsme.android.domain.entities.auth.CodeResponse;
 import ru.fitsme.android.domain.entities.auth.SignInfo;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.domain.entities.auth.TokenRequest;
 import ru.fitsme.android.domain.entities.auth.TokenResponse;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.InternetConnectionException;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.feedback.FeedbackResponse;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
-import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.fitsme.android.utils.OrderStatus;
@@ -104,6 +106,11 @@ public class WebLoaderNetworkChecker extends WebLoader {
     }
 
     @Override
+    public Single<OkResponse<OrdersPage>> getOrdersInCart() {
+        return checkNetwork(super.getOrdersInCart());
+    }
+
+    @Override
     public Single<Response<Void>> removeItemFromOrder(OrderItem item) {
         return checkNetwork(super.removeItemFromOrder(item));
     }
@@ -129,8 +136,8 @@ public class WebLoaderNetworkChecker extends WebLoader {
     }
 
     @Override
-    public Single<OkResponse<Order>> makeOrder(long orderId, String phoneNumber, String street, String houseNumber, String apartment, OrderStatus orderStatus) {
-        return checkNetwork(super.makeOrder(orderId, phoneNumber, street, houseNumber, apartment, orderStatus));
+    public Single<OkResponse<Order>> makeOrder(OrderRequest orderRequest) {
+        return checkNetwork(super.makeOrder(orderRequest));
     }
 
     @Override
@@ -159,7 +166,7 @@ public class WebLoaderNetworkChecker extends WebLoader {
     }
 
     @Override
-    public Single<OkResponse<Boolean>> sendFeedback(FeedbackRequest request) {
+    public Single<OkResponse<FeedbackResponse>> sendFeedback(FeedbackRequest request) {
         return checkNetwork(super.sendFeedback(request));
     }
 

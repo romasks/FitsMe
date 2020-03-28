@@ -34,4 +34,12 @@ public class AuthInfoStorage implements IAuthInfoStorage {
                 .putString(TOKEN_KEY, authInfo.getToken())
                 .apply();
     }
+
+    @Override
+    public void clearAuthInfo() {
+        sharedPreferences.edit()
+            .putString(LOGIN_KEY, null)
+            .putString(TOKEN_KEY, null)
+            .apply();
+    }
 }

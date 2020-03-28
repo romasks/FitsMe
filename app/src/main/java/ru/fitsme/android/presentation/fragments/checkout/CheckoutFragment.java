@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
-import androidx.annotation.Nullable;
 import ru.fitsme.android.R;
-import ru.fitsme.android.data.models.OrderModel;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
-import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.cart.CartFragment;
 import timber.log.Timber;
@@ -40,17 +40,13 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         binding = FragmentCheckoutBinding.bind(view);
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        binding.phoneNumber.setText(App.getInstance().getAuthInfo().getLogin());
         initPhoneFieldListener(binding.phoneNumber);
     }
 
     @Override
     protected void setUpObservers() {
-        viewModel.getOrderLiveData().observe(getViewLifecycleOwner(), this::onLoadOrder);
         viewModel.getSuccessMakeOrderLiveData().observe(getViewLifecycleOwner(), this::onSuccessMakeOrder);
-    }
-
-    private void onLoadOrder(Order order) {
-        viewModel.orderModel.set(new OrderModel(order));
     }
 
     private void onSuccessMakeOrder(Boolean successMakeOrder) {
@@ -71,6 +67,13 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         Timber.tag(getClass().getName()).d("isMaskFilled: %s", isMaskFilled);
         if (!isMaskFilled) {
             Toast.makeText(getContext(), R.string.warning_phone_number_is_not_filled, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (binding.addressCity.getText().toString().isEmpty() ||
+                binding.addressStreet.getText().toString().isEmpty() ||
+                binding.addressHouse.getText().toString().isEmpty() ||
+                binding.addressApartment.getText().toString().isEmpty()) {
+            Toast.makeText(getContext(), R.string.checkout_warning_some_fields_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
         viewModel.onClickMakeOrder();
