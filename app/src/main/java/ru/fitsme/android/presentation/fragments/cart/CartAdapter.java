@@ -39,9 +39,6 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
     private static final int NORMAL_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
 
-    private boolean isTopSizeDialogShown = false;
-    private boolean isBottomSizeDialogShown = false;
-
     CartAdapter(CartViewModel viewModel, CartAdapter.OnItemClickCallback callback) {
         super(OrderItem.DIFF_CALLBACK);
         this.viewModel = viewModel;
@@ -84,9 +81,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
         abstract void bind(int position);
     }
 
-    public class NormalViewHolder extends CartViewHolder
-            implements TopSizeDialogFragment.TopSizeDialogCallback,
-            BottomSizeDialogFragment.BottomSizeDialogCallback  {
+    public class NormalViewHolder extends CartViewHolder {
         public final ViewDataBinding binding;
         final ImageView rightDeleteIcon;
         final ImageView leftDeleteIcon;
@@ -131,11 +126,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
             ClothesItem clothesItem = orderItem.getClothe();
             switch (orderItem.getClothe().getSizeInStock()){
                 case UNDEFINED:{
-                    if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP && !isTopSizeDialogShown){
-                        showTopSizeDialog();
-                    } else if (clothesItem.getClotheType().getType() == ClotheType.Type.BOTTOM && !isBottomSizeDialogShown){
-                        showBottomSizeDialog();
-                    }
+                    setState(new InOrderState(this, callback));
                     break;
                 }
                 case YES:{
@@ -153,49 +144,13 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
             state = inOrderState;
         }
 
-        private void showTopSizeDialog(){
-            isTopSizeDialogShown = true;
-            DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, true);
-            FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
-            dialogFragment.show(fm, "topSizeDf");
-        }
-
-        private void showBottomSizeDialog(){
-            isBottomSizeDialogShown = true;
-            DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, true);
-            FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
-            dialogFragment.show(fm, "bottomSizeDf");
-        }
-
-        @Override
-        public void onBottomOkButtonClick() {
-            isBottomSizeDialogShown = false;
-            viewModel.updateList();
-        }
-
-        @Override
-        public void onBottomCancelButtonClick() {
-
-        }
-
-        @Override
-        public void onTopOkButtonClick() {
-            isTopSizeDialogShown = false;
-            viewModel.updateList();
-        }
-
-        @Override
-        public void onTopCancelButtonClick() {
-
-        }
-
         public OrderItem getOrderItem() {
             return orderItem;
         }
     }
 
 
-    private class RemovedViewHolder extends CartViewHolder {
+    public class RemovedViewHolder extends CartViewHolder {
         final ViewDataBinding binding;
 
         RemovedViewHolder(ViewDataBinding binding) {

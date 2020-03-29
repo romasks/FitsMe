@@ -109,8 +109,9 @@
     <string name="profile_message_to_user_saving">Сохранение</string>
     <string name="profile_message_to_user_saving_complete">Изменения сохранены</string>
     <string name="profile_message_to_user_set_top_size">Установите верхний размер</string>
-    <string name="dialog_fragment_rate_item_set_size_hint">Так вы сможете просматривать только подходящие по размеру вещи</string>
-    <string name="dialog_fragment_rate_item_set_size_hint_updated">Вы сможете добавить вещь в корзину после того, как укажете ваш разиер</string>
+    <string name="favourites_fragment_message_for_size_dialog">Вы сможете добавить вещь в корзину после того, как укажете ваш размер</string>
+    <string name="cart_fragment_message_for_size_dialog">Вещь может быть заказана только после указания ваших размеров</string>
+    <string name="rateitems_fragment_message_for_size_dialog">Так вы сможете просматривать только подходящие вам по размеру вещи</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
 
@@ -203,5 +204,7 @@
     <string name="profile_bottom">Низ</string>
     <string name="profile_message_to_user_error">Ошибка сохранения размеров</string>
     <string name="item_cart_no_size">Размера нет в наличии</string>
+    <string name="no_item_toast">Товара нет в наличии</string>
+
 
 </resources>

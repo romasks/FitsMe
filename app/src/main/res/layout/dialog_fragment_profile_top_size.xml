@@ -37,13 +37,12 @@
             android:id="@+id/dialog_fragment_profile_top_size_hint_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_fragment_rate_item_set_size_hint_updated"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_12sp"
             app:layout_constraintTop_toBottomOf="@id/dialog_fragment_profile_top_size_title_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@string/dialog_fragment_rate_item_set_size_hint_updated"
+            tools:text="@string/favourites_fragment_message_for_size_dialog"
             />
 
         <ScrollView

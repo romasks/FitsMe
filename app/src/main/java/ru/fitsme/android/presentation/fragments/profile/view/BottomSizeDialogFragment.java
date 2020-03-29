@@ -40,19 +40,21 @@ public class BottomSizeDialogFragment extends DialogFragment
     ViewModelFactory viewModelFactory;
     private BottomSizeDialogCallback callback;
     private boolean isObligatory;
+    private String message;
 
-    public BottomSizeDialogFragment(BottomSizeDialogCallback callback, boolean isObligatory) {
+    public BottomSizeDialogFragment(BottomSizeDialogCallback callback, boolean isObligatory, String message) {
         this.callback = callback;
         this.isObligatory = isObligatory;
+        this.message = message;
         App.getInstance().getDi().inject(this);
     }
 
-    public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback) {
-        return newInstance(callback, false);
+    public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback, String message) {
+        return newInstance(callback, false, message);
     }
 
-    public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback, boolean isObligatory) {
-        return new BottomSizeDialogFragment(callback, isObligatory);
+    public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback, boolean isObligatory, String message) {
+        return new BottomSizeDialogFragment(callback, isObligatory, message);
     }
 
     @Nullable
@@ -76,6 +78,7 @@ public class BottomSizeDialogFragment extends DialogFragment
             setCancelable(false);
             binding.dialogFragmentProfileBottomCancelBtn.setEnabled(false);
         }
+        binding.dialogFragmentProfileBottomSizeHintTv.setText(message);
         setSizeCheckers();
     }
 

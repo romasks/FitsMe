@@ -40,19 +40,21 @@ public class TopSizeDialogFragment extends DialogFragment
     ViewModelFactory viewModelFactory;
     private TopSizeDialogCallback callback;
     private boolean isObligatory;
+    private String message;
 
-    public TopSizeDialogFragment(TopSizeDialogCallback callback, boolean isObligatory) {
+    public TopSizeDialogFragment(TopSizeDialogCallback callback, boolean isObligatory, String message) {
         this.callback = callback;
         this.isObligatory = isObligatory;
+        this.message = message;
         App.getInstance().getDi().inject(this);
     }
 
-    public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback) {
-        return newInstance(callback, false);
+    public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback, String message) {
+        return newInstance(callback, false, message);
     }
 
-    public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback, boolean isObligatory) {
-        return new TopSizeDialogFragment(callback, isObligatory);
+    public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback, boolean isObligatory, String message) {
+        return new TopSizeDialogFragment(callback, isObligatory, message);
     }
 
     @Nullable
@@ -76,6 +78,7 @@ public class TopSizeDialogFragment extends DialogFragment
             setCancelable(false);
             binding.dialogFragmentProfileTopCancelBtn.setEnabled(false);
         }
+        binding.dialogFragmentProfileTopSizeHintTv.setText(message);
         setSizeCheckers();
     }
 

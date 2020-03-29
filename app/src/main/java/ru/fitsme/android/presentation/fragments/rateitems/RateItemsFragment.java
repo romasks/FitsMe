@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import androidx.lifecycle.LiveData;
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
@@ -266,12 +267,14 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                 ClotheType type = item.getClotheType();
                 if (sizeIsNotSet){
                     if (type.getType() == ClotheType.Type.TOP && isNeedShowSizeDialogForTop.getValue()){
-                        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this);
+                        String message = App.getInstance().getString(R.string.rateitems_fragment_message_for_size_dialog);
+                        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, message);
                         FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
                         dialogFragment.show(fm, "sizeDf");
                     }
                     if (type.getType() == ClotheType.Type.BOTTOM && isNeedShowSizeDialogForBottom.getValue()){
-                        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this);
+                        String message = App.getInstance().getString(R.string.rateitems_fragment_message_for_size_dialog);
+                        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, message);
                         FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
                         dialogFragment.show(fm, "sizeDf");
                     }

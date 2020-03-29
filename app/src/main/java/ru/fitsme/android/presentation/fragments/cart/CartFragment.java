@@ -2,25 +2,38 @@ package ru.fitsme.android.presentation.fragments.cart;
 
 import android.annotation.SuppressLint;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCartBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheType;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 import timber.log.Timber;
 
 public class CartFragment extends BaseFragment<CartViewModel>
         implements CartBindingEvents,
         CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
-        CartAdapter.OnItemClickCallback {
+        CartAdapter.OnItemClickCallback,
+        TopSizeDialogFragment.TopSizeDialogCallback,
+        BottomSizeDialogFragment.BottomSizeDialogCallback {
 
     private FragmentCartBinding binding;
     private CartAdapter adapter;
+
+    private boolean isTopSizeDialogShown = false;
+    private boolean isBottomSizeDialogShown = false;
 
     public CartFragment() {
         App.getInstance().getDi().inject(this);
@@ -89,7 +102,27 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void onClickGoToCheckout() {
-        viewModel.goToCheckout();
+        boolean canGoToCheckout = true;
+        PagedList<OrderItem> pagedList = adapter.getCurrentList();
+        for (int i = 0; i < pagedList.size(); i++) {
+            if (!viewModel.itemIsRemoved(i)) {
+                ClothesItem clothesItem = pagedList.get(i).getClothe();
+                if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED) {
+                    canGoToCheckout = false;
+                    if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP && !isTopSizeDialogShown) {
+                        showTopSizeDialog();
+                    } else if (clothesItem.getClotheType().getType() == ClotheType.Type.BOTTOM && !isBottomSizeDialogShown) {
+                        showBottomSizeDialog();
+                    }
+                } else if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.NO) {
+                    canGoToCheckout = false;
+                    Toast.makeText(getContext(), R.string.no_item_toast, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        if (canGoToCheckout) {
+            viewModel.goToCheckout();
+        }
     }
 
     @Override
@@ -133,4 +166,45 @@ public class CartFragment extends BaseFragment<CartViewModel>
     public void setDetailView(OrderItem orderItem) {
         viewModel.setDetailView(orderItem);
     }
+
+
+    private void showTopSizeDialog(){
+        isTopSizeDialogShown = true;
+        String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
+        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, true, message);
+        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+        dialogFragment.show(fm, "topSizeDf");
+    }
+
+    private void showBottomSizeDialog(){
+        isBottomSizeDialogShown = true;
+        String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
+        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, true, message);
+        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+        dialogFragment.show(fm, "bottomSizeDf");
+    }
+
+
+    @Override
+    public void onBottomOkButtonClick() {
+        isBottomSizeDialogShown = false;
+        viewModel.updateList();
+    }
+
+    @Override
+    public void onBottomCancelButtonClick() {
+
+    }
+
+    @Override
+    public void onTopOkButtonClick() {
+        isTopSizeDialogShown = false;
+        viewModel.updateList();
+    }
+
+    @Override
+    public void onTopCancelButtonClick() {
+
+    }
+
 }
