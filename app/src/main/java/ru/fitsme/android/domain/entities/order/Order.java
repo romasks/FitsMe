@@ -96,7 +96,7 @@ public class Order implements Parcelable {
     }
 
     public String getIndicationNumber() {
-        return indicationNumber;
+        return indicationNumber == null ? "" : indicationNumber;
     }
 
     public void setIndicationNumber(String indicationNumber) {
@@ -104,7 +104,7 @@ public class Order implements Parcelable {
     }
 
     public String getCardNumber() {
-        return cardNumber;
+        return cardNumber == null ? "" : cardNumber;
     }
 
     public String getHiddenCardNumber() {
