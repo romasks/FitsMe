@@ -14,14 +14,15 @@ import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCheckoutBinding;
+import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.cart.CartFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
 import static ru.fitsme.android.utils.Constants.RU_PHONE_PREFIX;
 
-public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements CheckoutBindingEvents {
+public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements CheckoutBindingEvents, BackClickListener {
 
     private FragmentCheckoutBinding binding;
     private boolean isMaskFilled = false;
@@ -40,7 +41,10 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         binding = FragmentCheckoutBinding.bind(view);
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getString(R.string.screen_title_checkout_order));
         binding.phoneNumber.setText(App.getInstance().getAuthInfo().getLogin());
+        setUp();
         initPhoneFieldListener(binding.phoneNumber);
     }
 
@@ -49,16 +53,11 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         viewModel.getSuccessMakeOrderLiveData().observe(getViewLifecycleOwner(), this::onSuccessMakeOrder);
     }
 
-    private void onSuccessMakeOrder(Boolean successMakeOrder) {
-        if (successMakeOrder) goBack();
-    }
-
     @Override
     public void goBack() {
+        viewModel.onBackPressed();
         if (getParentFragment() != null) {
-            getParentFragment().getChildFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_main_container, CartFragment.newInstance())
-                    .commit();
+            ((MainFragment) getParentFragment()).showBottomNavbar();
         }
     }
 
@@ -79,6 +78,15 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         viewModel.onClickMakeOrder();
     }
 
+    private void setUp() {
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).hideBottomNavbar();
+        }
+    }
+
+    private void onSuccessMakeOrder(Boolean successMakeOrder) {
+        if (successMakeOrder) goBack();
+    }
 
     private void initPhoneFieldListener(EditText phoneField) {
         final MaskedTextChangedListener phoneListener = new MaskedTextChangedListener(
