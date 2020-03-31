@@ -35,6 +35,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     private static int containerWidth;
     private FragmentItemInfoBinding binding;
     private ItemInfoPictureHelper pictureHelper;
+    private static boolean isFullState = false;
 
     private static RateItemTouchListener rateItemTouchListener;
 
@@ -43,7 +44,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
                                                RateItemTouchListener rateItemTouchListener) {
         ItemInfoFragment.rateItemTouchListener = rateItemTouchListener;
         ItemInfoFragment fragment = new ItemInfoFragment();
-
+        isFullState = false;
         ItemInfoFragment.clotheInfo = item;
         ItemInfoFragment.containerHeight = containerHeight;
         ItemInfoFragment.containerWidth = containerWidth;
@@ -53,7 +54,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     public static ItemInfoFragment newInstance(Object object) {
         ClothesItem clothesItem = (ClothesItem) object;
         ItemInfoFragment fragment = new ItemInfoFragment();
-
+        isFullState = true;
         ItemInfoFragment.clotheInfo = new ClotheInfo(clothesItem);
         ItemInfoFragment.containerHeight = 0;
         ItemInfoFragment.containerWidth = 0;
@@ -70,6 +71,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         binding = FragmentItemInfoBinding.bind(view);
         binding.setBindingEvents(this);
         setUp();
+        setFullState(isFullState);
     }
 
     private void setUp() {

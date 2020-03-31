@@ -198,7 +198,9 @@ class ItemInfoPictureHelper {
                     .listener(new RequestListener<Bitmap>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            observer.onPictureFailed();
+                            if (observer != null) {
+                                observer.onPictureFailed();
+                            }
                             return false;
                         }
 

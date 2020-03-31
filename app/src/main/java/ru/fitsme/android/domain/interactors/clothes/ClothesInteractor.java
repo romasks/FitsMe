@@ -53,6 +53,7 @@ public class ClothesInteractor implements IClothesInteractor {
     @SuppressLint("CheckResult")
     @Override
     public void updateClothesList() {
+        isLikeRequestInProgress = false;
         clothesRepository.getClotheList()
                 .observeOn(mainThread)
                 .subscribe(clotheInfoList -> {
@@ -90,7 +91,7 @@ public class ClothesInteractor implements IClothesInteractor {
                         isLikeRequestInProgress = false;
                         setNextClotheInfo();
                         previousItemInfoList.add(callback);
-                    });
+                    }, Timber::e);
         }
     }
 

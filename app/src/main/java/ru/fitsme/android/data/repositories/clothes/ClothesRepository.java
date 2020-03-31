@@ -39,6 +39,7 @@ import ru.fitsme.android.domain.entities.clothes.FilterProductName;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
+import timber.log.Timber;
 
 public class ClothesRepository implements IClothesRepository {
 
@@ -178,7 +179,7 @@ public class ClothesRepository implements IClothesRepository {
                                 setRoomBrandsNotUpdated();
                             });
                 }
-            });
+            }, Timber::e);
     }
 
     private void setRoomBrandsNotUpdated() {
@@ -225,7 +226,7 @@ public class ClothesRepository implements IClothesRepository {
                                     setRoomColorsNotUpdated();
                                 });
                     }
-                });
+                }, Timber::e);
     }
 
     private void setRoomColorsNotUpdated() {
@@ -273,7 +274,7 @@ public class ClothesRepository implements IClothesRepository {
                                     setRoomProductNamesNotUpdated();
                                 });
                     }
-                });
+                }, Timber::e);
     }
 
     private void setRoomProductNamesNotUpdated() {
