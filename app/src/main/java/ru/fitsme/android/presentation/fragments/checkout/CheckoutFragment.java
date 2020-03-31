@@ -1,13 +1,8 @@
 package ru.fitsme.android.presentation.fragments.checkout;
 
-import android.annotation.SuppressLint;
-import android.text.Editable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
@@ -20,7 +15,6 @@ import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 import static ru.fitsme.android.utils.Constants.RU_PHONE_MASK;
-import static ru.fitsme.android.utils.Constants.RU_PHONE_PREFIX;
 
 public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements CheckoutBindingEvents, BackClickListener {
 
@@ -43,9 +37,8 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         binding.setViewModel(viewModel);
         binding.appBar.setBackClickListener(this);
         binding.appBar.setTitle(getString(R.string.screen_title_checkout_order));
-        binding.phoneNumber.setText(App.getInstance().getAuthInfo().getLogin());
         setUp();
-        initPhoneFieldListener(binding.phoneNumber);
+        setListeners();
     }
 
     @Override
@@ -84,47 +77,24 @@ public class CheckoutFragment extends BaseFragment<CheckoutViewModel> implements
         }
     }
 
+    private void setListeners() {
+        initPhoneFieldListener(binding.phoneNumber);
+        binding.phoneNumber.setText(App.getInstance().getAuthInfo().getLogin());
+    }
+
     private void onSuccessMakeOrder(Boolean successMakeOrder) {
         if (successMakeOrder) goBack();
     }
 
     private void initPhoneFieldListener(EditText phoneField) {
-        final MaskedTextChangedListener phoneListener = new MaskedTextChangedListener(
-                RU_PHONE_MASK, phoneField,
-                (maskFilled, extractedValue, formattedValue) -> isMaskFilled = maskFilled
-        ) {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void afterTextChanged(@Nullable Editable edit) {
-                super.afterTextChanged(edit);
-
-                if (edit != null && !edit.toString().startsWith(RU_PHONE_PREFIX + " (")) {
-                    phoneField.setText(RU_PHONE_PREFIX + " (");
-                    phoneField.setSelection(phoneField.getText().length());
+        MaskedTextChangedListener.Companion.installOn(
+                phoneField,
+                RU_PHONE_MASK,
+                (maskFilled, extractedValue, formattedValue) -> {
+                    isMaskFilled = maskFilled;
+                    phoneField.setTextColor(getContext().getResources().getColor(R.color.black));
                 }
-            }
-        };
-
-        phoneField.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                phoneField.addTextChangedListener(phoneListener);
-
-                if (TextUtils.isEmpty(phoneField.getText()))
-                    phoneField.setText(RU_PHONE_PREFIX);
-
-                phoneField.setCursorVisible(false);
-                phoneField.post(() -> {
-                    phoneField.setSelection(phoneField.getText().length());
-                    phoneField.setCursorVisible(true);
-                });
-            } else {
-                phoneField.removeTextChangedListener(phoneListener);
-
-                if (!isMaskFilled)
-                    Toast.makeText(getContext(), R.string.warning_phone_number_is_not_filled, Toast.LENGTH_SHORT).show();
-            }
-        });
-        phoneField.setText(RU_PHONE_PREFIX);
+        );
         phoneField.requestFocus();
     }
 }
