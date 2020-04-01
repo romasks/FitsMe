@@ -6,8 +6,8 @@ import android.view.View;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCartBinding;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -23,7 +23,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
     private CartAdapter adapter;
 
     public CartFragment() {
-        App.getInstance().getDi().inject(this);
+        // App.getInstance().getDi().inject(this);
     }
 
     @Override
@@ -75,8 +75,8 @@ public class CartFragment extends BaseFragment<CartViewModel>
         adapter.submitList(pagedList);
     }
 
-    private void onCartIsEmpty(Boolean b) {
-        if (b) {
+    private void onCartIsEmpty(Boolean isEmpty) {
+        if (isEmpty) {
             binding.cartNoItemGroup.setVisibility(View.VISIBLE);
             binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
             binding.cartProceedToCheckoutShadow.setVisibility(View.GONE);
