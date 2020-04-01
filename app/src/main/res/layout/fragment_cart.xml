@@ -110,7 +110,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cart_proceed_to_checkout_group"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
