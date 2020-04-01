@@ -19,7 +19,6 @@
         android:layout_height="wrap_content">
 
         <TableLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -73,7 +72,7 @@
                     android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
             </TableRow>
 
-            <TableRow android:layout_marginStart="16dp">
+            <!--<TableRow android:layout_marginStart="16dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -121,19 +120,17 @@
                     android:layout_marginEnd="24dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
-            </TableRow>
+            </TableRow>-->
 
             <TableRow>
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
                     android:layout_span="3"
-                    android:background="@color/colorDivideLine"></View>
+                    android:background="@color/colorDivideLine" />
             </TableRow>
 
             <TableRow>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
