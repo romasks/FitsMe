@@ -208,6 +208,9 @@
     <string name="item_info_add_to_cart">Добавить в корзину</string>
     <string name="item_info_remove_from_favourite">Убрать из избранного</string>
     <string name="item_info_remove_from_cart">Убрать из корзины</string>
+    <string name="item_info_in_cart">В корзине</string>
+    <string name="item_info_set_your_size">Укажите ваш размер</string>
+    <string name="item_info_no_match_size">Нет вашего размера</string>
 
 
 </resources>

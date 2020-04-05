@@ -7,27 +7,33 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.VideoView;
 
 import androidx.constraintlayout.widget.Constraints;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
-import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.iteminfo.states.AddToCartState;
+import ru.fitsme.android.presentation.fragments.iteminfo.states.InCartState;
+import ru.fitsme.android.presentation.fragments.iteminfo.states.ItemInfoState;
+import ru.fitsme.android.presentation.fragments.iteminfo.states.NoMatchSize;
+import ru.fitsme.android.presentation.fragments.iteminfo.states.RemoveFromCartState;
+import ru.fitsme.android.presentation.fragments.iteminfo.states.SetSizeState;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
-        implements BindingEventsClickListener, ItemInfoTouchListener.Callback {
+        implements BindingEventsClickListener, ItemInfoTouchListener.Callback, ItemInfoState.StateSettable {
 
     @Inject
     IClothesInteractor clothesInteractor;
@@ -38,6 +44,7 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     private FragmentItemInfoBinding binding;
     private ItemInfoPictureHelper pictureHelper;
     private static boolean isFullState = false;
+    private ItemInfoState itemInfoState;
 
     private static RateItemTouchListener rateItemTouchListener;
 
@@ -90,27 +97,32 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             throw new TypeNotPresentException(clotheInfo.getClothe().toString(), null);
         }
 
-        setButtonsVisibility();
+        setItemInfoState();
     }
 
-    private void setButtonsVisibility() {
-        if (clotheInfo.getState() == ClotheInfo.FAVOURITES_STATE){
-            binding.itemInfoAddToCartBtn.setVisibility(View.VISIBLE);
-            binding.itemInfoRemoveBtn.setVisibility(View.VISIBLE);
-            binding.itemInfoRemoveBtn.setText(R.string.item_info_remove_from_favourite);
-            ClothesItem clothesItem = (ClothesItem) clotheInfo.getClothe();
-            if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED ||
-                clothesItem.getSizeInStock() == ClothesItem.SizeInStock.NO){
-                binding.itemInfoAddToCartBtn.setEnabled(false);
-                binding.itemInfoAddToCartBtn.setAlpha(0.5f);
-            }
-        } else if (clotheInfo.getState() == ClotheInfo.CART_STATE){
-            binding.itemInfoAddToCartBtn.setVisibility(View.GONE);
-            binding.itemInfoRemoveBtn.setVisibility(View.VISIBLE);
-            binding.itemInfoRemoveBtn.setText(R.string.item_info_remove_from_cart);
+    private void setItemInfoState() {
+        ClothesItem clothesItem;
+        if (clotheInfo.getClothe() instanceof ClothesItem) {
+            clothesItem = (ClothesItem) clotheInfo.getClothe();
+        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
+            LikedClothesItem likedItem = (LikedClothesItem) clotheInfo.getClothe();
+            clothesItem = likedItem.getClothe();
         } else {
-            binding.itemInfoAddToCartBtn.setVisibility(View.GONE);
-            binding.itemInfoRemoveBtn.setVisibility(View.GONE);
+            throw new IllegalArgumentException("Inappropriate ClotheInfo");
+        }
+
+        if (clotheInfo.getState() == ClotheInfo.CART_STATE){
+            setState(new RemoveFromCartState(clotheInfo, this, binding));
+        } else if (clotheInfo.getState() == ClotheInfo.FAVOURITES_IN_CART_STATE){
+            setState(new InCartState(clotheInfo, this, binding));
+        } else if (clotheInfo.getState() == ClotheInfo.FAVOURITES_NOT_IN_CART_STATE){
+            if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.YES){
+                setState(new AddToCartState(clotheInfo, this, binding));
+            } else if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.NO){
+                setState(new NoMatchSize(clotheInfo, this, binding));
+            } else if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED){
+                setState(new SetSizeState(clotheInfo, this, binding));
+            }
         }
     }
 
@@ -182,31 +194,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
 
     @Override
     public void onClickAdd() {
-        ClothesItem item;
-        if (clotheInfo.getClothe() instanceof ClothesItem) {
-            item = (ClothesItem) clotheInfo.getClothe();
-        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
-            LikedClothesItem likedItem = (LikedClothesItem) clotheInfo.getClothe();
-            item = likedItem.getClothe();
-        } else {
-            throw new IllegalArgumentException("Inappropriate ClotheInfo");
-        }
-        clotheInfo.getCallback().add(item);
+        itemInfoState.onClickAdd();
     }
 
     @Override
     public void onClickRemove() {
-        ClothesItem item;
-        if (clotheInfo.getClothe() instanceof ClothesItem) {
-            item = (ClothesItem) clotheInfo.getClothe();
-        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
-            LikedClothesItem likedItem = (LikedClothesItem) clotheInfo.getClothe();
-            item = likedItem.getClothe();
-        } else {
-            throw new IllegalArgumentException("Inappropriate ClotheInfo");
-        }
-        clotheInfo.getCallback().remove(item);
-        onBackPressed();
+        itemInfoState.onClickRemove();
     }
 
     private void setOnBrandNameTouchListener() {
@@ -325,9 +318,19 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         viewModel.onBackPressed();
     }
 
+    @Override
+    public void setState(ItemInfoState state) {
+        itemInfoState = state;
+    }
+
+    @Override
+    public void finish() {
+        onBackPressed();
+    }
+
 
     public interface Callback {
-        void add(ClothesItem clothesItem);
+        Single<OrderItem> add(ClothesItem clothesItem);
         void remove(ClothesItem clothesItem);
     }
 }

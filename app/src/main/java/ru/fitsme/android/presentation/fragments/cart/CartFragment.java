@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCartBinding;
@@ -215,8 +217,9 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
 
     @Override
-    public void add(ClothesItem clothesItem) {
+    public Single<OrderItem> add(ClothesItem clothesItem) {
         // В корзине кнопка add не задействована
+        return Single.just(new OrderItem());
     }
 
     @Override
