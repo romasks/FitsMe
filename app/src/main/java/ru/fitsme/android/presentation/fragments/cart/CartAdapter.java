@@ -76,6 +76,18 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
         }
     }
 
+    boolean hasNoSizeItems() {
+        for (int i = 0; i < getItemCount(); i++) {
+            if (getItem(i).getClothe().getSizeInStock() == ClothesItem.SizeInStock.NO)
+                return true;
+        }
+        return false;
+    }
+
+    public void removeNoSizeItems() {
+        // TODO: remove no size items
+    }
+
     abstract class CartViewHolder extends RecyclerView.ViewHolder {
         CartViewHolder(@NonNull View itemView) {
             super(itemView);

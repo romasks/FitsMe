@@ -35,7 +35,7 @@ public class CheckoutViewModel extends BaseViewModel {
         return successMakeOrderLiveData;
     }
 
-    void onClickMakeOrder() {
+    public void onClickMakeOrder() {
         addDisposable(ordersInteractor.makeOrder(new OrderRequest(orderModel.get()))
                 .subscribe(this::onMakeOrder, Timber::e));
     }

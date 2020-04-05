@@ -52,5 +52,5 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
     public void onBackPressed() {
         navigation.goBack();
-    };
+    }
 }

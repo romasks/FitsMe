@@ -12,6 +12,7 @@ import ru.fitsme.android.databinding.FragmentCheckoutBinding
 import ru.fitsme.android.presentation.common.extensions.isEmpty
 import ru.fitsme.android.presentation.common.listener.BackClickListener
 import ru.fitsme.android.presentation.fragments.base.BaseFragment
+import ru.fitsme.android.presentation.fragments.cart.buttonstate.ButtonState
 import ru.fitsme.android.presentation.fragments.main.MainFragment
 import ru.fitsme.android.utils.Constants.RU_PHONE_MASK
 import timber.log.Timber
@@ -20,6 +21,7 @@ class CheckoutFragment : BaseFragment<CheckoutViewModel>(), CheckoutBindingEvent
 
     private lateinit var binding: FragmentCheckoutBinding
     private var isMaskFilled = false
+    private val state: ButtonState? = null
 
     companion object {
         @JvmStatic
