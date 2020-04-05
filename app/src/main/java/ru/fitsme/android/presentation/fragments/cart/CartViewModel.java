@@ -1,17 +1,20 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
-import javax.inject.Inject;
-
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
+
+import javax.inject.Inject;
+
 import io.reactivex.Single;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
-public class CartViewModel extends BaseViewModel {
+public class CartViewModel extends BaseViewModel{
 
     @Inject
     IOrdersInteractor ordersInteractor;
@@ -53,8 +56,8 @@ public class CartViewModel extends BaseViewModel {
         navigation.finish();
     }
 
-    public void setDetailView(OrderItem orderItem) {
-        navigation.goToDetailItemInfo(orderItem.getClothe());
+    public void setDetailView(ClotheInfo clotheInfo) {
+        navigation.goToDetailItemInfo(clotheInfo);
     }
 
     public void goToCheckout() {

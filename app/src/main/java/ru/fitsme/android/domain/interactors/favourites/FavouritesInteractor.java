@@ -114,6 +114,7 @@ public class FavouritesInteractor implements IFavouritesInteractor {
             FavouritesItem item = pagedList.get(position);
             if (item != null) {
                 return favouritesActionRepository.removeItem(item)
+                        .observeOn(mainThread)
                         .map(removedItem -> {
                             removedFavouriteItemsIdList.add(removedItem.getId());
                             return removedItem;

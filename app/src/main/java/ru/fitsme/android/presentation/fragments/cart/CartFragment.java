@@ -17,6 +17,8 @@ import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
+import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
@@ -27,7 +29,8 @@ public class CartFragment extends BaseFragment<CartViewModel>
         CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
         CartAdapter.OnItemClickCallback,
         TopSizeDialogFragment.TopSizeDialogCallback,
-        BottomSizeDialogFragment.BottomSizeDialogCallback {
+        BottomSizeDialogFragment.BottomSizeDialogCallback,
+        ItemInfoFragment.Callback {
 
     private FragmentCartBinding binding;
     private CartAdapter adapter;
@@ -164,7 +167,10 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void setDetailView(OrderItem orderItem) {
-        viewModel.setDetailView(orderItem);
+        ClothesItem clothesItem = orderItem.getClothe();
+        ClotheInfo clotheInfo = new ClotheInfo<ClothesItem>(clothesItem, ClotheInfo.CART_STATE);
+        clotheInfo.setCallback(this);
+        viewModel.setDetailView(clotheInfo);
     }
 
 
@@ -207,4 +213,28 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     }
 
+
+    @Override
+    public void add(ClothesItem clothesItem) {
+        // В корзине кнопка add не задействована
+    }
+
+    @Override
+    public void remove(ClothesItem clothesItem) {
+        PagedList<OrderItem> pagedList = adapter.getCurrentList();
+        if (pagedList != null) {
+            for (int i = 0; i < pagedList.size(); i++) {
+                final int j = i;
+                OrderItem orderItem = pagedList.get(i);
+                if (orderItem != null && clothesItem.getId() == orderItem.getClothe().getId()) {
+                    viewModel.removeItemFromOrder(j)
+                            .subscribe(removedItem -> {
+                                if (removedItem.getId() != 0) {
+//                                    adapter.notifyItemChanged(j);
+                                }
+                            }, Timber::e);
+                }
+            }
+        }
+    }
 }

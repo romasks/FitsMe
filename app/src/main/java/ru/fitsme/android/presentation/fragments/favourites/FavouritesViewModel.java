@@ -1,17 +1,20 @@
 package ru.fitsme.android.presentation.fragments.favourites;
 
-import javax.inject.Inject;
-
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 import androidx.paging.PagedList;
+
+import javax.inject.Inject;
+
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
-public class FavouritesViewModel extends BaseViewModel {
+public class FavouritesViewModel extends BaseViewModel{
 
     @Inject
     IFavouritesInteractor favouritesInteractor;
@@ -56,8 +59,8 @@ public class FavouritesViewModel extends BaseViewModel {
         navigation.finish();
     }
 
-    public void setDetailView(FavouritesItem favouritesItem) {
-        navigation.goToDetailItemInfo(favouritesItem.getItem());
+    public void setDetailView(ClotheInfo clotheInfo) {
+        navigation.goToDetailItemInfo(clotheInfo);
     }
 
     public void goToRateItems() {

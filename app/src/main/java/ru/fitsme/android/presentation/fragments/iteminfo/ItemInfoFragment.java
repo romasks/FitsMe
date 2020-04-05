@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.VideoView;
 
 import androidx.constraintlayout.widget.Constraints;
 
@@ -18,6 +19,7 @@ import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
+import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
@@ -52,10 +54,9 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     public static ItemInfoFragment newInstance(Object object) {
-        ClothesItem clothesItem = (ClothesItem) object;
         ItemInfoFragment fragment = new ItemInfoFragment();
         isFullState = true;
-        ItemInfoFragment.clotheInfo = new ClotheInfo(clothesItem);
+        ItemInfoFragment.clotheInfo = (ClotheInfo) object;
         ItemInfoFragment.containerHeight = 0;
         ItemInfoFragment.containerWidth = 0;
         return fragment;
@@ -87,6 +88,29 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             setListeners();
         } else {
             throw new TypeNotPresentException(clotheInfo.getClothe().toString(), null);
+        }
+
+        setButtonsVisibility();
+    }
+
+    private void setButtonsVisibility() {
+        if (clotheInfo.getState() == ClotheInfo.FAVOURITES_STATE){
+            binding.itemInfoAddToCartBtn.setVisibility(View.VISIBLE);
+            binding.itemInfoRemoveBtn.setVisibility(View.VISIBLE);
+            binding.itemInfoRemoveBtn.setText(R.string.item_info_remove_from_favourite);
+            ClothesItem clothesItem = (ClothesItem) clotheInfo.getClothe();
+            if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED ||
+                clothesItem.getSizeInStock() == ClothesItem.SizeInStock.NO){
+                binding.itemInfoAddToCartBtn.setEnabled(false);
+                binding.itemInfoAddToCartBtn.setAlpha(0.5f);
+            }
+        } else if (clotheInfo.getState() == ClotheInfo.CART_STATE){
+            binding.itemInfoAddToCartBtn.setVisibility(View.GONE);
+            binding.itemInfoRemoveBtn.setVisibility(View.VISIBLE);
+            binding.itemInfoRemoveBtn.setText(R.string.item_info_remove_from_cart);
+        } else {
+            binding.itemInfoAddToCartBtn.setVisibility(View.GONE);
+            binding.itemInfoRemoveBtn.setVisibility(View.GONE);
         }
     }
 
@@ -154,6 +178,35 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     @Override
     public void onClickBrandName() {
 
+    }
+
+    @Override
+    public void onClickAdd() {
+        ClothesItem item;
+        if (clotheInfo.getClothe() instanceof ClothesItem) {
+            item = (ClothesItem) clotheInfo.getClothe();
+        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
+            LikedClothesItem likedItem = (LikedClothesItem) clotheInfo.getClothe();
+            item = likedItem.getClothe();
+        } else {
+            throw new IllegalArgumentException("Inappropriate ClotheInfo");
+        }
+        clotheInfo.getCallback().add(item);
+    }
+
+    @Override
+    public void onClickRemove() {
+        ClothesItem item;
+        if (clotheInfo.getClothe() instanceof ClothesItem) {
+            item = (ClothesItem) clotheInfo.getClothe();
+        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
+            LikedClothesItem likedItem = (LikedClothesItem) clotheInfo.getClothe();
+            item = likedItem.getClothe();
+        } else {
+            throw new IllegalArgumentException("Inappropriate ClotheInfo");
+        }
+        clotheInfo.getCallback().remove(item);
+        onBackPressed();
     }
 
     private void setOnBrandNameTouchListener() {
@@ -270,5 +323,11 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     @Override
     public void onBackPressed() {
         viewModel.onBackPressed();
+    }
+
+
+    public interface Callback {
+        void add(ClothesItem clothesItem);
+        void remove(ClothesItem clothesItem);
     }
 }

@@ -21,7 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:padding="@dimen/item_info_card_padding">
+            android:paddingTop="@dimen/item_info_card_padding"
+            android:paddingStart="@dimen/item_info_card_padding"
+            android:paddingEnd="@dimen/item_info_card_padding"
+            android:paddingBottom="56dp"
+            >
 
             <TextView
                 android:id="@+id/item_info_message"
@@ -235,6 +239,50 @@
                 </TableRow>
 
             </TableLayout>
+
+<!--            <androidx.constraintlayout.widget.Group-->
+<!--                android:id="@+id/item_info_favourite_group"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:constraint_referenced_ids="item_info_favourite_group_add_to_cart_btn, item_info_favourite_group_remove_from_favourite_btn"-->
+<!--                tools:visibility="visible"-->
+<!--                />-->
+
+            <Button
+                android:id="@+id/item_info_add_to_cart_btn"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/item_info_add_to_cart"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_rounded_corners_primary_dark_btn"
+                android:onClick="@{() -> bindingEvents.onClickAdd()}"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintTop_toBottomOf="@+id/item_info_item_description_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="gone"
+                />
+
+            <Button
+                android:id="@+id/item_info_remove_btn"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_rounded_corners_grey_btn"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/text_size_16sp"
+                android:onClick="@{() -> bindingEvents.onClickRemove()}"
+                app:layout_constraintTop_toBottomOf="@+id/item_info_add_to_cart_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@string/item_info_remove_from_favourite"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
