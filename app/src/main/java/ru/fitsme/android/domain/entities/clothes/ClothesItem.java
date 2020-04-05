@@ -67,14 +67,14 @@ public class ClothesItem implements Parcelable {
     }
 
     public SizeInStock getSizeInStock() {
-        switch (size_in_stock){
-            case "UNDEFINED":{
+        switch (size_in_stock) {
+            case "UNDEFINED": {
                 return SizeInStock.UNDEFINED;
             }
-            case "NO":{
+            case "NO": {
                 return SizeInStock.NO;
             }
-            case "YES":{
+            case "YES": {
                 return SizeInStock.YES;
             }
             default: {

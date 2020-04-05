@@ -70,10 +70,9 @@
                         android:padding="@dimen/margin_8dp"
                         app:layout_constraintEnd_toEndOf="@id/iv_photo"
                         app:layout_constraintStart_toStartOf="@id/iv_photo"
-                        app:layout_constraintTop_toTopOf="@id/iv_photo"></LinearLayout>
+                        app:layout_constraintTop_toTopOf="@id/iv_photo" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <ImageView
                     android:id="@+id/rate_items_no"

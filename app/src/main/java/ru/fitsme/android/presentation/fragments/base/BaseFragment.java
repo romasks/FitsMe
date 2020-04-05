@@ -5,15 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.reflect.ParameterizedType;
-
-import javax.inject.Inject;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import java.lang.reflect.ParameterizedType;
+
+import javax.inject.Inject;
+
 import ru.fitsme.android.app.App;
 
 public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {

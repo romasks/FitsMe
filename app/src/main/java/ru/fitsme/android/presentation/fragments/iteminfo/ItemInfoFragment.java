@@ -265,9 +265,4 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     public void previousPicture() {
         pictureHelper.setPreviousPicture();
     }
-
-    @Override
-    public void onBackPressed() {
-        viewModel.onBackPressed();
-    }
 }
