@@ -7,6 +7,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
@@ -83,7 +84,6 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     @Override
     public void onClickGoToRateItems() {
-//        viewModel.goToRateItems();
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToRateItems();
         }
