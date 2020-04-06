@@ -110,7 +110,7 @@
     <string name="profile_message_to_user_saving_complete">Изменения сохранены</string>
     <string name="profile_message_to_user_set_top_size">Установите верхний размер</string>
     <string name="dialog_fragment_rate_item_set_size_hint">Так вы сможете просматривать только подходящие по размеру вещи</string>
-    <string name="dialog_fragment_rate_item_set_size_hint_updated">Вы сможете добавить вещь в корзину после того, как укажете ваш разиер</string>
+    <string name="dialog_fragment_rate_item_set_size_hint_updated">Так вы сможете добавить вещь в корзину после того, как укажете ваш разиер</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
 
@@ -124,7 +124,7 @@
     <string name="returns_amount_value">%1$s шт</string>
     <string name="returns_price_title">Сумма:</string>
     <string name="returns_price_value">%1$s руб.</string>
-    <string name="returns_calculation_methos_title">Метод расчёта:</string>
+    <string name="returns_calculation_method_title">Метод расчёта:</string>
     <string name="returns_requisites_title">Реквизиты:</string>
     <string name="returns_days_for_returns_title">Время на возврат:</string>
     <string name="returns_days_for_returns_value">%1$s дней</string>

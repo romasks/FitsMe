@@ -7,13 +7,12 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.LiveData;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.entities.clothes.ClotheType;
@@ -97,8 +96,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         setFullItemInfoState(false);
     }
 
-    private void onFilterIconChange(Boolean isChecked){
-        if (isChecked){
+    private void onFilterIconChange(Boolean isChecked) {
+        if (isChecked) {
             binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.VISIBLE);
         } else {
             binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.INVISIBLE);
@@ -122,7 +121,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         resetContainerView();
     }
 
-
     private int getContainerHeight() {
         int containerHeight;
         if (isFullItemInfoState) {
@@ -133,6 +131,16 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             containerHeight = binding.fragmentRateItemsContainer.getHeight();
         }
         return containerHeight;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isFullItemInfoState) {
+            setClotheInfo(currentClotheInfo);
+            setFullItemInfoState(false);
+        } else {
+            viewModel.onBackPressed();
+        }
     }
 
     @Override
@@ -170,7 +178,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
             binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
             binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
             boolean filterIsChecked = viewModel.getFilterIconLiveData().getValue();
-            if (filterIsChecked){
+            if (filterIsChecked) {
                 binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.VISIBLE);
             }
             if (getParentFragment() != null) {
@@ -257,28 +265,27 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         }
     }
 
-    private void showSizeDialog(){
+    private void showSizeDialog() {
         if (isNeedShowSizeDialogForTop.getValue() != null && isNeedShowSizeDialogForBottom.getValue() != null &&
                 (isNeedShowSizeDialogForTop.getValue() || isNeedShowSizeDialogForBottom.getValue())) {
             if (currentClotheInfo.getClothe() instanceof ClothesItem) {
                 ClothesItem item = (ClothesItem) currentClotheInfo.getClothe();
                 boolean sizeIsNotSet = (item.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED);
                 ClotheType type = item.getClotheType();
-                if (sizeIsNotSet){
-                    if (type.getType() == ClotheType.Type.TOP && isNeedShowSizeDialogForTop.getValue()){
-                        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this);
-                        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
-                        dialogFragment.show(fm, "sizeDf");
+                if (sizeIsNotSet) {
+                    if (type.getType() == ClotheType.Type.TOP && isNeedShowSizeDialogForTop.getValue()) {
+                        TopSizeDialogFragment.newInstance(this).show(fragmentManager(), "sizeDf");
                     }
-                    if (type.getType() == ClotheType.Type.BOTTOM && isNeedShowSizeDialogForBottom.getValue()){
-                        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this);
-                        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
-                        dialogFragment.show(fm, "sizeDf");
+                    if (type.getType() == ClotheType.Type.BOTTOM && isNeedShowSizeDialogForBottom.getValue()) {
+                        BottomSizeDialogFragment.newInstance(this).show(fragmentManager(), "sizeDf");
                     }
-
                 }
             }
         }
+    }
+
+    private FragmentManager fragmentManager() {
+        return ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
     }
 
     @Override

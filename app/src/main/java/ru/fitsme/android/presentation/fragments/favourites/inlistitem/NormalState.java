@@ -1,8 +1,6 @@
 package ru.fitsme.android.presentation.fragments.favourites.inlistitem;
 
 import android.annotation.SuppressLint;
-import android.view.MotionEvent;
-import android.view.View;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
@@ -30,7 +28,7 @@ public class NormalState extends InListItemState {
         viewModel.addItemToCart(position)
                 .subscribe(orderItem -> {
                     if (orderItem.getId() != 0){
-                        viewHolder.setItemState(new InCartState(viewHolder, callback));
+                        viewHolder.setItemState(new InCartState(viewHolder, callback), position);
                     }
                 }, Timber::e);
     }

@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.main.MainNavigation;
@@ -51,10 +50,6 @@ public class SizeProfileViewModel extends BaseViewModel {
 
     public void init() {
         profileInteractor.updateInfo();
-    }
-
-    public void goBack() {
-        navigation.goToMainProfile();
     }
 
     public LiveData<List<String>> getTopSizeArray() {

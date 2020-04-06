@@ -146,7 +146,7 @@
                     android:layout_below="@id/item_return_price_text"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="@dimen/padding_16dp"
-                    android:text="@string/returns_calculation_methos_title" />
+                    android:text="@string/returns_calculation_method_title" />
 
                 <TextView
                     android:id="@+id/item_return_calculation_method"

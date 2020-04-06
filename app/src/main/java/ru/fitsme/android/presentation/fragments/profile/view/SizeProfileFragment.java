@@ -5,12 +5,13 @@ import android.widget.TableLayout;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentProfileChangeSizeBinding;
+import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
 public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel>
-        implements SizeProfileBindingEvents, SizeObserver.Callback {
+        implements SizeProfileBindingEvents, SizeObserver.Callback, BackClickListener {
 
     private FragmentProfileChangeSizeBinding binding;
     private static final int TOP_TAG = 1;
@@ -34,7 +35,28 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel>
         binding = FragmentProfileChangeSizeBinding.bind(view);
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getString(R.string.fragment_change_size_title));
         setUp();
+    }
+
+    @Override
+    public void goBack() {
+        viewModel.onBackPressed();
+    }
+
+    @Override
+    public void onSizeValueSelected(int tag, int id) {
+        switch (tag) {
+            case TOP_TAG: {
+                viewModel.onTopSizeValueSelected(id);
+                break;
+            }
+            case BOTTOM_TAG: {
+                viewModel.onBottomSizeValueSelected(id);
+                break;
+            }
+        }
     }
 
     private void setUp() {
@@ -48,7 +70,7 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel>
             if (getContext() != null) {
                 TableFiller.fillButtons(getContext(), bottomSizeObserver, list, tableLayout);
             }
-            if (viewModel.getCurrentBottomSizeIndex().get() != -1){
+            if (viewModel.getCurrentBottomSizeIndex().get() != -1) {
                 lastSavedBottomSize = viewModel.getCurrentBottomSizeIndex().get();
                 bottomSizeObserver.setCheckedSizeIndex(lastSavedBottomSize);
                 bottomSizeObserver.setState(lastSavedBottomSize, true);
@@ -62,30 +84,11 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel>
             if (getContext() != null) {
                 TableFiller.fillButtons(getContext(), topSizeObserver, list, tableLayout);
             }
-            if (viewModel.getCurrentTopSizeIndex().get() != -1){
+            if (viewModel.getCurrentTopSizeIndex().get() != -1) {
                 lastSavedTopSize = viewModel.getCurrentTopSizeIndex().get();
                 topSizeObserver.setCheckedSizeIndex(lastSavedTopSize);
                 topSizeObserver.setState(lastSavedTopSize, true);
             }
         });
-    }
-
-    @Override
-    public void goBack() {
-        viewModel.goBack();
-    }
-
-    @Override
-    public void onSizeValueSelected(int tag, int id) {
-        switch (tag){
-            case TOP_TAG:{
-                viewModel.onTopSizeValueSelected(id);
-                break;
-            }
-            case BOTTOM_TAG:{
-                viewModel.onBottomSizeValueSelected(id);
-                break;
-            }
-        }
     }
 }

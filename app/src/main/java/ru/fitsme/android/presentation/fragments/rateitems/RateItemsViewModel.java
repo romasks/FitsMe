@@ -1,5 +1,7 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
+import android.annotation.SuppressLint;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -55,12 +57,11 @@ public class RateItemsViewModel extends BaseViewModel {
         navigation.goToFilter();
     }
 
+    @SuppressLint("CheckResult")
     public void onAfterCreateView() {
         clothesInteractor.isFiltersChecked()
             .observeOn(mainThread)
-            .subscribe(result -> {
-                filterIsChecked.setValue(result);
-            });
+            .subscribe(result -> filterIsChecked.setValue(result));
         clothesInteractor.updateClothesList();
         isNeedShowSizeDialogForTop = clothesInteractor.getIsNeedShowSizeDialogForTop();
         isNeedShowSizeDialogForBottom = clothesInteractor.getIsNeedShowSizeDialogForBottom();
