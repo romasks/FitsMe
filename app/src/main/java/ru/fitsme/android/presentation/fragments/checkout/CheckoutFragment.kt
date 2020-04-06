@@ -43,7 +43,11 @@ class CheckoutFragment : BaseFragment<CheckoutViewModel>(), CheckoutBindingEvent
     }
 
     override fun goBack() {
-        viewModel.onBackPressed()
+        onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
         parentFragment?.let { (parentFragment as MainFragment).showBottomNavbar() }
     }
 
