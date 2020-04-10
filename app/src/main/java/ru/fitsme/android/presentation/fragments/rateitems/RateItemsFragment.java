@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
@@ -79,6 +81,9 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         viewModel.onAfterCreateView();
         isNeedShowSizeDialogForTop = viewModel.getIsNeedShowSizeDialogForTop();
         isNeedShowSizeDialogForBottom = viewModel.getIsNeedShowSizeDialogForBottom();
+
+        viewModel.getClotheInfoLiveData().observe(getViewLifecycleOwner(), this::onChange);
+        viewModel.getFilterIconLiveData().observe(getViewLifecycleOwner(), this::onFilterIconChange);
     }
 
     private void setUp() {
@@ -87,8 +92,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     protected void setUpObservers() {
-        viewModel.getClotheInfoLiveData().observe(getViewLifecycleOwner(), this::onChange);
-        viewModel.getFilterIconLiveData().observe(getViewLifecycleOwner(), this::onFilterIconChange);
+
     }
 
     private void onChange(ClotheInfo clotheInfo) {
@@ -109,17 +113,21 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         int containerWidth = binding.fragmentRateItemsContainer.getWidth();
         int containerHeight = getContainerHeight();
 
-        rateItemTouchListener = new RateItemTouchListener(this);
-        currentFragment = ItemInfoFragment.newInstance(
-                clotheInfo,
-                containerHeight, containerWidth,
-                rateItemTouchListener
-        );
+        //если убрать это условие, то изображение дергается,
+        // потому что команда срабатывает когда контейнер еще не создан
+        if (containerHeight != 0 && containerWidth != 0) {
+            rateItemTouchListener = new RateItemTouchListener(this);
+            currentFragment = ItemInfoFragment.newInstance(
+                    clotheInfo,
+                    containerHeight, containerWidth,
+                    rateItemTouchListener
+            );
 
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_rate_items_container, currentFragment)
-                .commit();
-        resetContainerView();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_rate_items_container, currentFragment)
+                    .commit();
+            resetContainerView();
+        }
     }
 
     private int getContainerHeight() {
