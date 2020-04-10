@@ -125,7 +125,7 @@
     <string name="returns_amount_value">%1$s шт</string>
     <string name="returns_price_title">Сумма:</string>
     <string name="returns_price_value">%1$s руб.</string>
-    <string name="returns_calculation_methos_title">Метод расчёта:</string>
+    <string name="returns_calculation_method_title">Метод расчёта:</string>
     <string name="returns_requisites_title">Реквизиты:</string>
     <string name="returns_days_for_returns_title">Время на возврат:</string>
     <string name="returns_days_for_returns_value">%1$s дней</string>

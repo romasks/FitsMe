@@ -48,11 +48,6 @@ public class CheckoutViewModel extends BaseViewModel {
         loadOrder();
     }
 
-    @Override
-    public void onBackPressed() {
-        navigation.finish();
-    }
-
     private void loadOrder() {
         addDisposable(ordersInteractor.getSingleOrder(OrderStatus.FM)
                 .subscribe(this::onOrder, Timber::e));

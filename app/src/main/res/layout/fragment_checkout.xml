@@ -15,262 +15,228 @@
             type="ru.fitsme.android.presentation.fragments.checkout.CheckoutBindingEvents" />
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/layout_app_bar" />
 
         <TextView
             android:id="@+id/fragment_checkout_loading_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:text="@string/loading"
             android:textSize="@dimen/text_size_16sp"
             android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical"
+            android:layout_above="@id/btn_next"
+            android:layout_below="@id/app_bar"
             android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@color/white">
-
-                <ImageView
-                    android:id="@+id/backArrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/padding_16dp"
-                    android:onClick="@{() -> bindingEvents.goBack()}"
-                    android:src="@drawable/ic_back_arrow_black_24dp"
-                    tools:ignore="ContentDescription" />
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_16dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/screen_title_checkout_order"
-                    android:textAllCaps="false"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_8dp"
+                    android:text="@string/checkout_mobile_phone_number"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_20sp"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
 
-                <View
+                <EditText
+                    android:id="@+id/phone_number"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/black" />
+                    android:layout_height="@dimen/delivery_address_field_height"
+                    android:hint="@string/checkout_hint_phone_number"
+                    android:inputType="phone"
+                    android:text="@={viewModel.orderModel.phoneNumber}"
+                    android:textSize="@dimen/text_size_18sp"
+                    tools:ignore="Autofill" />
 
-            </RelativeLayout>
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_8dp"
+                    android:layout_marginBottom="@dimen/padding_8dp"
+                    android:text="@string/checkout_delivery_address"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_16dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_8dp"
-                        android:text="@string/checkout_mobile_phone_number"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18sp"
-                        android:textStyle="bold" />
+                    android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/phone_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/delivery_address_field_height"
-                        android:hint="@string/checkout_hint_phone_number"
-                        android:inputType="phone"
-                        android:text="@={viewModel.orderModel.phoneNumber}"
-                        android:textSize="@dimen/text_size_18sp"
+                        android:id="@+id/address_city"
+                        style="@style/CheckoutTextFieldStyle"
+                        android:layout_marginEnd="@dimen/padding_16dp"
+                        android:hint="@string/checkout_hint_enter_city"
+                        android:text="@={viewModel.orderModel.city}"
                         tools:ignore="Autofill" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_8dp"
-                        android:layout_marginBottom="@dimen/padding_8dp"
-                        android:text="@string/checkout_delivery_address"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/address_city"
-                            style="@style/CheckoutTextFieldStyle"
-                            android:layout_marginEnd="@dimen/padding_16dp"
-                            android:hint="@string/checkout_hint_enter_city"
-                            android:text="@={viewModel.orderModel.city}"
-                            tools:ignore="Autofill" />
-
-                        <EditText
-                            android:id="@+id/address_street"
-                            style="@style/CheckoutTextFieldStyle"
-                            android:layout_marginStart="@dimen/padding_16dp"
-                            android:hint="@string/checkout_hint_enter_street"
-                            android:text="@={viewModel.orderModel.street}"
-                            tools:ignore="Autofill" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/address_house"
-                            style="@style/CheckoutNumberFieldStyle"
-                            android:layout_marginEnd="@dimen/padding_16dp"
-                            android:hint="@string/checkout_hint_enter_house_number"
-                            android:text="@={viewModel.orderModel.houseNumber}"
-                            tools:ignore="Autofill" />
-
-                        <EditText
-                            android:id="@+id/address_apartment"
-                            style="@style/CheckoutNumberFieldStyle"
-                            android:layout_marginStart="@dimen/padding_16dp"
-                            android:hint="@string/checkout_hint_enter_flat_number"
-                            android:text="@={viewModel.orderModel.apartment}"
-                            tools:ignore="Autofill" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_16dp"
-                        android:layout_marginBottom="@dimen/padding_8dp"
-                        android:text="@string/checkout_first_warning_message"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="@dimen/delivery_address_warning_text" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_8dp"
-                        android:layout_marginBottom="@dimen/padding_16dp"
-                        android:text="@string/checkout_second_warning_message"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="@dimen/delivery_address_warning_text" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_8dp"
-                        android:layout_marginBottom="@dimen/padding_8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/checkout_text_price"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/delivery_address_amount_text" />
-
-                        <TextView
-                            android:id="@+id/price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{@string/cart_amount_tv(viewModel.orderModel.price)}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/delivery_address_amount_text"
-                            android:textStyle="bold"
-                            tools:text="14000 P" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_8dp"
-                        android:layout_marginBottom="@dimen/padding_8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/checkout_text_delivery_cost"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/delivery_address_amount_text" />
-
-                        <TextView
-                            android:id="@+id/deliveryPrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{@string/cart_amount_tv(viewModel.orderModel.discount)}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/delivery_address_amount_text"
-                            android:textStyle="bold"
-                            tools:text="300 P" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_8dp"
-                        android:layout_marginBottom="@dimen/padding_8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/checkout_text_total_price"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/delivery_address_amount_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/totalPrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{@string/cart_amount_tv(viewModel.orderModel.totalPrice)}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/delivery_address_amount_text"
-                            android:textStyle="bold"
-                            tools:text="14300 P" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_32dp"
-                        android:background="@drawable/bg_to_cart_btn"
-                        android:onClick="@{() -> bindingEvents.onClickMakeOrder()}"
-                        android:text="@string/btn_checkout_order"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_16sp" />
+                    <EditText
+                        android:id="@+id/address_street"
+                        style="@style/CheckoutTextFieldStyle"
+                        android:layout_marginStart="@dimen/padding_16dp"
+                        android:hint="@string/checkout_hint_enter_street"
+                        android:text="@={viewModel.orderModel.street}"
+                        tools:ignore="Autofill" />
 
                 </LinearLayout>
-            </ScrollView>
-        </LinearLayout>
-    </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/address_house"
+                        style="@style/CheckoutNumberFieldStyle"
+                        android:layout_marginEnd="@dimen/padding_16dp"
+                        android:hint="@string/checkout_hint_enter_house_number"
+                        android:text="@={viewModel.orderModel.houseNumber}"
+                        tools:ignore="Autofill" />
+
+                    <EditText
+                        android:id="@+id/address_apartment"
+                        style="@style/CheckoutNumberFieldStyle"
+                        android:layout_marginStart="@dimen/padding_16dp"
+                        android:hint="@string/checkout_hint_enter_flat_number"
+                        android:text="@={viewModel.orderModel.apartment}"
+                        tools:ignore="Autofill" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_16dp"
+                    android:layout_marginBottom="@dimen/padding_8dp"
+                    android:text="@string/checkout_first_warning_message"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/delivery_address_warning_text" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_8dp"
+                    android:layout_marginBottom="@dimen/padding_16dp"
+                    android:text="@string/checkout_second_warning_message"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/delivery_address_warning_text" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_8dp"
+                    android:layout_marginBottom="@dimen/padding_8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/checkout_text_price"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/delivery_address_amount_text" />
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.price)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/delivery_address_amount_text"
+                        android:textStyle="bold"
+                        tools:text="14000 P" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_8dp"
+                    android:layout_marginBottom="@dimen/padding_8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/checkout_text_delivery_cost"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/delivery_address_amount_text" />
+
+                    <TextView
+                        android:id="@+id/deliveryPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.discount)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/delivery_address_amount_text"
+                        android:textStyle="bold"
+                        tools:text="300 P" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_8dp"
+                    android:layout_marginBottom="@dimen/padding_8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/checkout_text_total_price"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/delivery_address_amount_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/totalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.totalPrice)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/delivery_address_amount_text"
+                        android:textStyle="bold"
+                        tools:text="14300 P" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/padding_32dp"
+            android:layout_marginTop="@dimen/padding_16dp"
+            android:layout_marginEnd="@dimen/padding_32dp"
+            android:layout_marginBottom="@dimen/padding_16dp"
+            android:background="@drawable/bg_to_cart_btn"
+            android:onClick="@{() -> bindingEvents.onClickMakeOrder()}"
+            android:text="@string/btn_checkout_order"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16sp" />
+    </RelativeLayout>
 </layout>

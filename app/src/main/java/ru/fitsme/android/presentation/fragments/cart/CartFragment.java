@@ -41,7 +41,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
     private boolean isBottomSizeDialogShown = false;
 
     public CartFragment() {
-        App.getInstance().getDi().inject(this);
+        // App.getInstance().getDi().inject(this);
     }
 
     @Override
@@ -93,8 +93,8 @@ public class CartFragment extends BaseFragment<CartViewModel>
         adapter.submitList(pagedList);
     }
 
-    private void onCartIsEmpty(Boolean b) {
-        if (b) {
+    private void onCartIsEmpty(Boolean isEmpty) {
+        if (isEmpty) {
             binding.cartNoItemGroup.setVisibility(View.VISIBLE);
             binding.cartProceedToCheckoutGroup.setVisibility(View.GONE);
             binding.cartProceedToCheckoutShadow.setVisibility(View.GONE);

@@ -104,7 +104,7 @@ public class MainNavigation {
     }
 
     public void goToCheckout() {
-        newChainNavigate(NAV_CHECKOUT);
+        goNavigate(NAV_CHECKOUT);
     }
 
     public void goToMainProfile() {

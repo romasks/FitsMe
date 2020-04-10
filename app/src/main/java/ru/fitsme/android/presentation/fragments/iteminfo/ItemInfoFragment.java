@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.TypedValue;
@@ -202,25 +203,23 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         itemInfoState.onClickRemove();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setOnBrandNameTouchListener() {
-        binding.itemInfoBrandNameLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE) {
-                            ItemInfoFragment.this.setDetailState();
-                        } else {
-                            ItemInfoFragment.this.setSummaryState();
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return true;
+        binding.itemInfoBrandNameLayout.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE) {
+                        ItemInfoFragment.this.setDetailState();
+                    } else {
+                        ItemInfoFragment.this.setSummaryState();
+                    }
+                    break;
+                default:
+                    break;
             }
+            return true;
         });
     }
 

@@ -10,6 +10,7 @@ import ru.fitsme.android.domain.entities.feedback.FeedbackStatus;
 import ru.fitsme.android.presentation.common.keyboard.KeyboardUtils;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 
 public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements FeedbackBindingEvents, BackClickListener {
 
@@ -55,6 +56,9 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
                 binding.messageErrorIcon.setVisibility(View.GONE);
             }
         });
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).hideBottomNavbar();
+        }
     }
 
     @Override
@@ -125,5 +129,8 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
     @Override
     public void goBack() {
         viewModel.onBackPressed();
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).showBottomNavbar();
+        }
     }
 }
