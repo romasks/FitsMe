@@ -40,7 +40,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
     private FavouritesViewModel viewModel;
     private OnItemClickCallback callback;
 
-    private List<Boolean> isInCartList = null;
+    private List<Boolean> isInCartList = new ArrayList<>();
 
     private static final int IN_LIST_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
@@ -117,17 +117,6 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             name = view.findViewById(R.id.item_favourite_name);
             price = view.findViewById(R.id.item_favourite_price);
             button = view.findViewById(R.id.item_favourite_btn);
-
-            initIsInCartList();
-        }
-
-        private void initIsInCartList() {
-            if (isInCartList == null && getItemCount() > 0) {
-                isInCartList = new ArrayList<>(getItemCount());
-                for (int i = 0; i < getItemCount(); i++) {
-                    isInCartList.add(null);
-                }
-            }
         }
 
         @Override
@@ -146,8 +135,10 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
         private void setItemState(@Nullable FavouritesItem favouritesItem, int position) {
             if (favouritesItem == null) return;
-            if (isInCartList.get(position) == null) {
-                isInCartList.set(position, favouritesItem.isInCart());
+            try {
+                isInCartList.get(position);
+            } catch (IndexOutOfBoundsException ex) {
+                isInCartList.add(favouritesItem.isInCart());
             }
             if (isInCartList.get(position)) {
                 state = new InCartState(this, callback);
