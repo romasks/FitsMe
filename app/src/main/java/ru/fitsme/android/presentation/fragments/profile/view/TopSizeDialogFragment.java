@@ -39,22 +39,16 @@ public class TopSizeDialogFragment extends DialogFragment
     @Inject
     ViewModelFactory viewModelFactory;
     private TopSizeDialogCallback callback;
-    private boolean isObligatory;
     private String message;
 
-    public TopSizeDialogFragment(TopSizeDialogCallback callback, boolean isObligatory, String message) {
+    public TopSizeDialogFragment(TopSizeDialogCallback callback, String message) {
         this.callback = callback;
-        this.isObligatory = isObligatory;
         this.message = message;
         App.getInstance().getDi().inject(this);
     }
 
     public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback, String message) {
-        return newInstance(callback, false, message);
-    }
-
-    public static TopSizeDialogFragment newInstance(TopSizeDialogCallback callback, boolean isObligatory, String message) {
-        return new TopSizeDialogFragment(callback, isObligatory, message);
+        return new TopSizeDialogFragment(callback, message);
     }
 
     @Nullable
@@ -74,16 +68,12 @@ public class TopSizeDialogFragment extends DialogFragment
         }
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
-        if (isObligatory) {
-            setCancelable(false);
-            binding.dialogFragmentProfileTopCancelBtn.setEnabled(false);
-        }
         binding.dialogFragmentProfileTopSizeHintTv.setText(message);
         setSizeCheckers();
     }
 
     private void setSizeCheckers() {
-        viewModel.getTopSizeArray().observe(this, list -> {
+        viewModel.getTopSizeArray().observe(this.getViewLifecycleOwner(), list -> {
             TableLayout tableLayout = binding.dialogFragmentTopSizeLayout.topSizeProfileSizesTable;
             if (getContext() != null) {
                 TableFiller.fillButtons(getContext(), topSizeObserver, list, tableLayout);
@@ -144,13 +134,6 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Override
     public void onSizeValueSelected(int tag, int id) {
-        if (isObligatory){
-            if (id == NO_SIZE){
-                binding.dialogFragmentProfileTopOkBtn.setEnabled(false);
-            } else {
-                binding.dialogFragmentProfileTopOkBtn.setEnabled(true);
-            }
-        }
         viewModel.onTopSizeValueSelected(id);
     }
 

@@ -39,22 +39,16 @@ public class BottomSizeDialogFragment extends DialogFragment
     @Inject
     ViewModelFactory viewModelFactory;
     private BottomSizeDialogCallback callback;
-    private boolean isObligatory;
     private String message;
 
-    public BottomSizeDialogFragment(BottomSizeDialogCallback callback, boolean isObligatory, String message) {
+    public BottomSizeDialogFragment(BottomSizeDialogCallback callback, String message) {
         this.callback = callback;
-        this.isObligatory = isObligatory;
         this.message = message;
         App.getInstance().getDi().inject(this);
     }
 
     public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback, String message) {
-        return newInstance(callback, false, message);
-    }
-
-    public static BottomSizeDialogFragment newInstance(BottomSizeDialogCallback callback, boolean isObligatory, String message) {
-        return new BottomSizeDialogFragment(callback, isObligatory, message);
+        return new BottomSizeDialogFragment(callback, message);
     }
 
     @Nullable
@@ -74,16 +68,12 @@ public class BottomSizeDialogFragment extends DialogFragment
         }
         binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
-        if (isObligatory) {
-            setCancelable(false);
-            binding.dialogFragmentProfileBottomCancelBtn.setEnabled(false);
-        }
         binding.dialogFragmentProfileBottomSizeHintTv.setText(message);
         setSizeCheckers();
     }
 
     private void setSizeCheckers() {
-        viewModel.getBottomSizeArray().observe(this, list -> {
+        viewModel.getBottomSizeArray().observe(this.getViewLifecycleOwner(), list -> {
             TableLayout tableLayout = binding.dialogFragmentBottomSizeLayout.bottomSizeProfileBottomSizesTable;
             if (getContext() != null) {
                 TableFiller.fillButtons(getContext(), sizeObserver, list, tableLayout);
@@ -143,13 +133,6 @@ public class BottomSizeDialogFragment extends DialogFragment
 
     @Override
     public void onSizeValueSelected(int tag, int id) {
-        if (isObligatory){
-            if (id == NO_SIZE){
-                binding.dialogFragmentProfileBottomOkBtn.setEnabled(false);
-            } else {
-                binding.dialogFragmentProfileBottomOkBtn.setEnabled(true);
-            }
-        }
         viewModel.onBottomSizeValueSelected(id);
     }
 

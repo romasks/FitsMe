@@ -37,9 +37,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
     private FragmentCartBinding binding;
     private CartAdapter adapter;
 
-    private boolean isTopSizeDialogShown = false;
-    private boolean isBottomSizeDialogShown = false;
-
     public CartFragment() {
         // App.getInstance().getDi().inject(this);
     }
@@ -114,9 +111,9 @@ public class CartFragment extends BaseFragment<CartViewModel>
                 ClothesItem clothesItem = pagedList.get(i).getClothe();
                 if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED) {
                     canGoToCheckout = false;
-                    if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP && !isTopSizeDialogShown) {
+                    if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP) {
                         showTopSizeDialog();
-                    } else if (clothesItem.getClotheType().getType() == ClotheType.Type.BOTTOM && !isBottomSizeDialogShown) {
+                    } else if (clothesItem.getClotheType().getType() == ClotheType.Type.BOTTOM) {
                         showBottomSizeDialog();
                     }
                 } else if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.NO) {
@@ -177,17 +174,15 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
 
     private void showTopSizeDialog(){
-        isTopSizeDialogShown = true;
         String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
-        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, true, message);
+        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, message);
         FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
         dialogFragment.show(fm, "topSizeDf");
     }
 
     private void showBottomSizeDialog(){
-        isBottomSizeDialogShown = true;
         String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
-        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, true, message);
+        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, message);
         FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
         dialogFragment.show(fm, "bottomSizeDf");
     }
@@ -195,7 +190,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void onBottomOkButtonClick() {
-        isBottomSizeDialogShown = false;
         viewModel.updateList();
     }
 
@@ -206,7 +200,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void onTopOkButtonClick() {
-        isTopSizeDialogShown = false;
         viewModel.updateList();
     }
 
