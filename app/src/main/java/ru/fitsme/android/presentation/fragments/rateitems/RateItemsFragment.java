@@ -81,9 +81,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         viewModel.onAfterCreateView();
         isNeedShowSizeDialogForTop = viewModel.getIsNeedShowSizeDialogForTop();
         isNeedShowSizeDialogForBottom = viewModel.getIsNeedShowSizeDialogForBottom();
-
-        viewModel.getClotheInfoLiveData().observe(getViewLifecycleOwner(), this::onChange);
-        viewModel.getFilterIconLiveData().observe(getViewLifecycleOwner(), this::onFilterIconChange);
     }
 
     private void setUp() {
@@ -92,7 +89,8 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     protected void setUpObservers() {
-
+        viewModel.getClotheInfoLiveData().observe(getViewLifecycleOwner(), this::onChange);
+        viewModel.getFilterIconLiveData().observe(getViewLifecycleOwner(), this::onFilterIconChange);
     }
 
     private void onChange(ClotheInfo clotheInfo) {
