@@ -3,25 +3,23 @@ package ru.fitsme.android.presentation.fragments.orders;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemOrdersHistoryBinding;
 import ru.fitsme.android.domain.entities.order.Order;
-import timber.log.Timber;
 
-public class OrdersHistoryAdapter extends RecyclerView.Adapter<OrdersHistoryAdapter.ReturnOrdersViewHolder> {
+public class OrdersHistoryAdapter extends PagedListAdapter<Order, OrdersHistoryAdapter.ReturnOrdersViewHolder> {
 
     private OrdersHistoryViewModel viewModel;
-    private List<Order> orders = new ArrayList<>();
 
     OrdersHistoryAdapter(OrdersHistoryViewModel viewModel) {
+        super(Order.DIFF_CALLBACK);
         this.viewModel = viewModel;
     }
 
@@ -36,22 +34,6 @@ public class OrdersHistoryAdapter extends RecyclerView.Adapter<OrdersHistoryAdap
     @Override
     public void onBindViewHolder(@NonNull ReturnOrdersViewHolder holder, int position) {
         holder.bind(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return orders.size();
-    }
-
-    void setItems(List<Order> ordersList) {
-        orders.clear();
-        orders.addAll(ordersList);
-        notifyDataSetChanged();
-        Timber.d(String.valueOf(orders));
-    }
-
-    private Order getItem(int position) {
-        return orders.get(position);
     }
 
     public class ReturnOrdersViewHolder extends RecyclerView.ViewHolder {

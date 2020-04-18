@@ -29,6 +29,8 @@ import ru.fitsme.android.data.frameworks.sharedpreferences.SettingsStorage;
 import ru.fitsme.android.data.repositories.auth.AuthRepository;
 import ru.fitsme.android.data.repositories.auth.SignRepository;
 import ru.fitsme.android.data.repositories.auth.TextValidator;
+import ru.fitsme.android.data.repositories.cart.CartActionRepository;
+import ru.fitsme.android.data.repositories.cart.CartRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
@@ -41,6 +43,8 @@ import ru.fitsme.android.domain.boundaries.IFeedbackRepository;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
+import ru.fitsme.android.domain.boundaries.cart.ICartActionRepository;
+import ru.fitsme.android.domain.boundaries.cart.ICartRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
@@ -52,6 +56,8 @@ import ru.fitsme.android.domain.interactors.auth.AuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.domain.interactors.auth.SignInteractor;
+import ru.fitsme.android.domain.interactors.cart.CartInteractor;
+import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
@@ -95,6 +101,10 @@ public class DI {
             bind(IFavouritesInteractor.class).to(FavouritesInteractor.class);
             bind(IFavouritesRepository.class).to(FavouritesRepository.class);
             bind(IFavouritesActionRepository.class).to(FavouritesActionRepository.class);
+
+            bind(ICartInteractor.class).to(CartInteractor.class);
+            bind(ICartRepository.class).to(CartRepository.class);
+            bind(ICartActionRepository.class).to(CartActionRepository.class);
 
             bind(IOrdersInteractor.class).to(OrdersInteractor.class);
             bind(IOrdersRepository.class).to(OrdersRepository.class);
