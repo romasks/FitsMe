@@ -73,6 +73,7 @@ public class ChooseItemReturnFragment extends BaseFragment<ChooseItemReturnViewM
 
     private void onLoadOrder(Order order) {
         binding.setReturnsOrder(order);
+        binding.loadingTv.setVisibility(View.GONE);
         adapter.setItems(order.getOrderItemList());
     }
 

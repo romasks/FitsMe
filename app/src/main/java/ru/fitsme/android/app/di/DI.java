@@ -39,6 +39,7 @@ import ru.fitsme.android.data.repositories.orders.OrdersActionRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.repositories.profile.ProfileRepository;
 import ru.fitsme.android.data.repositories.returns.ReturnsRepository;
+import ru.fitsme.android.data.repositories.returns.orders.ReturnOrdersRepository;
 import ru.fitsme.android.domain.boundaries.IFeedbackRepository;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
@@ -51,6 +52,7 @@ import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.boundaries.profile.IProfileRepository;
+import ru.fitsme.android.domain.boundaries.retunrs.IReturnOrdersRepository;
 import ru.fitsme.android.domain.boundaries.retunrs.IReturnsRepository;
 import ru.fitsme.android.domain.interactors.auth.AuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
@@ -118,6 +120,7 @@ public class DI {
 
             bind(IReturnsInteractor.class).to(ReturnsInteractor.class);
             bind(IReturnsRepository.class).to(ReturnsRepository.class);
+            bind(IReturnOrdersRepository.class).to(ReturnOrdersRepository.class);
 
             bind(IFeedbackInteractor.class).to(FeedbackInteractor.class);
             bind(IFeedbackRepository.class).to(FeedbackRepository.class);

@@ -7,6 +7,8 @@ import androidx.lifecycle.Transformations;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
@@ -21,6 +23,8 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
 import ru.fitsme.android.data.repositories.returns.ReturnsActionRepository;
 import ru.fitsme.android.data.repositories.returns.ReturnsDataSourceFactory;
+import ru.fitsme.android.data.repositories.returns.orders.ReturnOrdersDataSourceFactory;
+import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 
@@ -30,12 +34,15 @@ public class ReturnsInteractor implements IReturnsInteractor {
     private static final int PAGE_SIZE = 10;
 
     private final ReturnsDataSourceFactory returnsDataSourceFactory;
+    private final ReturnOrdersDataSourceFactory returnOrdersDataSourceFactory;
     private final ReturnsActionRepository returnsActionRepository;
     private final Scheduler mainThread;
 
-    private LiveData<PagedList<ReturnsOrder>> pagedListLiveData;
+    private LiveData<PagedList<ReturnsOrder>> returnsPagedListLiveData;
+    private LiveData<PagedList<Order>> returnOrdersPagedListLiveData;
     private PagedList.Config config;
     private MutableLiveData<Boolean> returnsIsEmpty;
+    private MutableLiveData<Boolean> returnOrdersIsEmpty;
 
     private final static ObservableField<String> showMessage =
             new ObservableField<String>(App.getInstance().getString(R.string.loading));
@@ -43,10 +50,12 @@ public class ReturnsInteractor implements IReturnsInteractor {
     @Inject
     ReturnsInteractor(
             ReturnsDataSourceFactory returnsDataSourceFactory,
+            ReturnOrdersDataSourceFactory returnOrdersDataSourceFactory,
             ReturnsActionRepository returnsActionRepository,
             @Named("main") Scheduler mainThread
     ) {
         this.returnsDataSourceFactory = returnsDataSourceFactory;
+        this.returnOrdersDataSourceFactory = returnOrdersDataSourceFactory;
         this.returnsActionRepository = returnsActionRepository;
         this.mainThread = mainThread;
 
@@ -57,9 +66,9 @@ public class ReturnsInteractor implements IReturnsInteractor {
     }
 
     @Override
-    public LiveData<PagedList<ReturnsOrder>> getPagedListLiveData() {
+    public LiveData<PagedList<ReturnsOrder>> getReturnsPagedListLiveData() {
         returnsIsEmpty = new MutableLiveData<>();
-        pagedListLiveData =
+        returnsPagedListLiveData =
                 new LivePagedListBuilder<>(this.returnsDataSourceFactory, config)
                         .setFetchExecutor(Executors.newSingleThreadExecutor())
                         .setBoundaryCallback(new PagedList.BoundaryCallback<ReturnsOrder>() {
@@ -70,7 +79,7 @@ public class ReturnsInteractor implements IReturnsInteractor {
                         })
                         .build();
 
-        return Transformations.map(pagedListLiveData, pagedList -> {
+        return Transformations.map(returnsPagedListLiveData, pagedList -> {
             pagedList.addWeakCallback(null, new PagedList.Callback() {
 
                 @Override
@@ -99,13 +108,51 @@ public class ReturnsInteractor implements IReturnsInteractor {
     }
 
     @Override
+    public LiveData<PagedList<Order>> getReturnOrdersPagedListLiveData() {
+        returnOrdersIsEmpty = new MutableLiveData<>();
+        returnOrdersPagedListLiveData =
+                new LivePagedListBuilder<>(this.returnOrdersDataSourceFactory, config)
+                        .setFetchExecutor(Executors.newSingleThreadExecutor())
+                        .setBoundaryCallback(new PagedList.BoundaryCallback<Order>() {
+                            @Override
+                            public void onZeroItemsLoaded() {
+                                returnOrdersIsEmpty.setValue(true);
+                            }
+                        })
+                        .build();
+
+        return Transformations.map(returnOrdersPagedListLiveData, pagedList -> {
+            pagedList.addWeakCallback(null, new PagedList.Callback() {
+                @Override
+                public void onChanged(int position, int count) {
+                }
+
+                @Override
+                public void onInserted(int position, int count) {
+                    returnOrdersIsEmpty.setValue(false);
+                }
+
+                @Override
+                public void onRemoved(int position, int count) {
+                }
+            });
+            return pagedList;
+        });
+    }
+
+    @Override
+    public LiveData<Boolean> getReturnOrdersIsEmpty() {
+        return returnOrdersIsEmpty;
+    }
+
+    @Override
     public ObservableField<String> getShowMessage() {
         return showMessage;
     }
 
     @Override
     public boolean itemIsInCart(int position) {
-        PagedList<ReturnsOrder> pagedList = pagedListLiveData.getValue();
+        PagedList<ReturnsOrder> pagedList = returnsPagedListLiveData.getValue();
         if (pagedList != null && pagedList.size() > position) {
             ReturnsOrder item = pagedList.get(position);
             if (item != null) {
@@ -113,6 +160,17 @@ public class ReturnsInteractor implements IReturnsInteractor {
             }
         }
         return false;
+    }
+
+    @Override
+    public Single<ReturnsOrderItem> addItemsToReturn(List<ReturnsItemRequest> requestsList) {
+        List<Single<ReturnsOrderItem>> request = new ArrayList<>();
+        for (ReturnsItemRequest item : requestsList) {
+            request.add(addItemToReturn(item));
+        }
+        return Single.merge(request)
+                .observeOn(mainThread)
+                .firstOrError();
     }
 
     @Override
@@ -133,7 +191,7 @@ public class ReturnsInteractor implements IReturnsInteractor {
                 .observeOn(mainThread);
     }
 
-    public static void setFavouriteMessage(String string) {
+    public static void setShowMessage(String string) {
         showMessage.set(string);
     }
 }

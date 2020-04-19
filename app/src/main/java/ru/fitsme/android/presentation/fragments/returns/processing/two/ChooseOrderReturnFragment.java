@@ -2,9 +2,8 @@ package ru.fitsme.android.presentation.fragments.returns.processing.two;
 
 import android.view.View;
 
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import java.util.List;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentReturnChooseOrderBinding;
@@ -12,7 +11,8 @@ import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
-public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnViewModel> implements ChooseOrderReturnBindingEvents, BackClickListener {
+public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnViewModel>
+        implements ChooseOrderReturnBindingEvents, BackClickListener {
 
     private FragmentReturnChooseOrderBinding binding;
     private ReturnOrdersAdapter adapter;
@@ -37,10 +37,9 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
 
     @Override
     protected void setUpRecyclers() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         adapter = new ReturnOrdersAdapter(viewModel);
 
-        binding.returnOrdersListRv.setLayoutManager(linearLayoutManager);
+        binding.returnOrdersListRv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.returnOrdersListRv.setHasFixedSize(true);
         binding.returnOrdersListRv.setAdapter(adapter);
     }
@@ -51,12 +50,13 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
         viewModel.getReturnsOrdersIsEmpty().observe(getViewLifecycleOwner(), this::onReturnsOrdersIsEmpty);
     }
 
-    private void onReturnsOrdersIsEmpty(Boolean isEmpty) {
-        binding.returnsOrderNoItems.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+    private void onLoadPage(PagedList<Order> ordersList) {
+        adapter.submitList(ordersList);
+        viewModel.isLoading.set(false);
     }
 
-    private void onLoadPage(List<Order> ordersList) {
-        adapter.setItems(ordersList);
+    private void onReturnsOrdersIsEmpty(Boolean isEmpty) {
+        binding.returnsOrderNoItems.setVisibility(!viewModel.isLoading.get() && isEmpty ? View.VISIBLE : View.GONE);
     }
 
     @Override

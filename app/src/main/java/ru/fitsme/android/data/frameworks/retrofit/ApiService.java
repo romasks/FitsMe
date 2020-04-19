@@ -102,6 +102,10 @@ public interface ApiService {
     @GET("orders/return/")
     Single<OkResponse<OrdersPage>> getReturnsOrders(@Header("Authorization") String token);
 
+    @GET("orders/return/")
+    Single<OkResponse<OrdersPage>> getReturnOrders(@Header("Authorization") String token,
+                                                   @Query("page") int page);
+
     @PUT("orders/{id}/")
     Single<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,
                                               @Path("id") long orderId,

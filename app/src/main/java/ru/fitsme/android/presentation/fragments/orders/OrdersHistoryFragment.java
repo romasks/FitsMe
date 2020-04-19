@@ -34,6 +34,13 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
 
         binding.appBar.setBackClickListener(this);
         binding.appBar.setTitle(getResources().getString(R.string.returns_choose_order_header));
+        setUp();
+    }
+
+    private void setUp() {
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).hideBottomNavbar();
+        }
     }
 
     @Override

@@ -36,6 +36,14 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
         inject(this);
     }
 
+    LiveData<Order> getOrderLiveData() {
+        return orderLiveData;
+    }
+
+    LiveData<String> getErrorMsgLiveData() {
+        return errorMsgLiveData;
+    }
+
     void init(int orderId) {
         errorMsgLiveData.postValue("");
         isLoading.set(true);
@@ -43,33 +51,22 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
                 .subscribe(this::onLoadOrder, this::onError));
     }
 
+    @Override
+    public void onBackPressed() {
+        isLoading.set(false);
+        navigation.goToReturnsChooseOrderWithReplace();
+    }
+
     public void goToReturnsIndicateNumber() {
         isLoading.set(true);
 
         for (OrderItem orderItem : orderLiveData.getValue().getOrderItemList()) {
             if (orderItem.getClothe().isCheckedForReturn()) {
-                requestsList.add(new ReturnsItemRequest(orderItem.getId(), orderItem.getQuantity()));
+                requestsList.add(new ReturnsItemRequest(orderItem.getId(), 1));
             }
         }
-        if (!requestsList.isEmpty()) {
-            sendOneRequest();
-        }
-    }
-
-    private void sendOneRequest() {
-        ReturnsItemRequest request = requestsList.get(0);
-        requestsList.remove(0);
-
-        addDisposable(returnsInteractor.addItemToReturn(request)
+        addDisposable(returnsInteractor.addItemsToReturn(requestsList)
                 .subscribe(this::onSuccess, this::onError));
-    }
-
-    MutableLiveData<String> getErrorMsgLiveData() {
-        return errorMsgLiveData;
-    }
-
-    public LiveData<Order> getOrderLiveData() {
-        return orderLiveData;
     }
 
     private void onLoadOrder(Order order) {
@@ -77,24 +74,14 @@ public class ChooseItemReturnViewModel extends BaseViewModel {
     }
 
     private void onSuccess(ReturnsOrderItem returnsOrder) {
-        if (!requestsList.isEmpty()) {
-            sendOneRequest();
-        } else {
-            isLoading.set(false);
-            errorMsgLiveData.postValue("");
-            navigation.goToReturnsIndicateNumberWithReplace(returnsOrder.getId());
-        }
+        isLoading.set(false);
+        errorMsgLiveData.postValue("");
+        navigation.goToReturnsIndicateNumberWithReplace(returnsOrder.getId());
     }
 
     private void onError(Throwable throwable) {
         isLoading.set(false);
         Timber.d(throwable);
         errorMsgLiveData.postValue("Некоторые запросы закончились неудачей");
-    }
-
-    @Override
-    public void onBackPressed() {
-        isLoading.set(false);
-        navigation.goToReturnsChooseOrderWithReplace();
     }
 }
