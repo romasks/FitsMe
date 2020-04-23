@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -251,4 +252,17 @@ public class Order implements Parcelable {
         indicationNumber = in.readString();
         cardNumber = in.readString();
     }
+
+    public static DiffUtil.ItemCallback<Order> DIFF_CALLBACK = new DiffUtil.ItemCallback<Order>() {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull Order oldItem, @NonNull Order newItem) {
+            return oldItem.getOrderId() == newItem.getOrderId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Order oldItem, @NonNull Order newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 }

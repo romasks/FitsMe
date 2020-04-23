@@ -219,6 +219,16 @@ abstract class WebLoader {
         );
     }
 
+    public Single<OkResponse<OrdersPage>> getReturnOrdersPage(int page) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.getReturnOrders(TOKEN + authInfo.getToken(), page)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError)
+        );
+    }
+
     public Single<OkResponse<OrdersPage>> getOrdersInCart() {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
@@ -241,12 +251,12 @@ abstract class WebLoader {
 
     public Single<OkResponse<OrderItem>> restoreItemToOrder(OrderItem item) {
         int clotheId = item.getClothe().getId();
-        int quantity;
-        if (item.getQuantity() == 0) {
+        int quantity = 1;
+        /*if (item.getQuantity() == 0) {
             quantity = 1;
         } else {
             quantity = item.getQuantity();
-        }
+        }*/
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
                         authInfo -> apiService.addItemToCart(TOKEN + authInfo.getToken(), new OrderedItem(clotheId, quantity))

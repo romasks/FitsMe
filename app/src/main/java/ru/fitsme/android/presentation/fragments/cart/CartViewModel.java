@@ -8,16 +8,15 @@ import androidx.paging.PagedList;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
+import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
 public class CartViewModel extends BaseViewModel{
 
     @Inject
-    IOrdersInteractor ordersInteractor;
+    ICartInteractor cartInteractor;
 
     public ObservableField<String> message;
     public ObservableInt totalPrice;
@@ -27,28 +26,28 @@ public class CartViewModel extends BaseViewModel{
     }
 
     public void init() {
-        message = ordersInteractor.getMessage();
-        totalPrice = ordersInteractor.getTotalPrice();
+        message = cartInteractor.getMessage();
+        totalPrice = cartInteractor.getTotalPrice();
     }
 
     LiveData<PagedList<OrderItem>> getPageLiveData() {
-        return ordersInteractor.getPagedListLiveData();
+        return cartInteractor.getPagedListLiveData();
     }
 
     LiveData<Boolean> getCartIsEmpty() {
-        return ordersInteractor.getCartIsEmpty();
+        return cartInteractor.getCartIsEmpty();
     }
 
     public Single<OrderItem> removeItemFromOrder(int position) {
-        return ordersInteractor.removeItemFromOrder(position);
+        return cartInteractor.removeItemFromOrder(position);
     }
 
     Single<OrderItem> restoreItemToOrder(int position) {
-        return ordersInteractor.restoreItemToOrder(position);
+        return cartInteractor.restoreItemToOrder(position);
     }
 
     boolean itemIsRemoved(int position) {
-        return ordersInteractor.itemIsRemoved(position);
+        return cartInteractor.itemIsRemoved(position);
     }
 
     @Override
@@ -73,6 +72,6 @@ public class CartViewModel extends BaseViewModel{
     }
 
     public void updateList() {
-        ordersInteractor.updateList();
+        cartInteractor.updateList();
     }
 }

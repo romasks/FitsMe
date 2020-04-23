@@ -27,7 +27,7 @@ public class ReturnsViewModel extends BaseViewModel {
     }
 
     LiveData<PagedList<ReturnsOrder>> getPageLiveData() {
-        return returnsInteractor.getPagedListLiveData();
+        return returnsInteractor.getReturnsPagedListLiveData();
     }
 
     LiveData<Boolean> getReturnsIsEmpty() {

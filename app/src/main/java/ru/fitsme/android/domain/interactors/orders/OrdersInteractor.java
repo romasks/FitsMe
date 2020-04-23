@@ -1,18 +1,12 @@
 package ru.fitsme.android.domain.interactors.orders;
 
-import android.util.SparseIntArray;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
-import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -24,13 +18,9 @@ import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.repositories.orders.OrdersDataSourceFactory;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.entities.order.OrderItem;
-import ru.fitsme.android.utils.OrderStatus;
 
 @Singleton
 public class OrdersInteractor implements IOrdersInteractor {
@@ -42,22 +32,11 @@ public class OrdersInteractor implements IOrdersInteractor {
     private final Scheduler mainThread;
     private final OrdersDataSourceFactory ordersDataSourceFactory;
 
-    private LiveData<PagedList<OrderItem>> pagedListLiveData;
-    private LiveData<PagedList<Order>> returnsOrdersPagedListLiveData;
+    private LiveData<PagedList<Order>> pagedListLiveData;
     private PagedList.Config config;
 
-    private final ObservableBoolean checkOutIsLoading = new ObservableBoolean(true);
-    private MutableLiveData<Boolean> cartIsEmpty;
-    private final ObservableInt totalPrice = new ObservableInt(0);
-    private final static ObservableField<String> cartMessage =
-            new ObservableField<String>(App.getInstance().getString(R.string.loading));
-
-    // Используется для хранения удаленных элементов, чтобы была возможность их восстановить.
-    // key - ClotheId, value - OrderItemId. После восстановления удаленного элемента
-    // меняется OrderItemId, а в PagedList остается старый, поэтому приходится хранить
-    // новое значение тоже
-    private SparseIntArray restoredOrderClotheItemsIdList = new SparseIntArray();
-    private HashSet<Integer> removedClotheIdList = new HashSet<>();
+    private MutableLiveData<Boolean> ordersListIsEmpty;
+    private final static ObservableField<String> message = new ObservableField<>(App.getInstance().getString(R.string.loading));
 
     @Inject
     OrdersInteractor(
@@ -78,18 +57,15 @@ public class OrdersInteractor implements IOrdersInteractor {
     }
 
     @Override
-    public LiveData<PagedList<OrderItem>> getPagedListLiveData() {
-        cartIsEmpty = new MutableLiveData<>();
-        totalPrice.set(0);
-        restoredOrderClotheItemsIdList = new SparseIntArray();
-        removedClotheIdList = new HashSet<>();
+    public LiveData<PagedList<Order>> getPagedListLiveData() {
+        ordersListIsEmpty = new MutableLiveData<>();
         pagedListLiveData =
                 new LivePagedListBuilder<>(this.ordersDataSourceFactory, config)
                         .setFetchExecutor(Executors.newSingleThreadExecutor())
-                        .setBoundaryCallback(new PagedList.BoundaryCallback<OrderItem>() {
+                        .setBoundaryCallback(new PagedList.BoundaryCallback<Order>() {
                             @Override
                             public void onZeroItemsLoaded() {
-                                cartIsEmpty.setValue(true);
+                                ordersListIsEmpty.setValue(true);
                             }
                         })
                         .build();
@@ -99,18 +75,15 @@ public class OrdersInteractor implements IOrdersInteractor {
 
                 @Override
                 public void onChanged(int position, int count) {
-                    updateTotalPrice();
                 }
 
                 @Override
                 public void onInserted(int position, int count) {
-                    cartIsEmpty.setValue(false);
-                    updateTotalPrice();
+                    ordersListIsEmpty.setValue(false);
                 }
 
                 @Override
                 public void onRemoved(int position, int count) {
-                    updateTotalPrice();
                 }
             });
             return pagedList;
@@ -139,122 +112,15 @@ public class OrdersInteractor implements IOrdersInteractor {
                         ));
     }
 
-    @NonNull
     @Override
-    public Single<OrderItem> removeItemFromOrder(int position) {
-        PagedList<OrderItem> pagedList = pagedListLiveData.getValue();
-        if (pagedList != null && pagedList.size() > position) {
-            OrderItem item = pagedList.get(position);
-            if (item != null) {
-                int clotheId = item.getClothe().getId();
-                if (restoredOrderClotheItemsIdList.get(clotheId) != 0) {
-                    int restoredOrderItemId = restoredOrderClotheItemsIdList.get(clotheId);
-                    item.setId(restoredOrderItemId);
-                }
-                return ordersActionRepository.removeItemFromOrder(item)
-                        .map(removedOrderItem -> {
-                            if (removedOrderItem.getId() != 0) {
-                                updateTotalPrice();
-                                removedClotheIdList.add(removedOrderItem.getClothe().getId());
-                            }
-                            return removedOrderItem;
-                        });
-            }
-        }
-        return Single.just(new OrderItem());
+    public LiveData<Boolean> getOrdersListIsEmpty() {
+        return ordersListIsEmpty;
     }
 
-    @NonNull
-    @Override
-    public Single<OrderItem> restoreItemToOrder(int position) {
-        PagedList<OrderItem> pagedList = pagedListLiveData.getValue();
-        if (pagedList != null && pagedList.size() > position) {
-            OrderItem item = pagedList.get(position);
-            if (item != null) {
-                return ordersActionRepository.restoreItemToOrder(item)
-                        .map(restoredOrderItem -> {
-                            restoredOrderClotheItemsIdList.put(
-                                    restoredOrderItem.getClothe().getId(), restoredOrderItem.getId());
-                            removedClotheIdList.remove(restoredOrderItem.getClothe().getId());
-                            return restoredOrderItem;
-                        });
-            }
-        }
-        return Single.just(new OrderItem());
-    }
-
-    @NonNull
-    @Override
-    public Single<Order> getSingleOrder(OrderStatus status) {
-        checkOutIsLoading.set(true);
-        return Single.create(emitter ->
-                ordersActionRepository.getOrders(status)
-                        .observeOn(mainThread)
-                        .subscribe(ordersPage -> {
-                            checkOutIsLoading.set(false);
-                            if (ordersPage.getOrdersList() != null && !ordersPage.getOrdersList().isEmpty()) {
-                                Order order = ordersPage.getOrdersList().get(0);
-                                emitter.onSuccess(order);
-                            } else {
-                                emitter.onSuccess(new Order());
-                            }
-                        }, emitter::onError));
-    }
-
-    @NonNull
-    @Override
-    public Single<Order> makeOrder(OrderRequest orderRequest) {
-        return ordersActionRepository.makeOrder(orderRequest)
-                .observeOn(mainThread)
-                .doAfterSuccess(order -> ordersDataSourceFactory.invalidate());
-    }
-
-    @Override
-    public LiveData<Boolean> getCartIsEmpty() {
-        return cartIsEmpty;
-    }
 
     @Override
     public ObservableField<String> getMessage() {
-        return cartMessage;
-    }
-
-    @Override
-    public boolean itemIsRemoved(int position) {
-        PagedList<OrderItem> pagedList = pagedListLiveData.getValue();
-        if (pagedList != null && pagedList.size() > position) {
-            OrderItem item = pagedList.get(position);
-            if (item != null) {
-                return removedClotheIdList.contains(item.getClothe().getId());
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public ObservableInt getTotalPrice() {
-        return totalPrice;
-    }
-
-    @Override
-    public void updateTotalPrice() {
-        int tmpPrice = 0;
-        if (pagedListLiveData.getValue() != null) {
-            for (OrderItem oi : pagedListLiveData.getValue()) {
-                int clotheId = oi.getClothe().getId();
-                if (!removedClotheIdList.contains(clotheId)) {
-                    if (oi.getClothe().getSizeInStock() == ClothesItem.SizeInStock.YES) {
-                        tmpPrice += oi.getPrice();
-                    }
-                }
-            }
-            totalPrice.set(tmpPrice);
-        }
-    }
-
-    @Override
-    public ObservableBoolean getCheckOutIsLoading() {
-        return checkOutIsLoading;
+        return message;
     }
 
     @Override
@@ -268,7 +134,7 @@ public class OrdersInteractor implements IOrdersInteractor {
         ordersDataSourceFactory.invalidate();
     }
 
-    public static void setCartMessage(String string) {
-        cartMessage.set(string);
+    public static void setMessage(String string) {
+        message.set(string);
     }
 }

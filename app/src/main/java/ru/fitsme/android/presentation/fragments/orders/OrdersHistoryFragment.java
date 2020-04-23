@@ -1,13 +1,9 @@
 package ru.fitsme.android.presentation.fragments.orders;
 
-import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import java.util.List;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentOrdersHistoryBinding;
@@ -38,6 +34,13 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
 
         binding.appBar.setBackClickListener(this);
         binding.appBar.setTitle(getResources().getString(R.string.returns_choose_order_header));
+        setUp();
+    }
+
+    private void setUp() {
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).hideBottomNavbar();
+        }
     }
 
     @Override
@@ -52,16 +55,16 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
     @Override
     protected void setUpObservers() {
         viewModel.getOrdersListLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
+        viewModel.getOrdersListIsEmpty().observe(getViewLifecycleOwner(), this::onOrdersListIsEmpty);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    private void onLoadPage(PagedList<Order> ordersList) {
+        adapter.submitList(ordersList);
+        binding.loadingTv.setVisibility(View.GONE);
     }
 
-    private void onLoadPage(List<Order> ordersList) {
-        adapter.setItems(ordersList);
+    private void onOrdersListIsEmpty(Boolean hasNoItems) {
+        binding.ordersHistoryNoItems.setVisibility(hasNoItems ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -71,7 +74,6 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
 
     @Override
     public void onClickGoToCatalog() {
-//        viewModel.goToFavourites();
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToFavourites();
         }

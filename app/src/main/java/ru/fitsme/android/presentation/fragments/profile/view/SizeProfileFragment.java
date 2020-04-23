@@ -7,6 +7,7 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentProfileChangeSizeBinding;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.profile.events.SizeProfileBindingEvents;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
 
@@ -60,6 +61,9 @@ public class SizeProfileFragment extends BaseFragment<SizeProfileViewModel>
     }
 
     private void setUp() {
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).hideBottomNavbar();
+        }
         setTopSizeCheckers();
         setBottomSizeCheckers();
     }
