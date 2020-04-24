@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.models.OrderModel;
 import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
+import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.utils.OrderStatus;
 import timber.log.Timber;
@@ -20,7 +20,7 @@ import timber.log.Timber;
 public class CheckoutViewModel extends BaseViewModel {
 
     @Inject
-    IOrdersInteractor ordersInteractor;
+    ICartInteractor cartInteractor;
 
     private MutableLiveData<Boolean> successMakeOrderLiveData;
 
@@ -35,21 +35,21 @@ public class CheckoutViewModel extends BaseViewModel {
         return successMakeOrderLiveData;
     }
 
-    public void onClickMakeOrder() {
-        addDisposable(ordersInteractor.makeOrder(new OrderRequest(orderModel.get()))
+    void onClickMakeOrder() {
+        addDisposable(cartInteractor.makeOrder(new OrderRequest(orderModel.get()))
                 .subscribe(this::onMakeOrder, Timber::e));
     }
 
     @Override
     protected void init() {
         successMakeOrderLiveData = new MutableLiveData<>(false);
-        isLoading = ordersInteractor.getCheckOutIsLoading();
+        isLoading = cartInteractor.getCheckOutIsLoading();
         orderModel = new ObservableField<>();
         loadOrder();
     }
 
     private void loadOrder() {
-        addDisposable(ordersInteractor.getSingleOrder(OrderStatus.FM)
+        addDisposable(cartInteractor.getSingleOrder(OrderStatus.FM)
                 .subscribe(this::onOrder, Timber::e));
     }
 

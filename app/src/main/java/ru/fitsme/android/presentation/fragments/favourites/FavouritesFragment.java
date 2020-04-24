@@ -7,17 +7,25 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import io.reactivex.Single;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentFavouritesBinding;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
+import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
+import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import timber.log.Timber;
 
 public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         implements FavouritesBindingEvents,
         FavouritesRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
-        FavouritesAdapter.OnItemClickCallback {
+        FavouritesAdapter.OnItemClickCallback,
+        ItemInfoFragment.Callback {
 
     private FragmentFavouritesBinding binding;
     private FavouritesAdapter adapter;
@@ -83,7 +91,6 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     @Override
     public void onClickGoToRateItems() {
-//        viewModel.goToRateItems();
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToRateItems();
         }
@@ -91,6 +98,48 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
 
     @Override
     public void setDetailView(FavouritesItem favouritesItem) {
-        viewModel.setDetailView(favouritesItem);
+        ClothesItem clothesItem = favouritesItem.getItem();
+        ClotheInfo clotheInfo;
+        if (favouritesItem.isInCart()){
+            clotheInfo = new ClotheInfo<ClothesItem>(clothesItem, ClotheInfo.FAVOURITES_IN_CART_STATE);
+        } else {
+            clotheInfo = new ClotheInfo<ClothesItem>(clothesItem, ClotheInfo.FAVOURITES_NOT_IN_CART_STATE);
+        }
+        clotheInfo.setCallback(this);
+        viewModel.setDetailView(clotheInfo);
+    }
+
+
+    @Override
+    public Single<OrderItem> add(ClothesItem clothesItem) {
+        PagedList<FavouritesItem> pagedList = adapter.getCurrentList();
+        if (pagedList != null) {
+            for (int i = 0; i < pagedList.size(); i++) {
+                FavouritesItem favouritesItem = pagedList.get(i);
+                if (favouritesItem != null && clothesItem.getId() == favouritesItem.getItem().getId()) {
+                    return viewModel.addItemToCart(i);
+                }
+            }
+        }
+        return Single.just(new OrderItem());
+    }
+
+    @Override
+    public void remove(ClothesItem clothesItem) {
+        PagedList<FavouritesItem> pagedList = adapter.getCurrentList();
+        if (pagedList != null) {
+            for (int i = 0; i < pagedList.size(); i++) {
+                final int j = i;
+                FavouritesItem favouritesItem = pagedList.get(i);
+                if (favouritesItem != null && clothesItem.getId() == favouritesItem.getItem().getId()) {
+                    viewModel.removeItem(j)
+                            .subscribe(removedItem -> {
+                                if (removedItem.getId() != 0) {
+//                                    adapter.notifyItemChanged(j);
+                                }
+                            }, Timber::e);
+                }
+            }
+        }
     }
 }

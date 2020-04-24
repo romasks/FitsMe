@@ -57,6 +57,8 @@
     <string name="btn_checkout_order">Оформить заказ</string>
     <string name="warning_phone_number_is_not_filled">Номер телефона не заполнен</string>
     <string name="checkout_warning_some_fields_is_empty">All fields must be filled</string>
+    <string name="checkout_dialog_title">Ваш заказ отправлен на обработку</string>
+    <string name="checkout_dialog_content">Вы можете посмотреть историю заказов вашем профиле</string>
 
     <string name="menu_items">Главный</string>
     <string name="menu_favourites">Избранное</string>
@@ -110,15 +112,17 @@
     <string name="profile_message_to_user_saving">Сохранение</string>
     <string name="profile_message_to_user_saving_complete">Изменения сохранены</string>
     <string name="profile_message_to_user_set_top_size">Установите верхний размер</string>
-    <string name="dialog_fragment_rate_item_set_size_hint">Так вы сможете просматривать только подходящие по размеру вещи</string>
-    <string name="dialog_fragment_rate_item_set_size_hint_updated">Так вы сможете добавить вещь в корзину после того, как укажете ваш разиер</string>
+    <string name="favourites_fragment_message_for_size_dialog">Вы сможете добавить вещь в корзину после того, как укажете ваш размер</string>
+    <string name="cart_fragment_message_for_size_dialog">Вещь может быть заказана только после указания ваших размеров</string>
+    <string name="rateitems_fragment_message_for_size_dialog">Так вы сможете просматривать только подходящие вам по размеру вещи</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
 
     <!--returns-->
     <string name="screen_title_orders_return">Список возвратов</string>
     <string name="returns_empty_list_title">Вы не оформляли возврат</string>
-    <string name="returns_empty_list_message">Товар, заказанный на FitsMe и не подошедший по каким-либо причинам (форма, габариты, фасон, расцветка, размер и комплектация), может быть возвращен в течение 14 дней, не считая дня покупки </string>
+    <string name="returns_empty_list_message">Товар, заказанный на FitsMe и не подошедший по каким-либо причинам (форма, габариты, фасон, расцветка, размер и комплектация), подлежит возврату в течение 14 дней со дня доставки.</string>
+    <string name="returns_button_create_new_return">Оформить возврат</string>
     <string name="returns_number_tv">Заказ #%1$s</string>
     <string name="returns_status_title">Статус:</string>
     <string name="returns_amount_title">Количество товаров:</string>
@@ -204,5 +208,13 @@
     <string name="profile_bottom">Низ</string>
     <string name="profile_message_to_user_error">Ошибка сохранения размеров</string>
     <string name="item_cart_no_size">Размера нет в наличии</string>
+    <string name="no_item_toast">Товара нет в наличии</string>
+    <string name="item_info_add_to_cart">Добавить в корзину</string>
+    <string name="item_info_remove_from_favourite">Убрать из избранного</string>
+    <string name="item_info_remove_from_cart">Убрать из корзины</string>
+    <string name="item_info_in_cart">В корзине</string>
+    <string name="item_info_set_your_size">Укажите ваш размер</string>
+    <string name="item_info_no_match_size">Нет вашего размера</string>
+
 
 </resources>

@@ -14,6 +14,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemFavouriteBinding;
@@ -35,6 +39,8 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
     private FavouritesViewModel viewModel;
     private OnItemClickCallback callback;
+
+    private List<Boolean> isInCartList = new ArrayList<>();
 
     private static final int IN_LIST_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
@@ -73,7 +79,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         }
     }
 
-    abstract class FavouritesViewHolder extends RecyclerView.ViewHolder {
+    abstract static class FavouritesViewHolder extends RecyclerView.ViewHolder {
         FavouritesViewHolder(@NonNull View itemView) {
             super(itemView);
         }
@@ -83,7 +89,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
 
     public class InListViewHolder extends FavouritesViewHolder
-    implements TopSizeDialogFragment.TopSizeDialogCallback,
+            implements TopSizeDialogFragment.TopSizeDialogCallback,
             BottomSizeDialogFragment.BottomSizeDialogCallback {
         final public ViewDataBinding binding;
         final ImageView rightDeleteIcon;
@@ -101,15 +107,16 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         InListViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            viewBackground = binding.getRoot().findViewById(R.id.item_favourite_view_background);
-            viewForeground = binding.getRoot().findViewById(R.id.item_favourite_view_foreground);
-            rightDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_right);
-            leftDeleteIcon = binding.getRoot().findViewById(R.id.item_favourite_delete_icon_left);
-            imageView = binding.getRoot().findViewById(R.id.item_favourite_image);
-            brandName = binding.getRoot().findViewById(R.id.item_favourite_brand_name);
-            name = binding.getRoot().findViewById(R.id.item_favourite_name);
-            price = binding.getRoot().findViewById(R.id.item_favourite_price);
-            button = binding.getRoot().findViewById(R.id.item_favourite_btn);
+            View view = binding.getRoot();
+            viewBackground = view.findViewById(R.id.item_favourite_view_background);
+            viewForeground = view.findViewById(R.id.item_favourite_view_foreground);
+            rightDeleteIcon = view.findViewById(R.id.item_favourite_delete_icon_right);
+            leftDeleteIcon = view.findViewById(R.id.item_favourite_delete_icon_left);
+            imageView = view.findViewById(R.id.item_favourite_image);
+            brandName = view.findViewById(R.id.item_favourite_brand_name);
+            name = view.findViewById(R.id.item_favourite_name);
+            price = view.findViewById(R.id.item_favourite_price);
+            button = view.findViewById(R.id.item_favourite_btn);
         }
 
         @Override
@@ -117,7 +124,7 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             favouritesItem = getItem(position);
             ClothesItem clothesItem = favouritesItem == null ? new ClothesItem() : favouritesItem.getItem();
 
-            setItemState(favouritesItem);
+            setItemState(favouritesItem, position);
             button.setOnClickListener(view -> state.onButtonClick(viewModel, position));
 
             binding.setVariable(BR.clotheItem, clothesItem);
@@ -126,9 +133,14 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             binding.executePendingBindings();
         }
 
-        private void setItemState(@Nullable FavouritesItem favouritesItem) {
+        private void setItemState(@Nullable FavouritesItem favouritesItem, int position) {
             if (favouritesItem == null) return;
-            if (favouritesItem.isInCart()) {
+            try {
+                isInCartList.get(position);
+            } catch (IndexOutOfBoundsException ex) {
+                isInCartList.add(favouritesItem.isInCart());
+            }
+            if (isInCartList.get(position)) {
                 state = new InCartState(this, callback);
             } else {
                 ClothesItem.SizeInStock sizeInStock = favouritesItem.getItem().getSizeInStock();
@@ -153,7 +165,14 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             }
         }
 
-        public void setItemState(InListItemState state) {
+        void setItemState(InListItemState state) {
+            this.state = state;
+        }
+
+        public void setItemState(InListItemState state, int position) {
+            if (state instanceof InCartState) {
+                isInCartList.set(position, true);
+            }
             this.state = state;
         }
 

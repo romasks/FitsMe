@@ -26,7 +26,8 @@ public class SetTopSizeState extends InListItemState {
 
     @Override
     public void onButtonClick(FavouritesViewModel viewModel, int position) {
-        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(viewHolder);
+        String message = App.getInstance().getString(R.string.favourites_fragment_message_for_size_dialog);
+        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(viewHolder, message);
         FragmentManager fm = ((AppCompatActivity) viewHolder.binding.getRoot().getContext()).getSupportFragmentManager();
         dialogFragment.show(fm, "topSizeDf");
     }

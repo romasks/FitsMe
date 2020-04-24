@@ -5,8 +5,7 @@ import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.paging.PageKeyedDataSource;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 import javax.inject.Inject;
 
@@ -16,13 +15,11 @@ import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.orders.entity.OrdersPage;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
-import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.order.Order;
-import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.orders.OrdersInteractor;
 import timber.log.Timber;
 
-public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
+public class OrdersRepository extends PageKeyedDataSource<Integer, Order>
         implements IOrdersRepository {
 
     private final WebLoaderNetworkChecker webLoader;
@@ -34,64 +31,38 @@ public class OrdersRepository extends PageKeyedDataSource<Integer, OrderItem>
 
     @SuppressLint("CheckResult")
     @Override
-    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, OrderItem> callback) {
-        OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.loading));
-        webLoader.getOrdersInCart()
-                .subscribe(ordersPageOkResponse -> {
-                    OrdersPage ordersPage = ordersPageOkResponse.getResponse();
+    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Order> callback) {
+        OrdersInteractor.setMessage(App.getInstance().getString(R.string.loading));
+        webLoader.getOrdersPage(1)
+                .subscribe(response -> {
+                    OrdersPage ordersPage = response.getResponse();
                     if (ordersPage != null) {
-                        List<Order> ordersList = ordersPage.getOrdersList();
-                        List<OrderItem> orderItemList;
-                        if (ordersList.size() == 0) {
-                            orderItemList = new ArrayList<>();
-                        } else {
-                            orderItemList = ordersList.get(0).getOrderItemList();
-                        }
-                        callback.onResult(orderItemList, null, ordersPage.getNextPage());
+                        callback.onResult(ordersPage.getOrdersList(), null, ordersPage.getNextPage());
                     } else {
-                        UserException error = ErrorRepository.makeError(ordersPageOkResponse.getError());
-                        Timber.e(error.getMessage());
-                        List<OrderItem> list = new ArrayList();
-                        callback.onResult(list, null, null);
+                        Timber.e(ErrorRepository.makeError(response.getError()));
+                        callback.onResult(Collections.emptyList(), null, null);
                     }
-                    OrdersInteractor.setCartMessage(null);
-                }, error -> {
-                    Timber.e(error);
-                    OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.error));
-                });
+                }, Timber::e);
     }
 
     @Override
-    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, OrderItem> callback) {
+    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Order> callback) {
 
     }
 
     @SuppressLint("CheckResult")
     @Override
-    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, OrderItem> callback) {
-        OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.loading));
-        webLoader.getOrdersInCart()
-                .subscribe(ordersPageOkResponse -> {
-                    OrdersPage ordersPage = ordersPageOkResponse.getResponse();
+    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Order> callback) {
+        OrdersInteractor.setMessage(App.getInstance().getString(R.string.loading));
+        webLoader.getOrdersPage(params.key)
+                .subscribe(response -> {
+                    OrdersPage ordersPage = response.getResponse();
                     if (ordersPage != null) {
-                        List<Order> ordersList = ordersPage.getOrdersList();
-                        List<OrderItem> orderItemList;
-                        if (ordersList.size() == 0) {
-                            orderItemList = new ArrayList<>();
-                        } else {
-                            orderItemList = ordersList.get(0).getOrderItemList();
-                        }
-                        callback.onResult(orderItemList, ordersPage.getNextPage());
+                        callback.onResult(ordersPage.getOrdersList(), ordersPage.getNextPage());
                     } else {
-                        UserException error = ErrorRepository.makeError(ordersPageOkResponse.getError());
-                        Timber.e(error.getMessage());
-                        List<OrderItem> list = new ArrayList();
-                        callback.onResult(list, null);
+                        Timber.e(ErrorRepository.makeError(response.getError()));
+                        callback.onResult(Collections.emptyList(), null);
                     }
-                    OrdersInteractor.setCartMessage(null);
-                }, error -> {
-                    Timber.e(error);
-                    OrdersInteractor.setCartMessage(App.getInstance().getString(R.string.error));
-                });
+                }, Timber::e);
     }
 }

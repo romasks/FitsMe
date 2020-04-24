@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.Order;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -190,8 +191,8 @@ public class MainNavigation {
         replaceWith(NAV_ORDER_RETURN_PROFILE);
     }
 
-    public void goToDetailItemInfo(ClothesItem clothesItem) {
-        goNavigate(NAV_DETAIL_ITEM_INFO, clothesItem);
+    public void goToDetailItemInfo(ClotheInfo clotheInfo) {
+        goNavigate(NAV_DETAIL_ITEM_INFO, clotheInfo);
     }
 
     public void goBack() {

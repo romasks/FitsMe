@@ -9,14 +9,15 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
-import ru.fitsme.android.domain.interactors.orders.IOrdersInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
 public class CartViewModel extends BaseViewModel {
 
     @Inject
-    IOrdersInteractor ordersInteractor;
+    ICartInteractor cartInteractor;
 
     @Inject
     IClothesInteractor clothesInteractor;
@@ -32,8 +33,8 @@ public class CartViewModel extends BaseViewModel {
     }
 
     public void init() {
-        message = ordersInteractor.getMessage();
-        totalPrice = ordersInteractor.getTotalPrice();
+        message = cartInteractor.getMessage();
+        totalPrice = cartInteractor.getTotalPrice();
         isNeedShowSizeDialogForTop = clothesInteractor.getIsNeedShowSizeDialogForTop();
         isNeedShowSizeDialogForBottom = clothesInteractor.getIsNeedShowSizeDialogForBottom();
     }
@@ -55,23 +56,23 @@ public class CartViewModel extends BaseViewModel {
     }
 
     LiveData<PagedList<OrderItem>> getPageLiveData() {
-        return ordersInteractor.getPagedListLiveData();
+        return cartInteractor.getPagedListLiveData();
     }
 
     LiveData<Boolean> getCartIsEmpty() {
-        return ordersInteractor.getCartIsEmpty();
+        return cartInteractor.getCartIsEmpty();
     }
 
     public Single<OrderItem> removeItemFromOrder(int position) {
-        return ordersInteractor.removeItemFromOrder(position);
+        return cartInteractor.removeItemFromOrder(position);
     }
 
     Single<OrderItem> restoreItemToOrder(int position) {
-        return ordersInteractor.restoreItemToOrder(position);
+        return cartInteractor.restoreItemToOrder(position);
     }
 
     boolean itemIsRemoved(int position) {
-        return ordersInteractor.itemIsRemoved(position);
+        return cartInteractor.itemIsRemoved(position);
     }
 
     @Override
@@ -79,8 +80,8 @@ public class CartViewModel extends BaseViewModel {
         navigation.finish();
     }
 
-    public void setDetailView(OrderItem orderItem) {
-        navigation.goToDetailItemInfo(orderItem.getClothe());
+    public void setDetailView(ClotheInfo clotheInfo) {
+        navigation.goToDetailItemInfo(clotheInfo);
     }
 
     public void goToCheckout() {
@@ -96,6 +97,6 @@ public class CartViewModel extends BaseViewModel {
     }
 
     public void updateList() {
-        ordersInteractor.updateList();
+        cartInteractor.updateList();
     }
 }

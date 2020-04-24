@@ -1,16 +1,21 @@
 package ru.fitsme.android.data.frameworks.retrofit.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ReturnsItemRequest {
-    private int orderitems_id;
+
+    @SerializedName("orderitems_id")
+    private int orderItemId;
+    @SerializedName("quantity")
     private int quantity;
 
-    public ReturnsItemRequest(int orderitems_id, int quantity) {
-        this.orderitems_id = orderitems_id;
+    public ReturnsItemRequest(int orderItemId, int quantity) {
+        this.orderItemId = orderItemId;
         this.quantity = quantity;
     }
 
-    public int getOrderitemsId() {
-        return orderitems_id;
+    public int getOrderItemId() {
+        return orderItemId;
     }
 
     public int getQuantity() {

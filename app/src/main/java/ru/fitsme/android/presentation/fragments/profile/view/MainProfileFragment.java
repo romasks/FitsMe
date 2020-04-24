@@ -28,7 +28,7 @@ public class MainProfileFragment extends BaseFragment<MainProfileViewModel> impl
 
     private void setUp() {
         if (getParentFragment() != null) {
-            ((MainFragment) getParentFragment()).showBottomNavigation(true);
+            ((MainFragment) getParentFragment()).showBottomNavbar();
         }
         viewModel.onViewCreated();
     }

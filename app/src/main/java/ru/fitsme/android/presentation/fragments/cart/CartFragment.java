@@ -2,22 +2,32 @@ package ru.fitsme.android.presentation.fragments.cart;
 
 import android.annotation.SuppressLint;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.reactivex.Single;
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCartBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheType;
+import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.cart.buttonstate.ButtonState;
 import ru.fitsme.android.presentation.fragments.cart.buttonstate.NormalState;
 import ru.fitsme.android.presentation.fragments.cart.buttonstate.RemoveNoMatchSizeState;
 import ru.fitsme.android.presentation.fragments.cart.buttonstate.SetSizeState;
+import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
+import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
@@ -28,7 +38,8 @@ public class CartFragment extends BaseFragment<CartViewModel>
         CartRecyclerItemTouchHelper.RecyclerItemTouchHelperListener,
         CartAdapter.OnItemClickCallback,
         TopSizeDialogFragment.TopSizeDialogCallback,
-        BottomSizeDialogFragment.BottomSizeDialogCallback {
+        BottomSizeDialogFragment.BottomSizeDialogCallback,
+        ItemInfoFragment.Callback {
 
     private FragmentCartBinding binding;
     private CartAdapter adapter;
@@ -120,7 +131,27 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void onClickGoToCheckout() {
-        viewModel.goToCheckout();
+        boolean canGoToCheckout = true;
+        PagedList<OrderItem> pagedList = adapter.getCurrentList();
+        for (int i = 0; i < pagedList.size(); i++) {
+            if (!viewModel.itemIsRemoved(i)) {
+                ClothesItem clothesItem = pagedList.get(i).getClothe();
+                if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED) {
+                    canGoToCheckout = false;
+                    if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP) {
+                        showTopSizeDialog();
+                    } else if (clothesItem.getClotheType().getType() == ClotheType.Type.BOTTOM) {
+                        showBottomSizeDialog();
+                    }
+                } else if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.NO) {
+                    canGoToCheckout = false;
+                    Toast.makeText(getContext(), R.string.no_item_toast, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        if (canGoToCheckout) {
+            viewModel.goToCheckout();
+        }
     }
 
     @Override
@@ -162,7 +193,72 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void setDetailView(OrderItem orderItem) {
-        viewModel.setDetailView(orderItem);
+        ClothesItem clothesItem = orderItem.getClothe();
+        ClotheInfo clotheInfo = new ClotheInfo<ClothesItem>(clothesItem, ClotheInfo.CART_STATE);
+        clotheInfo.setCallback(this);
+        viewModel.setDetailView(clotheInfo);
+    }
+
+
+    private void showTopSizeDialog(){
+        String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
+        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, message);
+        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+        dialogFragment.show(fm, "topSizeDf");
+    }
+
+    private void showBottomSizeDialog(){
+        String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
+        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, message);
+        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+        dialogFragment.show(fm, "bottomSizeDf");
+    }
+
+
+    @Override
+    public void onBottomOkButtonClick() {
+        viewModel.updateList();
+    }
+
+    @Override
+    public void onBottomCancelButtonClick() {
+
+    }
+
+    @Override
+    public void onTopOkButtonClick() {
+        viewModel.updateList();
+    }
+
+    @Override
+    public void onTopCancelButtonClick() {
+
+    }
+
+
+    @Override
+    public Single<OrderItem> add(ClothesItem clothesItem) {
+        // В корзине кнопка add не задействована
+        return Single.just(new OrderItem());
+    }
+
+    @Override
+    public void remove(ClothesItem clothesItem) {
+        PagedList<OrderItem> pagedList = adapter.getCurrentList();
+        if (pagedList != null) {
+            for (int i = 0; i < pagedList.size(); i++) {
+                final int j = i;
+                OrderItem orderItem = pagedList.get(i);
+                if (orderItem != null && clothesItem.getId() == orderItem.getClothe().getId()) {
+                    viewModel.removeItemFromOrder(j)
+                            .subscribe(removedItem -> {
+                                if (removedItem.getId() != 0) {
+//                                    adapter.notifyItemChanged(j);
+                                }
+                            }, Timber::e);
+                }
+            }
+        }
     }
 
     @Override

@@ -29,6 +29,8 @@ import ru.fitsme.android.data.frameworks.sharedpreferences.SettingsStorage;
 import ru.fitsme.android.data.repositories.auth.AuthRepository;
 import ru.fitsme.android.data.repositories.auth.SignRepository;
 import ru.fitsme.android.data.repositories.auth.TextValidator;
+import ru.fitsme.android.data.repositories.cart.CartActionRepository;
+import ru.fitsme.android.data.repositories.cart.CartRepository;
 import ru.fitsme.android.data.repositories.clothes.ClothesRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesActionRepository;
 import ru.fitsme.android.data.repositories.favourites.FavouritesRepository;
@@ -37,21 +39,27 @@ import ru.fitsme.android.data.repositories.orders.OrdersActionRepository;
 import ru.fitsme.android.data.repositories.orders.OrdersRepository;
 import ru.fitsme.android.data.repositories.profile.ProfileRepository;
 import ru.fitsme.android.data.repositories.returns.ReturnsRepository;
+import ru.fitsme.android.data.repositories.returns.orders.ReturnOrdersRepository;
 import ru.fitsme.android.domain.boundaries.IFeedbackRepository;
 import ru.fitsme.android.domain.boundaries.auth.IAuthRepository;
 import ru.fitsme.android.domain.boundaries.auth.ISignRepository;
 import ru.fitsme.android.domain.boundaries.auth.ITextValidator;
+import ru.fitsme.android.domain.boundaries.cart.ICartActionRepository;
+import ru.fitsme.android.domain.boundaries.cart.ICartRepository;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesActionRepository;
 import ru.fitsme.android.domain.boundaries.favourites.IFavouritesRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersActionRepository;
 import ru.fitsme.android.domain.boundaries.orders.IOrdersRepository;
 import ru.fitsme.android.domain.boundaries.profile.IProfileRepository;
+import ru.fitsme.android.domain.boundaries.retunrs.IReturnOrdersRepository;
 import ru.fitsme.android.domain.boundaries.retunrs.IReturnsRepository;
 import ru.fitsme.android.domain.interactors.auth.AuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.domain.interactors.auth.SignInteractor;
+import ru.fitsme.android.domain.interactors.cart.CartInteractor;
+import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.domain.interactors.clothes.ClothesInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.favourites.FavouritesInteractor;
@@ -96,6 +104,10 @@ public class DI {
             bind(IFavouritesRepository.class).to(FavouritesRepository.class);
             bind(IFavouritesActionRepository.class).to(FavouritesActionRepository.class);
 
+            bind(ICartInteractor.class).to(CartInteractor.class);
+            bind(ICartRepository.class).to(CartRepository.class);
+            bind(ICartActionRepository.class).to(CartActionRepository.class);
+
             bind(IOrdersInteractor.class).to(OrdersInteractor.class);
             bind(IOrdersRepository.class).to(OrdersRepository.class);
             bind(IOrdersActionRepository.class).to(OrdersActionRepository.class);
@@ -108,6 +120,7 @@ public class DI {
 
             bind(IReturnsInteractor.class).to(ReturnsInteractor.class);
             bind(IReturnsRepository.class).to(ReturnsRepository.class);
+            bind(IReturnOrdersRepository.class).to(ReturnOrdersRepository.class);
 
             bind(IFeedbackInteractor.class).to(FeedbackInteractor.class);
             bind(IFeedbackRepository.class).to(FeedbackRepository.class);

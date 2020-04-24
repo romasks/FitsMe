@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import ru.fitsme.android.data.frameworks.retrofit.WebLoaderNetworkChecker;
-import ru.fitsme.android.domain.entities.order.OrderItem;
+import ru.fitsme.android.domain.entities.order.Order;
 
-public class OrdersDataSourceFactory extends DataSource.Factory<Integer, OrderItem> {
+public class OrdersDataSourceFactory extends DataSource.Factory<Integer, Order> {
 
     private final WebLoaderNetworkChecker webLoader;
 
@@ -24,7 +24,7 @@ public class OrdersDataSourceFactory extends DataSource.Factory<Integer, OrderIt
 
     @NotNull
     @Override
-    public DataSource<Integer, OrderItem> create() {
+    public DataSource<Integer, Order> create() {
         latestSource = new OrdersRepository(webLoader);
         sourceLiveData.postValue(latestSource);
         return latestSource;

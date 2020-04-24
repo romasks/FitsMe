@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
@@ -14,6 +16,7 @@ import androidx.lifecycle.LiveData;
 import javax.inject.Inject;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
@@ -108,17 +111,21 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         int containerWidth = binding.fragmentRateItemsContainer.getWidth();
         int containerHeight = getContainerHeight();
 
-        rateItemTouchListener = new RateItemTouchListener(this);
-        currentFragment = ItemInfoFragment.newInstance(
-                clotheInfo,
-                containerHeight, containerWidth,
-                rateItemTouchListener
-        );
+        //если убрать это условие, то изображение дергается,
+        // потому что команда срабатывает когда контейнер еще не создан
+        if (containerHeight != 0 && containerWidth != 0) {
+            rateItemTouchListener = new RateItemTouchListener(this);
+            currentFragment = ItemInfoFragment.newInstance(
+                    clotheInfo,
+                    containerHeight, containerWidth,
+                    rateItemTouchListener
+            );
 
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_rate_items_container, currentFragment)
-                .commit();
-        resetContainerView();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_rate_items_container, currentFragment)
+                    .commit();
+            resetContainerView();
+        }
     }
 
     private int getContainerHeight() {
@@ -274,10 +281,12 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
                 ClotheType type = item.getClotheType();
                 if (sizeIsNotSet) {
                     if (type.getType() == ClotheType.Type.TOP && isNeedShowSizeDialogForTop.getValue()) {
-                        TopSizeDialogFragment.newInstance(this).show(fragmentManager(), "sizeDf");
+                        String message = App.getInstance().getString(R.string.rateitems_fragment_message_for_size_dialog);
+                        TopSizeDialogFragment.newInstance(this, message).show(fragmentManager(), "sizeDf");
                     }
                     if (type.getType() == ClotheType.Type.BOTTOM && isNeedShowSizeDialogForBottom.getValue()) {
-                        BottomSizeDialogFragment.newInstance(this).show(fragmentManager(), "sizeDf");
+                        String message = App.getInstance().getString(R.string.rateitems_fragment_message_for_size_dialog);
+                        BottomSizeDialogFragment.newInstance(this, message).show(fragmentManager(), "sizeDf");
                     }
                 }
             }

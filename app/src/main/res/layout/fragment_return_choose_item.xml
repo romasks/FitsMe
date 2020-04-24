@@ -57,7 +57,7 @@
             android:background="#AAAAAAAA" />
 
         <TextView
-            android:id="@+id/fragment_checkout_loading_tv"
+            android:id="@+id/loading_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/separator"
@@ -66,8 +66,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:text="@string/loading"
-            android:textSize="@dimen/text_size_16sp"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+            android:textSize="@dimen/text_size_16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/return_order_items_list_rv"
