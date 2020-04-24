@@ -16,7 +16,8 @@ import ru.fitsme.android.presentation.fragments.main.MainFragment
 import ru.fitsme.android.utils.Constants.RU_PHONE_MASK
 import timber.log.Timber
 
-class CheckoutFragment : BaseFragment<CheckoutViewModel>(), CheckoutBindingEvents, BackClickListener {
+class CheckoutFragment : BaseFragment<CheckoutViewModel>(), CheckoutBindingEvents, BackClickListener,
+        FinishOrderDialogFragment.FinishOrderDialogCallback {
 
     private lateinit var binding: FragmentCheckoutBinding
     private var isMaskFilled = false
@@ -62,7 +63,7 @@ class CheckoutFragment : BaseFragment<CheckoutViewModel>(), CheckoutBindingEvent
             Toast.makeText(context, R.string.checkout_warning_some_fields_is_empty, Toast.LENGTH_SHORT).show()
             return;
         }
-        viewModel.onClickMakeOrder()
+        FinishOrderDialogFragment.newInstance(this).show(childFragmentManager, "finishOrder");
     }
 
     private fun setUp() {
@@ -89,5 +90,9 @@ class CheckoutFragment : BaseFragment<CheckoutViewModel>(), CheckoutBindingEvent
                     }
                 })
         phoneField.requestFocus()
+    }
+
+    override fun onDialogOkButtonClick() {
+        viewModel.onClickMakeOrder()
     }
 }

@@ -56,6 +56,8 @@
     <string name="btn_checkout_order">Оформить заказ</string>
     <string name="warning_phone_number_is_not_filled">Номер телефона не заполнен</string>
     <string name="checkout_warning_some_fields_is_empty">All fields must be filled</string>
+    <string name="checkout_dialog_title">Ваш заказ отправлен на обработку</string>
+    <string name="checkout_dialog_content">Вы можете посмотреть историю заказов вашем профиле</string>
 
     <string name="menu_items">Главный</string>
     <string name="menu_favourites">Избранное</string>
