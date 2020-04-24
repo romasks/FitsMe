@@ -7,6 +7,8 @@ import android.view.View;
 public class RateItemTouchListener implements View.OnTouchListener {
     private Callback callback;
 
+    private static final long MAX_CLICK_DURATION = 250;
+
     private Rating liked = Rating.RESET;
 
     private int windowWidth;
@@ -18,6 +20,7 @@ public class RateItemTouchListener implements View.OnTouchListener {
     private int moveEventY;
     private int downEventX;
     private int downEvenY;
+    private long downEventTime;
     private int deltaX;
     private int deltaY;
 
@@ -45,6 +48,7 @@ public class RateItemTouchListener implements View.OnTouchListener {
                 break;
             case MotionEvent.ACTION_UP:
                 handleSwipeEvent();
+                handleClickEvent();
                 v.performClick();
                 break;
             default:
@@ -54,8 +58,20 @@ public class RateItemTouchListener implements View.OnTouchListener {
     }
 
     private void handleDownEvent(MotionEvent event) {
+        downEventTime = System.currentTimeMillis();
         downEventX = (int) event.getRawX();
         downEvenY = (int) event.getRawY();
+    }
+
+    private void handleClickEvent() {
+        long upEventTime = System.currentTimeMillis();
+        if (upEventTime - downEventTime < MAX_CLICK_DURATION){
+            if (downEventX < screenHorizontalCenter){
+                callback.previousPicture();
+            } else {
+                callback.nextPicture();
+            }
+        }
     }
 
     private void handleSwipeEvent() {
@@ -121,5 +137,9 @@ public class RateItemTouchListener implements View.OnTouchListener {
         void resetContainerViewWithAnimation();
 
         void resetContainerView();
+
+        void previousPicture();
+
+        void nextPicture();
     }
 }

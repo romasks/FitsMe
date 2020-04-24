@@ -32,9 +32,8 @@ public class CartRecyclerItemTouchHelper extends
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView;
             if (viewHolder instanceof CartAdapter.NormalViewHolder) {
-                foregroundView = ((CartAdapter.NormalViewHolder) viewHolder).viewForeground;
+                final View foregroundView = ((CartAdapter.NormalViewHolder) viewHolder).viewForeground;
                 getDefaultUIUtil().onSelected(foregroundView);
             }
         }

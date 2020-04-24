@@ -32,8 +32,10 @@ public class FavouritesRecyclerItemTouchHelper extends
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            final View foregroundView = ((FavouritesAdapter.InListViewHolder) viewHolder).viewForeground;
-            getDefaultUIUtil().onSelected(foregroundView);
+            if (viewHolder instanceof FavouritesAdapter.InListViewHolder) {
+                final View foregroundView = ((FavouritesAdapter.InListViewHolder) viewHolder).viewForeground;
+                getDefaultUIUtil().onSelected(foregroundView);
+            }
         }
     }
 

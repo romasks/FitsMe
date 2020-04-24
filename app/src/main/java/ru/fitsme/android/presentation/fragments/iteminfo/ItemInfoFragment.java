@@ -1,27 +1,17 @@
 package ru.fitsme.android.presentation.fragments.iteminfo;
 
-import android.annotation.SuppressLint;
-import android.content.res.Resources;
-import android.os.Build;
-import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
-import androidx.constraintlayout.widget.Constraints;
 
 import javax.inject.Inject;
 
 import io.reactivex.Single;
 import ru.fitsme.android.R;
-import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
-import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
+import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.states.AddToCartState;
 import ru.fitsme.android.presentation.fragments.iteminfo.states.InCartState;
@@ -29,44 +19,22 @@ import ru.fitsme.android.presentation.fragments.iteminfo.states.ItemInfoState;
 import ru.fitsme.android.presentation.fragments.iteminfo.states.NoMatchSize;
 import ru.fitsme.android.presentation.fragments.iteminfo.states.RemoveFromCartState;
 import ru.fitsme.android.presentation.fragments.iteminfo.states.SetSizeState;
-import ru.fitsme.android.presentation.fragments.main.MainFragment;
-import ru.fitsme.android.presentation.fragments.rateitems.RateItemTouchListener;
-import ru.fitsme.android.presentation.fragments.rateitems.RateItemsFragment;
+import ru.fitsme.android.presentation.fragments.returns.ReturnsBindingEvents;
 
 public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
-        implements BindingEventsClickListener, ItemInfoTouchListener.Callback, ItemInfoState.StateSettable {
+        implements BindingEventsClickListener, BackClickListener, ItemInfoTouchListener.Callback, ItemInfoState.StateSettable {
 
     @Inject
     IClothesInteractor clothesInteractor;
 
     private static ClotheInfo clotheInfo;
-    private static int containerHeight;
-    private static int containerWidth;
     private FragmentItemInfoBinding binding;
     private ItemInfoPictureHelper pictureHelper;
-    private static boolean isFullState = false;
     private ItemInfoState itemInfoState;
-
-    private static RateItemTouchListener rateItemTouchListener;
-
-    public static ItemInfoFragment newInstance(ClotheInfo item,
-                                               int containerHeight, int containerWidth,
-                                               RateItemTouchListener rateItemTouchListener) {
-        ItemInfoFragment.rateItemTouchListener = rateItemTouchListener;
-        ItemInfoFragment fragment = new ItemInfoFragment();
-        isFullState = false;
-        ItemInfoFragment.clotheInfo = item;
-        ItemInfoFragment.containerHeight = containerHeight;
-        ItemInfoFragment.containerWidth = containerWidth;
-        return fragment;
-    }
 
     public static ItemInfoFragment newInstance(Object object) {
         ItemInfoFragment fragment = new ItemInfoFragment();
-        isFullState = true;
         ItemInfoFragment.clotheInfo = (ClotheInfo) object;
-        ItemInfoFragment.containerHeight = 0;
-        ItemInfoFragment.containerWidth = 0;
         return fragment;
     }
 
@@ -79,25 +47,25 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     protected void afterCreateView(View view) {
         binding = FragmentItemInfoBinding.bind(view);
         binding.setBindingEvents(this);
+        binding.appBar.setBackClickListener(this);
+        binding.appBar.setTitle(getString(R.string.item_info_title));
         setUp();
-        setFullState(isFullState);
     }
 
     private void setUp() {
-        setMargins();
-
         if (clotheInfo.getClothe() == null) {
             onError(clotheInfo.getError());
         } else if (clotheInfo.getClothe() instanceof ClothesItem) {
             onClothesItem((ClothesItem) clotheInfo.getClothe());
             setListeners();
-        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
-            onLikedClothesItem();
-            setListeners();
-        } else {
+        }
+//        else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
+//            onLikedClothesItem();
+//            setListeners();
+//        }
+        else {
             throw new TypeNotPresentException(clotheInfo.getClothe().toString(), null);
         }
-
         setItemInfoState();
     }
 
@@ -105,10 +73,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         ClothesItem clothesItem;
         if (clotheInfo.getClothe() instanceof ClothesItem) {
             clothesItem = (ClothesItem) clotheInfo.getClothe();
-        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
-            LikedClothesItem likedItem = (LikedClothesItem) clotheInfo.getClothe();
-            clothesItem = likedItem.getClothe();
-        } else {
+        }
+//        else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
+//            LikedClothesItem likedItem = (LikedClothesItem) clotheInfo.getClothe();
+//            clothesItem = likedItem.getClothe();
+//        }
+        else {
             throw new IllegalArgumentException("Inappropriate ClotheInfo");
         }
 
@@ -128,39 +98,18 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     }
 
     private void setListeners() {
-        binding.itemInfoScrollView.setListener(rateItemTouchListener);
-        binding.itemInfoScrollView.setListener(new ItemInfoTouchListener(this));
-        setOnBrandNameTouchListener();
-    }
-
-    private void setMargins() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            float topMerge = -3.0f;
-
-            Resources r = getResources();
-            int px = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    topMerge,
-                    r.getDisplayMetrics()
-            );
-
-            Constraints.LayoutParams params = new Constraints.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins(0, px, 0, 0);
-        }
+        binding.itemInfoImageContainer.setOnTouchListener(new ItemInfoTouchListener(this));
     }
 
     private void onError(UserException error) {
         binding.itemInfoMessage.setText(error.getMessage());
-        binding.itemInfoItemInfoCard.setVisibility(View.INVISIBLE);
+        binding.itemInfoImageContainer.setVisibility(View.INVISIBLE);
+        binding.itemInfoItemInfoContainer.setVisibility(View.INVISIBLE);
+        binding.itemInfoItemDescriptionLayout.setVisibility(View.INVISIBLE);
     }
 
     private void onClothesItem(ClothesItem clothesItem) {
         binding.itemInfoMessage.setText(getString(R.string.loading));
-        binding.itemInfoMessage.requestLayout();
-        binding.itemInfoItemInfoCard.setVisibility(View.INVISIBLE);
         String brandName = clothesItem.getBrand();
         String name = clothesItem.getName();
         String description = clothesItem.getDescription();
@@ -179,18 +128,12 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
         binding.itemInfoItemDescriptionTv.setText(description);
         binding.itemInfoItemContentTv.setText(clotheContentStr.toString());
 
+        binding.itemInfoImageContainer.setVisibility(View.VISIBLE);
+        binding.itemInfoItemInfoContainer.setVisibility(View.VISIBLE);
+        binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
+
         pictureHelper =
-                new ItemInfoPictureHelper(this, binding, clothesItem, containerWidth, containerHeight);
-
-    }
-
-    private void onLikedClothesItem() {
-        // TODO: 30.07.2019 Выполняется в случае отмены лайка. Не сделано еще
-    }
-
-    @Override
-    public void onClickBrandName() {
-
+                new ItemInfoPictureHelper(this, binding, clothesItem);
     }
 
     @Override
@@ -201,105 +144,6 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     @Override
     public void onClickRemove() {
         itemInfoState.onClickRemove();
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void setOnBrandNameTouchListener() {
-        binding.itemInfoBrandNameLayout.setOnTouchListener((v, event) -> {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    break;
-                case MotionEvent.ACTION_UP:
-                    if (binding.itemInfoBrandFieldDownArrow.getVisibility() == View.VISIBLE) {
-                        ItemInfoFragment.this.setDetailState();
-                    } else {
-                        ItemInfoFragment.this.setSummaryState();
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return true;
-        });
-    }
-
-    public void showYes(boolean b, float alpha) {
-        if (b) {
-            binding.rateItemsYes.setAlpha(alpha);
-            binding.rateItemsYes.setVisibility(View.VISIBLE);
-            showNo(false);
-        } else {
-            binding.rateItemsYes.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void showYes(boolean b) {
-        showYes(b, 1.0f);
-    }
-
-    public void showNo(boolean b, float alpha) {
-        if (b) {
-            binding.rateItemsNo.setVisibility(View.VISIBLE);
-            binding.rateItemsNo.setAlpha(alpha);
-            showYes(false);
-        } else {
-            binding.rateItemsNo.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void showNo(boolean b) {
-        showNo(b, 1.0f);
-    }
-
-    private void setFullState(boolean b) {
-        if (b) {
-            setDetailState();
-        } else {
-            setSummaryState();
-        }
-    }
-
-    private void setSummaryState() {
-        binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
-        binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
-        binding.ivPhoto.requestLayout();
-        binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.WRAP_CONTENT;
-        binding.itemInfoBrandFieldDownArrow.setVisibility(View.VISIBLE);
-        binding.itemInfoBrandFieldUpArrow.setVisibility(View.INVISIBLE);
-        binding.itemInfoItemDescriptionLayout.setVisibility(View.GONE);
-        binding.itemInfoScrollView.setDetailState(false);
-        if (getParentFragment() != null) {
-            ((RateItemsFragment) getParentFragment()).setFullItemInfoState(false);
-        }
-        int paddingVal = App.getInstance().getResources().getDimensionPixelSize(R.dimen.item_info_card_padding);
-        binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
-        binding.itemInfoItemInfoCard.setRadius(App.getInstance().getResources().getDimension(R.dimen.item_info_card_radius));
-        binding.itemInfoItemInfoCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
-        binding.itemInfoBrandNameCard.setCardElevation(App.getInstance().getResources().getDimension(R.dimen.items_info_elevation));
-    }
-
-    private void setDetailState() {
-        binding.itemInfoBrandFieldDownArrow.setVisibility(View.INVISIBLE);
-        binding.itemInfoBrandFieldUpArrow.setVisibility(View.VISIBLE);
-        binding.itemInfoItemDescriptionLayout.setVisibility(View.VISIBLE);
-        binding.itemInfoScrollView.setDetailState(true);
-        int paddingVal = 0;
-        binding.itemInfoBrandNameCard.setCardElevation(0);
-        binding.itemInfoItemInfoContainer.setPadding(paddingVal, paddingVal, paddingVal, paddingVal);
-        binding.itemInfoItemInfoCard.setRadius(0);
-        binding.itemInfoItemInfoCard.setCardElevation(0);
-        binding.itemInfoItemInfoCard.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
-        binding.ivPhoto.getLayoutParams().height = FrameLayout.LayoutParams.WRAP_CONTENT;
-        binding.ivPhoto.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
-        binding.ivPhoto.requestLayout();
-        if (getParentFragment() != null) {
-            if (getParentFragment() instanceof RateItemsFragment) {
-                ((RateItemsFragment) getParentFragment()).setFullItemInfoState(true);
-            } else if (getParentFragment() instanceof MainFragment) {
-                binding.itemInfoBrandNameCard.setVisibility(View.GONE);
-                binding.itemInfoBrandNameLayout.setVisibility(View.GONE);
-            }
-        }
     }
 
     @Override
@@ -325,6 +169,11 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
     @Override
     public void finish() {
         onBackPressed();
+    }
+
+    @Override
+    public void goBack() {
+        viewModel.onBackPressed();
     }
 
 

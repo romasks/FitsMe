@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 
 import javax.inject.Inject;
@@ -20,16 +18,19 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
+import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
-import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
+import ru.fitsme.android.presentation.fragments.rateItemsdetail.RateItemsDetailFragment;
 
 public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         implements BindingEventsClickListener,
+        RateItemsDetailFragment.Callback,
         RateItemTouchListener.Callback,
         RateItemAnimation.Callback,
         TopSizeDialogFragment.TopSizeDialogCallback,
@@ -40,16 +41,15 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Inject
     IClothesInteractor clothesInteractor;
 
-    private ItemInfoFragment currentFragment;
     private FragmentRateItemsBinding binding;
     private RateItemAnimation itemAnimation;
     private boolean isFullItemInfoState;
-    private RateItemTouchListener rateItemTouchListener;
-    private ClotheInfo currentClotheInfo;
+    private ClothesItem clothesItem;
 
     private LiveData<Boolean> isNeedShowSizeDialogForTop;
     private LiveData<Boolean> isNeedShowSizeDialogForBottom;
 
+    private RateItemPictureHelper pictureHelper;
 
     public static RateItemsFragment newInstance() {
         return new RateItemsFragment();
@@ -58,14 +58,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            isFullItemInfoState = getArguments().getBoolean(KEY_ITEM_INFO_STATE);
-        } else {
-            isFullItemInfoState = false;
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
-            setArguments(bundle);
-        }
     }
 
     @Override
@@ -79,8 +71,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         binding.setBindingEvents(this);
         setUp();
         viewModel.onAfterCreateView();
+        binding.fragmentRateItemsMessage.setText(getString(R.string.loading));
         isNeedShowSizeDialogForTop = viewModel.getIsNeedShowSizeDialogForTop();
         isNeedShowSizeDialogForBottom = viewModel.getIsNeedShowSizeDialogForBottom();
+        setListeners();
     }
 
     private void setUp() {
@@ -94,9 +88,11 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void onChange(ClotheInfo clotheInfo) {
-        currentClotheInfo = clotheInfo;
+        setSummaryItemInfoState();
+        binding.fragmentRateItemsMessage.setText(getString(R.string.loading));
+        binding.fragmentRateItemsInfoCard.setVisibility(View.INVISIBLE);
+        binding.fragmentRateItemsBrandNameCard.setVisibility(View.INVISIBLE);
         setClotheInfo(clotheInfo);
-        setFullItemInfoState(false);
     }
 
     private void onFilterIconChange(Boolean isChecked) {
@@ -107,44 +103,69 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         }
     }
 
+    private void setListeners() {
+        binding.fragmentRateItemsInfoCard.setOnTouchListener(new RateItemTouchListener(this));
+    }
+
     private void setClotheInfo(ClotheInfo clotheInfo) {
-        int containerWidth = binding.fragmentRateItemsContainer.getWidth();
-        int containerHeight = getContainerHeight();
-
-        //если убрать это условие, то изображение дергается,
-        // потому что команда срабатывает когда контейнер еще не создан
-        if (containerHeight != 0 && containerWidth != 0) {
-            rateItemTouchListener = new RateItemTouchListener(this);
-            currentFragment = ItemInfoFragment.newInstance(
-                    clotheInfo,
-                    containerHeight, containerWidth,
-                    rateItemTouchListener
-            );
-
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_rate_items_container, currentFragment)
-                    .commit();
-            resetContainerView();
+        resetContainerView();
+        if (clotheInfo.getClothe() == null) {
+            onError(clotheInfo.getError());
+        } else if (clotheInfo.getClothe() instanceof ClothesItem) {
+            onClothesItem((ClothesItem) clotheInfo.getClothe());
+        } else if (clotheInfo.getClothe() instanceof LikedClothesItem) {
+            onLikedClothesItem();
+        } else {
+            throw new TypeNotPresentException(clotheInfo.getClothe().toString(), null);
         }
     }
 
-    private int getContainerHeight() {
-        int containerHeight;
-        if (isFullItemInfoState) {
-            int px = binding.fragmentRateItemsButtonsGroup.getHeight();
-            int bottomPx = getParentFragment() == null ? 0 : ((MainFragment) getParentFragment()).getBottomNavigationSize();
-            containerHeight = binding.fragmentRateItemsContainer.getHeight() - px - bottomPx;
+    private void onClothesItem(ClothesItem clothesItem) {
+        this.clothesItem = clothesItem;
+        pictureHelper =
+                new RateItemPictureHelper(this, binding, clothesItem);
+    }
+
+    private void onLikedClothesItem() {}
+
+    private void onError(UserException error) {
+        this.clothesItem = null;
+        binding.fragmentRateItemsMessage.setText(error.getMessage());
+        binding.fragmentRateItemsInfoCard.setVisibility(View.INVISIBLE);
+    }
+
+    private void showYes(boolean b, float alpha) {
+        if (b) {
+            binding.fragmentRateItemsYes.setAlpha(alpha);
+            binding.fragmentRateItemsYes.setVisibility(View.VISIBLE);
+            showNo(false);
         } else {
-            containerHeight = binding.fragmentRateItemsContainer.getHeight();
+            binding.fragmentRateItemsYes.setVisibility(View.INVISIBLE);
         }
-        return containerHeight;
+    }
+
+    private void showYes(boolean b) {
+        showYes(b, 1.0f);
+    }
+
+    private void showNo(boolean b, float alpha) {
+        if (b) {
+            binding.fragmentRateItemsNo.setVisibility(View.VISIBLE);
+            binding.fragmentRateItemsNo.setAlpha(alpha);
+            showYes(false);
+        } else {
+            binding.fragmentRateItemsNo.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void showNo(boolean b) {
+        showNo(b, 1.0f);
     }
 
     @Override
     public void onBackPressed() {
         if (isFullItemInfoState) {
-            setClotheInfo(currentClotheInfo);
-            setFullItemInfoState(false);
+            closeRateItemsDetailFragment();
         } else {
             viewModel.onBackPressed();
         }
@@ -157,7 +178,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void onClickReturn() {
-        viewModel.onReturnClicked(currentClotheInfo);
+        viewModel.onReturnClicked(new ClotheInfo<ClothesItem>(clothesItem));
     }
 
     @Override
@@ -170,69 +191,94 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         viewModel.onFilterClicked();
     }
 
-    public void setFullItemInfoState(boolean b) {
-        isFullItemInfoState = b;
-        getArguments().putBoolean(KEY_ITEM_INFO_STATE, isFullItemInfoState);
-        if (b) {
-            binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
-            binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
-            binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.INVISIBLE);
-            if (getParentFragment() != null) {
-                ((MainFragment) getParentFragment()).showBottomNavigation(false);
-            }
-            setConstraintToFullState(true);
-        } else {
-            binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
-            binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
-            boolean filterIsChecked = viewModel.getFilterIconLiveData().getValue();
-            if (filterIsChecked) {
-                binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.VISIBLE);
-            }
-            if (getParentFragment() != null) {
-                ((MainFragment) getParentFragment()).showBottomNavigation(true);
-            }
-            setConstraintToFullState(false);
+    @Override
+    public void onClickBrandName() {
+        setDetailItemInfoState();
+    }
+
+    private void setSummaryItemInfoState() {
+        isFullItemInfoState = false;
+        showSummaryStateViews();
+        setConstraintToFullState(false);
+    }
+
+    private void showSummaryStateViews() {
+        binding.fragmentRateItemsInfoCard.setVisibility(View.VISIBLE);
+        binding.fragmentRateItemsBrandNameCard.setVisibility(View.VISIBLE);
+        binding.fragmentRateItemsReturnBtn.setVisibility(View.VISIBLE);
+        binding.fragmentRateItemsFilterBtn.setVisibility(View.VISIBLE);
+        boolean filterIsChecked = viewModel.getFilterIconLiveData().getValue();
+        if (filterIsChecked) {
+            binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.VISIBLE);
+        }
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).showBottomNavigation(true);
+        }
+    }
+
+    private void setDetailItemInfoState() {
+        isFullItemInfoState = true;
+        hideSummaryStateViews();
+        setConstraintToFullState(true);
+        RateItemsDetailFragment fragment = RateItemsDetailFragment.newInstance(clothesItem, this);
+        fragmentManager().beginTransaction()
+                .add(R.id.fragment_rate_items_container, fragment)
+                .commit();
+    }
+
+    private void hideSummaryStateViews() {
+        binding.fragmentRateItemsInfoCard.setVisibility(View.INVISIBLE);
+        binding.fragmentRateItemsBrandNameCard.setVisibility(View.INVISIBLE);
+        binding.fragmentRateItemsReturnBtn.setVisibility(View.INVISIBLE);
+        binding.fragmentRateItemsFilterBtn.setVisibility(View.INVISIBLE);
+        binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.INVISIBLE);
+        if (getParentFragment() != null) {
+            ((MainFragment) getParentFragment()).showBottomNavigation(false);
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setConstraintToFullState(boolean b) {
         ConstraintSet set = new ConstraintSet();
-        set.clone(binding.rateItemsLayout);
+        set.clone(binding.fragmentRateItemsLayout);
         if (b) {
+            int val = 0;
+            binding.fragmentRateItemsContainer.setPadding(val, val, val, val);
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
         } else {
+            int val = App.getInstance().getResources().getDimensionPixelSize(R.dimen.rate_items_card_padding);
+            binding.fragmentRateItemsContainer.setPadding(val, val, val, val);
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, R.id.fragment_rate_items_buttons_group, ConstraintSet.TOP);
         }
-        set.applyTo(binding.rateItemsLayout);
+        set.applyTo(binding.fragmentRateItemsLayout);
     }
 
     @Override
     public void maybeLikeItem(float alpha) {
-        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
-            currentFragment.showYes(true, alpha);
+        if (clothesItem != null) {
+            showYes(true, alpha);
         }
     }
 
     @Override
     public void startToLikeItem() {
-        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
-            currentFragment.showYes(true);
+        if (clothesItem != null) {
+            showYes(true);
             itemAnimation.moveViewOutOfScreenToRight();
         }
     }
 
     @Override
     public void maybeDislikeItem(float alpha) {
-        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
-            currentFragment.showNo(true, alpha);
+        if (clothesItem != null) {
+            showNo(true, alpha);
         }
     }
 
     @Override
     public void startToDislikeItem() {
-        if (currentFragment != null && currentClotheInfo.getClothe() != null) {
-            currentFragment.showNo(true);
+        if (clothesItem != null) {
+            showNo(true);
             itemAnimation.moveViewOutOfScreenToLeft();
         }
     }
@@ -254,40 +300,53 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void resetContainerView() {
+        binding.fragmentRateItemsUpperPicCountIndicatorLl.removeAllViews();
+        showYes(false);
+        showNo(false);
         itemAnimation.resetContainerView();
+    }
+
+    @Override
+    public void previousPicture() {
+        pictureHelper.setPreviousPicture();
+    }
+
+    @Override
+    public void nextPicture() {
+        pictureHelper.setNextPicture();
     }
 
     @Override
     public void likeItem() {
         showSizeDialog();
-        if (currentFragment != null) {
-            viewModel.likeClothesItem(currentClotheInfo, true);
+        if (isFullItemInfoState) {
+            closeRateItemsDetailFragment();
         }
+        viewModel.likeClothesItem(new ClotheInfo<ClothesItem>(clothesItem), true);
     }
 
     @Override
     public void dislikeItem() {
-        if (currentFragment != null) {
-            viewModel.likeClothesItem(currentClotheInfo, false);
+        if (isFullItemInfoState) {
+            closeRateItemsDetailFragment();
         }
+        viewModel.likeClothesItem(new ClotheInfo<ClothesItem>(clothesItem), false);
     }
 
     private void showSizeDialog() {
         if (isNeedShowSizeDialogForTop.getValue() != null && isNeedShowSizeDialogForBottom.getValue() != null &&
                 (isNeedShowSizeDialogForTop.getValue() || isNeedShowSizeDialogForBottom.getValue())) {
-            if (currentClotheInfo.getClothe() instanceof ClothesItem) {
-                ClothesItem item = (ClothesItem) currentClotheInfo.getClothe();
-                boolean sizeIsNotSet = (item.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED);
-                ClotheType type = item.getClotheType();
-                if (sizeIsNotSet) {
-                    if (type.getType() == ClotheType.Type.TOP && isNeedShowSizeDialogForTop.getValue()) {
-                        String message = App.getInstance().getString(R.string.rateitems_fragment_message_for_size_dialog);
-                        TopSizeDialogFragment.newInstance(this, message).show(fragmentManager(), "sizeDf");
-                    }
-                    if (type.getType() == ClotheType.Type.BOTTOM && isNeedShowSizeDialogForBottom.getValue()) {
-                        String message = App.getInstance().getString(R.string.rateitems_fragment_message_for_size_dialog);
-                        BottomSizeDialogFragment.newInstance(this, message).show(fragmentManager(), "sizeDf");
-                    }
+            ClothesItem item = (ClothesItem) clothesItem;
+            boolean sizeIsNotSet = (item.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED);
+            ClotheType type = item.getClotheType();
+            if (sizeIsNotSet) {
+                if (type.getType() == ClotheType.Type.TOP && isNeedShowSizeDialogForTop.getValue()) {
+                    String message = App.getInstance().getString(R.string.rateitems_fragment_message_for_size_dialog);
+                    TopSizeDialogFragment.newInstance(this, message).show(fragmentManager(), "sizeDf");
+                }
+                if (type.getType() == ClotheType.Type.BOTTOM && isNeedShowSizeDialogForBottom.getValue()) {
+                    String message = App.getInstance().getString(R.string.rateitems_fragment_message_for_size_dialog);
+                    BottomSizeDialogFragment.newInstance(this, message).show(fragmentManager(), "sizeDf");
                 }
             }
         }
@@ -315,5 +374,16 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     @Override
     public void onBottomCancelButtonClick() {
         viewModel.setIsNeedShowSizeDialogForBottom(false);
+    }
+
+    @Override
+    public void closeRateItemsDetailFragment() {
+        Fragment fragment = fragmentManager().findFragmentById(R.id.fragment_rate_items_container);
+        if (fragment != null) {
+            fragmentManager().beginTransaction()
+                    .remove(fragment)
+                    .commit();
+        }
+        setSummaryItemInfoState();
     }
 }
