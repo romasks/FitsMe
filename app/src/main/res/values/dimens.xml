@@ -25,6 +25,7 @@
     <dimen name="delivery_address_warning_text">12sp</dimen>
     <dimen name="delivery_address_amount_text">14sp</dimen>
     <dimen name="rate_items_elevation">3dp</dimen>
+    <dimen name="rate_items_card_padding">16dp</dimen>
     <dimen name="items_info_elevation">6dp</dimen>
     <dimen name="item_cart_height">172dp</dimen>
     <dimen name="item_favourite_height">172dp</dimen>

@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.fragments.iteminfo;
+package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -24,22 +24,30 @@ import java.util.List;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
+import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.Picture;
+import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 
-class ItemInfoPictureHelper {
+class RateItemPictureHelper {
 
-    private ItemInfoFragment fragment;
-    private final FragmentItemInfoBinding binding;
+    private RateItemsFragment fragment;
+    private final FragmentRateItemsBinding binding;
     private final ArrayList<PictureItem> pictureItemList = new ArrayList<>();
 
     private int currentPictureIndex;
 
-    ItemInfoPictureHelper(ItemInfoFragment fragment,
-                          FragmentItemInfoBinding binding,
+    RateItemPictureHelper(RateItemsFragment fragment,
+                          FragmentRateItemsBinding binding,
                           ClothesItem clothesItem) {
         this.fragment = fragment;
         this.binding = binding;
+
+        String brandName = clothesItem.getBrand();
+        String name = clothesItem.getName();
+
+        binding.fragmentRateItemsBrandNameTv.setText(brandName);
+        binding.fragmentRateItemsItemNameTv.setText(name);
 
         createPictureItemList(clothesItem);
         createUpperPictureCountIndicator(pictureItemList.size());
@@ -56,9 +64,10 @@ class ItemInfoPictureHelper {
     }
 
     private void setLoadingInProgress() {
-        binding.itemInfoMessage.setText(App.getInstance().getText(R.string.loading));
-        binding.itemInfoImageContainer.setVisibility(View.INVISIBLE);
-        binding.itemInfoIvPhoto.setImageBitmap(null);
+        binding.fragmentRateItemsInfoCard.setVisibility(View.INVISIBLE);
+        binding.fragmentRateItemsBrandNameCard.setVisibility(View.INVISIBLE);
+        binding.fragmentRateItemsMessage.setText(App.getInstance().getString(R.string.loading));
+        binding.fragmentRateItemsIvPhoto.setImageBitmap(null);
     }
 
     void setNextPicture() {
@@ -108,7 +117,7 @@ class ItemInfoPictureHelper {
             }
             view.setLayoutParams(params);
             view.setId(i);
-            binding.itemInfoUpperPicCountIndicatorLl.addView(view);
+            binding.fragmentRateItemsUpperPicCountIndicatorLl.addView(view);
             setActiveCountIndicatorItem(currentPictureIndex);
         }
     }
@@ -120,14 +129,14 @@ class ItemInfoPictureHelper {
         if (i + 1 < pictureItemList.size()) {
             resetIndicator(i + 1);
         }
-        binding.itemInfoUpperPicCountIndicatorLl
+        binding.fragmentRateItemsUpperPicCountIndicatorLl
                 .findViewById(i)
                 .setBackgroundColor(App.getInstance().getResources().getColor(R.color.colorPrimaryDark));
     }
 
     private void resetIndicator(int i) {
-        if (binding.itemInfoUpperPicCountIndicatorLl.findViewById(i) != null) {
-            binding.itemInfoUpperPicCountIndicatorLl
+        if (binding.fragmentRateItemsUpperPicCountIndicatorLl.findViewById(i) != null) {
+            binding.fragmentRateItemsUpperPicCountIndicatorLl
                     .findViewById(i)
                     .setBackgroundColor(App.getInstance().getResources().getColor(R.color.lightGrey));
         }
@@ -135,26 +144,27 @@ class ItemInfoPictureHelper {
 
 
     private void onPictureReady(Bitmap bitmap) {
-        binding.itemInfoMessage.setText("");
-        binding.itemInfoImageContainer.setVisibility(View.VISIBLE);
-        binding.itemInfoIvPhoto.setImageBitmap(bitmap);
+        binding.fragmentRateItemsMessage.setText("");
+        binding.fragmentRateItemsInfoCard.setVisibility(View.VISIBLE);
+        binding.fragmentRateItemsBrandNameCard.setVisibility(View.VISIBLE);
+        binding.fragmentRateItemsIvPhoto.setImageBitmap(bitmap);
     }
 
     private void onPictureFailed() {
-        binding.itemInfoMessage.setText(App.getInstance().getString(R.string.image_loading_error));
+        binding.fragmentRateItemsMessage.setText(App.getInstance().getString(R.string.image_loading_error));
     }
 
 
     private class PictureItem {
         Picture picture;
         Bitmap bitmap;
-        ItemInfoPictureHelper observer;
+        RateItemPictureHelper observer;
 
         PictureItem(Picture picture) {
             this.picture = picture;
         }
 
-        void subscribe(ItemInfoPictureHelper observer) {
+        void subscribe(RateItemPictureHelper observer) {
             this.observer = observer;
             if (bitmap != null) {
                 observer.onPictureReady(bitmap);
@@ -172,7 +182,7 @@ class ItemInfoPictureHelper {
         }
 
         private void loadPicture() {
-            Glide.with(binding.itemInfoIvPhoto.getContext())
+            Glide.with(binding.fragmentRateItemsIvPhoto.getContext())
                     .asBitmap()
                     .load(picture.getUrl())
                     .listener(new RequestListener<Bitmap>() {

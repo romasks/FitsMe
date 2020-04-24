@@ -4,26 +4,173 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="bindingEvents"
             type="ru.fitsme.android.presentation.fragments.rateitems.BindingEventsClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rate_items_layout"
+        android:id="@+id/fragment_rate_items_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_rate_items_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:padding="@dimen/rate_items_card_padding"
             app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_buttons_group"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <TextView
+                android:id="@+id/fragment_rate_items_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fragment_rate_items_info_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:cardCornerRadius="@dimen/item_info_card_radius"
+                app:cardElevation="@dimen/items_info_elevation"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:visibility="visible"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/fragment_rate_items_iv_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@null"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/clothe_example" />
+
+                    <LinearLayout
+                        android:id="@+id/fragment_rate_items_upper_pic_count_indicator_ll"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/fragment_rate_items_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|top"
+                    android:background="@drawable/ic_rate_items_no"
+                    android:contentDescription="@null"
+                    android:elevation="@dimen/items_info_elevation"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/fragment_rate_items_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|top"
+                    android:layout_margin="32dp"
+                    android:background="@drawable/ic_rate_items_yes"
+                    android:contentDescription="@null"
+                    android:elevation="@dimen/items_info_elevation"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fragment_rate_items_brand_name_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="invisible"
+                app:cardBackgroundColor="@color/transparentBackground"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="@dimen/items_info_elevation"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_rate_items_info_card"
+                app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_info_card"
+                app:layout_constraintStart_toStartOf="@id/fragment_rate_items_info_card"
+                tools:visibility="visible"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/item_info_brand_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> bindingEvents.onClickBrandName()}"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/fragment_rate_items_brand_name_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/item_info_brand_name_text"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16sp"
+                        app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_item_name_tv"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Название бренда" />
+
+                    <TextView
+                        android:id="@+id/fragment_rate_items_item_name_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/item_info_item_name_text"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="@dimen/text_size_16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fragment_rate_items_brand_name_tv"
+                        tools:text="Название товара" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_keyboard_arrow_down_black_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_rate_items_buttons_group"

@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         List<Fragment> list  = getSupportFragmentManager().getFragments();
         BaseFragment fragment;
-        try {
-            fragment = (BaseFragment) list.get(list.size() - 1);
-        } catch (ClassCastException ex) {
-            fragment = (BaseFragment) list.get(list.size() - 2);
-        }
+//        if (list.size() > 1) {
+//            fragment = (BaseFragment) list.get(list.size() - 2); //сверху находится какой-то glide support fragment manager, поэтому беру второй
+//        } else {
+            fragment = (BaseFragment) list.get(0); // для случая при авторизации
+//        }
         fragment.onBackPressed();
     }
 

@@ -5,4 +5,5 @@ public interface BindingEventsClickListener {
     void onClickReturn();
     void onClickDislikeItem();
     void onClickFilter();
+    void onClickBrandName();
 }
