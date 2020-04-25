@@ -169,6 +169,9 @@ public class ClothesInteractor implements IClothesInteractor {
     public void setIsNeedShowSizeDialogForTop(Boolean flag){
         isNeedShowSizeDialogForTop.setValue(flag);
         clothesRepository.setIsNeedShowSizeDialogTop(flag);
+        if (flag){
+            updateClothesList();
+        }
     }
 
     @Override
@@ -182,5 +185,8 @@ public class ClothesInteractor implements IClothesInteractor {
     public void setIsNeedShowSizeDialogForBottom(Boolean flag){
         isNeedShowSizeDialogForBottom.setValue(flag);
         clothesRepository.setIsNeedShowSizeDialogBottom(flag);
+        if (flag){
+            updateClothesList();
+        }
     }
 }
