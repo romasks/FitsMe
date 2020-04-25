@@ -22,6 +22,12 @@ public interface ICartInteractor extends BaseInteractor {
     Single<Order> getSingleOrder(OrderStatus status);
 
     @NonNull
+    Single<Integer> removeItemsFromOrder(List<Integer> orderItemsIds);
+
+    @NonNull
+    Single<Integer> removeItemFromOrderSingle(Integer orderItemId);
+
+    @NonNull
     Single<OrderItem> removeItemFromOrder(int position);
 
     @NonNull

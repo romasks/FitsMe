@@ -8,13 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import javax.inject.Inject;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.DialogFragmentProfileTopSizeBinding;
@@ -41,7 +42,7 @@ public class TopSizeDialogFragment extends DialogFragment
     private TopSizeDialogCallback callback;
     private String message;
 
-    public TopSizeDialogFragment(TopSizeDialogCallback callback, String message) {
+    private TopSizeDialogFragment(TopSizeDialogCallback callback, String message) {
         this.callback = callback;
         this.message = message;
         App.getInstance().getDi().inject(this);

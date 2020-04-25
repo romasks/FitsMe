@@ -22,6 +22,8 @@ public interface ICartActionRepository {
 
     Single<Order> makeOrder(OrderRequest orderRequest);
 
+    Single<Integer> removeItemFromOrder(Integer orderItemId);
+
     Single<OrderItem> removeItemFromOrder(OrderItem item);
 
     Single<OrderItem> restoreItemToOrder(OrderItem item);

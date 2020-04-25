@@ -239,6 +239,16 @@ abstract class WebLoader {
         );
     }
 
+    public Single<Response<Void>> removeItemFromOrder(Integer orderItemId) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(
+                        authInfo -> apiService.removeItemFromCart(TOKEN + authInfo.getToken(), orderItemId)
+                                .subscribeOn(workThread)
+                                .subscribe(emitter::onSuccess, emitter::onError),
+                        emitter::onError)
+        );
+    }
+
     public Single<Response<Void>> removeItemFromOrder(OrderItem item) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(

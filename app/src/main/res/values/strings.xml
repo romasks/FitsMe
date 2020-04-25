@@ -39,6 +39,7 @@
     <string name="cart_amount_tv">%1$s\u20BD</string>
     <string name="cart_user_agreement_1">Нажимая кнопку \"Перейти к оформлению\", вы соглашаетесь с</string>
     <string name="cart_user_agreement_2"><u>условиями обработки персональных данных</u></string>
+    <string name="cart_fragment_message_for_size_dialog">Вещь может быть заказана только после указания ваших размеров</string>
 
     <!--checkout-->
     <string name="screen_title_checkout_order">Оформление заказа</string>
@@ -113,7 +114,6 @@
     <string name="profile_message_to_user_saving_complete">Изменения сохранены</string>
     <string name="profile_message_to_user_set_top_size">Установите верхний размер</string>
     <string name="favourites_fragment_message_for_size_dialog">Вы сможете добавить вещь в корзину после того, как укажете ваш размер</string>
-    <string name="cart_fragment_message_for_size_dialog">Вещь может быть заказана только после указания ваших размеров</string>
     <string name="rateitems_fragment_message_for_size_dialog">Так вы сможете просматривать только подходящие вам по размеру вещи</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>

@@ -9,11 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,14 +18,11 @@ import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemCartBinding;
 import ru.fitsme.android.databinding.ItemCartRemovedBinding;
-import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.InOrderState;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.NoSizeState;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.OrderState;
-import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
-import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 import timber.log.Timber;
 
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartViewHolder> {
@@ -133,19 +127,14 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
         }
 
         private void setState(@Nullable OrderItem orderItem) {
-            if (orderItem == null)
-                return;
-            ClothesItem clothesItem = orderItem.getClothe();
-            switch (orderItem.getClothe().getSizeInStock()){
-                case UNDEFINED:{
+            if (orderItem == null) return;
+            switch (orderItem.getClothe().getSizeInStock()) {
+                case UNDEFINED:
+                case YES: {
                     setState(new InOrderState(this, callback));
                     break;
                 }
-                case YES:{
-                    setState(new InOrderState(this, callback));
-                    break;
-                }
-                case NO:{
+                case NO: {
                     setState(new NoSizeState(this, callback));
                     break;
                 }

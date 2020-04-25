@@ -8,13 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import javax.inject.Inject;
+
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.DialogFragmentProfileBottomSizeBinding;
@@ -41,7 +42,7 @@ public class BottomSizeDialogFragment extends DialogFragment
     private BottomSizeDialogCallback callback;
     private String message;
 
-    public BottomSizeDialogFragment(BottomSizeDialogCallback callback, String message) {
+    private BottomSizeDialogFragment(BottomSizeDialogCallback callback, String message) {
         this.callback = callback;
         this.message = message;
         App.getInstance().getDi().inject(this);

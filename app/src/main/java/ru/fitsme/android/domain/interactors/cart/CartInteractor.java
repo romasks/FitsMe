@@ -12,6 +12,7 @@ import androidx.lifecycle.Transformations;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -125,6 +126,28 @@ public class CartInteractor implements ICartInteractor {
                                 ordersPage -> emitter.onSuccess(ordersPage.getOrdersList()),
                                 emitter::onError
                         ));
+    }
+
+    @NonNull
+    @Override
+    public Single<Integer> removeItemsFromOrder(List<Integer> orderItemsIds) {
+        List<Single<Integer>> request = new ArrayList<>();
+        for (Integer id : orderItemsIds) {
+            request.add(removeItemFromOrderSingle(id));
+        }
+        return Single.merge(request)
+                .observeOn(mainThread)
+                .firstOrError();
+    }
+
+    @NonNull
+    @Override
+    public Single<Integer> removeItemFromOrderSingle(Integer orderItemId) {
+        return Single.create(emitter ->
+                cartActionRepository.removeItemFromOrder(orderItemId)
+                        .observeOn(mainThread)
+                        .subscribe(emitter::onSuccess, emitter::onError)
+        );
     }
 
     @NonNull

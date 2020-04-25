@@ -116,6 +116,11 @@ public class WebLoaderNetworkChecker extends WebLoader {
     }
 
     @Override
+    public Single<Response<Void>> removeItemFromOrder(Integer orderItemId) {
+        return checkNetwork(super.removeItemFromOrder(orderItemId));
+    }
+
+    @Override
     public Single<Response<Void>> removeItemFromOrder(OrderItem item) {
         return checkNetwork(super.removeItemFromOrder(item));
     }

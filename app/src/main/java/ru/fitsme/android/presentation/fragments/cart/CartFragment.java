@@ -5,9 +5,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LiveData;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
@@ -22,10 +19,6 @@ import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.fragments.cart.buttonstate.ButtonState;
-import ru.fitsme.android.presentation.fragments.cart.buttonstate.NormalState;
-import ru.fitsme.android.presentation.fragments.cart.buttonstate.RemoveNoMatchSizeState;
-import ru.fitsme.android.presentation.fragments.cart.buttonstate.SetSizeState;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
@@ -43,10 +36,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     private FragmentCartBinding binding;
     private CartAdapter adapter;
-    private ButtonState state;
-
-    private LiveData<Boolean> isNeedShowSizeDialogForTop;
-    private LiveData<Boolean> isNeedShowSizeDialogForBottom;
 
     public CartFragment() {
         // App.getInstance().getDi().inject(this);
@@ -78,9 +67,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
         ItemTouchHelper.SimpleCallback simpleCallback =
                 new CartRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.cartListRv);
-
-        isNeedShowSizeDialogForTop = viewModel.getIsNeedShowSizeDialogForTop();
-        isNeedShowSizeDialogForBottom = viewModel.getIsNeedShowSizeDialogForBottom();
     }
 
     @Override
@@ -102,19 +88,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
             ((MainFragment) getParentFragment()).showBottomShadow(pagedList == null || pagedList.size() == 0);
         }
         adapter.submitList(pagedList);
-        updateButtonState();
-    }
-
-    private void updateButtonState() {
-        if (isNeedShowSizeDialogForTop.getValue()) {
-            setState(new SetSizeState(binding, this));
-        } else if (isNeedShowSizeDialogForBottom.getValue()) {
-            setState(new SetSizeState(binding, this));
-        } else if (adapter.hasNoSizeItems()) {
-            setState(new RemoveNoMatchSizeState(binding, this));
-        } else {
-            setState(new NormalState(binding, this));
-        }
     }
 
     private void onCartIsEmpty(Boolean isEmpty) {
@@ -200,14 +173,14 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
 
-    private void showTopSizeDialog(){
+    private void showTopSizeDialog() {
         String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
         DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, message);
         FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
         dialogFragment.show(fm, "topSizeDf");
     }
 
-    private void showBottomSizeDialog(){
+    private void showBottomSizeDialog() {
         String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
         DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, message);
         FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
@@ -259,54 +232,5 @@ public class CartFragment extends BaseFragment<CartViewModel>
                 }
             }
         }
-    }
-
-    @Override
-    public void onTopOkButtonClick() {
-        viewModel.setIsNeedShowSizeDialogForTop(true);
-    }
-
-    @Override
-    public void onTopCancelButtonClick() {
-        viewModel.setIsNeedShowSizeDialogForTop(false);
-    }
-
-    @Override
-    public void onBottomOkButtonClick() {
-        viewModel.setIsNeedShowSizeDialogForBottom(true);
-    }
-
-    @Override
-    public void onBottomCancelButtonClick() {
-        viewModel.setIsNeedShowSizeDialogForBottom(false);
-    }
-
-    public void handleButtonClick() {
-        state.onButtonClick(viewModel, this);
-    }
-
-    private void setState(ButtonState buttonState) {
-        state = buttonState;
-    }
-
-    public void removeNoSizeItems() {
-        adapter.removeNoSizeItems();
-    }
-
-    public void setSizeInProfile() {
-        showSizeDialog();
-    }
-
-    private void showSizeDialog() {
-        if (isNeedShowSizeDialogForTop.getValue()) {
-            TopSizeDialogFragment.newInstance(this).show(fragmentManager(), "sizeDf");
-        }
-        if (isNeedShowSizeDialogForBottom.getValue()) {
-            BottomSizeDialogFragment.newInstance(this).show(fragmentManager(), "sizeDf");
-        }
-    }
-
-    private FragmentManager fragmentManager() {
-        return ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
     }
 }

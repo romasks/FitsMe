@@ -102,6 +102,22 @@ public class CartActionRepository implements ICartActionRepository {
     }
 
     @Override
+    public Single<Integer> removeItemFromOrder(Integer orderItemId) {
+        return Single.create(emitter -> webLoader.removeItemFromOrder(orderItemId)
+                .subscribe(response -> {
+                    if (response.isSuccessful()) {
+                        emitter.onSuccess(orderItemId);
+                    } else {
+                        Timber.e(response.toString());
+                        emitter.onSuccess(-1);
+                    }
+                }, error -> {
+                    Timber.e(error);
+                    emitter.onSuccess(-1);
+                }));
+    }
+
+    @Override
     public Single<OrderItem> removeItemFromOrder(OrderItem item) {
         return Single.create(emitter -> webLoader.removeItemFromOrder(item)
                 .subscribe(response -> {
