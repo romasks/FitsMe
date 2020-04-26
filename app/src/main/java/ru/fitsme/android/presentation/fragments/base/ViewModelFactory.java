@@ -21,6 +21,7 @@ import ru.fitsme.android.presentation.fragments.orders.OrdersHistoryViewModel;
 import ru.fitsme.android.presentation.fragments.orders.details.OrderDetailsViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.MainProfileViewModel;
 import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileViewModel;
+import ru.fitsme.android.presentation.fragments.rateItemsdetail.RateItemsDetailViewModel;
 import ru.fitsme.android.presentation.fragments.rateitems.RateItemsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.ReturnsViewModel;
 import ru.fitsme.android.presentation.fragments.returns.details.ReturnDetailsViewModel;
@@ -52,6 +53,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new ItemInfoViewModel();
         } else if (modelClass.isAssignableFrom(RateItemsViewModel.class)) {
             return (T) new RateItemsViewModel();
+        } else if (modelClass.isAssignableFrom(RateItemsDetailViewModel.class)) {
+                return (T) new RateItemsDetailViewModel();
         } else if (modelClass.isAssignableFrom(SplashViewModel.class)) {
             return (T) new SplashViewModel();
         } else if (modelClass.isAssignableFrom(MainProfileViewModel.class)) {

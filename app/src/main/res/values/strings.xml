@@ -222,6 +222,7 @@
     <string name="fragment_rate_item_detail_item_size">Размер</string>
     <string name="item_info_item_size">Размер</string>
     <string name="item_info_title">Информация о товаре</string>
+    <string name="size_not_set">Не указан</string>
 
 
 </resources>
