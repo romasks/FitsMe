@@ -27,6 +27,8 @@ public interface ICartInteractor extends BaseInteractor {
     @NonNull
     Single<Integer> removeItemFromOrderSingle(Integer orderItemId);
 
+    void invalidateDataSource();
+
     @NonNull
     Single<OrderItem> removeItemFromOrder(int position);
 

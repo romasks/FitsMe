@@ -150,6 +150,11 @@ public class CartInteractor implements ICartInteractor {
         );
     }
 
+    @Override
+    public void invalidateDataSource() {
+        cartDataSourceFactory.invalidate();
+    }
+
     @NonNull
     @Override
     public Single<OrderItem> removeItemFromOrder(int position) {

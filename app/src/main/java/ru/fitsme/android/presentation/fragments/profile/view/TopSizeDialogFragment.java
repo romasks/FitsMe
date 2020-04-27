@@ -27,7 +27,7 @@ import ru.fitsme.android.presentation.fragments.profile.viewmodel.SizeProfileVie
 import static ru.fitsme.android.presentation.fragments.profile.view.SizeObserver.NO_SIZE;
 
 public class TopSizeDialogFragment extends DialogFragment
- implements SizeDialogFragmentEvents, SizeObserver.Callback {
+        implements SizeDialogFragmentEvents, SizeObserver.Callback {
 
     private DialogFragmentProfileTopSizeBinding binding;
     private SizeProfileViewModel viewModel;
@@ -79,7 +79,7 @@ public class TopSizeDialogFragment extends DialogFragment
             if (getContext() != null) {
                 TableFiller.fillButtons(getContext(), topSizeObserver, list, tableLayout);
             }
-            if (viewModel.getCurrentTopSizeIndex().get() != NO_SIZE){
+            if (viewModel.getCurrentTopSizeIndex().get() != NO_SIZE) {
                 lastSavedTopSize = viewModel.getCurrentTopSizeIndex().get();
                 topSizeObserver.setCheckedSizeIndex(lastSavedTopSize);
                 topSizeObserver.setState(lastSavedTopSize, true);
@@ -116,7 +116,7 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Override
     public void onOkButtonClicked() {
-        if (callback != null){
+        if (callback != null) {
             callback.onTopOkButtonClick();
         }
         dismiss();
@@ -124,7 +124,7 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Override
     public void onCancelButtonClicked() {
-        if (callback != null){
+        if (callback != null) {
             callback.onTopCancelButtonClick();
         }
         if (lastSavedTopSize != NO_SIZE) {

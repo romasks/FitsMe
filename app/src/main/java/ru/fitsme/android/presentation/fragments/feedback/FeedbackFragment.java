@@ -84,7 +84,6 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
 
     @Override
     public void onClickSendFeedback() {
-        binding.btnSendFeedback.setEnabled(false);
         KeyboardUtils.hide(getActivity(), binding.getRoot());
         binding.nameErrorIcon.setVisibility(View.GONE);
         binding.nameErrorLine.setVisibility(View.GONE);
@@ -93,6 +92,7 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
         binding.messageErrorIcon.setVisibility(View.GONE);
         binding.getRoot().requestFocus();
         if (validFields()) {
+            binding.btnSendFeedback.setEnabled(false);
             viewModel.onClickSendFeedback(
                     binding.nameEt.getText().toString(),
                     binding.emailEt.getText().toString(),

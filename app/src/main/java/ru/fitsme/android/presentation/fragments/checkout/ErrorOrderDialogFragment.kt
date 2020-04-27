@@ -8,12 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import ru.fitsme.android.R
 import ru.fitsme.android.app.App
-import ru.fitsme.android.databinding.DialogFragmentFinishOrderBinding
+import ru.fitsme.android.databinding.DialogFragmentErrorOrderBinding
 
-class FinishOrderDialogFragment private constructor(private val callback: FinishOrderDialogCallback?)
-    : DialogFragment(), FinishOrderDialogFragmentEvents {
+class ErrorOrderDialogFragment private constructor(private val callback: ErrorOrderDialogCallback?)
+    : DialogFragment(), ErrorOrderDialogFragmentEvents {
 
-    private lateinit var binding: DialogFragmentFinishOrderBinding
+    private lateinit var binding: DialogFragmentErrorOrderBinding
 
     init {
         App.getInstance().di.inject(this)
@@ -21,25 +21,25 @@ class FinishOrderDialogFragment private constructor(private val callback: Finish
 
     companion object {
         @JvmStatic
-        fun newInstance(callback: FinishOrderDialogCallback) = FinishOrderDialogFragment(callback)
+        fun newInstance(callback: ErrorOrderDialogCallback) = ErrorOrderDialogFragment(callback)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_fragment_finish_order, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_fragment_error_order, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState);
-        binding.bindingEvents = this
+        super.onViewCreated(view, savedInstanceState)
+        binding.bindingEvents = this;
     }
 
     override fun onOkButtonClicked() {
-        callback?.onFinishDialogOkButtonClick()
+        callback?.onErrorDialogOkButtonClick()
         dismiss()
     }
 
-    interface FinishOrderDialogCallback {
-        fun onFinishDialogOkButtonClick()
+    interface ErrorOrderDialogCallback {
+        fun onErrorDialogOkButtonClick()
     }
 }

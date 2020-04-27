@@ -93,11 +93,11 @@ public class CartActionRepository implements ICartActionRepository {
                             } else {
                                 UserException error = ErrorRepository.makeError(orderOkResponse.getError());
                                 Timber.e(error);
-                                emitter.onSuccess(new Order());
+                                emitter.onError(error);
                             }
                         }, error -> {
                             Timber.e(error);
-                            emitter.onSuccess(new Order());
+                            emitter.onError(error);
                         }));
     }
 
