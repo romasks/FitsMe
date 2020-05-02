@@ -30,6 +30,9 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     private FragmentFavouritesBinding binding;
     private FavouritesAdapter adapter;
 
+    private String topSize = "";
+    private String bottomSize = "";
+
     public static FavouritesFragment newInstance() {
         return new FavouritesFragment();
     }
@@ -66,6 +69,14 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
     protected void setUpObservers() {
         viewModel.getPageLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
         viewModel.getFavouritesIsEmpty().observe(getViewLifecycleOwner(), this::onFavouritesIsEmpty);
+        viewModel.getCurrentTopSize().observe(getViewLifecycleOwner(), value -> {
+            topSize = value;
+            adapter.notifyDataSetChanged();
+        });
+        viewModel.getCurrentBottomSize().observe(getViewLifecycleOwner(), value -> {
+            bottomSize = value;
+            adapter.notifyDataSetChanged();
+        });
     }
 
     private void onLoadPage(PagedList<FavouritesItem> pagedList) {
@@ -141,5 +152,13 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
                 }
             }
         }
+    }
+
+    public String getTopSize() {
+        return topSize;
+    }
+
+    public String getBottomSize() {
+        return bottomSize;
     }
 }

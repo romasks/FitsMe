@@ -2,7 +2,6 @@ package ru.fitsme.android.presentation.fragments.favourites;
 
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 import androidx.paging.PagedList;
 
 import javax.inject.Inject;
@@ -11,14 +10,17 @@ import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.favourites.FavouritesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.favourites.IFavouritesInteractor;
+import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
-public class FavouritesViewModel extends BaseViewModel{
+public class FavouritesViewModel extends BaseViewModel {
 
     @Inject
     IFavouritesInteractor favouritesInteractor;
 
+    @Inject
+    IProfileInteractor profileInteractor;
     public ObservableField<String> showMessage;
 
     public FavouritesViewModel() {
@@ -28,6 +30,7 @@ public class FavouritesViewModel extends BaseViewModel{
     @Override
     protected void init() {
         showMessage = favouritesInteractor.getShowMessage();
+        profileInteractor.updateInfo();
     }
 
     LiveData<PagedList<FavouritesItem>> getPageLiveData() {
@@ -69,5 +72,13 @@ public class FavouritesViewModel extends BaseViewModel{
 
     void updateList() {
         favouritesInteractor.updateList();
+    }
+
+    public LiveData<String> getCurrentTopSize(){
+        return profileInteractor.getCurrentTopSize();
+    }
+
+    public LiveData<String> getCurrentBottomSize(){
+        return profileInteractor.getCurrentBottomSize();
     }
 }

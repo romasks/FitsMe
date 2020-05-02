@@ -39,16 +39,18 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
 
     private FavouritesViewModel viewModel;
     private OnItemClickCallback callback;
+    private FavouritesFragment fragment;
 
     private List<Boolean> isInCartList = new ArrayList<>();
 
     private static final int IN_LIST_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
 
-    FavouritesAdapter(FavouritesViewModel viewModel, OnItemClickCallback callback) {
+    FavouritesAdapter(FavouritesViewModel viewModel, FavouritesFragment fragment) {
         super(FavouritesItem.DIFF_CALLBACK);
         this.viewModel = viewModel;
-        this.callback = callback;
+        this.callback = (OnItemClickCallback) fragment;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -99,6 +101,9 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
         final public ImageView imageView;
         final public TextView brandName;
         final public TextView name;
+        final public TextView sizeHint;
+        final public TextView size;
+        final public TextView priceHint;
         final public TextView price;
         final public Button button;
         private InListItemState state;
@@ -115,6 +120,9 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             imageView = view.findViewById(R.id.item_favourite_image);
             brandName = view.findViewById(R.id.item_favourite_brand_name);
             name = view.findViewById(R.id.item_favourite_name);
+            sizeHint = view.findViewById(R.id.item_favourite_size_hint);
+            size = view.findViewById(R.id.item_favourite_size);
+            priceHint = view.findViewById(R.id.item_favourite_hint_price);
             price = view.findViewById(R.id.item_favourite_price);
             button = view.findViewById(R.id.item_favourite_btn);
         }
@@ -131,6 +139,11 @@ public class FavouritesAdapter extends PagedListAdapter<FavouritesItem, Favourit
             binding.setVariable(BR.viewModel, viewModel);
             binding.setVariable(BR.position, position);
             binding.executePendingBindings();
+            if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP){
+                size.setText(fragment.getTopSize());
+            } else {
+                size.setText(fragment.getBottomSize());
+            }
         }
 
         private void setItemState(@Nullable FavouritesItem favouritesItem, int position) {

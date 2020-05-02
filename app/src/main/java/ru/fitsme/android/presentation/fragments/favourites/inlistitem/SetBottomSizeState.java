@@ -16,6 +16,9 @@ public class SetBottomSizeState extends InListItemState {
         this.viewHolder.imageView.setAlpha(0.5f);
         this.viewHolder.brandName.setAlpha(0.5f);
         this.viewHolder.name.setAlpha(0.5f);
+        this.viewHolder.sizeHint.setAlpha(0f);
+        this.viewHolder.size.setAlpha(0f);
+        this.viewHolder.priceHint.setAlpha(0.5f);
         this.viewHolder.price.setAlpha(0.5f);
         this.viewHolder.button.setAlpha(1f);
         this.viewHolder.button.setBackgroundResource(R.drawable.bg_to_cart_btn);
