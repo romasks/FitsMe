@@ -61,7 +61,6 @@
                     android:layout_height="@dimen/delivery_address_field_height"
                     android:hint="@string/checkout_hint_phone_number"
                     android:inputType="phone"
-                    android:text="@={viewModel.orderModel.phoneNumber}"
                     android:textSize="@dimen/text_size_18sp"
                     tools:ignore="Autofill" />
 

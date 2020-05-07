@@ -2,10 +2,8 @@ package ru.fitsme.android.presentation.fragments.cart;
 
 import android.annotation.SuppressLint;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -15,10 +13,13 @@ import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentCartBinding;
-import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
+import ru.fitsme.android.presentation.fragments.cart.buttonstate.ButtonState;
+import ru.fitsme.android.presentation.fragments.cart.buttonstate.NormalState;
+import ru.fitsme.android.presentation.fragments.cart.buttonstate.RemoveNoMatchSizeState;
+import ru.fitsme.android.presentation.fragments.cart.buttonstate.SetSizeState;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
@@ -36,10 +37,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     private FragmentCartBinding binding;
     private CartAdapter adapter;
-
-    public CartFragment() {
-        // App.getInstance().getDi().inject(this);
-    }
+    private ButtonState state;
 
     @Override
     public void onBackPressed() {
@@ -88,6 +86,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
             ((MainFragment) getParentFragment()).showBottomShadow(pagedList == null || pagedList.size() == 0);
         }
         adapter.submitList(pagedList);
+        updateButtonState(pagedList);
     }
 
     private void onCartIsEmpty(Boolean isEmpty) {
@@ -99,37 +98,21 @@ public class CartFragment extends BaseFragment<CartViewModel>
             binding.cartNoItemGroup.setVisibility(View.GONE);
             binding.cartProceedToCheckoutGroup.setVisibility(View.VISIBLE);
             binding.cartProceedToCheckoutShadow.setVisibility(View.VISIBLE);
+            updateButtonState(adapter.getCurrentList());
         }
     }
 
     @Override
     public void onClickGoToCheckout() {
-        boolean canGoToCheckout = true;
-        PagedList<OrderItem> pagedList = adapter.getCurrentList();
-        for (int i = 0; i < pagedList.size(); i++) {
-            if (!viewModel.itemIsRemoved(i)) {
-                ClothesItem clothesItem = pagedList.get(i).getClothe();
-                if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.UNDEFINED) {
-                    canGoToCheckout = false;
-                    if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP) {
-                        showTopSizeDialog();
-                    } else if (clothesItem.getClotheType().getType() == ClotheType.Type.BOTTOM) {
-                        showBottomSizeDialog();
-                    }
-                } else if (clothesItem.getSizeInStock() == ClothesItem.SizeInStock.NO) {
-                    canGoToCheckout = false;
-                    Toast.makeText(getContext(), R.string.no_item_toast, Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-        if (canGoToCheckout) {
-            viewModel.goToCheckout();
-        }
+        state.onButtonClick(viewModel, this);
+    }
+
+    public void goToCheckout() {
+        viewModel.goToCheckout();
     }
 
     @Override
     public void onClickGoToFavourites() {
-//        viewModel.goToFavourites();
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToFavourites();
         }
@@ -137,7 +120,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     @Override
     public void onClickGoToRateItems() {
-//        viewModel.goToRateItems();
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).goToRateItems();
         }
@@ -172,40 +154,24 @@ public class CartFragment extends BaseFragment<CartViewModel>
         viewModel.setDetailView(clotheInfo);
     }
 
-
-    private void showTopSizeDialog() {
-        String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
-        DialogFragment dialogFragment = TopSizeDialogFragment.newInstance(this, message);
-        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
-        dialogFragment.show(fm, "topSizeDf");
-    }
-
-    private void showBottomSizeDialog() {
-        String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
-        DialogFragment dialogFragment = BottomSizeDialogFragment.newInstance(this, message);
-        FragmentManager fm = ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
-        dialogFragment.show(fm, "bottomSizeDf");
-    }
-
-
     @Override
     public void onBottomOkButtonClick() {
         viewModel.updateList();
+        viewModel.setIsNeedShowSizeDialogForBottom(false);
     }
 
     @Override
     public void onBottomCancelButtonClick() {
-
     }
 
     @Override
     public void onTopOkButtonClick() {
         viewModel.updateList();
+        viewModel.setIsNeedShowSizeDialogForTop(false);
     }
 
     @Override
     public void onTopCancelButtonClick() {
-
     }
 
 
@@ -232,5 +198,65 @@ public class CartFragment extends BaseFragment<CartViewModel>
                 }
             }
         }
+    }
+
+    public void handleButtonClick() {
+        state.onButtonClick(viewModel, this);
+    }
+
+    public void removeNoSizeItems() {
+        viewModel.removeNoSizeItems(adapter.getCurrentList().snapshot());
+    }
+
+    public void setSizeInProfile() {
+        if (isNeedTopSize()) showTopSizeDialog();
+        else if (isNeedBottomSize()) showBottomSizeDialog();
+        else updateButtonState(adapter.getCurrentList());
+    }
+
+    private void updateButtonState(PagedList<OrderItem> orderItemsList) {
+        if (isNeedTopSize() || isNeedBottomSize()) {
+            setState(new SetSizeState(binding, this));
+        } else if (hasNoSizeItems(orderItemsList)) {
+            setState(new RemoveNoMatchSizeState(binding, this));
+        } else {
+            setState(new NormalState(binding, this));
+        }
+    }
+
+    private Boolean hasNoSizeItems(PagedList<OrderItem> orderItemsList) {
+        if (orderItemsList == null) return false;
+        for (OrderItem item : orderItemsList.snapshot()) {
+            if (item.getClothe().getSizeInStock() == ClothesItem.SizeInStock.NO) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void setState(ButtonState buttonState) {
+        state = buttonState;
+    }
+
+    private boolean isNeedTopSize() {
+        return viewModel.isNeedShowSizeDialogForTop().getValue();
+    }
+
+    private boolean isNeedBottomSize() {
+        return viewModel.isNeedShowSizeDialogForBottom().getValue();
+    }
+
+    private void showTopSizeDialog() {
+        String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
+        TopSizeDialogFragment.newInstance(this, message).show(fragmentManager(), "topSizeDf");
+    }
+
+    private void showBottomSizeDialog() {
+        String message = App.getInstance().getString(R.string.cart_fragment_message_for_size_dialog);
+        BottomSizeDialogFragment.newInstance(this, message).show(fragmentManager(), "bottomSizeDf");
+    }
+
+    private FragmentManager fragmentManager() {
+        return ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
     }
 }
