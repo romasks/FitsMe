@@ -80,10 +80,6 @@ public class RateItemsDetailFragment extends BaseFragment<RateItemsDetailViewMod
                 new RateItemsDetailPictureHelper(this, binding, clothesItem);
     }
 
-    private void setSize(String s) {
-
-    }
-
     @Override
     public void nextPicture() {
         pictureHelper.setNextPicture();
