@@ -20,6 +20,7 @@ import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.FilterBrand;
 import ru.fitsme.android.domain.entities.clothes.FilterColor;
 import ru.fitsme.android.domain.entities.clothes.FilterProductName;
+import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import timber.log.Timber;
 
@@ -31,10 +32,12 @@ public class ClothesInteractor implements IClothesInteractor {
     private final Scheduler mainThread;
 
     private MutableLiveData<ClotheInfo> clotheInfoMutableLiveData = new MutableLiveData<>();
-    private LinkedList<ClotheInfo> clotheInfoList;
-    private PreviousClotheInfoList previousItemInfoList = new PreviousClotheInfoList();
     private MutableLiveData<Boolean> isNeedShowSizeDialogForTop = new MutableLiveData<>();
     private MutableLiveData<Boolean> isNeedShowSizeDialogForBottom = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isHasPreviousItem = new MutableLiveData<>();
+
+    private LinkedList<ClotheInfo> clotheInfoList;
+    private PreviousClotheInfoList previousItemInfoList = new PreviousClotheInfoList();
     private boolean isLikeRequestInProgress = false;
 
     @Inject
@@ -48,6 +51,8 @@ public class ClothesInteractor implements IClothesInteractor {
         clothesRepository.updateClotheBrandList();
         clothesRepository.updateClotheColorList();
         clothesRepository.updateProductNameList();
+
+        isHasPreviousItem.setValue(false);
     }
 
     @SuppressLint("CheckResult")
@@ -62,7 +67,7 @@ public class ClothesInteractor implements IClothesInteractor {
                 }, Timber::e);
     }
 
-    public void setNextClotheInfo() {
+    private void setNextClotheInfo() {
         ClotheInfo clotheInfo = clotheInfoList.pollFirst();
         if (clotheInfo != null) {
             clotheInfoMutableLiveData.setValue(clotheInfo);
@@ -71,13 +76,34 @@ public class ClothesInteractor implements IClothesInteractor {
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void setPreviousClotheInfo(ClotheInfo current) {
         if (previousItemInfoList.hasPrevious()) {
             clotheInfoList.addFirst(current);
-            ClotheInfo clotheInfo = previousItemInfoList.peekLast();
+            ClotheInfo clotheInfo = previousItemInfoList.pollLast();
             clotheInfoMutableLiveData.setValue(clotheInfo);
+
+            int clotheId = ((LikedClothesItem) clotheInfo.getClothe()).getId();
+            clothesRepository.returnItemFromViewed(clotheId)
+                    .observeOn(mainThread)
+                    .subscribe(response -> {
+                        updateClothesList();
+                        isHasPreviousItem.setValue(previousItemInfoList.hasPrevious());
+                    }, Timber::e);
+        } else {
+            isHasPreviousItem.setValue(false);
         }
+    }
+
+    @Override
+    public PreviousClotheInfoList getPreviousClotheInfoList() {
+        return previousItemInfoList;
+    }
+
+    @Override
+    public LiveData<Boolean> getIsHasPreviousItem() {
+        return isHasPreviousItem;
     }
 
     @SuppressLint("CheckResult")
@@ -91,6 +117,8 @@ public class ClothesInteractor implements IClothesInteractor {
                         isLikeRequestInProgress = false;
                         setNextClotheInfo();
                         previousItemInfoList.add(callback);
+
+                        isHasPreviousItem.setValue(true);
                     }, Timber::e);
         }
     }
@@ -101,7 +129,7 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public LiveData<List<FilterProductName>> getProductNames(){
+    public LiveData<List<FilterProductName>> getProductNames() {
         return Transformations.map(clothesRepository.getClotheProductName(), input -> {
             ArrayList<FilterProductName> output = new ArrayList<>();
             for (int i = 0; i < input.size(); i++) {
@@ -112,9 +140,9 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public LiveData<List<FilterBrand>> getBrands(){
+    public LiveData<List<FilterBrand>> getBrands() {
         return Transformations.map(clothesRepository.getBrandNames(), input -> {
-           ArrayList<FilterBrand> output = new ArrayList<>();
+            ArrayList<FilterBrand> output = new ArrayList<>();
             for (int i = 0; i < input.size(); i++) {
                 output.add(new FilterBrand(input.get(i)));
             }
@@ -123,7 +151,7 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public LiveData<List<FilterColor>> getColors(){
+    public LiveData<List<FilterColor>> getColors() {
         return Transformations.map(clothesRepository.getClotheColors(), input -> {
             ArrayList<FilterColor> output = new ArrayList<>();
             for (int i = 0; i < input.size(); i++) {
@@ -166,10 +194,10 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public void setIsNeedShowSizeDialogForTop(Boolean flag){
+    public void setIsNeedShowSizeDialogForTop(Boolean flag) {
         isNeedShowSizeDialogForTop.setValue(flag);
         clothesRepository.setIsNeedShowSizeDialogTop(flag);
-        if (flag){
+        if (flag) {
             updateClothesList();
         }
     }
@@ -182,10 +210,10 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public void setIsNeedShowSizeDialogForBottom(Boolean flag){
+    public void setIsNeedShowSizeDialogForBottom(Boolean flag) {
         isNeedShowSizeDialogForBottom.setValue(flag);
         clothesRepository.setIsNeedShowSizeDialogBottom(flag);
-        if (flag){
+        if (flag) {
             updateClothesList();
         }
     }

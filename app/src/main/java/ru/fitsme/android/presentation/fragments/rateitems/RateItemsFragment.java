@@ -85,6 +85,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     protected void setUpObservers() {
         viewModel.getClotheInfoLiveData().observe(getViewLifecycleOwner(), this::onChange);
         viewModel.getFilterIconLiveData().observe(getViewLifecycleOwner(), this::onFilterIconChange);
+        viewModel.getReturnIconLiveData().observe(getViewLifecycleOwner(), this::onReturnIconChange);
     }
 
     private void onChange(ClotheInfo clotheInfo) {
@@ -101,6 +102,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         } else {
             binding.fragmentRateItemsFilterCheckedIv.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void onReturnIconChange(Boolean isEnabled) {
+        binding.fragmentRateItemsReturnBtn.setEnabled(isEnabled);
     }
 
     private void setListeners() {
@@ -122,11 +127,11 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     private void onClothesItem(ClothesItem clothesItem) {
         this.clothesItem = clothesItem;
-        pictureHelper =
-                new RateItemPictureHelper(this, binding, clothesItem);
+        pictureHelper = new RateItemPictureHelper(this, binding, clothesItem);
     }
 
-    private void onLikedClothesItem() {}
+    private void onLikedClothesItem() {
+    }
 
     private void onError(UserException error) {
         this.clothesItem = null;

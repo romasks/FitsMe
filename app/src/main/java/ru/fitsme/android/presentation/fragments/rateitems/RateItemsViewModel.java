@@ -22,6 +22,7 @@ public class RateItemsViewModel extends BaseViewModel {
 
     private LiveData<ClotheInfo> clotheInfoLiveData;
     private MutableLiveData<Boolean> filterIsChecked = new MutableLiveData<>();
+    private LiveData<Boolean> returnIsEnabled = new MutableLiveData<>();
     private LiveData<Boolean> isNeedShowSizeDialogForTop;
     private LiveData<Boolean> isNeedShowSizeDialogForBottom;
 
@@ -33,6 +34,7 @@ public class RateItemsViewModel extends BaseViewModel {
     @Override
     protected void init() {
         clotheInfoLiveData = clothesInteractor.getClotheInfoLiveData();
+        returnIsEnabled = clothesInteractor.getIsHasPreviousItem();
         filterIsChecked.setValue(false);
     }
 
@@ -69,6 +71,10 @@ public class RateItemsViewModel extends BaseViewModel {
 
     public LiveData<Boolean> getFilterIconLiveData() {
         return filterIsChecked;
+    }
+
+    public LiveData<Boolean> getReturnIconLiveData() {
+        return returnIsEnabled;
     }
 
     public LiveData<Boolean> getIsNeedShowSizeDialogForTop() {

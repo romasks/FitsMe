@@ -106,6 +106,16 @@ abstract class WebLoader {
                 }, emitter::onError));
     }
 
+    @SuppressLint("CheckResult")
+    public Single<Response<Void>> returnItemFromViewed(int clotheId) {
+        return Single.create(emitter -> authInteractor.getAuthInfo()
+                .subscribe(authInfo -> {
+                    apiService.returnItemFromViewed(TOKEN + authInfo.getToken(), clotheId)
+                            .subscribeOn(workThread)
+                            .subscribe(emitter::onSuccess, emitter::onError);
+                }, emitter::onError));
+    }
+
     public Single<OkResponse<ClothesPage>> getClothesPage(int page) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribeOn(workThread)

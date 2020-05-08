@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="bindingEvents"
             type="ru.fitsme.android.presentation.fragments.rateitems.BindingEventsClickListener" />
@@ -24,19 +25,16 @@
             app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_buttons_group"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/fragment_rate_items_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/fragment_rate_items_info_card"
@@ -45,11 +43,10 @@
                 android:layout_gravity="center_horizontal"
                 app:cardCornerRadius="@dimen/item_info_card_radius"
                 app:cardElevation="@dimen/items_info_elevation"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                >
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -60,8 +57,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
                         android:contentDescription="@null"
+                        android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -76,8 +73,7 @@
                         android:padding="@dimen/margin_8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -118,8 +114,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/fragment_rate_items_info_card"
                 app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_info_card"
                 app:layout_constraintStart_toStartOf="@id/fragment_rate_items_info_card"
-                tools:visibility="visible"
-                >
+                tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/item_info_brand_name_layout"
@@ -238,12 +233,11 @@
                 android:id="@+id/fragment_rate_items_filter_checked_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_filter_checked"
-                app:layout_constraintTop_toTopOf="@id/fragment_rate_items_filter_btn"
-                app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_filter_btn"
                 android:contentDescription="@null"
-                tools:visibility="visible"
-                />
+                android:src="@drawable/ic_filter_checked"
+                app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_filter_btn"
+                app:layout_constraintTop_toTopOf="@id/fragment_rate_items_filter_btn"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

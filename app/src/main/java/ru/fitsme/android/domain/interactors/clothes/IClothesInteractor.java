@@ -1,8 +1,8 @@
 package ru.fitsme.android.domain.interactors.clothes;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
+
+import java.util.List;
 
 import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.clothes.FilterBrand;
@@ -18,6 +18,10 @@ public interface IClothesInteractor extends BaseInteractor {
     void setLikeToClothesItem(ClotheInfo clotheInfo, boolean liked);
 
     LiveData<ClotheInfo> getClotheInfoLiveData();
+
+    PreviousClotheInfoList getPreviousClotheInfoList();
+
+    LiveData<Boolean> getIsHasPreviousItem();
 
     void setPreviousClotheInfo(ClotheInfo current);
 

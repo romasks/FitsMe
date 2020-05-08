@@ -71,6 +71,11 @@ public class WebLoaderNetworkChecker extends WebLoader {
     }
 
     @Override
+    public Single<Response<Void>> returnItemFromViewed(int clotheId) {
+        return checkNetwork(super.returnItemFromViewed(clotheId));
+    }
+
+    @Override
     public Single<OkResponse<ClothesPage>> getClothesPage(int page) {
         return checkNetwork(super.getClothesPage(page));
     }

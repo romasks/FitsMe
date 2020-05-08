@@ -21,6 +21,8 @@ public interface IClothesRepository {
 
     Single<ClotheInfo> likeItem(ClotheInfo clotheInfo, boolean liked);
 
+    Single<Boolean> returnItemFromViewed(int clotheId);
+
     Single<List<ClotheInfo>> getClotheList();
 
     Single<SparseArray<ClotheSize>> getSizes();

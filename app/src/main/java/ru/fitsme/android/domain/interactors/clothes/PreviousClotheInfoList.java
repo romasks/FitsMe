@@ -9,18 +9,22 @@ class PreviousClotheInfoList {
     private LinkedList<ClotheInfo> clotheInfoList = new LinkedList<>();
     private static final int LIST_SIZE = 4;
 
-    void add(ClotheInfo clotheInfo){
+    void add(ClotheInfo clotheInfo) {
         clotheInfoList.add(clotheInfo);
-        if (clotheInfoList.size() > LIST_SIZE){
+        if (clotheInfoList.size() > LIST_SIZE) {
             clotheInfoList.removeFirst();
         }
     }
 
-    ClotheInfo peekLast(){
+    ClotheInfo peekLast() {
         return clotheInfoList.peekLast();
     }
 
+    ClotheInfo pollLast() {
+        return clotheInfoList.pollLast();
+    }
+
     boolean hasPrevious() {
-        return clotheInfoList.size() > 2;
+        return clotheInfoList.size() > 0;
     }
 }

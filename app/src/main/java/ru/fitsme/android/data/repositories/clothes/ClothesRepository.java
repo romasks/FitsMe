@@ -1,5 +1,6 @@
 package ru.fitsme.android.data.repositories.clothes;
 
+import android.annotation.SuppressLint;
 import android.util.SparseArray;
 
 import androidx.lifecycle.LiveData;
@@ -27,10 +28,10 @@ import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
-import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
+import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.FilterBrand;
@@ -70,46 +71,53 @@ public class ClothesRepository implements IClothesRepository {
         } else {
             throw new TypeNotPresentException(clotheInfo.toString(), null);
         }
-        return Single.create(emitter -> {
-            webLoader.likeItem(clothesItem, liked)
-                    .subscribe(likedClothesItemOkResponse -> {
-                        LikedClothesItem item = likedClothesItemOkResponse.getResponse();
-                        if (item != null) {
-                            emitter.onSuccess(new ClotheInfo<LikedClothesItem>(item));
-                        } else {
-                            emitter.onSuccess(new ClotheInfo(likedClothesItemOkResponse.getError()));
-                        }
-                    }, emitter::onError);
-        });
+        return Single.create(emitter -> webLoader.likeItem(clothesItem, liked)
+                .subscribe(response -> {
+                    LikedClothesItem item = response.getResponse();
+                    if (item != null) {
+                        emitter.onSuccess(new ClotheInfo<>(item));
+                    } else {
+                        emitter.onSuccess(new ClotheInfo(response.getError()));
+                    }
+                }, emitter::onError));
+    }
+
+    @Override
+    public Single<Boolean> returnItemFromViewed(int clotheId) {
+        return Single.create(emitter -> webLoader.returnItemFromViewed(clotheId)
+                .subscribe(response -> {
+                    emitter.onSuccess(response.isSuccessful());
+                }, error -> {
+                    Timber.e(error);
+                    emitter.onError(error);
+                }));
     }
 
     @Override
     public Single<List<ClotheInfo>> getClotheList() {
         int page = 1;
-        return Single.create(emitter -> {
-            webLoader.getClothesPage(page)
-                    .subscribe(clothesPageOkResponse -> {
-                        ClothesPage clothePage = clothesPageOkResponse.getResponse();
-                        List<ClotheInfo> clotheInfoList = new LinkedList<>();
-                        if (clothePage != null) {
-                            List<ClothesItem> clothesItemList = clothePage.getItems();
-                            if (clothesItemList.size() == 0) {
-                                ClotheInfo clotheInfo = new ClotheInfo(new UserException(
-                                        App.getInstance().getString(R.string.end_of_not_viewed_list)));
-                                clotheInfoList.add(clotheInfo);
-                                emitter.onSuccess(clotheInfoList);
-                            } else {
-                                for (int i = 0; i < clothesItemList.size(); i++) {
-                                    clotheInfoList.add(new ClotheInfo<ClothesItem>(clothesItemList.get(i)));
-                                }
-                            }
+        return Single.create(emitter -> webLoader.getClothesPage(page)
+                .subscribe(response -> {
+                    ClothesPage clothePage = response.getResponse();
+                    List<ClotheInfo> clotheInfoList = new LinkedList<>();
+                    if (clothePage != null) {
+                        List<ClothesItem> clothesItemList = clothePage.getItems();
+                        if (clothesItemList.size() == 0) {
+                            ClotheInfo clotheInfo = new ClotheInfo(new UserException(
+                                    App.getInstance().getString(R.string.end_of_not_viewed_list)));
+                            clotheInfoList.add(clotheInfo);
+                            emitter.onSuccess(clotheInfoList);
                         } else {
-                            UserException error = ErrorRepository.makeError(clothesPageOkResponse.getError());
-                            clotheInfoList.add(new ClotheInfo(error));
+                            for (int i = 0; i < clothesItemList.size(); i++) {
+                                clotheInfoList.add(new ClotheInfo<>(clothesItemList.get(i)));
+                            }
                         }
-                        emitter.onSuccess(clotheInfoList);
-                    }, emitter::onError);
-        });
+                    } else {
+                        UserException error = ErrorRepository.makeError(response.getError());
+                        clotheInfoList.add(new ClotheInfo(error));
+                    }
+                    emitter.onSuccess(clotheInfoList);
+                }, emitter::onError));
     }
 
 
@@ -151,59 +159,62 @@ public class ClothesRepository implements IClothesRepository {
         storage.setBottomSizeType(clothesSizeType);
     }
 
+    @SuppressLint("CheckResult")
     @Override
-    public void updateClotheBrandList(){
+    public void updateClotheBrandList() {
         webLoader.getBrandList()
-            .subscribe(listOkResponse -> {
-                List<RepoClotheBrand> clotheBrands = listOkResponse.getResponse();
-                if (clotheBrands != null){
-                    BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
+                .subscribe(listOkResponse -> {
+                    List<RepoClotheBrand> clotheBrands = listOkResponse.getResponse();
+                    if (clotheBrands != null) {
+                        BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
                         brandsDao.getSingleBrandsList()
-                            .subscribe(roomBrands -> {
-                                for (int i = 0; i < clotheBrands.size(); i++) {
-                                    RepoClotheBrand brand = clotheBrands.get(i);
-                                    boolean isUpdated = false;
-                                    for (int j = 0; j < roomBrands.size(); j++) {
-                                        RoomBrand roomBrand = roomBrands.get(j);
-                                        if (brand.getId() == roomBrand.getId()){
-                                            isUpdated = true;
-                                            brandsDao.update(new RoomBrand(roomBrand.getId(), roomBrand.getTitle(), roomBrand.isChecked(), true));
-                                            break;
+                                .subscribe(roomBrands -> {
+                                    for (int i = 0; i < clotheBrands.size(); i++) {
+                                        RepoClotheBrand brand = clotheBrands.get(i);
+                                        boolean isUpdated = false;
+                                        for (int j = 0; j < roomBrands.size(); j++) {
+                                            RoomBrand roomBrand = roomBrands.get(j);
+                                            if (brand.getId() == roomBrand.getId()) {
+                                                isUpdated = true;
+                                                brandsDao.update(new RoomBrand(roomBrand.getId(), roomBrand.getTitle(), roomBrand.isChecked(), true));
+                                                break;
+                                            }
+                                        }
+                                        if (!isUpdated) {
+                                            brandsDao.insert(new RoomBrand(brand.getId(), brand.getTitle(), false, true));
                                         }
                                     }
-                                    if (!isUpdated){
-                                        brandsDao.insert(new RoomBrand(brand.getId(), brand.getTitle(), false, true));
-                                    }
-                                }
-                                brandsDao.clearNotUpdatedBrands();
-                                setRoomBrandsNotUpdated();
-                            });
-                }
-            }, Timber::e);
+                                    brandsDao.clearNotUpdatedBrands();
+                                    setRoomBrandsNotUpdated();
+                                });
+                    }
+                }, Timber::e);
     }
 
+    @SuppressLint("CheckResult")
     private void setRoomBrandsNotUpdated() {
         BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
         brandsDao.getSingleBrandsList()
-            .subscribe(roomBrandList -> {
-                for (int i = 0; i < roomBrandList.size(); i++) {
-                    RoomBrand brand = roomBrandList.get(i);
-                    brandsDao.update(new RoomBrand(brand.getId(), brand.getTitle(), brand.isChecked(), false));
-                }
-            });
+                .subscribe(roomBrandList -> {
+                    for (int i = 0; i < roomBrandList.size(); i++) {
+                        RoomBrand brand = roomBrandList.get(i);
+                        brandsDao.update(new RoomBrand(brand.getId(), brand.getTitle(), brand.isChecked(), false));
+                    }
+                });
     }
 
     @Override
-    public LiveData<List<RoomBrand>> getBrandNames(){
+    public LiveData<List<RoomBrand>> getBrandNames() {
         return AppDatabase.getInstance().getBrandsDao().getBrandsLiveData();
     }
 
+    @SuppressLint("CheckResult")
     @Override
-    public void updateClotheColorList(){
+    public void updateClotheColorList() {
         webLoader.getColorList()
                 .subscribe(listOkResponse -> {
                     List<RepoClotheColor> clotheColorList = listOkResponse.getResponse();
-                    if (clotheColorList != null){
+                    if (clotheColorList != null) {
                         ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
                         colorsDao.getSingleColorsList()
                                 .subscribe(roomColors -> {
@@ -212,13 +223,13 @@ public class ClothesRepository implements IClothesRepository {
                                         boolean isUpdated = false;
                                         for (int j = 0; j < roomColors.size(); j++) {
                                             RoomColor roomColor = roomColors.get(j);
-                                            if (color.getId() == roomColor.getId()){
+                                            if (color.getId() == roomColor.getId()) {
                                                 isUpdated = true;
                                                 colorsDao.update(new RoomColor(roomColor.getId(), roomColor.getColorName(), roomColor.getColorHex(), roomColor.isChecked(), true));
                                                 break;
                                             }
                                         }
-                                        if (!isUpdated){
+                                        if (!isUpdated) {
                                             colorsDao.insert(new RoomColor(color.getId(), color.getColorName(), color.getColorHex(), false, true));
                                         }
                                     }
@@ -229,6 +240,7 @@ public class ClothesRepository implements IClothesRepository {
                 }, Timber::e);
     }
 
+    @SuppressLint("CheckResult")
     private void setRoomColorsNotUpdated() {
         ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
         colorsDao.getSingleColorsList()
@@ -241,16 +253,17 @@ public class ClothesRepository implements IClothesRepository {
     }
 
     @Override
-    public LiveData<List<RoomColor>> getClotheColors(){
+    public LiveData<List<RoomColor>> getClotheColors() {
         return AppDatabase.getInstance().getColorsDao().getColorsLiveData();
     }
 
+    @SuppressLint("CheckResult")
     @Override
-    public void updateProductNameList(){
+    public void updateProductNameList() {
         webLoader.getProductNameList()
                 .subscribe(listOkResponse -> {
                     List<RepoClotheProductName> clotheProductNameList = listOkResponse.getResponse();
-                    if (clotheProductNameList != null){
+                    if (clotheProductNameList != null) {
                         ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
                         productNamesDao.getSingleProductNamesList()
                                 .subscribe(roomProductNames -> {
@@ -259,14 +272,14 @@ public class ClothesRepository implements IClothesRepository {
                                         boolean isUpdated = false;
                                         for (int j = 0; j < roomProductNames.size(); j++) {
                                             RoomProductName roomProductName = roomProductNames.get(j);
-                                            if (productName.getId() == roomProductName.getId()){
+                                            if (productName.getId() == roomProductName.getId()) {
                                                 isUpdated = true;
                                                 productNamesDao.update(new RoomProductName(
                                                         roomProductName.getId(), roomProductName.getTitle(), roomProductName.getType(), roomProductName.isChecked(), true));
                                                 break;
                                             }
                                         }
-                                        if (!isUpdated){
+                                        if (!isUpdated) {
                                             productNamesDao.insert(new RoomProductName(productName.getId(), productName.getTitle(), productName.getType(), false, true));
                                         }
                                     }
@@ -277,6 +290,7 @@ public class ClothesRepository implements IClothesRepository {
                 }, Timber::e);
     }
 
+    @SuppressLint("CheckResult")
     private void setRoomProductNamesNotUpdated() {
         ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
         productNamesDao.getSingleProductNamesList()
@@ -289,7 +303,7 @@ public class ClothesRepository implements IClothesRepository {
     }
 
     @Override
-    public LiveData<List<RoomProductName>> getClotheProductName(){
+    public LiveData<List<RoomProductName>> getClotheProductName() {
         return AppDatabase.getInstance().getProductNamesDao().getProductNamesLiveData();
     }
 
@@ -344,6 +358,7 @@ public class ClothesRepository implements IClothesRepository {
                 .subscribe();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public Single<Boolean> isFiltersChecked() {
         return Single.create(emitter -> {
@@ -353,17 +368,17 @@ public class ClothesRepository implements IClothesRepository {
             productNamesDao.getCheckedFilters()
                     .subscribeOn(workThread)
                     .subscribe(roomProductNames -> {
-                        if (roomProductNames.size() > 0){
+                        if (roomProductNames.size() > 0) {
                             emitter.onSuccess(true);
                         } else {
                             brandsDao.getCheckedFilters()
                                     .subscribe(roomBrands -> {
-                                        if (roomBrands.size() > 0){
+                                        if (roomBrands.size() > 0) {
                                             emitter.onSuccess(true);
                                         } else {
                                             colorsDao.getCheckedColors()
                                                     .subscribe(roomColors -> {
-                                                        if (roomColors.size() > 0){
+                                                        if (roomColors.size() > 0) {
                                                             emitter.onSuccess(true);
                                                         } else {
                                                             emitter.onSuccess(false);
@@ -407,6 +422,7 @@ public class ClothesRepository implements IClothesRepository {
                 });
     }
 
+    @SuppressLint("CheckResult")
     private void resetBrandFilters() {
         BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
         brandsDao.getCheckedFilters()
@@ -419,14 +435,15 @@ public class ClothesRepository implements IClothesRepository {
 
     }
 
+    @SuppressLint("CheckResult")
     private void resetProductNameFilters() {
         ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
         productNamesDao.getCheckedFilters()
-            .subscribe(roomProductNames -> {
-                for (int i = 0; i < roomProductNames.size(); i++) {
-                    roomProductNames.get(i).setChecked(false);
-                    productNamesDao.update(roomProductNames.get(i));
-                }
-            });
+                .subscribe(roomProductNames -> {
+                    for (int i = 0; i < roomProductNames.size(); i++) {
+                        roomProductNames.get(i).setChecked(false);
+                        productNamesDao.update(roomProductNames.get(i));
+                    }
+                });
     }
 }
