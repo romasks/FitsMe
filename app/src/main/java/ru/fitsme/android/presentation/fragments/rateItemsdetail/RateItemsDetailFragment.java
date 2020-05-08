@@ -1,19 +1,14 @@
 package ru.fitsme.android.presentation.fragments.rateItemsdetail;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentRateItemDetailBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
-public class RateItemsDetailFragment extends Fragment
+public class RateItemsDetailFragment extends BaseFragment<RateItemsDetailViewModel>
         implements BindingEventsClickListener, RateItemsDetailTouchListener.Callback {
 
     private static ClothesItem clotheInfo;
@@ -28,14 +23,16 @@ public class RateItemsDetailFragment extends Fragment
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rate_item_detail, container, false);
+    protected int getLayout() {
+        return R.layout.fragment_rate_item_detail;
+    }
+
+    @Override
+    protected void afterCreateView(View view) {
         binding = FragmentRateItemDetailBinding.bind(view);
         binding.setBindingEvents(this);
         setUp();
-        return view;
     }
 
     private void setUp() {
@@ -61,7 +58,15 @@ public class RateItemsDetailFragment extends Fragment
             String percent = item.split(":")[1].trim();
             clotheContentStr.append(percent).append("% ").append(material).append("\n");
         }
-
+        if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP){
+            viewModel.getCurrentTopSize().observe(getViewLifecycleOwner(), size -> {
+                binding.fragmentRateItemDetailItemSize.setText(size);
+            });
+        } else {
+            viewModel.getCurrentBottomSize().observe(getViewLifecycleOwner(), size -> {
+                binding.fragmentRateItemDetailItemSize.setText(size);
+            });
+        }
         binding.fragmentRateItemDetailBrandNameTv.setText(brandName);
         binding.fragmentRateItemDetailItemNameTv.setText(name);
         binding.fragmentRateItemDetailItemDescriptionTv.setText(description);

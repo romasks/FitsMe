@@ -199,7 +199,6 @@
 
                 <TableRow
                     android:layout_marginTop="@dimen/padding_16dp"
-                    android:visibility="gone"
                     >
 
                     <TextView

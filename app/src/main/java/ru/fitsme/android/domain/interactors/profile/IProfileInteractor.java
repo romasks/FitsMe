@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import io.reactivex.subjects.ReplaySubject;
-import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 
@@ -51,4 +50,8 @@ public interface IProfileInteractor extends BaseInteractor {
     void setCurrentBottomSizeIndex(int position);
 
     void updateInfo();
+
+    LiveData<String> getCurrentTopSize();
+
+    LiveData<String> getCurrentBottomSize();
 }

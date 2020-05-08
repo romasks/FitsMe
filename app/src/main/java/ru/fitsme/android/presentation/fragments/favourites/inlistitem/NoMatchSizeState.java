@@ -11,6 +11,9 @@ public class NoMatchSizeState extends InListItemState {
         this.viewHolder.imageView.setAlpha(0.5f);
         this.viewHolder.brandName.setAlpha(0.5f);
         this.viewHolder.name.setAlpha(0.5f);
+        this.viewHolder.sizeHint.setAlpha(0.5f);
+        this.viewHolder.size.setAlpha(0.5f);
+        this.viewHolder.priceHint.setAlpha(0.5f);
         this.viewHolder.price.setAlpha(0.5f);
         this.viewHolder.button.setAlpha(0.5f);
         this.viewHolder.button.setBackgroundResource(R.drawable.bg_in_cart_btn);

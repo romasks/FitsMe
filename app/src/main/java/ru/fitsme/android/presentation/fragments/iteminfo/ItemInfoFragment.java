@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.FragmentItemInfoBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.entities.order.OrderItem;
@@ -122,7 +123,15 @@ public class ItemInfoFragment extends BaseFragment<ItemInfoViewModel>
             String percent = item.split(":")[1].trim();
             clotheContentStr.append(percent).append("% ").append(material).append("\n");
         }
-
+        if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP){
+            viewModel.getCurrentTopSize().observe(getViewLifecycleOwner(), size -> {
+                binding.itemInfoItemSize.setText(size);
+            });
+        } else {
+            viewModel.getCurrentBottomSize().observe(getViewLifecycleOwner(), size -> {
+                binding.itemInfoItemSize.setText(size);
+            });
+        }
         binding.itemInfoBrandNameTv.setText(brandName);
         binding.itemInfoItemNameTv.setText(name);
         binding.itemInfoItemDescriptionTv.setText(description);

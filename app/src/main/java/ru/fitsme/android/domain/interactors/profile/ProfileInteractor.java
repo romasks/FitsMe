@@ -43,7 +43,9 @@ public class ProfileInteractor implements IProfileInteractor {
     private ObservableInt currentTopSizeTypeValue = new ObservableInt();
     private ObservableInt currentBottomSizeTypeValue = new ObservableInt();
     private ObservableInt currentTopSizeIndex = new ObservableInt(-1);
+    private MutableLiveData<String> currentTopSize = new MutableLiveData<>("");
     private ObservableInt currentBottomSizeIndex = new ObservableInt(-1);
+    private MutableLiveData<String> currentBottomSize = new MutableLiveData<>("");
     private MutableLiveData<List<String>> currentTopSizeArray = new MutableLiveData<>();
     private MutableLiveData<List<String>> currentBottomSizeArray = new MutableLiveData<>();
     private ObservableField<String> currentChestSize = new ObservableField<>();
@@ -108,6 +110,7 @@ public class ProfileInteractor implements IProfileInteractor {
                 Integer topSizeId = profile.getTopSize();
                 if (topSizeId == null || topSizeId == 0) {
                     currentTopSizeIndex.set(-1);
+                    currentTopSize.setValue(App.getInstance().getString(R.string.size_not_set));
                     message.set(App.getInstance().getString(R.string.profile_message_to_user_set_top_size));
                     currentChestSize.set("");
                     currentTopWaistSize.set("");
@@ -117,6 +120,8 @@ public class ProfileInteractor implements IProfileInteractor {
                     ClotheSize topClotheSize = clotheSizes.get(topSizeId);
                     int topSizeIndex = clotheSizes.indexOfKey(topSizeId);
                     currentTopSizeIndex.set(topSizeIndex);
+                    String nationalSize = getNationalSize(topClotheSize, currentTopSizeTypeValue.get());
+                    currentTopSize.setValue(nationalSize);
                     currentChestSize.set(topClotheSize.getChestLow() +
                             "-" + topClotheSize.getChestHigh() + " " + MEASURE_UNIT);
                     currentTopWaistSize.set(topClotheSize.getWaistLow() +
@@ -132,12 +137,15 @@ public class ProfileInteractor implements IProfileInteractor {
                             message.set(App.getInstance().getString(R.string.profile_message_to_user_set_bottom_size));
                     }
                     currentBottomSizeIndex.set(-1);
+                    currentBottomSize.setValue(App.getInstance().getString(R.string.size_not_set));
                     currentBottomWaistSize.set("");
                     currentBottomHipsSize.set("");
                 } else {
                     ClotheSize bottomClotheSize = clotheSizes.get(bottomSizeId);
                     int bottomSizeIndex = clotheSizes.indexOfKey(bottomSizeId);
                     currentBottomSizeIndex.set(bottomSizeIndex);
+                    String nationalSize = getNationalSize(bottomClotheSize, currentBottomSizeTypeValue.get());
+                    currentBottomSize.setValue(nationalSize);
                     currentBottomWaistSize.set(bottomClotheSize.getWaistLow() +
                             "-" + bottomClotheSize.getWaistHigh() + " " + MEASURE_UNIT);
                     currentBottomHipsSize.set(bottomClotheSize.getHipsLow() +
@@ -422,4 +430,15 @@ public class ProfileInteractor implements IProfileInteractor {
                             });
         }
     }
+
+    @Override
+    public LiveData<String> getCurrentTopSize() {
+        return currentTopSize;
+    }
+
+    @Override
+    public LiveData<String> getCurrentBottomSize() {
+        return currentBottomSize;
+    }
+
 }

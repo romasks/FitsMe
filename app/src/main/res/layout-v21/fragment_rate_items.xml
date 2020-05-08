@@ -39,7 +39,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/fragment_rate_items_info_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:visibility="invisible"
                 app:cardCornerRadius="@dimen/item_info_card_radius"
@@ -172,7 +172,6 @@
             android:id="@+id/fragment_rate_items_buttons_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
             android:paddingBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
