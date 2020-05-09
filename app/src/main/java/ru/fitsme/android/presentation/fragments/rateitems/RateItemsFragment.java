@@ -2,6 +2,7 @@ package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -71,6 +72,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         binding.setBindingEvents(this);
         setUp();
         viewModel.onAfterCreateView();
+        if (viewModel.isItFirstStart()){
+            binding.fragmentRateItemsContainer.setVisibility(View.GONE);
+            binding.fragmentRateItemsContainerDemo.setVisibility(View.VISIBLE);
+        }
         binding.fragmentRateItemsMessage.setText(getString(R.string.loading));
         isNeedShowSizeDialogForTop = viewModel.getIsNeedShowSizeDialogForTop();
         isNeedShowSizeDialogForBottom = viewModel.getIsNeedShowSizeDialogForBottom();
@@ -110,6 +115,15 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     private void setListeners() {
         binding.fragmentRateItemsInfoCard.setOnTouchListener(new RateItemTouchListener(this));
+        binding.fragmentRateItemsContainerDemo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                viewModel.setFirstStartCompleted();
+                binding.fragmentRateItemsContainer.setVisibility(View.VISIBLE);
+                binding.fragmentRateItemsContainerDemo.setVisibility(View.GONE);
+                return true;
+            }
+        });
     }
 
     private void setClotheInfo(ClotheInfo clotheInfo) {

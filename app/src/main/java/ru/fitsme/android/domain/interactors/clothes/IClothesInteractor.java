@@ -21,7 +21,7 @@ public interface IClothesInteractor extends BaseInteractor {
 
     PreviousClotheInfoList getPreviousClotheInfoList();
 
-    LiveData<Boolean> getIsHasPreviousItem();
+    LiveData<Boolean> getHasPreviousItem();
 
     void setPreviousClotheInfo(ClotheInfo current);
 

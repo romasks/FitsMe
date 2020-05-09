@@ -54,4 +54,8 @@ public interface IProfileInteractor extends BaseInteractor {
     LiveData<String> getCurrentTopSize();
 
     LiveData<String> getCurrentBottomSize();
+
+    boolean isItFirstStart();
+
+    void setFirstStartCompleted();
 }

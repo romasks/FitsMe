@@ -21,6 +21,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.ReplaySubject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.boundaries.profile.IProfileRepository;
@@ -33,6 +34,7 @@ public class ProfileInteractor implements IProfileInteractor {
 
     private IClothesRepository clothesRepository;
     private IProfileRepository profileRepository;
+    private ISettingsStorage storage;
     private Scheduler workThread;
     private Scheduler mainThread;
 
@@ -63,10 +65,12 @@ public class ProfileInteractor implements IProfileInteractor {
     @Inject
     ProfileInteractor(IClothesRepository clothesRepository,
                       IProfileRepository profileRepository,
+                      ISettingsStorage storage,
                       @Named("work") Scheduler workThread,
                       @Named("main") Scheduler mainThread) {
         this.clothesRepository = clothesRepository;
         this.profileRepository = profileRepository;
+        this.storage = storage;
         this.workThread = workThread;
         this.mainThread = mainThread;
     }
@@ -441,4 +445,13 @@ public class ProfileInteractor implements IProfileInteractor {
         return currentBottomSize;
     }
 
+    @Override
+    public boolean isItFirstStart(){
+        return storage.isItFirstStart();
+    }
+
+    @Override
+    public void setFirstStartCompleted(){
+        storage.setFirstStartCompleted();
+    }
 }
