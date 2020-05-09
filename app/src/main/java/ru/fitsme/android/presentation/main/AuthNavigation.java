@@ -14,6 +14,7 @@ public class AuthNavigation {
     public static final String NAV_SPLASH = "Splash";
     public static final String NAV_AUTH = "Auth";
     public static final String NAV_CODE_INPUT = "CodeInput";
+    public static final String NAV_AGREEMENT = "Agreement";
 
     private Cicerone<Router> cicerone;
 
@@ -56,6 +57,10 @@ public class AuthNavigation {
 
     public void goToCodeInput() {
         goNavigate(NAV_CODE_INPUT);
+    }
+
+    public void goToAgreement() {
+        goNavigate(NAV_AGREEMENT);
     }
 
     public void goBack() {

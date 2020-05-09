@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.ActivityMainBinding;
+import ru.fitsme.android.presentation.fragments.agreement.AgreementFragment;
 import ru.fitsme.android.presentation.fragments.auth.CodeFragment;
 import ru.fitsme.android.presentation.fragments.auth.NumberFragment;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
@@ -27,6 +28,7 @@ import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
+import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_AGREEMENT;
 import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_AUTH;
 import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_CODE_INPUT;
 import static ru.fitsme.android.presentation.main.AuthNavigation.NAV_MAIN_ITEM;
@@ -100,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                         return NumberFragment.newInstance();
                     case NAV_CODE_INPUT:
                         return CodeFragment.newInstance();
+                    case NAV_AGREEMENT:
+                        return AgreementFragment.newInstance();
                 }
                 throw new RuntimeException("Unknown screen key");
             }

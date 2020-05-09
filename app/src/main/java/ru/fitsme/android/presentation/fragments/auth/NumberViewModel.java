@@ -49,4 +49,8 @@ public class NumberViewModel extends BaseViewModel {
         }
         numberSendingInProgress = true;
     }
+
+    public void goToAgreement() {
+        authNavigation.goToAgreement();
+    }
 }
