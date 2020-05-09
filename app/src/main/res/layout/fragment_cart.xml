@@ -107,60 +107,57 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:id="@+id/cart_proceed_to_checkout_group"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="120dp"
+            android:layout_margin="@dimen/padding_16dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:visibility="visible">
 
+            <TextView
+                android:id="@+id/cart_total_price_label"
+                style="@style/CartPriceLabelStyle"
+                android:layout_above="@id/cart_delivery_cost_label"
+                android:layout_alignParentStart="true"
+                android:text="@string/cart_total_price_label" />
+
+            <TextView
+                android:id="@+id/cart_total_price_value"
+                style="@style/CartPriceValueStyle"
+                android:layout_above="@id/cart_delivery_cost_value"
+                android:layout_alignParentEnd="true"
+                android:text="@{@string/cart_amount_value(Integer.toString(viewModel.totalPrice))}"
+                tools:text="14300 P" />
+
+            <TextView
+                android:id="@+id/cart_delivery_cost_label"
+                style="@style/CartPriceLabelStyle"
+                android:layout_above="@id/cart_proceed_to_checkout_btn"
+                android:layout_alignParentStart="true"
+                android:text="@string/cart_delivery_cost_label" />
+
+            <TextView
+                android:id="@+id/cart_delivery_cost_value"
+                style="@style/CartPriceValueStyle"
+                android:layout_above="@id/cart_proceed_to_checkout_btn"
+                android:layout_alignParentEnd="true"
+                android:text="@{@string/cart_amount_value(Integer.toString(0))}"
+                tools:text="0 P" />
+
             <Button
                 android:id="@+id/cart_proceed_to_checkout_btn"
-                android:layout_width="270dp"
+                style="@style/BottomButtonStyle"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_rounded_corners_primary_dark_btn"
-                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/padding_8dp"
                 android:onClick="@{() -> bindingEvents.onClickGoToCheckout()}"
-                android:text="@string/cart_proceed_to_checkout_btn_text"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                android:text="@string/cart_proceed_to_checkout_btn_text" />
 
-            <TextView
-                android:id="@+id/cart_proceed_to_checkout_total_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/cart_total_tv"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_14sp"
-                app:layout_constraintBottom_toTopOf="@id/cart_proceed_to_checkout_btn"
-                app:layout_constraintRight_toLeftOf="@id/cart_proceed_to_checkout_total_amount_tv"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:hint="Итого: " />
-
-            <TextView
-                android:id="@+id/cart_proceed_to_checkout_total_amount_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@{@string/cart_amount_tv(Integer.toString(viewModel.totalPrice))}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_14sp"
-                app:layout_constraintBottom_toBottomOf="@id/cart_proceed_to_checkout_total_tv"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cart_proceed_to_checkout_total_tv"
-                tools:hint="21000Р" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

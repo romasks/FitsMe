@@ -176,6 +176,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
         return Single.just(new OrderItem());
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void remove(ClothesItem clothesItem) {
         PagedList<OrderItem> pagedList = adapter.getCurrentList();
