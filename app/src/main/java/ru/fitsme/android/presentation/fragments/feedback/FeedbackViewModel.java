@@ -32,18 +32,19 @@ public class FeedbackViewModel extends BaseViewModel {
 
     @Override
     protected void init() {
-        feedbackStatusLiveData = new MutableLiveData<>(FeedbackStatus.LOADING);
+        feedbackStatusLiveData = new MutableLiveData<>(FeedbackStatus.INITIAL);
         isLoading = new ObservableBoolean(false);
     }
 
     void onClickSendFeedback(String name, String email, String message) {
+        feedbackStatusLiveData.setValue(FeedbackStatus.LOADING);
         isLoading.set(true);
         addDisposable(feedbackInteractor.sendFeedback(new FeedbackRequest(name, email, message))
                 .subscribe(this::onSendFeedback, this::onError));
     }
 
     private void onSendFeedback(FeedbackResponse response) {
-        isLoading.set(false);
+//        isLoading.set(false);
         Timber.tag(getClass().getName()).d(response.getMessage());
         feedbackStatusLiveData.setValue(FeedbackStatus.SUCCESS);
     }
