@@ -39,11 +39,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
     private CartAdapter adapter;
     private ButtonState state;
 
-    @Override
-    public void onBackPressed() {
-        viewModel.onBackPressed();
-    }
-
     public static CartFragment newInstance() {
         return new CartFragment();
     }

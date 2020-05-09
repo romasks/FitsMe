@@ -38,6 +38,29 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         setListeners();
     }
 
+    @Override
+    public void onGetCodeClicked() {
+        String countryCode = binding.fragmentPhoneAuthCodeEt.getText().toString();
+        String phoneNumber = binding.fragmentPhoneAuthNumberEt.getText().toString();
+        String cleanNumber = getCleanNumber(phoneNumber);
+        if (cleanNumber.length() != 10) {
+            binding.fragmentPhoneAuthWrongNumTv.setVisibility(View.VISIBLE);
+            binding.fragmentPhoneAuthWrongNumTv.setText(getString(R.string.wrong_phone_number));
+            binding.fragmentPhoneAuthNumberEt.setTextColor(Color.RED);
+        } else {
+            if (!countryCode.equals(RU_PHONE_PREFIX)) {
+                binding.fragmentPhoneAuthCodeEt.setTextColor(Color.RED);
+            } else {
+                viewModel.sendPhoneNumber(countryCode + cleanNumber);
+            }
+        }
+    }
+
+    @Override
+    public void onAgreementClicked() {
+        viewModel.goToAgreement();
+    }
+
     private void setListeners() {
         initPhoneFieldListener(binding.fragmentPhoneAuthNumberEt);
         initCodeFieldListener(binding.fragmentPhoneAuthCodeEt);
@@ -59,30 +82,12 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
     }
 
     private void setCountyFlag(String string) {
-        if (string.equals(RU_PHONE_PREFIX)){
+        if (string.equals(RU_PHONE_PREFIX)) {
             binding.fragmentPhoneAuthCodeEt
                     .setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_rus_flag, 0, 0, 0);
         } else {
             binding.fragmentPhoneAuthCodeEt
                     .setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        }
-    }
-
-    @Override
-    public void onGetCodeClicked() {
-        String countryCode = binding.fragmentPhoneAuthCodeEt.getText().toString();
-        String phoneNumber = binding.fragmentPhoneAuthNumberEt.getText().toString();
-        String cleanNumber = getCleanNumber(phoneNumber);
-        if (cleanNumber.length() != 10){
-            binding.fragmentPhoneAuthWrongNumTv.setVisibility(View.VISIBLE);
-            binding.fragmentPhoneAuthWrongNumTv.setText(getString(R.string.wrong_phone_number));
-            binding.fragmentPhoneAuthNumberEt.setTextColor(Color.RED);
-        } else {
-            if (!countryCode.equals(RU_PHONE_PREFIX)){
-                binding.fragmentPhoneAuthCodeEt.setTextColor(Color.RED);
-            } else {
-                viewModel.sendPhoneNumber(countryCode + cleanNumber);
-            }
         }
     }
 
