@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import io.reactivex.Scheduler;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
+import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
@@ -17,6 +18,8 @@ public class RateItemsViewModel extends BaseViewModel {
 
     @Inject
     IClothesInteractor clothesInteractor;
+    @Inject
+    IProfileInteractor profileInteractor;
     @Inject
     @Named("main") Scheduler mainThread;
 
@@ -34,7 +37,7 @@ public class RateItemsViewModel extends BaseViewModel {
     @Override
     protected void init() {
         clotheInfoLiveData = clothesInteractor.getClotheInfoLiveData();
-        returnIsEnabled = clothesInteractor.getIsHasPreviousItem();
+        returnIsEnabled = clothesInteractor.getHasPreviousItem();
         filterIsChecked.setValue(false);
     }
 
@@ -91,5 +94,13 @@ public class RateItemsViewModel extends BaseViewModel {
 
     public void setIsNeedShowSizeDialogForBottom(Boolean flag){
         clothesInteractor.setIsNeedShowSizeDialogForBottom(flag);
+    }
+
+    public Boolean isItFirstStart(){
+        return profileInteractor.isItFirstStart();
+    }
+
+    public void setFirstStartCompleted(){
+        profileInteractor.setFirstStartCompleted();
     }
 }

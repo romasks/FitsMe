@@ -226,6 +226,11 @@
     <string name="size_not_set">Не указан</string>
     <string name="price">Цена</string>
     <string name="size">Размер</string>
+    <string name="details">Подробности</string>
+    <string name="demo_brand">Zara</string>
+    <string name="demo_item_name">Золотая юбка</string>
+    <string name="previous_photo">Предыдущее\nфото</string>
+    <string name="next_photo">Следующее\nфото</string>
 
 
 </resources>

@@ -12,6 +12,7 @@
     <color name="black">#000000</color>
     <color name="thinBlackText">#DE000000</color>
     <color name="darkGrey">#787878</color>
+    <color name="dottedLineColor">#6A6A6A</color>
     <color name="lightGrey">#AAAAAA</color>
     <color name="lighterGrey">#424F4F4F</color>
     <color name="toCartButton">#940235</color>

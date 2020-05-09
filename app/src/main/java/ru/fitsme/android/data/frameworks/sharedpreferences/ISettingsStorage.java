@@ -15,7 +15,11 @@ public interface ISettingsStorage {
 
     void setIsNeedShowSizeDialogForRateItemsTop(Boolean flag);
 
+    void setFirstStartCompleted();
+
     Boolean getIsNeedShowSizeDialogForRateItemsBottom();
 
     void setIsNeedShowSizeDialogForRateItemsBottom(Boolean flag);
+
+    Boolean isItFirstStart();
 }

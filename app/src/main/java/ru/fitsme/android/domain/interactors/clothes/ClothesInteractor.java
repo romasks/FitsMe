@@ -34,7 +34,7 @@ public class ClothesInteractor implements IClothesInteractor {
     private MutableLiveData<ClotheInfo> clotheInfoMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Boolean> isNeedShowSizeDialogForTop = new MutableLiveData<>();
     private MutableLiveData<Boolean> isNeedShowSizeDialogForBottom = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isHasPreviousItem = new MutableLiveData<>();
+    private MutableLiveData<Boolean> hasPreviousItem = new MutableLiveData<>();
 
     private LinkedList<ClotheInfo> clotheInfoList;
     private PreviousClotheInfoList previousItemInfoList = new PreviousClotheInfoList();
@@ -52,7 +52,7 @@ public class ClothesInteractor implements IClothesInteractor {
         clothesRepository.updateClotheColorList();
         clothesRepository.updateProductNameList();
 
-        isHasPreviousItem.setValue(false);
+        hasPreviousItem.setValue(false);
     }
 
     @SuppressLint("CheckResult")
@@ -89,10 +89,10 @@ public class ClothesInteractor implements IClothesInteractor {
                     .observeOn(mainThread)
                     .subscribe(response -> {
                         updateClothesList();
-                        isHasPreviousItem.setValue(previousItemInfoList.hasPrevious());
+                        hasPreviousItem.setValue(previousItemInfoList.hasPrevious());
                     }, Timber::e);
         } else {
-            isHasPreviousItem.setValue(false);
+            hasPreviousItem.setValue(false);
         }
     }
 
@@ -102,8 +102,8 @@ public class ClothesInteractor implements IClothesInteractor {
     }
 
     @Override
-    public LiveData<Boolean> getIsHasPreviousItem() {
-        return isHasPreviousItem;
+    public LiveData<Boolean> getHasPreviousItem() {
+        return hasPreviousItem;
     }
 
     @SuppressLint("CheckResult")
@@ -118,7 +118,7 @@ public class ClothesInteractor implements IClothesInteractor {
                         setNextClotheInfo();
                         previousItemInfoList.add(callback);
 
-                        isHasPreviousItem.setValue(true);
+                        hasPreviousItem.setValue(true);
                     }, Timber::e);
         }
     }

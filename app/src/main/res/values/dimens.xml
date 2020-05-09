@@ -34,5 +34,6 @@
 
     <dimen name="item_credit_card_radius">16dp</dimen>
     <dimen name="text_size_24sp">24sp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
 
 </resources>

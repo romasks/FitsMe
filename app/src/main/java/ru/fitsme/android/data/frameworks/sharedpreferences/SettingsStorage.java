@@ -14,6 +14,7 @@ public class SettingsStorage implements ISettingsStorage {
     private static final String BOTTOM_SIZE_TYPE_KEY = "bottomSizeType";
     private static final String IS_NEED_SHOW_SIZE_DIALOG_FOR_RATE_ITEMS_TOP = "showSDforRateTop";
     private static final String IS_NEED_SHOW_SIZE_DIALOG_FOR_RATE_ITEMS_BOTTOM = "showSDforRateBot";
+    private static final String IS_IT_FIRST_START = "firstStart";
 
     private SharedPreferences sharedPreferences;
 
@@ -79,6 +80,17 @@ public class SettingsStorage implements ISettingsStorage {
                 .apply();
     }
 
+    @Override
+    public Boolean isItFirstStart() {
+        return sharedPreferences.getBoolean(IS_IT_FIRST_START, true);
+    }
+
+    @Override
+    public void setFirstStartCompleted(){
+        sharedPreferences.edit()
+                .putBoolean(IS_IT_FIRST_START, false)
+                .apply();
+    }
 
     @Override
     public Boolean getIsNeedShowSizeDialogForRateItemsBottom() {
