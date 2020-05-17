@@ -1,11 +1,23 @@
 package ru.fitsme.android.domain.entities.clothes;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+
+import ru.fitsme.android.app.App;
 
 public class Picture implements Parcelable {
     private long id;
     private String url;
+    private Bitmap bitmap;
 
     public long getId() {
         return id;
@@ -13,6 +25,27 @@ public class Picture implements Parcelable {
 
     public String getUrl() {
         return url;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void downloadPic(){
+        Glide.with(App.getInstance())
+                .asBitmap()
+                .load(url)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        bitmap = resource;
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
     }
 
     @Override

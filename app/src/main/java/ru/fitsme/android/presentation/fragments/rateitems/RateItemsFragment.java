@@ -115,14 +115,11 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     private void setListeners() {
         binding.fragmentRateItemsInfoCard.setOnTouchListener(new RateItemTouchListener(this));
-        binding.fragmentRateItemsContainerDemo.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                viewModel.setFirstStartCompleted();
-                binding.fragmentRateItemsContainer.setVisibility(View.VISIBLE);
-                binding.fragmentRateItemsContainerDemo.setVisibility(View.GONE);
-                return true;
-            }
+        binding.fragmentRateItemsContainerDemo.setOnTouchListener((v, event) -> {
+            viewModel.setFirstStartCompleted();
+            binding.fragmentRateItemsContainer.setVisibility(View.VISIBLE);
+            binding.fragmentRateItemsContainerDemo.setVisibility(View.GONE);
+            return true;
         });
     }
 
