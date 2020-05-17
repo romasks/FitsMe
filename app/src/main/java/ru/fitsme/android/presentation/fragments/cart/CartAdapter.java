@@ -18,25 +18,29 @@ import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemCartBinding;
 import ru.fitsme.android.databinding.ItemCartRemovedBinding;
+import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.InOrderState;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.NoSizeState;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.OrderState;
+import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
 import timber.log.Timber;
 
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartViewHolder> {
 
     private CartViewModel viewModel;
+    private CartFragment fragment;
     private OnItemClickCallback callback;
 
     private static final int NORMAL_TYPE = 1;
     private static final int REMOVED_TYPE = 2;
 
-    CartAdapter(CartViewModel viewModel, CartAdapter.OnItemClickCallback callback) {
+    CartAdapter(CartViewModel viewModel, CartFragment fragment) {
         super(OrderItem.DIFF_CALLBACK);
         this.viewModel = viewModel;
-        this.callback = callback;
+        this.fragment = fragment;
+        this.callback = (OnItemClickCallback) fragment;
     }
 
     @NonNull
@@ -97,7 +101,10 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
         public final TextView brandName;
         public final TextView name;
         public final TextView price;
-        public final TextView noSize;
+        public final TextView priceHint;
+        public final TextView size;
+        public final TextView sizeHint;
+//        public final TextView noSize;
 
         private OrderItem orderItem;
         private OrderState state;
@@ -113,7 +120,10 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
             brandName = binding.getRoot().findViewById(R.id.item_cart_brand_name);
             name = binding.getRoot().findViewById(R.id.item_cart_name);
             price = binding.getRoot().findViewById(R.id.item_cart_price);
-            noSize = binding.getRoot().findViewById(R.id.item_cart_no_size);
+            priceHint = binding.getRoot().findViewById(R.id.item_cart_hint_price);
+            size = binding.getRoot().findViewById(R.id.item_cart_size);
+            sizeHint = binding.getRoot().findViewById(R.id.item_cart_size_hint);
+//            noSize = binding.getRoot().findViewById(R.id.item_cart_no_size);
         }
 
         void bind(int position) {
@@ -124,6 +134,11 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
             binding.setVariable(BR.clotheItem, clothesItem);
             binding.executePendingBindings();
+            if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP){
+                size.setText(fragment.getTopSize());
+            } else {
+                size.setText(fragment.getBottomSize());
+            }
         }
 
         private void setState(@Nullable OrderItem orderItem) {

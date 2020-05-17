@@ -15,6 +15,7 @@ import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
+import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import timber.log.Timber;
@@ -27,6 +28,9 @@ public class CartViewModel extends BaseViewModel {
     @Inject
     IClothesInteractor clothesInteractor;
 
+    @Inject
+    IProfileInteractor profileInteractor;
+
     public ObservableField<String> message;
     public ObservableInt totalPrice;
 
@@ -37,6 +41,7 @@ public class CartViewModel extends BaseViewModel {
     public void init() {
         message = cartInteractor.getMessage();
         totalPrice = cartInteractor.getTotalPrice();
+        profileInteractor.updateInfo();
     }
 
     public LiveData<Boolean> isNeedShowSizeDialogForTop() {
@@ -105,5 +110,13 @@ public class CartViewModel extends BaseViewModel {
 
     private void onItemsRemoved(Integer integer) {
         cartInteractor.invalidateDataSource();
+    }
+
+    public LiveData<String> getCurrentTopSize(){
+        return profileInteractor.getCurrentTopSize();
+    }
+
+    public LiveData<String> getCurrentBottomSize(){
+        return profileInteractor.getCurrentBottomSize();
     }
 }
