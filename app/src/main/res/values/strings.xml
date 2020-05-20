@@ -123,7 +123,7 @@
     <!--returns-->
     <string name="screen_title_orders_return">Список возвратов</string>
     <string name="returns_empty_list_title">Вы не оформляли возврат</string>
-    <string name="returns_empty_list_message">Товар, заказанный на FitsMe и не подошедший по каким-либо причинам (форма, габариты, фасон, расцветка, размер и комплектация), подлежит возврату в течение 14 дней со дня доставки.</string>
+    <string name="returns_empty_list_message">Товар подлежит возврату\nв течение 14 дней со дня доставки.</string>
     <string name="returns_button_create_new_return">Оформить возврат</string>
     <string name="returns_number_tv">Заказ #%1$s</string>
     <string name="returns_status_title">Статус:</string>
