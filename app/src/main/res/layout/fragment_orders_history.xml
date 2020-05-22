@@ -61,6 +61,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:orientation="vertical"
+            android:visibility="gone"
             tools:visibility="visible">
 
             <TextView
