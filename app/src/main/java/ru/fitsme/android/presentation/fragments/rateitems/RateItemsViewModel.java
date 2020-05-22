@@ -29,7 +29,6 @@ public class RateItemsViewModel extends BaseViewModel {
     private LiveData<Boolean> isNeedShowSizeDialogForTop;
     private LiveData<Boolean> isNeedShowSizeDialogForBottom;
 
-
     public RateItemsViewModel() {
         inject(this);
     }

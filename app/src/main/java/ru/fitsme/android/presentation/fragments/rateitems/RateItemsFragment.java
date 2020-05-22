@@ -377,22 +377,22 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void onTopOkButtonClick() {
-        viewModel.setIsNeedShowSizeDialogForTop(true);
-    }
-
-    @Override
-    public void onTopCancelButtonClick() {
         viewModel.setIsNeedShowSizeDialogForTop(false);
     }
 
     @Override
+    public void onTopCancelButtonClick() {
+        viewModel.setIsNeedShowSizeDialogForTop(true);
+    }
+
+    @Override
     public void onBottomOkButtonClick() {
-        viewModel.setIsNeedShowSizeDialogForBottom(true);
+        viewModel.setIsNeedShowSizeDialogForBottom(false);
     }
 
     @Override
     public void onBottomCancelButtonClick() {
-        viewModel.setIsNeedShowSizeDialogForBottom(false);
+        viewModel.setIsNeedShowSizeDialogForBottom(true);
     }
 
     @Override

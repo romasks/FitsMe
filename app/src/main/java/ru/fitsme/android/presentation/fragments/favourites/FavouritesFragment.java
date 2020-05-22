@@ -135,6 +135,7 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         return Single.just(new OrderItem());
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void remove(ClothesItem clothesItem) {
         PagedList<FavouritesItem> pagedList = adapter.getCurrentList();

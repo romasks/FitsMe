@@ -116,6 +116,7 @@ abstract class WebLoader {
                 }, emitter::onError));
     }
 
+    @SuppressLint("CheckResult")
     public Single<OkResponse<ClothesPage>> getClothesPage(int page) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribeOn(workThread)

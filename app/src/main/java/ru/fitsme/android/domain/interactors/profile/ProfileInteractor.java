@@ -138,7 +138,7 @@ public class ProfileInteractor implements IProfileInteractor {
                 Integer bottomSizeId = profile.getBottomSize();
                 if (bottomSizeId == null || bottomSizeId == 0) {
                     if (topSizeId != null && topSizeId != 0) {
-                            message.set(App.getInstance().getString(R.string.profile_message_to_user_set_bottom_size));
+                        message.set(App.getInstance().getString(R.string.profile_message_to_user_set_bottom_size));
                     }
                     currentBottomSizeIndex.set(-1);
                     currentBottomSize.setValue(App.getInstance().getString(R.string.size_not_set));
@@ -163,28 +163,18 @@ public class ProfileInteractor implements IProfileInteractor {
     private void setTopClothesSizeList() {
         CompositeDisposable disposable = new CompositeDisposable();
         disposable.add(
-                sizeListReplaySubject.subscribe(clotheSizes -> {
-                    disposable.add(
-                            profileReplaySubject.subscribe(profile -> {
-                                Integer topSizeId;
-                                if (profile.getTopSize() == null) {
-                                    topSizeId = 0;
-                                } else {
-                                    topSizeId = profile.getTopSize();
-                                }
-                                int topSizeIndex;
-                                if (topSizeId == null || topSizeId == 0) {
-                                    topSizeIndex = -1;
-                                } else {
-                                    topSizeIndex = clotheSizes.indexOfKey(topSizeId);
-                                }
-                                currentTopSizeIndex.set(topSizeIndex);
-                                List<String> topSizeArray = makeTopSizeArray(clotheSizes);
-                                currentTopSizeArray.setValue(topSizeArray);
-                                disposable.dispose();
-                            }, Timber::e)
-                    );
-                }, Timber::e)
+                sizeListReplaySubject.subscribe(clotheSizes -> disposable.add(
+                        profileReplaySubject.subscribe(profile -> {
+                            int topSizeId = profile.getTopSize() == null ? 0
+                                    : profile.getTopSize();
+                            int topSizeIndex = topSizeId == 0 ? -1
+                                    : clotheSizes.indexOfKey(topSizeId);
+                            currentTopSizeIndex.set(topSizeIndex);
+                            List<String> topSizeArray = makeTopSizeArray(clotheSizes);
+                            currentTopSizeArray.setValue(topSizeArray);
+                            disposable.dispose();
+                        }, Timber::e)
+                ), Timber::e)
         );
     }
 
@@ -192,28 +182,18 @@ public class ProfileInteractor implements IProfileInteractor {
     private void setBottomClothesSizeList() {
         CompositeDisposable disposable = new CompositeDisposable();
         disposable.add(
-                sizeListReplaySubject.subscribe(clotheSizes -> {
-                    disposable.add(
-                            profileReplaySubject.subscribe(profile -> {
-                                Integer bottomSizeId;
-                                if (profile.getBottomSize() == null) {
-                                    bottomSizeId = 0;
-                                } else {
-                                    bottomSizeId = profile.getBottomSize();
-                                }
-                                int bottomSizeIndex;
-                                if (bottomSizeId == null || bottomSizeId == 0) {
-                                    bottomSizeIndex = -1;
-                                } else {
-                                    bottomSizeIndex = clotheSizes.indexOfKey(bottomSizeId);
-                                }
-                                currentBottomSizeIndex.set(bottomSizeIndex);
-                                List<String> bottomSizeArray = makeBottomSizeArray(clotheSizes);
-                                currentBottomSizeArray.setValue(bottomSizeArray);
-                                disposable.dispose();
-                            }, Timber::e)
-                    );
-                }, Timber::e)
+                sizeListReplaySubject.subscribe(clotheSizes -> disposable.add(
+                        profileReplaySubject.subscribe(profile -> {
+                            int bottomSizeId = profile.getBottomSize() == null ? 0
+                                    : profile.getBottomSize();
+                            int bottomSizeIndex = bottomSizeId == 0 ? -1
+                                    : clotheSizes.indexOfKey(bottomSizeId);
+                            currentBottomSizeIndex.set(bottomSizeIndex);
+                            List<String> bottomSizeArray = makeBottomSizeArray(clotheSizes);
+                            currentBottomSizeArray.setValue(bottomSizeArray);
+                            disposable.dispose();
+                        }, Timber::e)
+                ), Timber::e)
         );
     }
 
@@ -375,7 +355,7 @@ public class ProfileInteractor implements IProfileInteractor {
             String newHouseNumber = oldProfile.getHouseNumber();
             String newApartment = oldProfile.getApartment();
             Integer newTopSize;
-            if (position == -1){
+            if (position == -1) {
                 newTopSize = null;
             } else {
                 newTopSize = sizeArray.keyAt(position);
@@ -413,7 +393,7 @@ public class ProfileInteractor implements IProfileInteractor {
             String newHouseNumber = oldProfile.getHouseNumber();
             String newApartment = oldProfile.getApartment();
             Integer newBottomSize;
-            if (position == -1){
+            if (position == -1) {
                 newBottomSize = null;
             } else {
                 newBottomSize = sizeArray.keyAt(position);
@@ -446,12 +426,12 @@ public class ProfileInteractor implements IProfileInteractor {
     }
 
     @Override
-    public boolean isItFirstStart(){
+    public boolean isItFirstStart() {
         return storage.isItFirstStart();
     }
 
     @Override
-    public void setFirstStartCompleted(){
+    public void setFirstStartCompleted() {
         storage.setFirstStartCompleted();
     }
 }

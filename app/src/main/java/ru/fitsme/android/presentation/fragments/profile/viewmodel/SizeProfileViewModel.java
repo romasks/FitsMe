@@ -68,7 +68,7 @@ public class SizeProfileViewModel extends BaseViewModel {
         profileInteractor.setCurrentBottomSizeIndex(position);
     }
 
-    public ObservableInt getCurrentTopSizeIndex(){
+    public ObservableInt getCurrentTopSizeIndex() {
         return currentTopSizeIndex;
     }
 
