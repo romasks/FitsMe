@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.Scheduler;
+import ru.fitsme.android.domain.entities.clothes.LikeState;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.domain.interactors.profile.IProfileInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
@@ -25,6 +26,7 @@ public class RateItemsViewModel extends BaseViewModel {
 
     private LiveData<ClotheInfo> clotheInfoLiveData;
     private MutableLiveData<Boolean> filterIsChecked = new MutableLiveData<>();
+    private LiveData<LikeState> likeStateLiveData;
     private LiveData<Boolean> returnIsEnabled = new MutableLiveData<>();
     private LiveData<Boolean> isNeedShowSizeDialogForTop;
     private LiveData<Boolean> isNeedShowSizeDialogForBottom;
@@ -37,6 +39,7 @@ public class RateItemsViewModel extends BaseViewModel {
     protected void init() {
         clotheInfoLiveData = clothesInteractor.getClotheInfoLiveData();
         returnIsEnabled = clothesInteractor.getHasPreviousItem();
+        likeStateLiveData = clothesInteractor.getLikeStateLiveData();
         filterIsChecked.setValue(false);
     }
 
@@ -77,6 +80,10 @@ public class RateItemsViewModel extends BaseViewModel {
 
     public LiveData<Boolean> getReturnIconLiveData() {
         return returnIsEnabled;
+    }
+
+    public LiveData<LikeState> getLikeStateLiveData() {
+        return likeStateLiveData;
     }
 
     public LiveData<Boolean> getIsNeedShowSizeDialogForTop() {

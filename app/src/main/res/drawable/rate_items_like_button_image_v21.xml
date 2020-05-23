@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- pressed -->
-    <item
-        android:state_pressed="true"
-        android:drawable="@drawable/rate_items_like_image_pressed_v21"
-        >
-    </item>
-    <!-- default -->
-    <item
-        android:drawable="@drawable/rate_items_like_image_normal_v21"
-        >
-    </item>
+    <item android:drawable="@drawable/rate_items_like_image_disabled_v21" android:state_enabled="false" /> <!-- pressed -->
+    <item android:drawable="@drawable/rate_items_like_image_pressed_v21" android:state_pressed="true" /> <!-- pressed -->
+    <item android:drawable="@drawable/rate_items_like_image_normal_v21" /> <!-- default -->
 </selector>

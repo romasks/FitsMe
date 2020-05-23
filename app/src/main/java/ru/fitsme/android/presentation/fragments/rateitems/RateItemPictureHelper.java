@@ -23,11 +23,9 @@ import java.util.List;
 
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
-import ru.fitsme.android.databinding.FragmentItemInfoBinding;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.Picture;
-import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 
 class RateItemPictureHelper {
 
@@ -148,6 +146,8 @@ class RateItemPictureHelper {
         binding.fragmentRateItemsInfoCard.setVisibility(View.VISIBLE);
         binding.fragmentRateItemsBrandNameCard.setVisibility(View.VISIBLE);
         binding.fragmentRateItemsIvPhoto.setImageBitmap(bitmap);
+
+        fragment.enableLikeButtons();
     }
 
     private void onPictureFailed() {

@@ -19,6 +19,7 @@ import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.entities.clothes.ClotheType;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
+import ru.fitsme.android.domain.entities.clothes.LikeState;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
@@ -46,6 +47,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     private RateItemAnimation itemAnimation;
     private boolean isFullItemInfoState;
     private ClothesItem clothesItem;
+    private boolean isReturnEnabled = false;
 
     private LiveData<Boolean> isNeedShowSizeDialogForTop;
     private LiveData<Boolean> isNeedShowSizeDialogForBottom;
@@ -72,7 +74,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         binding.setBindingEvents(this);
         setUp();
         viewModel.onAfterCreateView();
-        if (viewModel.isItFirstStart()){
+        if (viewModel.isItFirstStart()) {
             binding.fragmentRateItemsContainer.setVisibility(View.GONE);
             binding.fragmentRateItemsContainerDemo.setVisibility(View.VISIBLE);
         }
@@ -91,6 +93,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         viewModel.getClotheInfoLiveData().observe(getViewLifecycleOwner(), this::onChange);
         viewModel.getFilterIconLiveData().observe(getViewLifecycleOwner(), this::onFilterIconChange);
         viewModel.getReturnIconLiveData().observe(getViewLifecycleOwner(), this::onReturnIconChange);
+        viewModel.getLikeStateLiveData().observe(getViewLifecycleOwner(), this::onLikeStateChange);
     }
 
     private void onChange(ClotheInfo clotheInfo) {
@@ -111,8 +114,36 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     private void onReturnIconChange(Boolean isEnabled) {
         binding.fragmentRateItemsReturnBtn.setEnabled(isEnabled);
+        isReturnEnabled = isEnabled;
     }
 
+    private void onLikeStateChange(LikeState likeState) {
+        switch (likeState) {
+            case LOADING:
+                disableLikeButtons();
+                break;
+            case INITIAL:
+            case SUCCESS:
+            case ERROR:
+            default:
+        }
+    }
+
+    private void disableLikeButtons() {
+        binding.fragmentRateItemsReturnBtn.setEnabled(false);
+        binding.fragmentRateItemsLikeBtn.setEnabled(false);
+        binding.fragmentRateItemsDislikeBtn.setEnabled(false);
+        binding.fragmentRateItemsFilterBtn.setEnabled(false);
+    }
+
+    void enableLikeButtons() {
+        binding.fragmentRateItemsReturnBtn.setEnabled(isReturnEnabled);
+        binding.fragmentRateItemsLikeBtn.setEnabled(true);
+        binding.fragmentRateItemsDislikeBtn.setEnabled(true);
+        binding.fragmentRateItemsFilterBtn.setEnabled(true);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private void setListeners() {
         binding.fragmentRateItemsInfoCard.setOnTouchListener(new RateItemTouchListener(this));
         binding.fragmentRateItemsContainerDemo.setOnTouchListener(new View.OnTouchListener() {
@@ -197,6 +228,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     @Override
     public void onClickReturn() {
+        disableLikeButtons();
         viewModel.onReturnClicked(new ClotheInfo<ClothesItem>(clothesItem));
     }
 
