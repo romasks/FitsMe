@@ -138,104 +138,69 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/delivery_address_warning_text" />
 
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/cart_proceed_to_checkout_group"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_8dp"
-                    android:layout_marginBottom="@dimen/padding_8dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/checkout_text_price"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text" />
+                        android:id="@+id/cart_price_label"
+                        style="@style/CartPriceLabelStyle"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/checkout_price_label" />
 
                     <TextView
-                        android:id="@+id/price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.price)}"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text"
-                        android:textStyle="bold"
-                        tools:text="14000 P" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_8dp"
-                    android:layout_marginBottom="@dimen/padding_8dp"
-                    android:orientation="horizontal">
+                        android:id="@+id/cart_price_value"
+                        style="@style/CartPriceValueStyle"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:text="@{@string/cart_amount_value(viewModel.orderModel.price)}"
+                        tools:text="14300 P" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/checkout_text_delivery_cost"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text" />
+                        android:id="@+id/cart_delivery_cost_label"
+                        style="@style/CartPriceLabelStyle"
+                        android:layout_below="@id/cart_price_label"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/checkout_delivery_cost_label" />
 
                     <TextView
-                        android:id="@+id/deliveryPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.discount)}"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text"
-                        android:textStyle="bold"
-                        tools:text="300 P" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_8dp"
-                    android:layout_marginBottom="@dimen/padding_8dp"
-                    android:orientation="horizontal">
+                        android:id="@+id/cart_delivery_cost_value"
+                        style="@style/CartPriceValueStyle"
+                        android:layout_below="@id/cart_price_value"
+                        android:layout_alignParentEnd="true"
+                        android:text="@{@string/cart_amount_value(viewModel.orderModel.discount)}"
+                        tools:text="0 P" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/checkout_text_total_price"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text"
+                        android:id="@+id/cart_total_price_label"
+                        style="@style/CartPriceLabelStyle"
+                        android:layout_below="@id/cart_delivery_cost_label"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/checkout_total_price_label"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/totalPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{@string/cart_amount_tv(viewModel.orderModel.totalPrice)}"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/delivery_address_amount_text"
-                        android:textStyle="bold"
+                        android:id="@+id/cart_total_price_value"
+                        style="@style/CartPriceValueStyle"
+                        android:layout_below="@id/cart_delivery_cost_value"
+                        android:layout_alignParentEnd="true"
+                        android:text="@{@string/cart_amount_value(viewModel.orderModel.totalPrice)}"
                         tools:text="14300 P" />
+                </RelativeLayout>
 
-                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
         <Button
             android:id="@+id/btn_next"
+            style="@style/BottomButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/padding_32dp"
-            android:layout_marginTop="@dimen/padding_16dp"
-            android:layout_marginEnd="@dimen/padding_32dp"
-            android:layout_marginBottom="@dimen/padding_16dp"
-            android:background="@drawable/bg_to_cart_btn"
+            android:layout_margin="@dimen/padding_16dp"
             android:onClick="@{() -> bindingEvents.onClickMakeOrder()}"
-            android:text="@string/btn_checkout_order"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16sp" />
+            android:text="@string/btn_checkout_order" />
     </RelativeLayout>
 </layout>

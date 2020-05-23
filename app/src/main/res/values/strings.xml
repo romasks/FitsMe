@@ -35,8 +35,9 @@
     <string name="cart_no_item_go_to_favourite_btn_text">Перейти в избранное</string>
     <string name="cart_proceed_to_checkout_btn_text">Перейти к оформлению</string>
     <string name="cart_remove_no_match_size_btn_text">Удалить вещи не по размеру</string>
-    <string name="cart_total_tv">Итого:\u0020</string>
-    <string name="cart_amount_tv">%1$s\u20BD</string>
+    <string name="cart_total_price_label">Итого:</string>
+    <string name="cart_delivery_cost_label">Доставка:</string>
+    <string name="cart_amount_value">%1$s\u20BD</string>
     <string name="cart_user_agreement_1">Нажимая кнопку \"Перейти к оформлению\", вы соглашаетесь с</string>
     <string name="cart_user_agreement_2"><u>условиями обработки персональных данных</u></string>
     <string name="cart_fragment_message_for_size_dialog">Вещь может быть заказана только после указания ваших размеров</string>
@@ -52,9 +53,9 @@
     <string name="checkout_hint_enter_street">Укажите улицу</string>
     <string name="checkout_hint_enter_house_number">Укажите дом</string>
     <string name="checkout_hint_enter_flat_number">Укажите квартиру</string>
-    <string name="checkout_text_delivery_cost">Стоимость доставки</string>
-    <string name="checkout_text_total_price">Итого</string>
-    <string name="checkout_text_price">Товаров на сумму</string>
+    <string name="checkout_price_label">Товаров на сумму</string>
+    <string name="checkout_delivery_cost_label">Стоимость доставки</string>
+    <string name="checkout_total_price_label">Итого</string>
     <string name="btn_checkout_order">Оформить заказ</string>
     <string name="warning_phone_number_is_not_filled">Номер телефона не заполнен</string>
     <string name="checkout_warning_some_fields_is_empty">Все поля должны быть заполнены</string>

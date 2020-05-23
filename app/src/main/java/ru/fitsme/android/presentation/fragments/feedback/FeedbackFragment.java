@@ -67,18 +67,26 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
     }
 
     private void onSuccessSendFeedback(FeedbackStatus feedbackStatus) {
-        binding.btnSendFeedback.setEnabled(true);
         switch (feedbackStatus) {
+            case INITIAL: {
+                binding.progress.setVisibility(View.GONE);
+                break;
+            }
             case ERROR: {
+                binding.progress.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "Ошибка отправки", Toast.LENGTH_SHORT).show();
                 break;
             }
             case SUCCESS: {
+//                binding.progress.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "Успешно отправлено", Toast.LENGTH_SHORT).show();
                 goBack();
                 break;
             }
-            case LOADING:
+            case LOADING: {
+                binding.progress.setVisibility(View.VISIBLE);
+            }
+            default:
         }
     }
 
@@ -92,11 +100,12 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
         binding.messageErrorIcon.setVisibility(View.GONE);
         binding.getRoot().requestFocus();
         if (validFields()) {
-            binding.btnSendFeedback.setEnabled(false);
             viewModel.onClickSendFeedback(
                     binding.nameEt.getText().toString(),
                     binding.emailEt.getText().toString(),
                     binding.messageEt.getText().toString());
+        } else {
+            Toast.makeText(getActivity(), "Некоторые поля заполнены неверно", Toast.LENGTH_SHORT).show();
         }
     }
 

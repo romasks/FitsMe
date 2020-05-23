@@ -154,7 +154,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/padding_8dp"
                 android:paddingBottom="4dp"
-                android:text="@{@string/cart_amount_tv(clotheItem.price)}"
+                android:text="@{@string/cart_amount_value(clotheItem.price)}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 tools:text="@string/clothe_price_hint" />
