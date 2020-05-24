@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import ru.fitsme.android.app.di.DI;
 import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
@@ -33,6 +34,7 @@ public class App extends MultiDexApplication {
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
 
         Timber.plant(new Timber.DebugTree());
+        AndroidThreeTen.init(this);
 
         di = new DI(this);
     }

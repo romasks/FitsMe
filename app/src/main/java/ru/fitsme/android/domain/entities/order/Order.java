@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -86,6 +88,10 @@ public class Order implements Parcelable {
 
     public String getOrderUpdatedDate() {
         return orderUpdatedDate;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return LocalDateTime.parse(orderUpdatedDate.replaceAll("Z", ""));
     }
 
     public OrderStatus getOrderStatus() {

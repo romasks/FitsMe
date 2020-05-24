@@ -1,6 +1,7 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.two;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.threeten.bp.LocalDateTime;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
@@ -57,10 +60,18 @@ public class ReturnOrdersAdapter extends PagedListAdapter<Order, ReturnOrdersAda
                                     android.R.color.black
             ));*/
 
-            binding.setVariable(BR.order, order);
-            binding.setVariable(BR.viewModel, viewModel);
-            binding.setVariable(BR.position, position);
-            binding.executePendingBindings();
+            if (order
+                    .getOrderDate()
+                    .plusDays(14)
+                    .isAfter(LocalDateTime.now())
+            ) {
+                binding.setVariable(BR.order, order);
+                binding.setVariable(BR.viewModel, viewModel);
+                binding.setVariable(BR.position, position);
+                binding.executePendingBindings();
+            } else {
+                binding.getRoot().setVisibility(View.GONE);
+            }
         }
     }
 }

@@ -223,7 +223,7 @@ abstract class WebLoader {
     public Single<OkResponse<OrdersPage>> getOrdersPage(int page) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
-                        authInfo -> apiService.getOrders(TOKEN + authInfo.getToken(), page)
+                        authInfo -> apiService.getOrdersHistory(TOKEN + authInfo.getToken(), page, OrderStatus.FM)
                                 .subscribeOn(workThread)
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError)
@@ -233,7 +233,7 @@ abstract class WebLoader {
     public Single<OkResponse<OrdersPage>> getReturnOrdersPage(int page) {
         return Single.create(emitter -> authInteractor.getAuthInfo()
                 .subscribe(
-                        authInfo -> apiService.getReturnOrders(TOKEN + authInfo.getToken(), page)
+                        authInfo -> apiService.getReturnOrders(TOKEN + authInfo.getToken(), page, OrderStatus.ISU)
                                 .subscribeOn(workThread)
                                 .subscribe(emitter::onSuccess, emitter::onError),
                         emitter::onError)

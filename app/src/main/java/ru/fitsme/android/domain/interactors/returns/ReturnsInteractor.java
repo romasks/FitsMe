@@ -7,6 +7,8 @@ import androidx.lifecycle.Transformations;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -129,7 +131,14 @@ public class ReturnsInteractor implements IReturnsInteractor {
 
                 @Override
                 public void onInserted(int position, int count) {
-                    returnOrdersIsEmpty.setValue(false);
+                    LocalDateTime borderedDate = LocalDateTime.now().minusDays(14);
+                    for (Order order : pagedList.snapshot()) {
+                        if (order.getOrderDate().isAfter(borderedDate)) {
+                            returnOrdersIsEmpty.setValue(false);
+                            return;
+                        }
+                    }
+                    returnOrdersIsEmpty.setValue(true);
                 }
 
                 @Override
