@@ -39,6 +39,7 @@ public class TopSizeDialogFragment extends DialogFragment
 
     @Inject
     ViewModelFactory viewModelFactory;
+
     private TopSizeDialogCallback callback;
     private String message;
 

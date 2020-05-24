@@ -1,6 +1,5 @@
 package ru.fitsme.android.presentation.fragments.returns.processing.two;
 
-import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
@@ -16,7 +15,6 @@ public class ChooseOrderReturnViewModel extends BaseViewModel {
     @Inject
     IReturnsInteractor returnsInteractor;
 
-    public ObservableBoolean isLoading = new ObservableBoolean(true);
     public ObservableField<String> message;
 
     public ChooseOrderReturnViewModel() {

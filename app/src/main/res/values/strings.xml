@@ -25,6 +25,8 @@
     <string name="clothe_in_cart">Товар в корзине</string>
     <string name="set_your_size">Укажите ваш размер</string>
     <string name="set_your_sizes">Укажите ваши размеры</string>
+    <string name="set_your_top_sizes">Укажите ваши размеры верха</string>
+    <string name="set_your_bottom_sizes">Укажите ваши размеры низа</string>
     <string name="no_match_size">Нет вашего размера</string>
     <string name="no_items_in_favourites">Нет товаров в избранном</string>
     <string name="no_items_go_to_rate_btn_text">Продолжить просмотр товаров</string>
@@ -123,7 +125,7 @@
     <!--returns-->
     <string name="screen_title_orders_return">Список возвратов</string>
     <string name="returns_empty_list_title">Вы не оформляли возврат</string>
-    <string name="returns_empty_list_message">Товар, заказанный на FitsMe и не подошедший по каким-либо причинам (форма, габариты, фасон, расцветка, размер и комплектация), подлежит возврату в течение 14 дней со дня доставки.</string>
+    <string name="returns_empty_list_message">Товар подлежит возврату\nв течение 14 дней со дня доставки.</string>
     <string name="returns_button_create_new_return">Оформить возврат</string>
     <string name="returns_number_tv">Заказ #%1$s</string>
     <string name="returns_status_title">Статус:</string>

@@ -25,8 +25,7 @@
             app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_buttons_group"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/fragment_rate_items_message"
@@ -178,22 +177,20 @@
             app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_buttons_group"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/fragment_rate_items_info_card_demo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
+                android:alpha="0.3"
                 app:cardCornerRadius="@dimen/item_info_card_radius"
                 app:cardElevation="@dimen/items_info_elevation"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:alpha="0.3"
-                >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -221,14 +218,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:alpha="0.3"
                 app:cardBackgroundColor="@color/transparentBackground"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="@dimen/items_info_elevation"
                 app:layout_constraintBottom_toBottomOf="@id/fragment_rate_items_info_card_demo"
                 app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_info_card_demo"
-                app:layout_constraintStart_toStartOf="@id/fragment_rate_items_info_card_demo"
-                android:alpha="0.3"
-                >
+                app:layout_constraintStart_toStartOf="@id/fragment_rate_items_info_card_demo">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/item_info_brand_name_layout_demo"
@@ -282,115 +278,107 @@
                 android:id="@+id/fragment_rate_item_horizontal_line_demo"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
-                android:src="@drawable/dotted_horizontal_line"
-                android:layerType="software"
                 android:layout_marginBottom="@dimen/padding_20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_brand_name_card_demo"
                 android:contentDescription="@null"
-                />
+                android:layerType="software"
+                android:src="@drawable/dotted_horizontal_line"
+                app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_brand_name_card_demo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/fragment_rate_item_vertical_line_demo"
                 android:layout_width="2dp"
                 android:layout_height="0dp"
-                android:src="@drawable/dotted_vertical_line"
+                android:contentDescription="@null"
                 android:layerType="software"
                 android:padding="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/dotted_vertical_line"
                 app:layout_constraintBottom_toTopOf="@id/fragment_rate_item_horizontal_line_demo"
-                android:contentDescription="@null"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:shadowColor="@android:color/transparent"
                 android:text="@string/details"
                 android:textAllCaps="true"
-                android:textSize="@dimen/text_size_18sp"
                 android:textColor="@color/colorPrimaryDark"
-                android:shadowColor="@android:color/transparent"
-                android:background="@android:color/transparent"
-                app:layout_constraintTop_toTopOf="@id/fragment_rate_items_brand_name_card_demo"
-                app:layout_constraintStart_toStartOf="@id/fragment_rate_items_brand_name_card_demo"
-                app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_brand_name_card_demo"
+                android:textSize="@dimen/text_size_18sp"
                 app:layout_constraintBottom_toBottomOf="@id/fragment_rate_items_brand_name_card_demo"
-                />
+                app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_brand_name_card_demo"
+                app:layout_constraintStart_toStartOf="@id/fragment_rate_items_brand_name_card_demo"
+                app:layout_constraintTop_toTopOf="@id/fragment_rate_items_brand_name_card_demo" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_click_icon"
                 android:layout_marginTop="@dimen/margin_20dp"
                 android:background="@android:color/transparent"
-                app:layout_constraintTop_toTopOf="@id/fragment_rate_items_brand_name_card_demo"
-                app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_brand_name_card_demo"
-                app:layout_constraintBottom_toBottomOf="@id/fragment_rate_items_brand_name_card_demo"
                 android:contentDescription="@null"
-                />
+                android:src="@drawable/ic_click_icon"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_rate_items_brand_name_card_demo"
+                app:layout_constraintEnd_toEndOf="@id/fragment_rate_items_brand_name_card_demo"
+                app:layout_constraintTop_toTopOf="@id/fragment_rate_items_brand_name_card_demo" />
 
             <TextView
                 android:id="@+id/fragment_rate_item_prev_tv_demo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:gravity="center"
+                android:shadowColor="@android:color/transparent"
                 android:text="@string/previous_photo"
                 android:textAllCaps="true"
-                android:textSize="@dimen/text_size_18sp"
                 android:textColor="@color/colorPrimaryDark"
-                android:shadowColor="@android:color/transparent"
-                android:background="@android:color/transparent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/fragment_rate_item_vertical_line_demo"
+                android:textSize="@dimen/text_size_18sp"
                 app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_brand_name_card_demo"
-                />
+                app:layout_constraintEnd_toEndOf="@id/fragment_rate_item_vertical_line_demo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_click_icon_left"
                 android:layout_marginBottom="@dimen/margin_20dp"
                 android:background="@android:color/transparent"
-                app:layout_constraintTop_toBottomOf="@id/fragment_rate_item_prev_tv_demo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/fragment_rate_item_vertical_line_demo"
-                app:layout_constraintBottom_toTopOf="@id/fragment_rate_item_horizontal_line_demo"
                 android:contentDescription="@null"
-                />
+                android:src="@drawable/ic_click_icon_left"
+                app:layout_constraintBottom_toTopOf="@id/fragment_rate_item_horizontal_line_demo"
+                app:layout_constraintEnd_toEndOf="@id/fragment_rate_item_vertical_line_demo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_rate_item_prev_tv_demo" />
 
             <TextView
                 android:id="@+id/fragment_rate_item_next_tv_demo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:gravity="center"
+                android:shadowColor="@android:color/transparent"
                 android:text="@string/next_photo"
                 android:textAllCaps="true"
-                android:textSize="@dimen/text_size_18sp"
                 android:textColor="@color/colorPrimaryDark"
-                android:shadowColor="@android:color/transparent"
-                android:background="@android:color/transparent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="@id/fragment_rate_item_vertical_line_demo"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="@dimen/text_size_18sp"
                 app:layout_constraintBottom_toTopOf="@id/fragment_rate_items_brand_name_card_demo"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/fragment_rate_item_vertical_line_demo"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_click_icon_right"
                 android:layout_marginBottom="@dimen/margin_20dp"
                 android:background="@android:color/transparent"
-                app:layout_constraintTop_toBottomOf="@id/fragment_rate_item_next_tv_demo"
-                app:layout_constraintStart_toStartOf="@id/fragment_rate_item_vertical_line_demo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/fragment_rate_item_horizontal_line_demo"
                 android:contentDescription="@null"
-                />
+                android:src="@drawable/ic_click_icon_right"
+                app:layout_constraintBottom_toTopOf="@id/fragment_rate_item_horizontal_line_demo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/fragment_rate_item_vertical_line_demo"
+                app:layout_constraintTop_toBottomOf="@id/fragment_rate_item_next_tv_demo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

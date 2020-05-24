@@ -8,6 +8,7 @@ import io.reactivex.Single;
 import ru.fitsme.android.domain.entities.clothes.FilterBrand;
 import ru.fitsme.android.domain.entities.clothes.FilterColor;
 import ru.fitsme.android.domain.entities.clothes.FilterProductName;
+import ru.fitsme.android.domain.entities.clothes.LikeState;
 import ru.fitsme.android.domain.interactors.BaseInteractor;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 
@@ -22,6 +23,8 @@ public interface IClothesInteractor extends BaseInteractor {
     PreviousClotheInfoList getPreviousClotheInfoList();
 
     LiveData<Boolean> getHasPreviousItem();
+
+    LiveData<LikeState> getLikeStateLiveData();
 
     void setPreviousClotheInfo(ClotheInfo current);
 

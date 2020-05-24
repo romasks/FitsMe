@@ -52,11 +52,10 @@ public class ChooseOrderReturnFragment extends BaseFragment<ChooseOrderReturnVie
 
     private void onLoadPage(PagedList<Order> ordersList) {
         adapter.submitList(ordersList);
-        viewModel.isLoading.set(false);
     }
 
     private void onReturnsOrdersIsEmpty(Boolean isEmpty) {
-        binding.returnsOrderNoItems.setVisibility(!viewModel.isLoading.get() && isEmpty ? View.VISIBLE : View.GONE);
+        binding.returnsOrderNoItems.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
     }
 
     @Override

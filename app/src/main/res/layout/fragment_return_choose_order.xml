@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -33,44 +34,30 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:text="@string/loading"
+            android:text="@{viewModel.message}"
             android:textSize="@dimen/text_size_16sp"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+            tools:visibility="invisible" />
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/return_orders_list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/app_bar">
+            android:layout_below="@id/app_bar"
+            android:clipToPadding="false"
+            android:orientation="vertical" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/return_orders_list_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:orientation="vertical" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
             android:id="@+id/returns_order_no_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/cart_no_item_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:text="@string/no_orders_to_return"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="40dp"
+            android:text="@string/no_orders_to_return"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </RelativeLayout>
 </layout>

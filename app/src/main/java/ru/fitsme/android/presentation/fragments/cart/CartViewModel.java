@@ -44,20 +44,12 @@ public class CartViewModel extends BaseViewModel {
         profileInteractor.updateInfo();
     }
 
-    public LiveData<Boolean> isNeedShowSizeDialogForTop() {
-        return clothesInteractor.getIsNeedShowSizeDialogForTop();
+    public ObservableInt getCurrentTopSizeIndex() {
+        return profileInteractor.getCurrentTopSizeIndex();
     }
 
-    public void setIsNeedShowSizeDialogForTop(Boolean flag) {
-        clothesInteractor.setIsNeedShowSizeDialogForTop(flag);
-    }
-
-    public LiveData<Boolean> isNeedShowSizeDialogForBottom() {
-        return clothesInteractor.getIsNeedShowSizeDialogForBottom();
-    }
-
-    public void setIsNeedShowSizeDialogForBottom(Boolean flag) {
-        clothesInteractor.setIsNeedShowSizeDialogForBottom(flag);
+    public ObservableInt getCurrentBottomSizeIndex() {
+        return profileInteractor.getCurrentBottomSizeIndex();
     }
 
     LiveData<PagedList<OrderItem>> getPageLiveData() {

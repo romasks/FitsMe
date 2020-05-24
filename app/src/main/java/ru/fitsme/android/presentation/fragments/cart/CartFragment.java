@@ -24,6 +24,7 @@ import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.SizeObserver;
 import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 import timber.log.Timber;
 
@@ -163,7 +164,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
     @Override
     public void onBottomOkButtonClick() {
         viewModel.updateList();
-        viewModel.setIsNeedShowSizeDialogForBottom(false);
     }
 
     @Override
@@ -173,13 +173,11 @@ public class CartFragment extends BaseFragment<CartViewModel>
     @Override
     public void onTopOkButtonClick() {
         viewModel.updateList();
-        viewModel.setIsNeedShowSizeDialogForTop(false);
     }
 
     @Override
     public void onTopCancelButtonClick() {
     }
-
 
     @Override
     public Single<OrderItem> add(ClothesItem clothesItem) {
@@ -216,19 +214,27 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
     public void setSizeInProfile() {
-        if (isNeedTopSize()) showTopSizeDialog();
-        else if (isNeedBottomSize()) showBottomSizeDialog();
+        if (isNeededSetSizeTop()) showTopSizeDialog();
+        else if (isNeededSetSizeBottom()) showBottomSizeDialog();
         else updateButtonState(adapter.getCurrentList());
     }
 
     private void updateButtonState(PagedList<OrderItem> orderItemsList) {
-        if (isNeedTopSize() || isNeedBottomSize()) {
+        if (isNeededSetSizeTop() || isNeededSetSizeBottom()) {
             setState(new SetSizeState(binding, this));
         } else if (hasNoSizeItems(orderItemsList)) {
             setState(new RemoveNoMatchSizeState(binding, this));
         } else {
             setState(new NormalState(binding, this));
         }
+    }
+
+    private boolean isNeededSetSizeTop() {
+        return viewModel.getCurrentTopSizeIndex().get() == SizeObserver.NO_SIZE;
+    }
+
+    private boolean isNeededSetSizeBottom() {
+        return viewModel.getCurrentBottomSizeIndex().get() == SizeObserver.NO_SIZE;
     }
 
     private Boolean hasNoSizeItems(PagedList<OrderItem> orderItemsList) {
@@ -243,14 +249,6 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     private void setState(ButtonState buttonState) {
         state = buttonState;
-    }
-
-    private boolean isNeedTopSize() {
-        return viewModel.isNeedShowSizeDialogForTop().getValue();
-    }
-
-    private boolean isNeedBottomSize() {
-        return viewModel.isNeedShowSizeDialogForBottom().getValue();
     }
 
     private void showTopSizeDialog() {

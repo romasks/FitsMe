@@ -367,29 +367,25 @@ public class ClothesRepository implements IClothesRepository {
             ProductNamesDao productNamesDao = AppDatabase.getInstance().getProductNamesDao();
             BrandsDao brandsDao = AppDatabase.getInstance().getBrandsDao();
             ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
-            productNamesDao.getCheckedFilters()
-                    .subscribeOn(workThread)
-                    .subscribe(roomProductNames -> {
-                        if (roomProductNames.size() > 0) {
+            productNamesDao.getCheckedFilters().subscribeOn(workThread).subscribe(roomProductNames -> {
+                if (roomProductNames.size() > 0) {
+                    emitter.onSuccess(true);
+                } else {
+                    brandsDao.getCheckedFilters().subscribe(roomBrands -> {
+                        if (roomBrands.size() > 0) {
                             emitter.onSuccess(true);
                         } else {
-                            brandsDao.getCheckedFilters()
-                                    .subscribe(roomBrands -> {
-                                        if (roomBrands.size() > 0) {
-                                            emitter.onSuccess(true);
-                                        } else {
-                                            colorsDao.getCheckedColors()
-                                                    .subscribe(roomColors -> {
-                                                        if (roomColors.size() > 0) {
-                                                            emitter.onSuccess(true);
-                                                        } else {
-                                                            emitter.onSuccess(false);
-                                                        }
-                                                    });
-                                        }
-                                    });
+                            colorsDao.getCheckedColors().subscribe(roomColors -> {
+                                if (roomColors.size() > 0) {
+                                    emitter.onSuccess(true);
+                                } else {
+                                    emitter.onSuccess(false);
+                                }
+                            });
                         }
                     });
+                }
+            });
         });
     }
 
@@ -413,6 +409,7 @@ public class ClothesRepository implements IClothesRepository {
         storage.setIsNeedShowSizeDialogForRateItemsBottom(flag);
     }
 
+    @SuppressLint("CheckResult")
     private void resetColorFilters() {
         ColorsDao colorsDao = AppDatabase.getInstance().getColorsDao();
         colorsDao.getCheckedColors()

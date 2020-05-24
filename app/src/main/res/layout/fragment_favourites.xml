@@ -10,7 +10,7 @@
         <variable
             name="viewModel"
             type="ru.fitsme.android.presentation.fragments.favourites.FavouritesViewModel" />
-        
+
         <variable
             name="bindingEvents"
             type="ru.fitsme.android.presentation.fragments.favourites.FavouritesBindingEvents" />
@@ -29,13 +29,16 @@
             android:clipToPadding="false"
             android:orientation="vertical" />
 
-        <!--<TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@{viewModel.showMessage}"
-            android:textSize="@dimen/text_size_lower_medium"
-            tools:visibility="invisible" />-->
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="invisible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/favourites_no_items_group"
@@ -63,10 +66,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            android:text="@string/favourites_no_items_text"
             app:layout_constraintBottom_toTopOf="@id/favourites_no_items_button"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:text="@string/favourites_no_items_text" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/favourites_no_items_button"

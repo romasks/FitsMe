@@ -89,8 +89,9 @@ public interface ApiService {
                                               @Path("itemId") int itemId);
 
     @GET("orders/")
-    Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token,
-                                             @Query("page") int page);
+    Single<OkResponse<OrdersPage>> getOrdersHistory(@Header("Authorization") String token,
+                                                    @Query("page") int page,
+                                                    @Query("status_ne") OrderStatus omitStatus);
 
     @GET("orders/")
     Single<OkResponse<OrdersPage>> getOrders(@Header("Authorization") String token);
@@ -108,7 +109,8 @@ public interface ApiService {
 
     @GET("orders/return/")
     Single<OkResponse<OrdersPage>> getReturnOrders(@Header("Authorization") String token,
-                                                   @Query("page") int page);
+                                                   @Query("page") int page,
+                                                   @Query("status") OrderStatus status);
 
     @PUT("orders/{id}/")
     Single<OkResponse<Order>> updateOrderById(@Header("Authorization") String token,

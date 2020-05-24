@@ -20,6 +20,7 @@ import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.FilterBrand;
 import ru.fitsme.android.domain.entities.clothes.FilterColor;
 import ru.fitsme.android.domain.entities.clothes.FilterProductName;
+import ru.fitsme.android.domain.entities.clothes.LikeState;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import timber.log.Timber;
@@ -35,6 +36,7 @@ public class ClothesInteractor implements IClothesInteractor {
     private MutableLiveData<Boolean> isNeedShowSizeDialogForTop = new MutableLiveData<>();
     private MutableLiveData<Boolean> isNeedShowSizeDialogForBottom = new MutableLiveData<>();
     private MutableLiveData<Boolean> hasPreviousItem = new MutableLiveData<>();
+    private MutableLiveData<LikeState> likeStateLiveData = new MutableLiveData<>();
 
     private LinkedList<ClotheInfo> clotheInfoList;
     private PreviousClotheInfoList previousItemInfoList = new PreviousClotheInfoList();
@@ -53,6 +55,7 @@ public class ClothesInteractor implements IClothesInteractor {
         clothesRepository.updateProductNameList();
 
         hasPreviousItem.setValue(false);
+        likeStateLiveData.setValue(LikeState.INITIAL);
     }
 
     @SuppressLint("CheckResult")
@@ -106,9 +109,15 @@ public class ClothesInteractor implements IClothesInteractor {
         return hasPreviousItem;
     }
 
+    @Override
+    public LiveData<LikeState> getLikeStateLiveData() {
+        return likeStateLiveData;
+    }
+
     @SuppressLint("CheckResult")
     @Override
     public void setLikeToClothesItem(ClotheInfo clotheInfo, boolean liked) {
+        likeStateLiveData.setValue(LikeState.LOADING);
         if (!isLikeRequestInProgress) {
             isLikeRequestInProgress = true;
             clothesRepository.likeItem(clotheInfo, liked)
@@ -119,7 +128,11 @@ public class ClothesInteractor implements IClothesInteractor {
                         previousItemInfoList.add(callback);
 
                         hasPreviousItem.setValue(true);
-                    }, Timber::e);
+                        likeStateLiveData.setValue(LikeState.SUCCESS);
+                    }, throwable -> {
+                        likeStateLiveData.setValue(LikeState.ERROR);
+                        Timber.e(throwable);
+                    });
         }
     }
 

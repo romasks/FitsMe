@@ -170,7 +170,7 @@
                         style="@style/CartPriceValueStyle"
                         android:layout_below="@id/cart_price_value"
                         android:layout_alignParentEnd="true"
-                        android:text="@{@string/cart_amount_value(viewModel.orderModel.discount)}"
+                        android:text="@{@string/cart_amount_value(Integer.toString(0))}"
                         tools:text="0 P" />
 
                     <TextView
