@@ -155,11 +155,11 @@ public class FavouritesFragment extends BaseFragment<FavouritesViewModel>
         }
     }
 
-    public String getTopSize() {
+    String getTopSize() {
         return topSize;
     }
 
-    public String getBottomSize() {
+    String getBottomSize() {
         return bottomSize;
     }
 }

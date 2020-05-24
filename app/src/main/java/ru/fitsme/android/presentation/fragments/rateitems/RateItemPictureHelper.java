@@ -182,37 +182,44 @@ class RateItemPictureHelper {
         }
 
         private void loadPicture() {
-            Glide.with(binding.fragmentRateItemsIvPhoto.getContext())
-                    .asBitmap()
-                    .load(picture.getUrl())
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            if (observer != null) {
-                                observer.onPictureFailed();
+            if (picture.getBitmap() != null){
+                bitmap = picture.getBitmap();
+                if (observer != null) {
+                    observer.onPictureReady(bitmap);
+                }
+            } else {
+                Glide.with(binding.fragmentRateItemsIvPhoto.getContext())
+                        .asBitmap()
+                        .load(picture.getUrl())
+                        .listener(new RequestListener<Bitmap>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                if (observer != null) {
+                                    observer.onPictureFailed();
+                                }
+                                return false;
                             }
-                            return false;
-                        }
 
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            return false;
-                        }
-                    })
-                    .into(new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            bitmap = resource;
-                            if (observer != null) {
-                                observer.onPictureReady(bitmap);
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                return false;
                             }
-                        }
+                        })
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                bitmap = resource;
+                                if (observer != null) {
+                                    observer.onPictureReady(bitmap);
+                                }
+                            }
 
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
 
-                        }
-                    });
+                            }
+                        });
+            }
         }
     }
 }

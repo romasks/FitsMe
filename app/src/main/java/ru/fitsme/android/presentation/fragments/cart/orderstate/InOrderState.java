@@ -1,7 +1,5 @@
 package ru.fitsme.android.presentation.fragments.cart.orderstate;
 
-import android.view.View;
-
 import ru.fitsme.android.presentation.fragments.cart.CartAdapter;
 
 public class InOrderState extends OrderState {
@@ -11,7 +9,10 @@ public class InOrderState extends OrderState {
         this.viewHolder.imageView.setAlpha(1f);
         this.viewHolder.brandName.setAlpha(1f);
         this.viewHolder.name.setAlpha(1f);
+        this.viewHolder.priceHint.setAlpha(1f);
         this.viewHolder.price.setAlpha(1f);
-        this.viewHolder.noSize.setVisibility(View.INVISIBLE);
+        this.viewHolder.sizeHint.setAlpha(1f);
+        this.viewHolder.size.setAlpha(1f);
+//        this.viewHolder.noSize.setVisibility(View.INVISIBLE);
     }
 }

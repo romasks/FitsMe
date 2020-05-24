@@ -41,6 +41,7 @@ public class CartViewModel extends BaseViewModel {
     public void init() {
         message = cartInteractor.getMessage();
         totalPrice = cartInteractor.getTotalPrice();
+        profileInteractor.updateInfo();
     }
 
     public ObservableInt getCurrentTopSizeIndex() {
@@ -101,5 +102,13 @@ public class CartViewModel extends BaseViewModel {
 
     private void onItemsRemoved(Integer integer) {
         cartInteractor.invalidateDataSource();
+    }
+
+    public LiveData<String> getCurrentTopSize(){
+        return profileInteractor.getCurrentTopSize();
+    }
+
+    public LiveData<String> getCurrentBottomSize(){
+        return profileInteractor.getCurrentBottomSize();
     }
 }

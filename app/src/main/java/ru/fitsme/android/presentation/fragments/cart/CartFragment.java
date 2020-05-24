@@ -40,6 +40,9 @@ public class CartFragment extends BaseFragment<CartViewModel>
     private CartAdapter adapter;
     private ButtonState state;
 
+    private String topSize = "";
+    private String bottomSize = "";
+
     public static CartFragment newInstance() {
         return new CartFragment();
     }
@@ -75,6 +78,14 @@ public class CartFragment extends BaseFragment<CartViewModel>
     protected void setUpObservers() {
         viewModel.getPageLiveData().observe(getViewLifecycleOwner(), this::onLoadPage);
         viewModel.getCartIsEmpty().observe(getViewLifecycleOwner(), this::onCartIsEmpty);
+        viewModel.getCurrentTopSize().observe(getViewLifecycleOwner(), value -> {
+            topSize = value;
+            adapter.notifyDataSetChanged();
+        });
+        viewModel.getCurrentBottomSize().observe(getViewLifecycleOwner(), value -> {
+            bottomSize = value;
+            adapter.notifyDataSetChanged();
+        });
     }
 
     private void onLoadPage(PagedList<OrderItem> pagedList) {
@@ -252,5 +263,14 @@ public class CartFragment extends BaseFragment<CartViewModel>
 
     private FragmentManager fragmentManager() {
         return ((AppCompatActivity) binding.getRoot().getContext()).getSupportFragmentManager();
+    }
+
+
+    String getTopSize() {
+        return topSize;
+    }
+
+    String getBottomSize() {
+        return bottomSize;
     }
 }

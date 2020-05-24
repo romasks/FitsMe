@@ -109,7 +109,9 @@ public class ClothesRepository implements IClothesRepository {
                             emitter.onSuccess(clotheInfoList);
                         } else {
                             for (int i = 0; i < clothesItemList.size(); i++) {
-                                clotheInfoList.add(new ClotheInfo<>(clothesItemList.get(i)));
+                                ClothesItem item = clothesItemList.get(i);
+                                item.getPics().get(0).downloadPic();
+                                clotheInfoList.add(new ClotheInfo<ClothesItem>(item));
                             }
                         }
                     } else {
