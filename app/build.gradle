@@ -21,10 +21,16 @@ android {
             minifyEnabled false
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // Product server
+            buildConfigField "String", "END_POINT", '"https://fitsme.ru/"'
         }
         debug {
             minifyEnabled false
             useProguard false
+            // Test server
+            buildConfigField "String", "END_POINT", '"https://fitsme.ru/"'
+            // Product server
+            // buildConfigField "String", "END_POINT", '"https://fitsme.ru/"'
         }
     }
     buildToolsVersion '28.0.3'

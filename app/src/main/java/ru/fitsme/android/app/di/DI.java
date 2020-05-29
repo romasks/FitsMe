@@ -21,6 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.fitsme.android.BuildConfig;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
@@ -130,7 +131,7 @@ public class DI {
     @NonNull
     @Named("serverBaseUrl")
     private String serverBaseUrl() {
-        return "https://fitsme.ru/";
+        return BuildConfig.END_POINT;
     }
 
     @NonNull
