@@ -104,7 +104,7 @@
                 android:layout_toEndOf="@id/item_favourite_image"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.name}"
-                android:textColor="@color/black"
+                android:textColor="#8A000000"
                 tools:text="@string/clothe_name_hint" />
 
             <TextView
