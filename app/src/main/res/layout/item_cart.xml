@@ -54,26 +54,22 @@
 
             <ImageView
                 android:id="@+id/item_cart_image"
-                android:layout_width="98dp"
+                android:layout_width="104dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
                 android:layout_marginEnd="@dimen/padding_16dp"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 app:defaultImage="@{@drawable/placeholder}"
                 app:imageUrl="@{clotheItem.pics[0].url}"
-                tools:src="@drawable/placeholder" />
+                tools:src="@drawable/clothe_example" />
 
             <TextView
                 android:id="@+id/item_cart_brand_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/padding_16dp"
                 android:layout_toEndOf="@id/item_cart_image"
-                android:lines="2"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.brand}"
                 android:textColor="@color/black"
@@ -87,9 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_cart_brand_name"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/padding_16dp"
                 android:layout_toEndOf="@id/item_cart_image"
-                android:lines="2"
                 android:paddingBottom="4dp"
                 android:text="@{clotheItem.name}"
                 android:textColor="@color/black"
@@ -99,40 +93,36 @@
                 android:id="@+id/item_cart_size_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_8dp"
                 android:layout_below="@id/item_cart_name"
                 android:layout_toEndOf="@id/item_cart_image"
                 android:text="@string/size"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                tools:text="Размер"
-                />
+                tools:text="Размер" />
 
             <TextView
                 android:id="@+id/item_cart_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_8dp"
                 android:layout_below="@id/item_cart_name"
+                android:layout_marginStart="@dimen/padding_8dp"
                 android:layout_toEndOf="@id/item_cart_size_hint"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                tools:text="38"
-                />
+                tools:text="38" />
 
             <TextView
                 android:id="@+id/item_cart_hint_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_cart_name"
-                android:layout_toStartOf="@id/item_cart_price"
                 android:layout_marginStart="@dimen/padding_8dp"
+                android:layout_toStartOf="@id/item_cart_price"
                 android:paddingBottom="4dp"
                 android:text="@string/price"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                tools:text="Цена"
-                />
+                tools:text="Цена" />
 
             <TextView
                 android:id="@+id/item_cart_price"
