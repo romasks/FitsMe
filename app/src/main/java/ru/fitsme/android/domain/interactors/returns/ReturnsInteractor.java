@@ -133,7 +133,7 @@ public class ReturnsInteractor implements IReturnsInteractor {
                 public void onInserted(int position, int count) {
                     LocalDateTime borderedDate = LocalDateTime.now().minusDays(14);
                     for (Order order : pagedList.snapshot()) {
-                        if (order.getOrderDate().isAfter(borderedDate)) {
+                        if (order.getOrderDate() != null && order.getOrderDate().isAfter(borderedDate)) {
                             returnOrdersIsEmpty.setValue(false);
                             return;
                         }

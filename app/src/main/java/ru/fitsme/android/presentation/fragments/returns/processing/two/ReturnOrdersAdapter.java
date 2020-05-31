@@ -60,11 +60,8 @@ public class ReturnOrdersAdapter extends PagedListAdapter<Order, ReturnOrdersAda
                                     android.R.color.black
             ));*/
 
-            if (order
-                    .getOrderDate()
-                    .plusDays(14)
-                    .isAfter(LocalDateTime.now())
-            ) {
+            LocalDateTime orderDate = order.getOrderDate();
+            if (orderDate != null && orderDate.plusDays(14).isAfter(LocalDateTime.now())) {
                 binding.setVariable(BR.order, order);
                 binding.setVariable(BR.viewModel, viewModel);
                 binding.setVariable(BR.position, position);

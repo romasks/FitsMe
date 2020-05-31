@@ -11,12 +11,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.temporal.ChronoUnit;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -91,7 +91,9 @@ public class Order implements Parcelable {
     }
 
     public LocalDateTime getOrderDate() {
-        return LocalDateTime.parse(orderUpdatedDate.replaceAll("Z", ""));
+        return orderUpdatedDate != null
+                ? LocalDateTime.parse(orderUpdatedDate.replaceAll("Z", ""))
+                : null;
     }
 
     public OrderStatus getOrderStatus() {
@@ -137,13 +139,16 @@ public class Order implements Parcelable {
 
     @SuppressLint("SimpleDateFormat")
     public String daysForReturn() {
-        try {
-            long orderTime = new SimpleDateFormat("yyyy-MM-dd").parse(orderUpdatedDate).getTime();
-            long currentTime = Calendar.getInstance().getTime().getTime();
-            return String.valueOf((new Date(currentTime - orderTime)).getDay());
-        } catch (ParseException e) {
-            return "14";
-        }
+        if (orderUpdatedDate == null) return null;
+
+        LocalDateTime orderTime = LocalDateTime.parse(orderUpdatedDate.replaceAll("Z", ""));
+        LocalDateTime currentTime = LocalDateTime.now();
+        long days = 15 - ChronoUnit.DAYS.between(orderTime, currentTime);
+
+        if (days == 1) return "1 день";
+        else if (days >= 2 && days <= 4) return days + " дня";
+        else if (days > 14) return "Возврат более невозможен";
+        else return days + " дней";
     }
 
     public String getOrderSum() {

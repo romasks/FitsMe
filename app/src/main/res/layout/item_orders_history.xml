@@ -56,7 +56,7 @@
             <TextView
                 android:id="@+id/item_return_days_for_return_text"
                 style="@style/ReturnsItemTextStyle"
-                android:text="@{@string/returns_order_days_for_returns(order.daysForReturn())}"
+                android:text="@{@string/orders_days_for_returns(order.daysForReturn())}"
                 android:textSize="12sp"
                 tools:text="Время на возврат: 6 дней" />
 

@@ -1,7 +1,9 @@
 package ru.fitsme.android.presentation.fragments.orders;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -46,6 +48,9 @@ public class OrdersHistoryAdapter extends PagedListAdapter<Order, OrdersHistoryA
 
         void bind(int position) {
             Order order = getItem(position);
+
+            TextView tvReturnsDays = binding.getRoot().findViewById(R.id.item_return_days_for_return_text);
+            tvReturnsDays.setVisibility(order.daysForReturn() == null ? View.GONE : View.VISIBLE);
 
             binding.setVariable(BR.order, order);
             binding.setVariable(BR.viewModel, viewModel);
