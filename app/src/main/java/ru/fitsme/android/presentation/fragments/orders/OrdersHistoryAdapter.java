@@ -49,6 +49,9 @@ public class OrdersHistoryAdapter extends PagedListAdapter<Order, OrdersHistoryA
         void bind(int position) {
             Order order = getItem(position);
 
+            TextView tvReturnsDate = binding.getRoot().findViewById(R.id.item_return_date);
+            tvReturnsDate.setVisibility(order.orderDate() == null ? View.GONE : View.VISIBLE);
+
             TextView tvReturnsDays = binding.getRoot().findViewById(R.id.item_return_days_for_return_text);
             tvReturnsDays.setVisibility(order.daysForReturn() == null ? View.GONE : View.VISIBLE);
 

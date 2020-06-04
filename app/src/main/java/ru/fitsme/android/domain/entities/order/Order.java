@@ -47,6 +47,9 @@ public class Order implements Parcelable {
     @SerializedName("updated")
     private String orderUpdatedDate = "";
 
+    @SerializedName("issued_date")
+    private String issuedDate = "";
+
     @SerializedName("status")
     private OrderStatus orderStatus;
 
@@ -90,9 +93,13 @@ public class Order implements Parcelable {
         return orderUpdatedDate;
     }
 
+    public String getIssuedDate() {
+        return issuedDate;
+    }
+
     public LocalDateTime getOrderDate() {
-        return orderUpdatedDate != null
-                ? LocalDateTime.parse(orderUpdatedDate.replaceAll("Z", ""))
+        return issuedDate != null
+                ? LocalDateTime.parse(issuedDate.replaceAll("Z", ""))
                 : null;
     }
 
@@ -127,21 +134,23 @@ public class Order implements Parcelable {
 
     @SuppressLint("SimpleDateFormat")
     public String orderDate() {
+        if (issuedDate == null) return null;
+
         try {
-            Date dt = new SimpleDateFormat("yyyy-MM-dd").parse(orderUpdatedDate);
-            if (dt == null) return orderUpdatedDate;
+            Date dt = new SimpleDateFormat("yyyy-MM-dd").parse(issuedDate);
+            if (dt == null) return issuedDate;
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
             return df.format(dt);
         } catch (ParseException e) {
-            return orderUpdatedDate;
+            return issuedDate;
         }
     }
 
     @SuppressLint("SimpleDateFormat")
     public String daysForReturn() {
-        if (orderUpdatedDate == null) return null;
+        if (issuedDate == null) return null;
 
-        LocalDateTime orderTime = LocalDateTime.parse(orderUpdatedDate.replaceAll("Z", ""));
+        LocalDateTime orderTime = LocalDateTime.parse(issuedDate.replaceAll("Z", ""));
         LocalDateTime currentTime = LocalDateTime.now();
         long days = 15 - ChronoUnit.DAYS.between(orderTime, currentTime);
 
@@ -175,6 +184,7 @@ public class Order implements Parcelable {
                 getPhoneNumber().equals(that.getPhoneNumber()) &&
                 getOrderCreateDate().equals(that.getOrderCreateDate()) &&
                 getOrderUpdatedDate().equals(that.getOrderUpdatedDate()) &&
+                getIssuedDate().equals(that.getIssuedDate()) &&
                 getOrderStatus() == that.getOrderStatus() &&
                 getOrderItemList() == that.getOrderItemList() &&
                 getIndicationNumber().equals(that.getIndicationNumber()) &&
@@ -193,6 +203,7 @@ public class Order implements Parcelable {
         result = prime * result + getPhoneNumber().hashCode();
         result = prime * result + getOrderCreateDate().hashCode();
         result = prime * result + getOrderUpdatedDate().hashCode();
+        result = prime * result + getIssuedDate().hashCode();
         result = prime * result + getOrderStatus().hashCode();
         result = prime * result + getOrderItemList().hashCode();
         result = prime * result + getIndicationNumber().hashCode();
@@ -212,6 +223,7 @@ public class Order implements Parcelable {
                 + ", phoneNumber=" + getPhoneNumber()
                 + ", orderCreateDate=" + getOrderCreateDate()
                 + ", orderUpdatedDate=" + getOrderUpdatedDate()
+                + ", issuedDate=" + getIssuedDate()
                 + ", orderStatus=" + getOrderStatus()
                 + ", orderItemList=" + getOrderItemList()
                 + ", indicationNumber=" + getIndicationNumber()
@@ -233,6 +245,7 @@ public class Order implements Parcelable {
         out.writeString(phoneNumber);
         out.writeString(orderCreateDate);
         out.writeString(orderUpdatedDate);
+        out.writeString(issuedDate);
         out.writeParcelable(orderStatus, flags);
         out.writeList(orderItemList);
         out.writeString(indicationNumber);
@@ -258,6 +271,7 @@ public class Order implements Parcelable {
         phoneNumber = in.readString();
         orderCreateDate = in.readString();
         orderUpdatedDate = in.readString();
+        issuedDate = in.readString();
         orderStatus = in.readParcelable(OrderStatus.class.getClassLoader());
         in.readList(orderItemList, OrderItem.class.getClassLoader());
         indicationNumber = in.readString();
