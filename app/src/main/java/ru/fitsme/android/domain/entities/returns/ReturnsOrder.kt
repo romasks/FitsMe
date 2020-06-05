@@ -6,29 +6,30 @@ import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import ru.fitsme.android.R
+import ru.fitsme.android.utils.OrderStatus
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
 @Parcelize
 data class ReturnsOrder(
-    @SerializedName("id") var id: Int,
-    @SerializedName("order") var order: Int,
-    @SerializedName("payment_details") var paymentDetails: String?,
-    @SerializedName("delivery_details") var deliveryDetails: String?,
-    @SerializedName("delivery_details_return") var deliveryDetailsReturn: String?,
-    @SerializedName("created") var createdDate: String,
-    @SerializedName("updated") var updatedDate: String,
-    @SerializedName("date") var date: String?,
-    @SerializedName("status") var status: String,
-    @SerializedName("returnitems") var returnItemsList: List<ReturnsOrderItem>,
-    @SerializedName("summ") var summ: Int,
-    @SerializedName("count") var count: Int,
-    @SerializedName("days_to_return") var _daysToReturn: String
+        @SerializedName("id") var id: Int,
+        @SerializedName("order") var order: Int,
+        @SerializedName("payment_details") var paymentDetails: String?,
+        @SerializedName("delivery_details") var deliveryDetails: String?,
+        @SerializedName("delivery_details_return") var deliveryDetailsReturn: String?,
+        @SerializedName("created") var createdDate: String,
+        @SerializedName("updated") var updatedDate: String,
+        @SerializedName("date") var date: String?,
+        @SerializedName("status") var status: OrderStatus,
+        @SerializedName("returnitems") var returnItemsList: List<ReturnsOrderItem>,
+        @SerializedName("summ") var summ: Int,
+        @SerializedName("count") var count: Int,
+        @SerializedName("days_to_return") var _daysToReturn: String
 ) : Parcelable {
 
     constructor() : this(
-        0, 0, "", "", "", "",
-        "", "", "", emptyList(), 0, 0, ""
+            0, 0, "", "", "", "",
+            "", "", OrderStatus.FM, emptyList(), 0, 0, ""
     )
 
     var daysToReturn: String
@@ -49,14 +50,14 @@ data class ReturnsOrder(
         }
 
     fun getHiddenCardNumber() =
-        try {
-            val lastQuarter = deliveryDetails?.let { it.split("-")[3] }
-            "**** **** **** $lastQuarter"
-        } catch (ex: ArrayIndexOutOfBoundsException) {
-            deliveryDetails
-        } catch (ex: IndexOutOfBoundsException) {
-            deliveryDetails
-        }
+            try {
+                val lastQuarter = deliveryDetails?.let { it.split("-")[3] }
+                "**** **** **** $lastQuarter"
+            } catch (ex: ArrayIndexOutOfBoundsException) {
+                deliveryDetails
+            } catch (ex: IndexOutOfBoundsException) {
+                deliveryDetails
+            }
 
     @SuppressLint("SimpleDateFormat")
     fun getFormattedDate(): String? {
@@ -72,22 +73,26 @@ data class ReturnsOrder(
     }
 
     fun getStatusName() =
-        when (status) {
-            "FM" -> "черновик"
-            "ISU" -> "в обработке"
-            "CNC" -> "отказ"
-            "RDY" -> "выполнено"
-            else -> ""
-        }
+            when (status.name) {
+                "FM" -> "формируется"
+                "ACP" -> "оформлен"
+                "INP" -> "собирается"
+                "RDY" -> "готов к выдаче"
+                "CNC" -> "отменён"
+                "ISU" -> "выдан"
+                else -> ""
+            }
 
     fun getStatusColor() =
-        when (status) {
-            "FM" -> R.color.colorStatusFM
-            "ISU" -> R.color.colorStatusISU
-            "CNC" -> R.color.colorStatusCNC
-            "RDY" -> R.color.colorStatusRDY
-            else -> R.color.colorStatusFM
-        }
+            when (status.name) {
+                "FM" -> R.color.colorStatusFM
+                "ACP" -> R.color.colorStatusACP
+                "INP" -> R.color.colorStatusINP
+                "RDY" -> R.color.colorStatusRDY
+                "CNC" -> R.color.colorStatusCNC
+                "ISU" -> R.color.colorStatusISU
+                else -> R.color.colorStatusFM
+            }
 
     companion object {
         @JvmField

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ru.fitsme.android.R;
 import ru.fitsme.android.utils.OrderStatus;
 
 public class Order implements Parcelable {
@@ -133,16 +134,14 @@ public class Order implements Parcelable {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public String orderDate() {
-        if (issuedDate == null) return null;
-
+    public String formattedDate() {
         try {
-            Date dt = new SimpleDateFormat("yyyy-MM-dd").parse(issuedDate);
-            if (dt == null) return issuedDate;
+            Date dt = new SimpleDateFormat("yyyy-MM-dd").parse(orderUpdatedDate);
+            if (dt == null) return orderUpdatedDate;
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
             return df.format(dt);
         } catch (ParseException e) {
-            return issuedDate;
+            return orderUpdatedDate;
         }
     }
 
@@ -163,6 +162,56 @@ public class Order implements Parcelable {
     public String getOrderSum() {
         int sum = 0;
         for (OrderItem item : orderItemList) {
+            sum += item.getPrice();
+        }
+        return String.valueOf(sum);
+    }
+
+    public String getStatusName() {
+        switch (orderStatus.name()) {
+            case "FM":
+                return "формируется";
+            case "ACP":
+                return "оформлен";
+            case "INP":
+                return "собирается";
+            case "RDY":
+                return "готов к выдаче";
+            case "CNC":
+                return "отменён";
+            case "ISU":
+                return "выдан";
+            default:
+                return "";
+        }
+    }
+
+    public int getStatusColor() {
+        switch (orderStatus.name()) {
+            case "FM":
+                return R.color.colorStatusFM;
+            case "ACP":
+                return R.color.colorStatusACP;
+            case "INP":
+                return R.color.colorStatusINP;
+            case "RDY":
+                return R.color.colorStatusRDY;
+            case "CNC":
+                return R.color.colorStatusCNC;
+            case "ISU":
+                return R.color.colorStatusISU;
+            default:
+                return R.color.colorStatusFM;
+        }
+    }
+
+    public String getCount() {
+        return String.valueOf(orderItemList.size());
+    }
+
+    public String getTotalPrice() {
+        int sum = 0;
+        for (OrderItem item: orderItemList) {
             sum += item.getPrice();
         }
         return String.valueOf(sum);

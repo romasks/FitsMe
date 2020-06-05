@@ -1,9 +1,7 @@
 package ru.fitsme.android.presentation.fragments.orders;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -13,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
-import ru.fitsme.android.databinding.ItemOrdersHistoryBinding;
+import ru.fitsme.android.databinding.ItemOrdersHistoryItemBinding;
 import ru.fitsme.android.domain.entities.order.Order;
 
 public class OrdersHistoryAdapter extends PagedListAdapter<Order, OrdersHistoryAdapter.ReturnOrdersViewHolder> {
@@ -29,7 +27,7 @@ public class OrdersHistoryAdapter extends PagedListAdapter<Order, OrdersHistoryA
     @Override
     public ReturnOrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ItemOrdersHistoryBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_orders_history, parent, false);
+        ItemOrdersHistoryItemBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_orders_history_item, parent, false);
         return new ReturnOrdersViewHolder(binding);
     }
 
@@ -48,12 +46,6 @@ public class OrdersHistoryAdapter extends PagedListAdapter<Order, OrdersHistoryA
 
         void bind(int position) {
             Order order = getItem(position);
-
-            TextView tvReturnsDate = binding.getRoot().findViewById(R.id.item_return_date);
-            tvReturnsDate.setVisibility(order.orderDate() == null ? View.GONE : View.VISIBLE);
-
-            TextView tvReturnsDays = binding.getRoot().findViewById(R.id.item_return_days_for_return_text);
-            tvReturnsDays.setVisibility(order.daysForReturn() == null ? View.GONE : View.VISIBLE);
 
             binding.setVariable(BR.order, order);
             binding.setVariable(BR.viewModel, viewModel);

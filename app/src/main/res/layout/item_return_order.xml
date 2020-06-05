@@ -49,7 +49,7 @@
             <TextView
                 android:id="@+id/item_return_date"
                 style="@style/ReturnsItemTextStyle"
-                android:text="@{@string/returns_order_date(order.orderDate())}"
+                android:text="@{@string/returns_order_date(order.formattedDate())}"
                 android:textSize="12sp"
                 tools:text="Дата заказа: 31.12.2018" />
 
