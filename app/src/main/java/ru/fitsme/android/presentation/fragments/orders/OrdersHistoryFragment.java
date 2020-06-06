@@ -33,7 +33,7 @@ public class OrdersHistoryFragment extends BaseFragment<OrdersHistoryViewModel> 
         binding.setViewModel(viewModel);
 
         binding.appBar.setBackClickListener(this);
-        binding.appBar.setTitle(getResources().getString(R.string.returns_choose_order_header));
+        binding.appBar.setTitle(getResources().getString(R.string.orders_history_header));
         setUp();
     }
 

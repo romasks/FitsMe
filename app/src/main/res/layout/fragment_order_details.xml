@@ -59,7 +59,7 @@
                     android:layout_margin="@dimen/padding_16dp"
                     android:layout_toEndOf="@id/order_number"
                     android:gravity="end"
-                    android:text="@{order.orderDate()}"
+                    android:text="@{order.formattedDate()}"
                     tools:text="31.12.2019" />
 
                 <TextView

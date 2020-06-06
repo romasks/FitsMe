@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#940235</color>
     <color name="colorAccent">#000000</color>
     <color name="colorStatusBar">#969696</color>
-    <color name="colorDivideLine">#AAAAAAAA</color>
+    <color name="colorDivideLine">#979797</color>
     <color name="colorRed">#ff0000</color>
     <color name="colorGreyButton">#EFEFEF</color>
     <color name="colorBackground">#ffffff</color>
@@ -23,9 +23,11 @@
     <color name="creditCartBackground">#D8D2DA</color>
 
     <color name="colorStatusFM">#757575</color>
-    <color name="colorStatusISU">#37474F</color>
+    <color name="colorStatusACP">#757575</color>
+    <color name="colorStatusINP">#37474F</color>
+    <color name="colorStatusRDY">#37474F</color>
     <color name="colorStatusCNC">#D42A2A</color>
-    <color name="colorStatusRDY">#217F4E</color>
+    <color name="colorStatusISU">#217F4E</color>
 
     <color name="errorInputField">#DEFF0000</color>
 

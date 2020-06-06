@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ru.fitsme.android.R;
 import ru.fitsme.android.utils.OrderStatus;
 
 public class Order implements Parcelable {
@@ -46,6 +47,9 @@ public class Order implements Parcelable {
 
     @SerializedName("updated")
     private String orderUpdatedDate = "";
+
+    @SerializedName("issued_date")
+    private String issuedDate = "";
 
     @SerializedName("status")
     private OrderStatus orderStatus;
@@ -90,9 +94,13 @@ public class Order implements Parcelable {
         return orderUpdatedDate;
     }
 
+    public String getIssuedDate() {
+        return issuedDate;
+    }
+
     public LocalDateTime getOrderDate() {
-        return orderUpdatedDate != null
-                ? LocalDateTime.parse(orderUpdatedDate.replaceAll("Z", ""))
+        return issuedDate != null
+                ? LocalDateTime.parse(issuedDate.replaceAll("Z", ""))
                 : null;
     }
 
@@ -126,7 +134,7 @@ public class Order implements Parcelable {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public String orderDate() {
+    public String formattedDate() {
         try {
             Date dt = new SimpleDateFormat("yyyy-MM-dd").parse(orderUpdatedDate);
             if (dt == null) return orderUpdatedDate;
@@ -139,9 +147,9 @@ public class Order implements Parcelable {
 
     @SuppressLint("SimpleDateFormat")
     public String daysForReturn() {
-        if (orderUpdatedDate == null) return null;
+        if (issuedDate == null) return null;
 
-        LocalDateTime orderTime = LocalDateTime.parse(orderUpdatedDate.replaceAll("Z", ""));
+        LocalDateTime orderTime = LocalDateTime.parse(issuedDate.replaceAll("Z", ""));
         LocalDateTime currentTime = LocalDateTime.now();
         long days = 15 - ChronoUnit.DAYS.between(orderTime, currentTime);
 
@@ -154,6 +162,56 @@ public class Order implements Parcelable {
     public String getOrderSum() {
         int sum = 0;
         for (OrderItem item : orderItemList) {
+            sum += item.getPrice();
+        }
+        return String.valueOf(sum);
+    }
+
+    public String getStatusName() {
+        switch (orderStatus.name()) {
+            case "FM":
+                return "формируется";
+            case "ACP":
+                return "оформлен";
+            case "INP":
+                return "собирается";
+            case "RDY":
+                return "готов к выдаче";
+            case "CNC":
+                return "отменён";
+            case "ISU":
+                return "выдан";
+            default:
+                return "";
+        }
+    }
+
+    public int getStatusColor() {
+        switch (orderStatus.name()) {
+            case "FM":
+                return R.color.colorStatusFM;
+            case "ACP":
+                return R.color.colorStatusACP;
+            case "INP":
+                return R.color.colorStatusINP;
+            case "RDY":
+                return R.color.colorStatusRDY;
+            case "CNC":
+                return R.color.colorStatusCNC;
+            case "ISU":
+                return R.color.colorStatusISU;
+            default:
+                return R.color.colorStatusFM;
+        }
+    }
+
+    public String getCount() {
+        return String.valueOf(orderItemList.size());
+    }
+
+    public String getTotalPrice() {
+        int sum = 0;
+        for (OrderItem item: orderItemList) {
             sum += item.getPrice();
         }
         return String.valueOf(sum);
@@ -175,6 +233,7 @@ public class Order implements Parcelable {
                 getPhoneNumber().equals(that.getPhoneNumber()) &&
                 getOrderCreateDate().equals(that.getOrderCreateDate()) &&
                 getOrderUpdatedDate().equals(that.getOrderUpdatedDate()) &&
+                getIssuedDate().equals(that.getIssuedDate()) &&
                 getOrderStatus() == that.getOrderStatus() &&
                 getOrderItemList() == that.getOrderItemList() &&
                 getIndicationNumber().equals(that.getIndicationNumber()) &&
@@ -193,6 +252,7 @@ public class Order implements Parcelable {
         result = prime * result + getPhoneNumber().hashCode();
         result = prime * result + getOrderCreateDate().hashCode();
         result = prime * result + getOrderUpdatedDate().hashCode();
+        result = prime * result + getIssuedDate().hashCode();
         result = prime * result + getOrderStatus().hashCode();
         result = prime * result + getOrderItemList().hashCode();
         result = prime * result + getIndicationNumber().hashCode();
@@ -212,6 +272,7 @@ public class Order implements Parcelable {
                 + ", phoneNumber=" + getPhoneNumber()
                 + ", orderCreateDate=" + getOrderCreateDate()
                 + ", orderUpdatedDate=" + getOrderUpdatedDate()
+                + ", issuedDate=" + getIssuedDate()
                 + ", orderStatus=" + getOrderStatus()
                 + ", orderItemList=" + getOrderItemList()
                 + ", indicationNumber=" + getIndicationNumber()
@@ -233,6 +294,7 @@ public class Order implements Parcelable {
         out.writeString(phoneNumber);
         out.writeString(orderCreateDate);
         out.writeString(orderUpdatedDate);
+        out.writeString(issuedDate);
         out.writeParcelable(orderStatus, flags);
         out.writeList(orderItemList);
         out.writeString(indicationNumber);
@@ -258,6 +320,7 @@ public class Order implements Parcelable {
         phoneNumber = in.readString();
         orderCreateDate = in.readString();
         orderUpdatedDate = in.readString();
+        issuedDate = in.readString();
         orderStatus = in.readParcelable(OrderStatus.class.getClassLoader());
         in.readList(orderItemList, OrderItem.class.getClassLoader());
         indicationNumber = in.readString();

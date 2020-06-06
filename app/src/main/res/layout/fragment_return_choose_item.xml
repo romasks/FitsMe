@@ -46,7 +46,7 @@
             android:layout_below="@id/app_bar"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/padding_16dp"
-            android:text="@{returnsOrder.orderDate()}"
+            android:text="@{returnsOrder.formattedDate()}"
             tools:text="31.12.2019" />
 
         <View
