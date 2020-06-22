@@ -86,11 +86,6 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
     }
 
     @Override
-    public void onBackPressed() {
-        viewModel.onBackPressed();
-    }
-
-    @Override
     public void goBack() {
         viewModel.onBackPressed();
     }
@@ -117,18 +112,22 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
         binding.resendCode.setTextColor(getResources().getColor(R.color.resendCodeActive));
         binding.timerField.setVisibility(View.INVISIBLE);
 
-        timer.cancel();
-        timer.purge();
-        timer = null;
+        if (timer != null) {
+            timer.cancel();
+            timer.purge();
+            timer = null;
+        }
 
         time = REPEAT_TIME;
     }
 
     @Override
     public void onDestroy() {
-        timer.cancel();
-        timer.purge();
-        timer = null;
+        if (timer != null) {
+            timer.cancel();
+            timer.purge();
+            timer = null;
+        }
 
         KeyboardUtils.hide(requireActivity(), binding.pinEntryCode);
         super.onDestroy();
