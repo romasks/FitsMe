@@ -66,4 +66,8 @@ public class AuthNavigation {
     public void goBack() {
         getRouter().exit();
     }
+
+    public void finish() {
+        getRouter().finishChain();
+    }
 }

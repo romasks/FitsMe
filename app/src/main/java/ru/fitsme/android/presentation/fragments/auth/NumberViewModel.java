@@ -27,7 +27,7 @@ public class NumberViewModel extends BaseViewModel {
     
     @Override
     public void onBackPressed() {
-        authNavigation.goBack();
+        authNavigation.finish();
     }
 
     public void sendPhoneNumber(String phoneNumber) {
