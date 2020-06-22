@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.main.view;
+package ru.fitsme.android.presentation.main;
 
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -17,9 +17,6 @@ import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.ActivityMainBinding;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
-import ru.fitsme.android.presentation.main.AuthNavigation;
-import ru.fitsme.android.presentation.main.AuthSupportFragmentNavigator;
-import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
 import ru.terrakok.cicerone.Navigator;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,14 +64,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         List<Fragment> list = getSupportFragmentManager().getFragments();
-        BaseFragment fragment;
-        // сверху находится какой-то glide support fragment manager, поэтому беру второй
-        // для случая при авторизации первый
-        if (list.get(0) instanceof SupportRequestManagerFragment) {
-            fragment = (BaseFragment) list.get(1);
-        } else {
-            fragment = (BaseFragment) list.get(0);
-        }
-        fragment.onBackPressed();
+        // сверху находится какой-то glide support fragment manager, поэтому беру второй (1)
+        // для случая при авторизации первый (0)
+        int index = list.get(0) instanceof SupportRequestManagerFragment ? 1 : 0;
+        ((BaseFragment) list.get(index)).onBackPressed();
     }
 }
