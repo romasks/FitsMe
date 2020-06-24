@@ -1,14 +1,13 @@
 package ru.fitsme.android.data.frameworks.room.dao;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import io.reactivex.Observable;
+import java.util.List;
+
 import io.reactivex.Single;
 import ru.fitsme.android.data.frameworks.room.RoomProductName;
 
@@ -25,6 +24,9 @@ public interface ProductNamesDao {
 
     @Query("SELECT * FROM roomproductname WHERE isChecked == 1")
     List<RoomProductName> getCheckedProductNamesList();
+
+    @Query("SELECT id FROM roomproductname WHERE isChecked == 1")
+    List<Integer> getCheckedProductNamesListIds();
 
     @Query("SELECT * FROM roomproductname WHERE isChecked == 1")
     Single<List<RoomProductName>> getCheckedFilters();

@@ -1,14 +1,13 @@
 package ru.fitsme.android.data.frameworks.room.dao;
 
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import io.reactivex.Observable;
+import java.util.List;
+
 import io.reactivex.Single;
 import ru.fitsme.android.data.frameworks.room.RoomColor;
 
@@ -25,6 +24,9 @@ public interface ColorsDao {
 
     @Query("SELECT * FROM RoomColor WHERE isChecked == 1")
     List<RoomColor> getCheckedColorsList();
+
+    @Query("SELECT id FROM RoomColor WHERE isChecked == 1")
+    List<Integer> getCheckedColorsListIds();
 
     @Query("SELECT * FROM roomcolor WHERE isChecked == 1")
     Single<List<RoomColor>> getCheckedColors();

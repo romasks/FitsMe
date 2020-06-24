@@ -31,7 +31,7 @@ public class Picture implements Parcelable {
         return bitmap;
     }
 
-    public void downloadPic(){
+    public void downloadPic() {
         Glide.with(App.getInstance())
                 .asBitmap()
                 .load(url)
@@ -60,7 +60,7 @@ public class Picture implements Parcelable {
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + (int)(getId() ^ (getId() >>> 32));
+        result = 31 * result + (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + url.hashCode();
         return result;
     }

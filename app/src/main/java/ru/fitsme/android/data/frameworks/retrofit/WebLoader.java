@@ -1,10 +1,13 @@
 package ru.fitsme.android.data.frameworks.retrofit;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
@@ -19,10 +22,9 @@ import ru.fitsme.android.data.frameworks.retrofit.entities.OrderRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.OrderedItem;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsItemRequest;
 import ru.fitsme.android.data.frameworks.retrofit.entities.ReturnsPaymentRequest;
-import ru.fitsme.android.data.frameworks.room.RoomBrand;
-import ru.fitsme.android.data.frameworks.room.RoomColor;
-import ru.fitsme.android.data.frameworks.room.RoomProductName;
-import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
+import ru.fitsme.android.data.frameworks.room.dao.BrandsDao;
+import ru.fitsme.android.data.frameworks.room.dao.ColorsDao;
+import ru.fitsme.android.data.frameworks.room.dao.ProductNamesDao;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
 import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
@@ -57,6 +59,15 @@ abstract class WebLoader {
     private Scheduler workThread;
     private Scheduler mainThread;
     private final static String TOKEN = "Token ";
+
+    @Inject
+    BrandsDao brandsDao;
+
+    @Inject
+    ColorsDao colorsDao;
+
+    @Inject
+    ProductNamesDao productNamesDao;
 
     WebLoader(ApiService apiService,
               IAuthInteractor authInteractor,
@@ -122,60 +133,21 @@ abstract class WebLoader {
                 .subscribeOn(workThread)
                 .observeOn(workThread)
                 .subscribe(authInfo -> {
-                    String filterColors = getFilterColors();
-                    String filterBrands = getFilterBrands();
-                    String filterProductNames = getFilterProductNames();
-                    apiService.getClothes(TOKEN + authInfo.getToken(), page, filterProductNames, filterBrands, filterColors)
+                    apiService.getClothes(TOKEN + authInfo.getToken(), page, getFilterProductNames(), getFilterBrands(), getFilterColors())
                             .subscribe(emitter::onSuccess, emitter::onError);
                 }, emitter::onError));
     }
 
     private String getFilterColors() {
-        StringBuilder result = new StringBuilder();
-        List<RoomColor> list = AppDatabase.getInstance().getColorsDao().getCheckedColorsList();
-        for (int i = 0; i < list.size(); i++) {
-            result.append(list.get(i).getId());
-            if (i != list.size() - 1) {
-                result.append(",");
-            }
-        }
-        if (result.length() == 0) {
-            return null;
-        } else {
-            return result.toString();
-        }
+        return TextUtils.join(",", colorsDao.getCheckedColorsListIds());
     }
 
     private String getFilterBrands() {
-        StringBuilder result = new StringBuilder();
-        List<RoomBrand> list = AppDatabase.getInstance().getBrandsDao().getCheckedBrandsList();
-        for (int i = 0; i < list.size(); i++) {
-            result.append(list.get(i).getId());
-            if (i != list.size() - 1) {
-                result.append(",");
-            }
-        }
-        if (result.length() == 0) {
-            return null;
-        } else {
-            return result.toString();
-        }
+        return TextUtils.join(",", brandsDao.getCheckedBrandsListIds());
     }
 
     private String getFilterProductNames() {
-        StringBuilder result = new StringBuilder();
-        List<RoomProductName> list = AppDatabase.getInstance().getProductNamesDao().getCheckedProductNamesList();
-        for (int i = 0; i < list.size(); i++) {
-            result.append(list.get(i).getId());
-            if (i != list.size() - 1) {
-                result.append(",");
-            }
-        }
-        if (result.length() == 0) {
-            return null;
-        } else {
-            return result.toString();
-        }
+        return TextUtils.join(",", productNamesDao.getCheckedProductNamesListIds());
     }
 
     public Single<OkResponse<FavouritesPage>> getFavouritesClothesPage(int page) {

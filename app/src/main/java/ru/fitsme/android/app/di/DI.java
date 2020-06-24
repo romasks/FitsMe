@@ -23,6 +23,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.fitsme.android.BuildConfig;
 import ru.fitsme.android.data.frameworks.retrofit.ApiService;
+import ru.fitsme.android.data.frameworks.room.dao.BrandsDao;
+import ru.fitsme.android.data.frameworks.room.dao.ColorsDao;
+import ru.fitsme.android.data.frameworks.room.dao.ProductNamesDao;
+import ru.fitsme.android.data.frameworks.room.db.AppDatabase;
 import ru.fitsme.android.data.frameworks.sharedpreferences.AuthInfoStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.IAuthInfoStorage;
 import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
@@ -97,6 +101,10 @@ public class DI {
             bind(ApiService.class).toInstance(apiService(retrofit()));
             bind(Scheduler.class).withName("main").toInstance(AndroidSchedulers.mainThread());
             bind(Scheduler.class).withName("work").toInstance(Schedulers.io());
+
+            bind(BrandsDao.class).toInstance(AppDatabase.instance.getBrandsDao());
+            bind(ColorsDao.class).toInstance(AppDatabase.instance.getColorsDao());
+            bind(ProductNamesDao.class).toInstance(AppDatabase.instance.getProductNamesDao());
 
             bind(IClothesInteractor.class).to(ClothesInteractor.class);
             bind(IClothesRepository.class).to(ClothesRepository.class);
