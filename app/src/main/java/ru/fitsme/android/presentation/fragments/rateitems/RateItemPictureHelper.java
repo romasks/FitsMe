@@ -1,14 +1,10 @@
 package ru.fitsme.android.presentation.fragments.rateitems;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -19,10 +15,12 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
+import ru.fitsme.android.app.ResourceManager;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.Picture;
@@ -92,24 +90,26 @@ class RateItemPictureHelper {
     }
 
     private void createPictureItemList(ClothesItem clothesItem) {
-        List<Picture> pictures = clothesItem.getPics();
-        for (int i = 0; i < pictures.size(); i++) {
-            pictureItemList.add(new PictureItem(pictures.get(i)));
+        for (Picture picture : clothesItem.getPics()) {
+            pictureItemList.add(new PictureItem(picture));
         }
     }
 
     private void createUpperPictureCountIndicator(int size) {
         for (int i = 0; i < size; i++) {
             View view = new View(fragment.getContext());
-            Resources r = App.getInstance().getResources();
-            view.setBackgroundColor(r.getColor(R.color.lightGrey));
+            view.setBackgroundColor(ResourceManager.getColor(R.color.lightGrey));
             int endMerge = 4;
             int px = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
                     endMerge,
-                    r.getDisplayMetrics()
+                    ResourceManager.getDisplayMetrics()
             );
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    1
+            );
             if (i != size - 1) {
                 params.setMarginEnd(px);
             }
@@ -129,17 +129,16 @@ class RateItemPictureHelper {
         }
         binding.fragmentRateItemsUpperPicCountIndicatorLl
                 .findViewById(i)
-                .setBackgroundColor(App.getInstance().getResources().getColor(R.color.colorPrimaryDark));
+                .setBackgroundColor(ResourceManager.getColor(R.color.colorPrimaryDark));
     }
 
     private void resetIndicator(int i) {
         if (binding.fragmentRateItemsUpperPicCountIndicatorLl.findViewById(i) != null) {
             binding.fragmentRateItemsUpperPicCountIndicatorLl
                     .findViewById(i)
-                    .setBackgroundColor(App.getInstance().getResources().getColor(R.color.lightGrey));
+                    .setBackgroundColor(ResourceManager.getColor(R.color.lightGrey));
         }
     }
-
 
     private void onPictureReady(Bitmap bitmap) {
         binding.fragmentRateItemsMessage.setText("");
@@ -153,7 +152,6 @@ class RateItemPictureHelper {
     private void onPictureFailed() {
         binding.fragmentRateItemsMessage.setText(App.getInstance().getString(R.string.image_loading_error));
     }
-
 
     private class PictureItem {
         Picture picture;
@@ -182,7 +180,7 @@ class RateItemPictureHelper {
         }
 
         private void loadPicture() {
-            if (picture.getBitmap() != null){
+            if (picture.getBitmap() != null) {
                 bitmap = picture.getBitmap();
                 if (observer != null) {
                     observer.onPictureReady(bitmap);
