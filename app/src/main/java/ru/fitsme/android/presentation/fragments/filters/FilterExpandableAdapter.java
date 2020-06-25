@@ -150,7 +150,7 @@ public class FilterExpandableAdapter extends BaseExpandableListAdapter {
             }
             ClotheFilter clotheFilter = (ClotheFilter) filters.get(groupPosition).get(childPosition);
             TextView textView = (TextView) convertView.findViewById(R.id.item_filter_child_tv);
-            textView.setText(clotheFilter.getTitle());
+            textView.setText(clotheFilter.getColorName());
             Switch switcher = (Switch) convertView.findViewById(R.id.item_filter_child_switch);
             switcher.setChecked(clotheFilter.isChecked());
             convertView.setOnClickListener(v -> {

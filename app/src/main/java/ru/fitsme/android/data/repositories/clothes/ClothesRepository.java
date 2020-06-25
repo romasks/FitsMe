@@ -175,17 +175,17 @@ public class ClothesRepository implements IClothesRepository {
             List<RepoClotheBrand> clotheBrands = response.getResponse();
             if (clotheBrands != null) {
                 brandsDao.getSingleBrandsList().subscribe(roomBrands -> {
-                    for (RepoClotheBrand brand : clotheBrands) {
+                    for (RepoClotheBrand repoClotheBrand : clotheBrands) {
                         boolean isUpdated = false;
                         for (RoomBrand roomBrand : roomBrands) {
-                            if (brand.getId() == roomBrand.getId()) {
+                            if (repoClotheBrand.getId() == roomBrand.getId()) {
                                 isUpdated = true;
-                                brandsDao.update(new RoomBrand(roomBrand.getId(), roomBrand.getTitle(), roomBrand.isChecked(), true));
+                                brandsDao.update(new RoomBrand(roomBrand, true));
                                 break;
                             }
                         }
                         if (!isUpdated) {
-                            brandsDao.insert(new RoomBrand(brand.getId(), brand.getTitle(), false, true));
+                            brandsDao.insert(new RoomBrand(repoClotheBrand, false, true));
                         }
                     }
                     brandsDao.clearNotUpdatedBrands();
@@ -199,7 +199,7 @@ public class ClothesRepository implements IClothesRepository {
     private void setRoomBrandsNotUpdated() {
         brandsDao.getSingleBrandsList().subscribe(roomBrandList -> {
             for (RoomBrand roomBrand : roomBrandList) {
-                brandsDao.update(new RoomBrand(roomBrand.getId(), roomBrand.getTitle(), roomBrand.isChecked(), false));
+                brandsDao.update(new RoomBrand(roomBrand, false));
             }
         });
     }
@@ -221,12 +221,12 @@ public class ClothesRepository implements IClothesRepository {
                         for (RoomColor roomColor : roomColors) {
                             if (repoColor.getId() == roomColor.getId()) {
                                 isUpdated = true;
-                                colorsDao.update(new RoomColor(roomColor.getId(), roomColor.getColorName(), roomColor.getColorHex(), roomColor.isChecked(), true));
+                                colorsDao.update(new RoomColor(roomColor, true));
                                 break;
                             }
                         }
                         if (!isUpdated) {
-                            colorsDao.insert(new RoomColor(repoColor.getId(), repoColor.getColorName(), repoColor.getColorHex(), false, true));
+                            colorsDao.insert(new RoomColor(repoColor, false, true));
                         }
                     }
                     colorsDao.clearNotUpdatedColors();
@@ -240,7 +240,7 @@ public class ClothesRepository implements IClothesRepository {
     private void setRoomColorsNotUpdated() {
         colorsDao.getSingleColorsList().subscribe(roomColorsList -> {
             for (RoomColor roomColor : roomColorsList) {
-                colorsDao.update(new RoomColor(roomColor.getId(), roomColor.getColorName(), roomColor.getColorHex(), roomColor.isChecked(), false));
+                colorsDao.update(new RoomColor(roomColor, false));
             }
         });
     }
@@ -262,13 +262,12 @@ public class ClothesRepository implements IClothesRepository {
                         for (RoomProductName roomProductName : roomProductNames) {
                             if (repoProductName.getId() == roomProductName.getId()) {
                                 isUpdated = true;
-                                productNamesDao.update(new RoomProductName(
-                                        roomProductName.getId(), roomProductName.getTitle(), roomProductName.getType(), roomProductName.isChecked(), true));
+                                productNamesDao.update(new RoomProductName(roomProductName, true));
                                 break;
                             }
                         }
                         if (!isUpdated) {
-                            productNamesDao.insert(new RoomProductName(repoProductName.getId(), repoProductName.getTitle(), repoProductName.getType(), false, true));
+                            productNamesDao.insert(new RoomProductName(repoProductName, false, true));
                         }
                     }
                     productNamesDao.clearNotUpdatedProductNames();
@@ -282,7 +281,7 @@ public class ClothesRepository implements IClothesRepository {
     private void setRoomProductNamesNotUpdated() {
         productNamesDao.getSingleProductNamesList().subscribe(roomProductNames -> {
             for (RoomProductName roomProductName : roomProductNames) {
-                productNamesDao.update(new RoomProductName(roomProductName.getId(), roomProductName.getTitle(), roomProductName.getType(), roomProductName.isChecked(), false));
+                productNamesDao.update(new RoomProductName(roomProductName, false));
             }
         });
     }
@@ -295,10 +294,7 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void updateProductName(FilterProductName filterProductName) {
         Completable.create(emitter -> {
-            productNamesDao.update(
-                    new RoomProductName(filterProductName.getId(), filterProductName.getTitle(),
-                            filterProductName.getType(), filterProductName.isChecked(), false)
-            );
+            productNamesDao.update(new RoomProductName(filterProductName, false));
             emitter.onComplete();
         })
                 .subscribeOn(workThread)
@@ -308,7 +304,7 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void updateClotheBrand(FilterBrand filterBrand) {
         Completable.create(emitter -> {
-            brandsDao.update(new RoomBrand(filterBrand.getId(), filterBrand.getTitle(), filterBrand.isChecked(), false));
+            brandsDao.update(new RoomBrand(filterBrand, false));
             emitter.onComplete();
         })
                 .subscribeOn(workThread)
@@ -318,7 +314,7 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void updateClotheColor(FilterColor filterColor) {
         Completable.create(emitter -> {
-            colorsDao.update(new RoomColor(filterColor.getId(), filterColor.getTitle(), filterColor.getColorHex(), filterColor.isChecked(), false));
+            colorsDao.update(new RoomColor(filterColor, false));
             emitter.onComplete();
         })
                 .subscribeOn(workThread)

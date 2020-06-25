@@ -3,6 +3,9 @@ package ru.fitsme.android.data.frameworks.room;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
+import ru.fitsme.android.domain.entities.clothes.FilterProductName;
+
 @Entity
 public class RoomProductName {
 
@@ -17,6 +20,30 @@ public class RoomProductName {
         this.id = id;
         this.title = title;
         this.type = type;
+        this.isChecked = isChecked;
+        this.isUpdated = isUpdated;
+    }
+
+    public RoomProductName(FilterProductName productName, boolean isUpdated) {
+        this.id = productName.getId();
+        this.title = productName.getColorName();
+        this.type = productName.getType();
+        this.isChecked = productName.isChecked();
+        this.isUpdated = isUpdated;
+    }
+
+    public RoomProductName(RoomProductName productName, boolean isUpdated) {
+        this.id = productName.getId();
+        this.title = productName.getTitle();
+        this.type = productName.getType();
+        this.isChecked = productName.isChecked();
+        this.isUpdated = isUpdated;
+    }
+
+    public RoomProductName(RepoClotheProductName productName, boolean isChecked, boolean isUpdated) {
+        this.id = productName.getId();
+        this.title = productName.getTitle();
+        this.type = productName.getType();
         this.isChecked = isChecked;
         this.isUpdated = isUpdated;
     }

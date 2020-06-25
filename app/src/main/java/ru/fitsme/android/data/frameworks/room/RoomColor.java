@@ -3,6 +3,9 @@ package ru.fitsme.android.data.frameworks.room;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
+import ru.fitsme.android.domain.entities.clothes.FilterColor;
+
 @Entity
 public class RoomColor {
 
@@ -13,10 +16,34 @@ public class RoomColor {
     private boolean isChecked;
     private boolean isUpdated;
 
-    public RoomColor(int id, String colorName, String colorHex, boolean isChecked, boolean isUpdated){
+    public RoomColor(int id, String colorName, String colorHex, boolean isChecked, boolean isUpdated) {
         this.id = id;
         this.colorName = colorName;
         this.colorHex = colorHex;
+        this.isChecked = isChecked;
+        this.isUpdated = isUpdated;
+    }
+
+    public RoomColor(FilterColor color, boolean isUpdated) {
+        this.id = color.getId();
+        this.colorName = color.getColorName();
+        this.colorHex = color.getColorHex();
+        this.isChecked = color.isChecked();
+        this.isUpdated = isUpdated;
+    }
+
+    public RoomColor(RoomColor color, boolean isUpdated) {
+        this.id = color.getId();
+        this.colorName = color.getColorName();
+        this.colorHex = color.getColorHex();
+        this.isChecked = color.isChecked();
+        this.isUpdated = isUpdated;
+    }
+
+    public RoomColor(RepoClotheColor color, boolean isChecked, boolean isUpdated) {
+        this.id = color.getId();
+        this.colorName = color.getColorName();
+        this.colorHex = color.getColorHex();
         this.isChecked = isChecked;
         this.isUpdated = isUpdated;
     }

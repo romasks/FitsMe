@@ -26,7 +26,7 @@ public class FilterProductName  implements ClotheFilter{
     }
 
     @Override
-    public String getTitle() {
+    public String getColorName() {
         return title;
     }
 

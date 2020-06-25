@@ -3,7 +3,6 @@ package ru.fitsme.android.presentation.fragments.filters;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.Switch;
 
 import androidx.fragment.app.Fragment;
 
@@ -131,7 +130,7 @@ public class FiltersFragment extends BaseFragment<FiltersViewModel>
         }
 
         @Override
-        public String getTitle() {
+        public String getColorName() {
             return null;
         }
 
