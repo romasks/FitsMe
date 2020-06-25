@@ -21,11 +21,11 @@ public abstract class ProductNamesDao {
     @Query("DELETE from RoomProductName WHERE id NOT IN (:ids)")
     abstract void deleteNotInListProductNames(List<Integer> ids);
 
-    @Query("SELECT id FROM RoomProductName WHERE isChecked == 1")
+    @Query("SELECT id FROM RoomProductName WHERE isChecked = 1")
     public abstract List<Integer> getCheckedProductNamesListIds();
 
-    @Query("SELECT * FROM RoomProductName WHERE isChecked == 1")
-    public abstract Single<List<RoomProductName>> getCheckedFilters();
+    @Query("SELECT COUNT(*) FROM RoomProductName WHERE isChecked = 1")
+    public abstract Single<Integer> getCheckedFiltersCount();
 
     @Query("SELECT * FROM RoomProductName")
     public abstract LiveData<List<RoomProductName>> getProductNamesLiveData();
@@ -40,7 +40,7 @@ public abstract class ProductNamesDao {
     public abstract void update(RoomProductName roomProductName);
 
     @Query("UPDATE RoomProductName SET isChecked = 0")
-    public abstract void resetProductNameFilters();
+    public abstract void resetCheckedFilters();
 
     @Transaction
     public void upsert(List<RepoClotheProductName> repoProductNamesList) {

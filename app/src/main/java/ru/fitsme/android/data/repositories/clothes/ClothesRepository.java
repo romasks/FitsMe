@@ -43,7 +43,6 @@ public class ClothesRepository implements IClothesRepository {
     private final WebLoaderNetworkChecker webLoader;
     private final ISettingsStorage storage;
     private Scheduler workThread;
-    private Scheduler mainThread;
 
     @Inject
     BrandsDao brandsDao;
@@ -57,12 +56,10 @@ public class ClothesRepository implements IClothesRepository {
     @Inject
     ClothesRepository(WebLoaderNetworkChecker webLoader,
                       ISettingsStorage storage,
-                      @Named("work") Scheduler workThread,
-                      @Named("main") Scheduler mainThread) {
+                      @Named("work") Scheduler workThread) {
         this.webLoader = webLoader;
         this.storage = storage;
         this.workThread = workThread;
-        this.mainThread = mainThread;
     }
 
     @Override
@@ -79,11 +76,7 @@ public class ClothesRepository implements IClothesRepository {
         return Single.create(emitter -> webLoader.likeItem(clothesItem, liked)
                 .subscribe(response -> {
                     LikedClothesItem item = response.getResponse();
-                    if (item != null) {
-                        emitter.onSuccess(new ClotheInfo<>(item));
-                    } else {
-                        emitter.onSuccess(new ClotheInfo(response.getError()));
-                    }
+                    emitter.onSuccess(new ClotheInfo<>(item != null ? item : response.getError()));
                 }, emitter::onError));
     }
 
@@ -114,7 +107,7 @@ public class ClothesRepository implements IClothesRepository {
                             emitter.onSuccess(clotheInfoList);
                         } else {
                             for (ClothesItem item : clothesItemList) {
-                                item.getPics().get(0).downloadPic();
+                                item.getFirstPic().downloadPic();
                                 clotheInfoList.add(new ClotheInfo<ClothesItem>(item));
                             }
                         }
@@ -130,8 +123,8 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public Single<SparseArray<ClotheSize>> getSizes() {
         return Single.create(emitter -> webLoader.getSizes()
-                .subscribe(sizesOkResponse -> {
-                    List<ClotheSize> clotheSizes = sizesOkResponse.getResponse();
+                .subscribe(response -> {
+                    List<ClotheSize> clotheSizes = response.getResponse();
                     if (clotheSizes != null) {
                         SparseArray<ClotheSize> sparseArray = new SparseArray<>();
                         for (ClotheSize size : clotheSizes) {
@@ -139,7 +132,7 @@ public class ClothesRepository implements IClothesRepository {
                         }
                         emitter.onSuccess(sparseArray);
                     } else {
-                        UserException error = ErrorRepository.makeError(sizesOkResponse.getError());
+                        UserException error = ErrorRepository.makeError(response.getError());
                         emitter.onError(error);
                     }
                 }, emitter::onError));
@@ -240,9 +233,9 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void resetCheckedFilters() {
         Completable.create(emitter -> {
-            resetProductNameFilters();
-            resetBrandFilters();
-            resetColorFilters();
+            productNamesDao.resetCheckedFilters();
+            brandsDao.resetCheckedFilters();
+            colorsDao.resetCheckedFilters();
         })
                 .subscribeOn(workThread)
                 .subscribe();
@@ -252,25 +245,14 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public Single<Boolean> isFiltersChecked() {
         return Single.create(emitter -> {
-            productNamesDao.getCheckedFilters().subscribeOn(workThread).subscribe(roomProductNames -> {
-                if (!roomProductNames.isEmpty()) {
-                    emitter.onSuccess(true);
-                } else {
-                    brandsDao.getCheckedFilters().subscribe(roomBrands -> {
-                        if (!roomBrands.isEmpty()) {
-                            emitter.onSuccess(true);
-                        } else {
-                            colorsDao.getCheckedColors().subscribe(roomColors -> {
-                                if (!roomColors.isEmpty()) {
-                                    emitter.onSuccess(true);
-                                } else {
-                                    emitter.onSuccess(false);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            Single.zip(
+                    productNamesDao.getCheckedFiltersCount(),
+                    brandsDao.getCheckedFiltersCount(),
+                    colorsDao.getCheckedFiltersCount(),
+                    (productNamesCount, brandsCount, colorsCount) -> productNamesCount + brandsCount + colorsCount > 0
+            )
+                    .subscribeOn(workThread)
+                    .subscribe(emitter::onSuccess, Timber::e);
         });
     }
 
@@ -292,17 +274,5 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void setIsNeedShowSizeDialogBottom(Boolean flag) {
         storage.setIsNeedShowSizeDialogForRateItemsBottom(flag);
-    }
-
-    private void resetColorFilters() {
-        colorsDao.resetColorFilters();
-    }
-
-    private void resetBrandFilters() {
-        brandsDao.resetBrandFilters();
-    }
-
-    private void resetProductNameFilters() {
-        productNamesDao.resetProductNameFilters();
     }
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,6 +16,9 @@ import javax.inject.Singleton;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import ru.fitsme.android.data.frameworks.room.RoomBrand;
+import ru.fitsme.android.data.frameworks.room.RoomColor;
+import ru.fitsme.android.data.frameworks.room.RoomProductName;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.FilterBrand;
 import ru.fitsme.android.domain.entities.clothes.FilterColor;
@@ -29,7 +32,6 @@ import timber.log.Timber;
 public class ClothesInteractor implements IClothesInteractor {
 
     private final IClothesRepository clothesRepository;
-    private final Scheduler workThread;
     private final Scheduler mainThread;
 
     private MutableLiveData<ClotheInfo> clotheInfoMutableLiveData = new MutableLiveData<>();
@@ -43,11 +45,8 @@ public class ClothesInteractor implements IClothesInteractor {
     private boolean isLikeRequestInProgress = false;
 
     @Inject
-    ClothesInteractor(IClothesRepository clothesRepository,
-                      @Named("work") Scheduler workThread,
-                      @Named("main") Scheduler mainThread) {
+    ClothesInteractor(IClothesRepository clothesRepository, @Named("main") Scheduler mainThread) {
         this.clothesRepository = clothesRepository;
-        this.workThread = workThread;
         this.mainThread = mainThread;
 
         clothesRepository.updateClotheBrandList();
@@ -143,10 +142,10 @@ public class ClothesInteractor implements IClothesInteractor {
 
     @Override
     public LiveData<List<FilterProductName>> getProductNames() {
-        return Transformations.map(clothesRepository.getClotheProductName(), input -> {
-            ArrayList<FilterProductName> output = new ArrayList<>();
-            for (int i = 0; i < input.size(); i++) {
-                output.add(new FilterProductName(input.get(i)));
+        return Transformations.map(clothesRepository.getClotheProductName(), roomProductNamesList -> {
+            List<FilterProductName> output = Collections.emptyList();
+            for (RoomProductName productName : roomProductNamesList) {
+                output.add(new FilterProductName(productName));
             }
             return output;
         });
@@ -154,10 +153,10 @@ public class ClothesInteractor implements IClothesInteractor {
 
     @Override
     public LiveData<List<FilterBrand>> getBrands() {
-        return Transformations.map(clothesRepository.getBrandNames(), input -> {
-            ArrayList<FilterBrand> output = new ArrayList<>();
-            for (int i = 0; i < input.size(); i++) {
-                output.add(new FilterBrand(input.get(i)));
+        return Transformations.map(clothesRepository.getBrandNames(), roomBrandsList -> {
+            List<FilterBrand> output = Collections.emptyList();
+            for (RoomBrand brand : roomBrandsList) {
+                output.add(new FilterBrand(brand));
             }
             return output;
         });
@@ -165,10 +164,10 @@ public class ClothesInteractor implements IClothesInteractor {
 
     @Override
     public LiveData<List<FilterColor>> getColors() {
-        return Transformations.map(clothesRepository.getClotheColors(), input -> {
-            ArrayList<FilterColor> output = new ArrayList<>();
-            for (int i = 0; i < input.size(); i++) {
-                output.add(new FilterColor(input.get(i)));
+        return Transformations.map(clothesRepository.getClotheColors(), roomColorsList -> {
+            List<FilterColor> output = Collections.emptyList();
+            for (RoomColor color : roomColorsList) {
+                output.add(new FilterColor(color));
             }
             return output;
         });

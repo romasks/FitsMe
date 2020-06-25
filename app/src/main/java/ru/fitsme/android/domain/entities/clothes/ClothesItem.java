@@ -58,6 +58,10 @@ public class ClothesItem implements Parcelable {
         return pics;
     }
 
+    public Picture getFirstPic() {
+        return pics.get(0);
+    }
+
     public List<Integer> getAvailableSizesId() {
         return available_sizes_id;
     }

@@ -21,11 +21,11 @@ public abstract class ColorsDao {
     @Query("DELETE from RoomColor WHERE id NOT IN (:ids)")
     abstract void deleteNotInListColors(List<Integer> ids);
 
-    @Query("SELECT id FROM RoomColor WHERE isChecked == 1")
+    @Query("SELECT id FROM RoomColor WHERE isChecked = 1")
     public abstract List<Integer> getCheckedColorsListIds();
 
-    @Query("SELECT * FROM roomcolor WHERE isChecked == 1")
-    public abstract Single<List<RoomColor>> getCheckedColors();
+    @Query("SELECT COUNT(*) FROM RoomColor WHERE isChecked = 1")
+    public abstract Single<Integer> getCheckedFiltersCount();
 
     @Query("SELECT * FROM RoomColor")
     public abstract LiveData<List<RoomColor>> getColorsLiveData();
@@ -40,7 +40,7 @@ public abstract class ColorsDao {
     public abstract void update(RoomColor roomColor);
 
     @Query("UPDATE RoomColor SET isChecked = 0")
-    public abstract void resetColorFilters();
+    public abstract void resetCheckedFilters();
 
     @Transaction
     public void upsert(List<RepoClotheColor> repoColorsList) {

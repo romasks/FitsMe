@@ -21,11 +21,11 @@ public abstract class BrandsDao {
     @Query("DELETE from RoomBrand WHERE id NOT IN (:ids)")
     abstract void deleteNotInListBrands(List<Integer> ids);
 
-    @Query("SELECT id FROM RoomBrand WHERE isChecked == 1")
+    @Query("SELECT id FROM RoomBrand WHERE isChecked = 1")
     public abstract List<Integer> getCheckedBrandsListIds();
 
-    @Query("SELECT * FROM RoomBrand WHERE isChecked == 1")
-    public abstract Single<List<RoomBrand>> getCheckedFilters();
+    @Query("SELECT COUNT(*) FROM RoomBrand WHERE isChecked = 1")
+    public abstract Single<Integer> getCheckedFiltersCount();
 
     @Query("SELECT * FROM RoomBrand")
     public abstract LiveData<List<RoomBrand>> getBrandsLiveData();
@@ -40,7 +40,7 @@ public abstract class BrandsDao {
     public abstract void update(RoomBrand roomBrand);
 
     @Query("UPDATE RoomBrand SET isChecked = 0")
-    public abstract void resetBrandFilters();
+    public abstract void resetCheckedFilters();
 
     @Transaction
     public void upsert(List<RepoClotheBrand> repoBrandsList) {
