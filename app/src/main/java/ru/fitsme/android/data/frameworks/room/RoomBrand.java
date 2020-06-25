@@ -15,7 +15,7 @@ public class RoomBrand {
     private boolean isChecked;
     private boolean isUpdated;
 
-    public RoomBrand(int id, String title, boolean isChecked, boolean isUpdated){
+    public RoomBrand(int id, String title, boolean isChecked, boolean isUpdated) {
         this.id = id;
         this.title = title;
         this.isChecked = isChecked;
@@ -29,18 +29,11 @@ public class RoomBrand {
         this.isUpdated = isUpdated;
     }
 
-    public RoomBrand(RoomBrand brand, boolean isUpdated) {
+    public RoomBrand(RepoClotheBrand brand) {
         this.id = brand.getId();
         this.title = brand.getTitle();
-        this.isChecked = brand.isChecked();
-        this.isUpdated = isUpdated;
-    }
-
-    public RoomBrand(RepoClotheBrand brand, boolean isChecked, boolean isUpdated) {
-        this.id = brand.getId();
-        this.title = brand.getTitle();
-        this.isChecked = isChecked;
-        this.isUpdated = isUpdated;
+        this.isChecked = false;
+        this.isUpdated = false;
     }
 
     public int getId() {

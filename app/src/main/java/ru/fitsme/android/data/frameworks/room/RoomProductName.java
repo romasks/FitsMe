@@ -16,7 +16,7 @@ public class RoomProductName {
     private boolean isChecked;
     private boolean isUpdated;
 
-    public RoomProductName(int id, String title, String type, boolean isChecked, boolean isUpdated){
+    public RoomProductName(int id, String title, String type, boolean isChecked, boolean isUpdated) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -32,20 +32,12 @@ public class RoomProductName {
         this.isUpdated = isUpdated;
     }
 
-    public RoomProductName(RoomProductName productName, boolean isUpdated) {
+    public RoomProductName(RepoClotheProductName productName) {
         this.id = productName.getId();
         this.title = productName.getTitle();
         this.type = productName.getType();
-        this.isChecked = productName.isChecked();
-        this.isUpdated = isUpdated;
-    }
-
-    public RoomProductName(RepoClotheProductName productName, boolean isChecked, boolean isUpdated) {
-        this.id = productName.getId();
-        this.title = productName.getTitle();
-        this.type = productName.getType();
-        this.isChecked = isChecked;
-        this.isUpdated = isUpdated;
+        this.isChecked = false;
+        this.isUpdated = false;
     }
 
     public int getId() {

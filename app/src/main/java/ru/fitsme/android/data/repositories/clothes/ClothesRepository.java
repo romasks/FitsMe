@@ -27,9 +27,6 @@ import ru.fitsme.android.data.frameworks.sharedpreferences.ISettingsStorage;
 import ru.fitsme.android.data.repositories.ErrorRepository;
 import ru.fitsme.android.data.repositories.clothes.entity.ClotheSizeType;
 import ru.fitsme.android.data.repositories.clothes.entity.ClothesPage;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheBrand;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheColor;
-import ru.fitsme.android.data.repositories.clothes.entity.RepoClotheProductName;
 import ru.fitsme.android.domain.boundaries.clothes.IClothesRepository;
 import ru.fitsme.android.domain.entities.clothes.ClotheSize;
 import ru.fitsme.android.domain.entities.clothes.ClothesItem;
@@ -171,37 +168,10 @@ public class ClothesRepository implements IClothesRepository {
     @SuppressLint("CheckResult")
     @Override
     public void updateClotheBrandList() {
-        webLoader.getBrandList().subscribe(response -> {
-            List<RepoClotheBrand> clotheBrands = response.getResponse();
-            if (clotheBrands != null) {
-                brandsDao.getSingleBrandsList().subscribe(roomBrands -> {
-                    for (RepoClotheBrand repoClotheBrand : clotheBrands) {
-                        boolean isUpdated = false;
-                        for (RoomBrand roomBrand : roomBrands) {
-                            if (repoClotheBrand.getId() == roomBrand.getId()) {
-                                isUpdated = true;
-                                brandsDao.update(new RoomBrand(roomBrand, true));
-                                break;
-                            }
-                        }
-                        if (!isUpdated) {
-                            brandsDao.insert(new RoomBrand(repoClotheBrand, false, true));
-                        }
-                    }
-                    brandsDao.clearNotUpdatedBrands();
-                    setRoomBrandsNotUpdated();
-                });
-            }
-        }, Timber::e);
-    }
-
-    @SuppressLint("CheckResult")
-    private void setRoomBrandsNotUpdated() {
-        brandsDao.getSingleBrandsList().subscribe(roomBrandList -> {
-            for (RoomBrand roomBrand : roomBrandList) {
-                brandsDao.update(new RoomBrand(roomBrand, false));
-            }
-        });
+        webLoader.getBrandList()
+                .subscribe(response -> {
+                    brandsDao.upsert(response.getResponse());
+                }, Timber::e);
     }
 
     @Override
@@ -212,37 +182,10 @@ public class ClothesRepository implements IClothesRepository {
     @SuppressLint("CheckResult")
     @Override
     public void updateClotheColorList() {
-        webLoader.getColorList().subscribe(response -> {
-            List<RepoClotheColor> clotheColorList = response.getResponse();
-            if (clotheColorList != null) {
-                colorsDao.getSingleColorsList().subscribe(roomColors -> {
-                    for (RepoClotheColor repoColor : clotheColorList) {
-                        boolean isUpdated = false;
-                        for (RoomColor roomColor : roomColors) {
-                            if (repoColor.getId() == roomColor.getId()) {
-                                isUpdated = true;
-                                colorsDao.update(new RoomColor(roomColor, true));
-                                break;
-                            }
-                        }
-                        if (!isUpdated) {
-                            colorsDao.insert(new RoomColor(repoColor, false, true));
-                        }
-                    }
-                    colorsDao.clearNotUpdatedColors();
-                    setRoomColorsNotUpdated();
-                });
-            }
-        }, Timber::e);
-    }
-
-    @SuppressLint("CheckResult")
-    private void setRoomColorsNotUpdated() {
-        colorsDao.getSingleColorsList().subscribe(roomColorsList -> {
-            for (RoomColor roomColor : roomColorsList) {
-                colorsDao.update(new RoomColor(roomColor, false));
-            }
-        });
+        webLoader.getColorList()
+                .subscribe(response -> {
+                    colorsDao.upsert(response.getResponse());
+                }, Timber::e);
     }
 
     @Override
@@ -253,37 +196,10 @@ public class ClothesRepository implements IClothesRepository {
     @SuppressLint("CheckResult")
     @Override
     public void updateProductNameList() {
-        webLoader.getProductNameList().subscribe(response -> {
-            List<RepoClotheProductName> clotheProductNameList = response.getResponse();
-            if (clotheProductNameList != null) {
-                productNamesDao.getSingleProductNamesList().subscribe(roomProductNames -> {
-                    for (RepoClotheProductName repoProductName : clotheProductNameList) {
-                        boolean isUpdated = false;
-                        for (RoomProductName roomProductName : roomProductNames) {
-                            if (repoProductName.getId() == roomProductName.getId()) {
-                                isUpdated = true;
-                                productNamesDao.update(new RoomProductName(roomProductName, true));
-                                break;
-                            }
-                        }
-                        if (!isUpdated) {
-                            productNamesDao.insert(new RoomProductName(repoProductName, false, true));
-                        }
-                    }
-                    productNamesDao.clearNotUpdatedProductNames();
-                    setRoomProductNamesNotUpdated();
-                });
-            }
-        }, Timber::e);
-    }
-
-    @SuppressLint("CheckResult")
-    private void setRoomProductNamesNotUpdated() {
-        productNamesDao.getSingleProductNamesList().subscribe(roomProductNames -> {
-            for (RoomProductName roomProductName : roomProductNames) {
-                productNamesDao.update(new RoomProductName(roomProductName, false));
-            }
-        });
+        webLoader.getProductNameList()
+                .subscribe(response -> {
+                    productNamesDao.upsert(response.getResponse());
+                }, Timber::e);
     }
 
     @Override
@@ -378,34 +294,15 @@ public class ClothesRepository implements IClothesRepository {
         storage.setIsNeedShowSizeDialogForRateItemsBottom(flag);
     }
 
-    @SuppressLint("CheckResult")
     private void resetColorFilters() {
-        colorsDao.getCheckedColors().subscribe(roomColors -> {
-            for (RoomColor roomColor : roomColors) {
-                roomColor.setChecked(false);
-                colorsDao.update(roomColor);
-            }
-        });
+        colorsDao.resetColorFilters();
     }
 
-    @SuppressLint("CheckResult")
     private void resetBrandFilters() {
-        brandsDao.getCheckedFilters().subscribe(roomBrands -> {
-            for (RoomBrand roomBrand : roomBrands) {
-                roomBrand.setChecked(false);
-                brandsDao.update(roomBrand);
-            }
-        });
-
+        brandsDao.resetBrandFilters();
     }
 
-    @SuppressLint("CheckResult")
     private void resetProductNameFilters() {
-        productNamesDao.getCheckedFilters().subscribe(roomProductNames -> {
-            for (RoomProductName roomProductName : roomProductNames) {
-                roomProductName.setChecked(false);
-                productNamesDao.update(roomProductName);
-            }
-        });
+        productNamesDao.resetProductNameFilters();
     }
 }

@@ -32,20 +32,12 @@ public class RoomColor {
         this.isUpdated = isUpdated;
     }
 
-    public RoomColor(RoomColor color, boolean isUpdated) {
+    public RoomColor(RepoClotheColor color) {
         this.id = color.getId();
         this.colorName = color.getColorName();
         this.colorHex = color.getColorHex();
-        this.isChecked = color.isChecked();
-        this.isUpdated = isUpdated;
-    }
-
-    public RoomColor(RepoClotheColor color, boolean isChecked, boolean isUpdated) {
-        this.id = color.getId();
-        this.colorName = color.getColorName();
-        this.colorHex = color.getColorHex();
-        this.isChecked = isChecked;
-        this.isUpdated = isUpdated;
+        this.isChecked = false;
+        this.isUpdated = false;
     }
 
     public int getId() {
