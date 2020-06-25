@@ -42,7 +42,7 @@ import ru.fitsme.android.domain.entities.profile.Profile;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrder;
 import ru.fitsme.android.domain.entities.returns.ReturnsOrderItem;
 import ru.fitsme.android.domain.interactors.auth.IAuthInteractor;
-import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
+import ru.fitsme.android.presentation.main.MainViewModel;
 import ru.fitsme.android.utils.OrderStatus;
 
 public class WebLoaderNetworkChecker extends WebLoader {

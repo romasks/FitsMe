@@ -2,12 +2,11 @@ package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.annotation.SuppressLint;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Scheduler;
 import ru.fitsme.android.domain.entities.clothes.LikeState;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
@@ -19,17 +18,20 @@ public class RateItemsViewModel extends BaseViewModel {
 
     @Inject
     IClothesInteractor clothesInteractor;
+
     @Inject
     IProfileInteractor profileInteractor;
-    @Inject
-    @Named("main") Scheduler mainThread;
 
-    private LiveData<ClotheInfo> clotheInfoLiveData;
+    @Inject
+    @Named("main")
+    Scheduler mainThread;
+
+    private LiveData<ClotheInfo> clotheInfoLiveData = new MutableLiveData<>();
     private MutableLiveData<Boolean> filterIsChecked = new MutableLiveData<>();
-    private LiveData<LikeState> likeStateLiveData;
+    private LiveData<LikeState> likeStateLiveData = new MutableLiveData<>();
     private LiveData<Boolean> returnIsEnabled = new MutableLiveData<>();
-    private LiveData<Boolean> isNeedShowSizeDialogForTop;
-    private LiveData<Boolean> isNeedShowSizeDialogForBottom;
+    private LiveData<Boolean> isNeedShowSizeDialogForTop = new MutableLiveData<>();
+    private LiveData<Boolean> isNeedShowSizeDialogForBottom = new MutableLiveData<>();
 
     public RateItemsViewModel() {
         inject(this);
@@ -67,8 +69,8 @@ public class RateItemsViewModel extends BaseViewModel {
     @SuppressLint("CheckResult")
     public void onAfterCreateView() {
         clothesInteractor.isFiltersChecked()
-            .observeOn(mainThread)
-            .subscribe(result -> filterIsChecked.setValue(result));
+                .observeOn(mainThread)
+                .subscribe(result -> filterIsChecked.setValue(result));
         clothesInteractor.updateClothesList();
         isNeedShowSizeDialogForTop = clothesInteractor.getIsNeedShowSizeDialogForTop();
         isNeedShowSizeDialogForBottom = clothesInteractor.getIsNeedShowSizeDialogForBottom();
@@ -90,7 +92,7 @@ public class RateItemsViewModel extends BaseViewModel {
         return isNeedShowSizeDialogForTop;
     }
 
-    public void setIsNeedShowSizeDialogForTop(Boolean flag){
+    public void setIsNeedShowSizeDialogForTop(Boolean flag) {
         clothesInteractor.setIsNeedShowSizeDialogForTop(flag);
     }
 
@@ -98,15 +100,15 @@ public class RateItemsViewModel extends BaseViewModel {
         return isNeedShowSizeDialogForBottom;
     }
 
-    public void setIsNeedShowSizeDialogForBottom(Boolean flag){
+    public void setIsNeedShowSizeDialogForBottom(Boolean flag) {
         clothesInteractor.setIsNeedShowSizeDialogForBottom(flag);
     }
 
-    public Boolean isItFirstStart(){
+    public Boolean isItFirstStart() {
         return profileInteractor.isItFirstStart();
     }
 
-    public void setFirstStartCompleted(){
+    public void setFirstStartCompleted() {
         profileInteractor.setFirstStartCompleted();
     }
 }

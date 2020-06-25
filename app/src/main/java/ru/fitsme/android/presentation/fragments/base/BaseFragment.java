@@ -5,16 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.ParameterizedType;
+
+import javax.inject.Inject;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
-import java.lang.reflect.ParameterizedType;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.app.App;
 
 public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
@@ -40,8 +39,12 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
     int getLayout();
 
     protected abstract void afterCreateView(View view);
-    protected void setUpRecyclers() {}
-    protected void setUpObservers() {}
+
+    protected void setUpRecyclers() {
+    }
+
+    protected void setUpObservers() {
+    }
 
     @Nullable
     @Override
@@ -85,7 +88,7 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
 
     @Override
     public void onDestroy() {
-        viewModel.disposeDisposables();
+        if (viewModel != null) viewModel.disposeDisposables();
         super.onDestroy();
     }
 }

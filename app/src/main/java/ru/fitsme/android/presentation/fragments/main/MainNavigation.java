@@ -3,7 +3,6 @@ package ru.fitsme.android.presentation.fragments.main;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.Order;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.terrakok.cicerone.Cicerone;
@@ -75,10 +74,6 @@ public class MainNavigation {
         getRouter().newScreenChain(navigationKey);
     }
 
-    private void backNavigate(String navigationKey) {
-        getRouter().backTo(navigationKey);
-    }
-
     public void setNavigator(Navigator navigator) {
         getNavigatorHolder().setNavigator(navigator);
     }
@@ -97,10 +92,6 @@ public class MainNavigation {
 
     public void goToCart() {
         newChainNavigate(NAV_CART);
-    }
-
-    public void goToCode() {
-        newChainNavigate(NAV_CODE);
     }
 
     public void goToCheckout() {
@@ -123,16 +114,8 @@ public class MainNavigation {
         goNavigate(NAV_LEAVE_FEEDBACK);
     }
 
-    public void goToTypeProfile() {
-        goNavigate(NAV_TYPE_PROFILE);
-    }
-
     public void goToOrderHistoryProfile() {
         goNavigate(NAV_ORDER_HISTORY_PROFILE);
-    }
-
-    public void goToOrderReturnProfile() {
-        goNavigate(NAV_ORDER_RETURN_PROFILE);
     }
 
     public void goToReturnDetails(int returnId) {
@@ -145,10 +128,6 @@ public class MainNavigation {
 
     public void goToReturnsChooseOrder() {
         goNavigate(NAV_RETURNS_CHOOSE_ORDER);
-    }
-
-    public void goToReturnsChooseItems(int orderId) {
-        goNavigate(NAV_RETURNS_CHOOSE_ITEMS, orderId);
     }
 
     public void goToReturnsIndicateNumber(int returnId) {
@@ -185,10 +164,6 @@ public class MainNavigation {
 
     public void goToReturnsVerifyDataWithReplace(int returnId) {
         replaceWith(NAV_RETURNS_VERIFY_DATA, returnId);
-    }
-
-    public void goToOrdersReturnWithReplace() {
-        replaceWith(NAV_ORDER_RETURN_PROFILE);
     }
 
     public void goToDetailItemInfo(ClotheInfo clotheInfo) {
