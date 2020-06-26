@@ -8,7 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -46,9 +46,9 @@ public abstract class BrandsDao {
     public void upsert(List<RepoClotheBrand> repoBrandsList) {
         if (repoBrandsList == null) return;
 
-        List<RoomBrand> recordsForInsert = Collections.emptyList();
-        List<RoomBrand> recordsForUpdate = Collections.emptyList();
-        List<Integer> ids = Collections.emptyList();
+        List<RoomBrand> recordsForInsert = new ArrayList<>();
+        List<RoomBrand> recordsForUpdate = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
 
         for (RepoClotheBrand repoBrand : repoBrandsList) {
             recordsForInsert.add(new RoomBrand(repoBrand));

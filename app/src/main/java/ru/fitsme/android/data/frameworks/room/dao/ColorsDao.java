@@ -8,7 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -46,9 +46,9 @@ public abstract class ColorsDao {
     public void upsert(List<RepoClotheColor> repoColorsList) {
         if (repoColorsList == null) return;
 
-        List<RoomColor> recordsForInsert = Collections.emptyList();
-        List<RoomColor> recordsForUpdate = Collections.emptyList();
-        List<Integer> ids = Collections.emptyList();
+        List<RoomColor> recordsForInsert = new ArrayList<>();
+        List<RoomColor> recordsForUpdate = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
 
         for (RepoClotheColor repoColor : repoColorsList) {
             recordsForInsert.add(new RoomColor(repoColor));

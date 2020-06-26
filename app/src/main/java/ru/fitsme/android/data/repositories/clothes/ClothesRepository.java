@@ -162,6 +162,7 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void updateClotheBrandList() {
         webLoader.getBrandList()
+                .subscribeOn(workThread)
                 .subscribe(response -> {
                     brandsDao.upsert(response.getResponse());
                 }, Timber::e);
@@ -176,6 +177,7 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void updateClotheColorList() {
         webLoader.getColorList()
+                .subscribeOn(workThread)
                 .subscribe(response -> {
                     colorsDao.upsert(response.getResponse());
                 }, Timber::e);
@@ -190,6 +192,7 @@ public class ClothesRepository implements IClothesRepository {
     @Override
     public void updateProductNameList() {
         webLoader.getProductNameList()
+                .subscribeOn(workThread)
                 .subscribe(response -> {
                     productNamesDao.upsert(response.getResponse());
                 }, Timber::e);

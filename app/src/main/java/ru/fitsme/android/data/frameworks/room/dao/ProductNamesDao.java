@@ -8,7 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -46,9 +46,9 @@ public abstract class ProductNamesDao {
     public void upsert(List<RepoClotheProductName> repoProductNamesList) {
         if (repoProductNamesList == null) return;
 
-        List<RoomProductName> recordsForInsert = Collections.emptyList();
-        List<RoomProductName> recordsForUpdate = Collections.emptyList();
-        List<Integer> ids = Collections.emptyList();
+        List<RoomProductName> recordsForInsert = new ArrayList<>();
+        List<RoomProductName> recordsForUpdate = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
 
         for (RepoClotheProductName repoProductName : repoProductNamesList) {
             recordsForInsert.add(new RoomProductName(repoProductName));

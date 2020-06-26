@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -143,7 +143,7 @@ public class ClothesInteractor implements IClothesInteractor {
     @Override
     public LiveData<List<FilterProductName>> getProductNames() {
         return Transformations.map(clothesRepository.getClotheProductName(), roomProductNamesList -> {
-            List<FilterProductName> output = Collections.emptyList();
+            List<FilterProductName> output = new ArrayList<>();
             for (RoomProductName productName : roomProductNamesList) {
                 output.add(new FilterProductName(productName));
             }
@@ -154,7 +154,7 @@ public class ClothesInteractor implements IClothesInteractor {
     @Override
     public LiveData<List<FilterBrand>> getBrands() {
         return Transformations.map(clothesRepository.getBrandNames(), roomBrandsList -> {
-            List<FilterBrand> output = Collections.emptyList();
+            List<FilterBrand> output = new ArrayList<>();
             for (RoomBrand brand : roomBrandsList) {
                 output.add(new FilterBrand(brand));
             }
@@ -165,7 +165,7 @@ public class ClothesInteractor implements IClothesInteractor {
     @Override
     public LiveData<List<FilterColor>> getColors() {
         return Transformations.map(clothesRepository.getClotheColors(), roomColorsList -> {
-            List<FilterColor> output = Collections.emptyList();
+            List<FilterColor> output = new ArrayList<>();
             for (RoomColor color : roomColorsList) {
                 output.add(new FilterColor(color));
             }
