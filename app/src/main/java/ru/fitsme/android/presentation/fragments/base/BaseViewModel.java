@@ -8,7 +8,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.presentation.fragments.main.MainNavigation;
-import ru.fitsme.android.presentation.main.viewmodel.MainViewModel;
+import ru.fitsme.android.presentation.main.MainViewModel;
 
 public abstract class BaseViewModel extends ViewModel implements IViewModel {
 

@@ -1,4 +1,4 @@
-package ru.fitsme.android.presentation.main.viewmodel;
+package ru.fitsme.android.presentation.main;
 
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.ViewModel;

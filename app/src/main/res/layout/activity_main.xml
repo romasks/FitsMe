@@ -10,13 +10,13 @@
 
         <variable
             name="viewModel"
-            type="ru.fitsme.android.presentation.main.viewmodel.MainViewModel" />
+            type="ru.fitsme.android.presentation.main.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.main.view.MainActivity">
+        tools:context=".presentation.main.MainActivity">
 
         <TextView
             android:id="@+id/activity_main_no_network_tv"
