@@ -92,6 +92,7 @@
                         style="@style/CheckoutTextFieldStyle"
                         android:layout_marginStart="@dimen/padding_16dp"
                         android:hint="@string/checkout_hint_enter_street"
+                        android:maxLength="100"
                         android:text="@={viewModel.orderModel.street}"
                         tools:ignore="Autofill" />
 
