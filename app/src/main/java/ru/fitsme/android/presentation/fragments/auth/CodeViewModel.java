@@ -2,10 +2,11 @@ package ru.fitsme.android.presentation.fragments.auth;
 
 import android.annotation.SuppressLint;
 
-import javax.inject.Inject;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import javax.inject.Inject;
+
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseViewModel;
 import ru.fitsme.android.presentation.main.AuthNavigation;
@@ -18,7 +19,7 @@ public class CodeViewModel extends BaseViewModel {
     @Inject
     ISignInteractor interactor;
 
-    private MutableLiveData<Boolean> isCodeVerified = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isCodeVerified = new MutableLiveData<>(true);
 
     public CodeViewModel() {
         inject(this);

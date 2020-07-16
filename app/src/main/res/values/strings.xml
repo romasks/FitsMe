@@ -40,8 +40,8 @@
     <string name="cart_total_price_label">Итого:</string>
     <string name="cart_delivery_cost_label">Доставка:</string>
     <string name="cart_amount_value">%1$s\u20BD</string>
-    <string name="cart_user_agreement_1">Нажимая кнопку \"Перейти к оформлению\", вы принимаете</string>
-    <string name="cart_user_agreement_2"><u>публичную оферту</u></string>
+    <string name="cart_user_agreement_1">Нажимая кнопку \"Получить код\", вы соглашаетесь с политикой обработки персональных данных и принимаете публичную оферту. </string>
+    <string name="cart_user_agreement_2"><u>Подробнее.</u></string>
     <string name="cart_fragment_message_for_size_dialog">Вещь может быть заказана только после указания ваших размеров</string>
 
     <!--checkout-->

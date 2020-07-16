@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="bindingEvents"
-            type="ru.fitsme.android.presentation.fragments.auth.CodeBindingEvents" />
-
-        <variable
             name="viewModel"
             type="ru.fitsme.android.presentation.fragments.auth.CodeViewModel" />
     </data>
@@ -55,16 +51,16 @@
                     android:id="@+id/pin_entry_code"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:cursorVisible="false"
+                    android:cursorVisible="true"
                     android:digits="1234567890"
                     android:focusable="true"
                     android:inputType="number"
                     android:maxLength="4"
                     android:textIsSelectable="false"
                     app:pinBackgroundDrawable="@android:color/transparent"
+                    app:pinCharacterMask="*"
                     app:pinCharacterSpacing="10dp"
                     app:pinLineColors="@color/white"
-                    app:pinRepeatedHint="*"
                     app:pinTextBottomPadding="-4dp" />
             </FrameLayout>
 

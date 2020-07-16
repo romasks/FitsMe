@@ -2,6 +2,7 @@ package ru.fitsme.android.app;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
@@ -15,5 +16,9 @@ public class ResourceManager {
 
     public static DisplayMetrics getDisplayMetrics() {
         return appContext.getResources().getDisplayMetrics();
+    }
+
+    public static void setBackground(View view, int resDrawable) {
+        view.setBackground(appContext.getResources().getDrawable(resDrawable));
     }
 }

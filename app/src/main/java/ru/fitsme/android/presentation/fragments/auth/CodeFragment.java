@@ -1,26 +1,21 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
-import java.text.DecimalFormat;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.ResourceManager;
 import ru.fitsme.android.databinding.FragmentCodeBinding;
 import ru.fitsme.android.presentation.common.keyboard.KeyboardUtils;
 import ru.fitsme.android.presentation.common.listener.BackClickListener;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
-public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBindingEvents, BackClickListener {
-
-    private static final int REPEAT_TIME = 60;
+public class CodeFragment extends BaseFragment<CodeViewModel> implements BackClickListener {
 
     private FragmentCodeBinding binding;
 
-    private Timer timer = null;
-    private int time = REPEAT_TIME;
+    private CodeTimer timer = null;
 
     public static CodeFragment newInstance() {
         return new CodeFragment();
@@ -34,7 +29,6 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
     @Override
     protected void afterCreateView(View view) {
         binding = FragmentCodeBinding.bind(view);
-        binding.setBindingEvents(this);
         binding.setViewModel(viewModel);
         binding.appBar.setBackClickListener(this);
         binding.appBar.setTitle(getString(R.string.auth_code_header_text));
@@ -42,12 +36,34 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
     }
 
     private void setUp() {
-//        binding.pinEntryCode.requestFocus();
-        // TODO: do smth with show keyboard
-        KeyboardUtils.open(requireActivity(), binding.pinEntryCode);
+        timer = new CodeTimer(this, binding.timerField, binding.resendCode);
 
         binding.pinEntryCode.setOnPinEnteredListener(str -> {
-            if (str.length() == 4) viewModel.verifyCode(str.toString());
+            if (str.length() == 4) {
+                binding.pinEntryCode.clearFocus();
+                viewModel.verifyCode(str.toString());
+            }
+        });
+
+        binding.pinEntryCode.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) KeyboardUtils.open(requireActivity(), v);
+        });
+
+        binding.pinEntryCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                hideCodeError();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
 
         binding.resendCode.setOnClickListener(v -> {
@@ -57,16 +73,17 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
 
             // Disable resend code text
             binding.resendCode.setEnabled(false);
-            binding.resendCode.setTextColor(getResources().getColor(R.color.resendCodeInactive));
+            binding.resendCode.setTextColor(ResourceManager.getColor(R.color.resendCodeInactive));
 
             // Hide error
-            binding.pinEntryCodeLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pin_code));
-            binding.errorWrongCode.setVisibility(View.INVISIBLE);
+            hideCodeError();
 
-            startTimer();
+            timer.startTimer();
         });
 
-        startTimer();
+        timer.startTimer();
+
+        binding.pinEntryCode.requestFocus();
     }
 
     @Override
@@ -75,14 +92,19 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
     }
 
     private void onCodeVerified(Boolean isCodeVerified) {
-        if (isCodeVerified) {
-            binding.pinEntryCodeLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pin_code));
-            binding.errorWrongCode.setVisibility(View.INVISIBLE);
-        } else {
-            binding.pinEntryCodeLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_pin_code_error));
-            binding.errorWrongCode.setVisibility(View.VISIBLE);
-            binding.pinEntryCode.setEnabled(false);
-        }
+        changeCodeErrorVisibility(!isCodeVerified);
+    }
+
+    private void hideCodeError() {
+        changeCodeErrorVisibility(false);
+    }
+
+    private void changeCodeErrorVisibility(boolean showError) {
+        ResourceManager.setBackground(
+                binding.pinEntryCodeLayout,
+                showError ? R.drawable.bg_pin_code_error : R.drawable.bg_pin_code
+        );
+        binding.errorWrongCode.setVisibility(showError ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -90,44 +112,9 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements CodeBin
         viewModel.onBackPressed();
     }
 
-    private void startTimer() {
-        binding.timerField.setVisibility(View.VISIBLE);
-        timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                requireActivity().runOnUiThread(() -> {
-                    DecimalFormat formatter = new DecimalFormat("00");
-                    binding.timerField.setText(String.format(Locale.getDefault(), "Через 0:%s", formatter.format(time)));
-                    if (time > 0) time -= 1;
-                    else stopTimer();
-                });
-            }
-        };
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
-    }
-
-    private void stopTimer() {
-        binding.resendCode.setEnabled(true);
-        binding.resendCode.setTextColor(getResources().getColor(R.color.resendCodeActive));
-        binding.timerField.setVisibility(View.INVISIBLE);
-
-        if (timer != null) {
-            timer.cancel();
-            timer.purge();
-            timer = null;
-        }
-
-        time = REPEAT_TIME;
-    }
-
     @Override
     public void onDestroy() {
-        if (timer != null) {
-            timer.cancel();
-            timer.purge();
-            timer = null;
-        }
+        timer.stopTimer();
 
         KeyboardUtils.hide(requireActivity(), binding.pinEntryCode);
         super.onDestroy();
