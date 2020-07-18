@@ -2,7 +2,6 @@ package ru.fitsme.android.presentation.fragments.rateitems;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -11,9 +10,6 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
-
-import javax.inject.Inject;
-
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentRateItemsBinding;
@@ -22,7 +18,6 @@ import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.clothes.LikeState;
 import ru.fitsme.android.domain.entities.clothes.LikedClothesItem;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
-import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
@@ -37,11 +32,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         RateItemAnimation.Callback,
         TopSizeDialogFragment.TopSizeDialogCallback,
         BottomSizeDialogFragment.BottomSizeDialogCallback {
-
-    private static final String KEY_ITEM_INFO_STATE = "state";
-
-    @Inject
-    IClothesInteractor clothesInteractor;
 
     private FragmentRateItemsBinding binding;
     private RateItemAnimation itemAnimation;
@@ -86,6 +76,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
 
     private void setUp() {
         itemAnimation = new RateItemAnimation(this, binding);
+        disableLikeButtons();
     }
 
     @Override
@@ -133,7 +124,6 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         binding.fragmentRateItemsReturnBtn.setEnabled(false);
         binding.fragmentRateItemsLikeBtn.setEnabled(false);
         binding.fragmentRateItemsDislikeBtn.setEnabled(false);
-        binding.fragmentRateItemsFilterBtn.setEnabled(false);
     }
 
     void enableLikeButtons() {
@@ -286,10 +276,10 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void setConstraintToFullState(boolean b) {
+    private void setConstraintToFullState(boolean fullState) {
         ConstraintSet set = new ConstraintSet();
         set.clone(binding.fragmentRateItemsLayout);
-        if (b) {
+        if (fullState) {
             int val = 0;
             binding.fragmentRateItemsContainer.setPadding(val, val, val, val);
             set.connect(R.id.fragment_rate_items_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
