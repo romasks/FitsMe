@@ -121,7 +121,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
     }
 
     private void disableLikeButtons() {
-        binding.fragmentRateItemsReturnBtn.setEnabled(false);
+        binding.fragmentRateItemsReturnBtn.setEnabled(isReturnEnabled);
         binding.fragmentRateItemsLikeBtn.setEnabled(false);
         binding.fragmentRateItemsDislikeBtn.setEnabled(false);
     }
@@ -169,6 +169,7 @@ public class RateItemsFragment extends BaseFragment<RateItemsViewModel>
         this.clothesItem = null;
         binding.fragmentRateItemsMessage.setText(error.getMessage());
         binding.fragmentRateItemsInfoCard.setVisibility(View.INVISIBLE);
+        disableLikeButtons();
     }
 
     private void showYes(boolean b, float alpha) {
