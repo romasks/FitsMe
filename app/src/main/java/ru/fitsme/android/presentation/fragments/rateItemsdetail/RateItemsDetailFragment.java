@@ -46,6 +46,9 @@ public class RateItemsDetailFragment extends BaseFragment<RateItemsDetailViewMod
 
     private void onClothesItem(ClothesItem clothesItem) {
         binding.fragmentRateItemDetailMessage.setText(getString(R.string.loading));
+
+        if (clothesItem == null) return;
+
         String brandName = clothesItem.getBrand();
         String name = clothesItem.getName();
         String description = clothesItem.getDescription();
