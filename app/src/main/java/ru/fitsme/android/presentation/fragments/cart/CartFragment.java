@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
