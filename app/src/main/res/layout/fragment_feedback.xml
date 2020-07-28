@@ -34,6 +34,7 @@
             tools:visibility="visible" />
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/btn_send_feedback"
@@ -61,75 +62,13 @@
                     app:fieldLabel="@string/feedback_field_email"
                     app:inputType="textEmailAddress" />
 
-                <LinearLayout
-                    android:id="@+id/message_layout"
+                <ru.fitsme.android.presentation.fragments.feedback.FeedbackScrollFieldView
+                    android:id="@+id/field_message"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/padding_16dp"
-                    android:layout_marginBottom="@dimen/padding_16dp"
-                    android:layout_weight="1"
-                    android:minHeight="200dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/message_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/padding_8dp"
-                        android:paddingBottom="@dimen/padding_8dp"
-                        android:text="@string/feedback_field_message"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <EditText
-                            android:id="@+id/message_et"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="-4dp"
-                            android:layout_marginEnd="-4dp"
-                            android:gravity="top"
-                            android:hint="@string/feedback_hint_enter_message"
-                            android:inputType="textMultiLine"
-                            android:overScrollMode="always"
-                            android:scrollbarStyle="insideInset"
-                            android:scrollbars="vertical"
-                            android:singleLine="false"
-                            android:textSize="14sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="Autofill" />
-
-                        <ImageView
-                            android:id="@+id/message_error_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/padding_16dp"
-                            android:contentDescription="@null"
-                            android:paddingBottom="2dp"
-                            android:src="@drawable/ic_feedback_field_error"
-                            android:visibility="gone"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/message_et"
-                            tools:visibility="visible" />
-
-                        <View
-                            android:id="@+id/message_error_line"
-                            android:layout_width="match_parent"
-                            android:layout_height="3dp"
-                            android:layout_marginBottom="@dimen/padding_8dp"
-                            android:background="@color/white"
-                            android:visibility="visible"
-                            app:layout_constraintBottom_toBottomOf="@id/message_et"
-                            tools:visibility="visible" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    app:fieldHint="@string/feedback_hint_enter_message"
+                    app:fieldLabel="@string/feedback_field_message"
+                    app:inputType="textMultiLine" />
             </LinearLayout>
         </ScrollView>
 

@@ -15,7 +15,7 @@ import androidx.annotation.StringRes;
 
 import ru.fitsme.android.R;
 
-public class FeedbackFieldView extends FrameLayout {
+public class FeedbackScrollFieldView extends FrameLayout {
 
     private TextView label;
     private EditText field;
@@ -23,17 +23,17 @@ public class FeedbackFieldView extends FrameLayout {
     @StringRes
     private Integer hint;
 
-    public FeedbackFieldView(@NonNull Context context) {
+    public FeedbackScrollFieldView(@NonNull Context context) {
         super(context);
         init(context, null);
     }
 
-    public FeedbackFieldView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public FeedbackScrollFieldView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public FeedbackFieldView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public FeedbackScrollFieldView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -49,7 +49,6 @@ public class FeedbackFieldView extends FrameLayout {
     public void hideError() {
         field.setHint(hint);
         findViewById(R.id.error_icon).setVisibility(View.GONE);
-        findViewById(R.id.error_line).setVisibility(View.GONE);
     }
 
     public void showErrorWithHint() {
@@ -59,11 +58,10 @@ public class FeedbackFieldView extends FrameLayout {
 
     public void showError() {
         findViewById(R.id.error_icon).setVisibility(View.VISIBLE);
-        findViewById(R.id.error_line).setVisibility(View.VISIBLE);
     }
 
     private void init(Context context, AttributeSet attrs) {
-        inflate(context, R.layout.view_feedback_field, this);
+        inflate(context, R.layout.view_feedback_scroll_field, this);
         label = findViewById(R.id.label);
         field = findViewById(R.id.field);
         setAttrs(context, attrs);
@@ -80,18 +78,18 @@ public class FeedbackFieldView extends FrameLayout {
         field.setHint(hint);
         int inputType = InputType.TYPE_CLASS_TEXT;
         switch (attributes.getString(R.styleable.FeedbackFieldView_inputType)) {
-            case "textPersonName": {
+            /*case "textPersonName": {
                 inputType |= InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
                 break;
             }
             case "textEmailAddress": {
                 inputType |= InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
                 break;
-            }
-            /*case "textMultiLine": {
+            }*/
+            case "textMultiLine": {
                 inputType |= InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                 break;
-            }*/
+            }
             default:
                 break;
         }

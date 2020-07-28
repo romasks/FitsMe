@@ -38,15 +38,15 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
     private void setUp() {
         binding.fieldName.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) binding.fieldName.hideError();
+            binding.scrollView.scrollToDescendant(binding.fieldMessage);
         });
         binding.fieldEmail.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) binding.fieldEmail.hideError();
+            binding.scrollView.scrollToDescendant(binding.fieldMessage);
         });
-        binding.messageEt.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                binding.messageEt.setHint(R.string.feedback_hint_enter_message);
-                binding.messageErrorIcon.setVisibility(View.GONE);
-            }
+        binding.fieldMessage.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) binding.fieldMessage.hideError();
+            binding.scrollView.scrollToDescendant(binding.fieldMessage);
         });
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).hideBottomNavbar();
@@ -87,13 +87,14 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
         KeyboardUtils.hide(getActivity(), binding.getRoot());
         binding.fieldName.hideError();
         binding.fieldEmail.hideError();
-        binding.messageErrorIcon.setVisibility(View.GONE);
+        binding.fieldMessage.hideError();
         binding.getRoot().requestFocus();
         if (validFields()) {
             viewModel.onClickSendFeedback(
                     binding.fieldName.getText(),
                     binding.fieldEmail.getText(),
-                    binding.messageEt.getText().toString());
+                    binding.fieldMessage.getText()
+            );
         } else {
             Toast.makeText(getActivity(), "Некоторые поля заполнены неверно", Toast.LENGTH_SHORT).show();
         }
@@ -112,9 +113,8 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
             binding.fieldEmail.showError();
             result = false;
         }
-        if (binding.messageEt.getText().toString().isEmpty()) {
-            binding.messageEt.setHint(R.string.feedback_error_text);
-            binding.messageErrorIcon.setVisibility(View.VISIBLE);
+        if (binding.fieldMessage.isEmpty()) {
+            binding.fieldMessage.showError();
             result = false;
         }
         return result;
