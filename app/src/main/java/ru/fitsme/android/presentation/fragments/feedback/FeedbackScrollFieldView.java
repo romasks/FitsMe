@@ -68,6 +68,7 @@ public class FeedbackScrollFieldView extends FrameLayout {
 
         field.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) hideError();
+            ViewUtils.scrollUp(this);
         });
     }
 

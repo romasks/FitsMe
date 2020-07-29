@@ -36,18 +36,6 @@ public class FeedbackFragment extends BaseFragment<FeedbackViewModel> implements
     }
 
     private void setUp() {
-        binding.fieldName.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) binding.fieldName.hideError();
-            binding.scrollView.scrollToDescendant(binding.fieldMessage);
-        });
-        binding.fieldEmail.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) binding.fieldEmail.hideError();
-            binding.scrollView.scrollToDescendant(binding.fieldMessage);
-        });
-        binding.fieldMessage.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) binding.fieldMessage.hideError();
-            binding.scrollView.scrollToDescendant(binding.fieldMessage);
-        });
         if (getParentFragment() != null) {
             ((MainFragment) getParentFragment()).hideBottomNavbar();
         }
