@@ -84,6 +84,7 @@ public class FeedbackScrollFieldView extends FrameLayout {
 
     private void setKeyboardVisibility(boolean isVisible) {
         isKeyboardVisible = isVisible;
+        if (!isVisible) this.clearFocus();
     }
 
     private void setAttrs(Context context, AttributeSet attrs) {
