@@ -1,5 +1,6 @@
 package ru.fitsme.android.presentation.fragments.feedback;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.InputType;
@@ -12,13 +13,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-
 import ru.fitsme.android.R;
+import ru.fitsme.android.presentation.common.keyboard.KeyboardUtils;
 
 public class FeedbackScrollFieldView extends FrameLayout {
 
     private TextView label;
     private EditText field;
+    private boolean isKeyboardVisible = false;
 
     @StringRes
     private Integer hint;
@@ -68,8 +70,20 @@ public class FeedbackScrollFieldView extends FrameLayout {
 
         field.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) hideError();
-            ViewUtils.scrollUp(this);
+
+            if (isKeyboardVisible) scrollUp();
+            else this.postDelayed(this::scrollUp, 200);
         });
+
+        KeyboardUtils.addKeyboardToggleListener((Activity) context, this::setKeyboardVisibility);
+    }
+
+    private void scrollUp() {
+        ViewUtils.scrollUp(this);
+    }
+
+    private void setKeyboardVisibility(boolean isVisible) {
+        isKeyboardVisible = isVisible;
     }
 
     private void setAttrs(Context context, AttributeSet attrs) {
