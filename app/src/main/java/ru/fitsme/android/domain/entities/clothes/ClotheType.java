@@ -12,11 +12,11 @@ public class ClotheType implements Parcelable {
     }
 
     public Type getType() {
-        switch (type){
-            case "TOP":{
+        switch (type) {
+            case "TOP": {
                 return Type.TOP;
             }
-            case "BOT":{
+            case "BOT": {
                 return Type.BOTTOM;
             }
             default:
