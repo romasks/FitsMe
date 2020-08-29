@@ -30,6 +30,8 @@ public class CartViewModel extends BaseViewModel {
 
     public ObservableField<String> message;
     public ObservableInt totalPrice;
+    private ObservableInt currentTopSizeIndex;
+    private ObservableInt currentBottomSizeIndex;
 
     public CartViewModel() {
         inject(this);
@@ -39,14 +41,16 @@ public class CartViewModel extends BaseViewModel {
         message = cartInteractor.getMessage();
         totalPrice = cartInteractor.getTotalPrice();
         profileInteractor.updateInfo();
+        currentTopSizeIndex = profileInteractor.getCurrentTopSizeIndex();
+        currentBottomSizeIndex = profileInteractor.getCurrentBottomSizeIndex();
     }
 
     public ObservableInt getCurrentTopSizeIndex() {
-        return profileInteractor.getCurrentTopSizeIndex();
+        return currentTopSizeIndex;
     }
 
     public ObservableInt getCurrentBottomSizeIndex() {
-        return profileInteractor.getCurrentBottomSizeIndex();
+        return currentBottomSizeIndex;
     }
 
     LiveData<PagedList<OrderItem>> getPageLiveData() {

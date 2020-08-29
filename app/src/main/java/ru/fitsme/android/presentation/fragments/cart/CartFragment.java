@@ -23,6 +23,7 @@ import ru.fitsme.android.presentation.fragments.iteminfo.ClotheInfo;
 import ru.fitsme.android.presentation.fragments.iteminfo.ItemInfoFragment;
 import ru.fitsme.android.presentation.fragments.main.MainFragment;
 import ru.fitsme.android.presentation.fragments.profile.view.BottomSizeDialogFragment;
+import ru.fitsme.android.presentation.fragments.profile.view.SizeObserver;
 import ru.fitsme.android.presentation.fragments.profile.view.TopSizeDialogFragment;
 import timber.log.Timber;
 
@@ -228,21 +229,14 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
     private boolean isNeededSetSizeTop() {
-        return adapter.hasTopSizeItems();
-//        return viewModel.getCurrentTopSizeIndex().get() == SizeObserver.NO_SIZE;
+        return viewModel.getCurrentTopSizeIndex().get() == SizeObserver.NO_SIZE;
     }
 
     private boolean isNeededSetSizeBottom() {
-        return adapter.hasBottomSizeItems();
-//        return viewModel.getCurrentBottomSizeIndex().get() == SizeObserver.NO_SIZE;
+        return viewModel.getCurrentBottomSizeIndex().get() == SizeObserver.NO_SIZE;
     }
 
     private Boolean hasNoSizeItems(PagedList<OrderItem> orderItemsList) {
-        /*if (orderItemsList == null) return false;
-        for (OrderItem item : orderItemsList.snapshot()) {
-            if (item.getClothe().getSizeInStock() == ClothesItem.SizeInStock.NO) return true;
-        }
-        return false;*/
         return adapter.hasNoSizeItems();
     }
 

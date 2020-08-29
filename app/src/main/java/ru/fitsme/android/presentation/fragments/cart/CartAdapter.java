@@ -80,22 +80,6 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
         return false;
     }
 
-    boolean hasTopSizeItems() {
-        if (getCurrentList() == null) return false;
-        for (OrderItem item : getCurrentList()) {
-            if (item.getClothe().getClotheType().getType() == ClotheType.Type.TOP) return true;
-        }
-        return false;
-    }
-
-    boolean hasBottomSizeItems() {
-        if (getCurrentList() == null) return false;
-        for (OrderItem item : getCurrentList()) {
-            if (item.getClothe().getClotheType().getType() == ClotheType.Type.BOTTOM) return true;
-        }
-        return false;
-    }
-
     List<Integer> getNoSizeItemsIds() {
         List<Integer> noSizeOrderItemsIds = new ArrayList<>();
         if (getCurrentList() == null) return noSizeOrderItemsIds;
