@@ -1,6 +1,9 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
 import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.EditText;
 
@@ -36,6 +39,7 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         binding.setViewModel(viewModel);
         setCountyFlag();
         setListeners();
+        setUp();
     }
 
     @Override
@@ -95,7 +99,10 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         MaskedTextChangedListener.Companion.installOn(
                 phoneField,
                 PHONE_MASK_WITHOUT_CODE,
-                (maskFilled, extractedValue, formattedValue) -> phoneField.setTextColor(getContext().getResources().getColor(R.color.black))
+                (maskFilled, extractedValue, formattedValue) -> {
+                    phoneField.setTextColor(getContext().getResources().getColor(R.color.black));
+                    binding.fragmentPhoneAuthGetCodeBtn.setEnabled(extractedValue.length() == 10);
+                }
         );
         phoneField.requestFocus();
     }
@@ -103,5 +110,20 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
     @NotNull
     private String getCleanNumber(String string) {
         return string.replaceAll("[()-[\\s]]", "");
+    }
+
+    private void setUp() {
+        String simpleText = getContext().getString(R.string.cart_user_agreement_1);
+        String spannedText = getContext().getString(R.string.cart_user_agreement_2);
+
+        SpannableString ss = new SpannableString(simpleText + " " + spannedText);
+        ss.setSpan(
+                new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorPrimaryDark)),
+                simpleText.length(),
+                (simpleText + spannedText).length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        binding.tvAgreement.setText(ss);
     }
 }

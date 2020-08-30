@@ -1,17 +1,14 @@
 package ru.fitsme.android.presentation.fragments.cart;
 
-import androidx.databinding.ObservableField;
-import androidx.databinding.ObservableInt;
-import androidx.lifecycle.LiveData;
-import androidx.paging.PagedList;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
+import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 import io.reactivex.Single;
-import ru.fitsme.android.domain.entities.clothes.ClothesItem;
 import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.domain.interactors.cart.ICartInteractor;
 import ru.fitsme.android.domain.interactors.clothes.IClothesInteractor;
@@ -33,6 +30,8 @@ public class CartViewModel extends BaseViewModel {
 
     public ObservableField<String> message;
     public ObservableInt totalPrice;
+    private ObservableInt currentTopSizeIndex;
+    private ObservableInt currentBottomSizeIndex;
 
     public CartViewModel() {
         inject(this);
@@ -42,14 +41,16 @@ public class CartViewModel extends BaseViewModel {
         message = cartInteractor.getMessage();
         totalPrice = cartInteractor.getTotalPrice();
         profileInteractor.updateInfo();
+        currentTopSizeIndex = profileInteractor.getCurrentTopSizeIndex();
+        currentBottomSizeIndex = profileInteractor.getCurrentBottomSizeIndex();
     }
 
     public ObservableInt getCurrentTopSizeIndex() {
-        return profileInteractor.getCurrentTopSizeIndex();
+        return currentTopSizeIndex;
     }
 
     public ObservableInt getCurrentBottomSizeIndex() {
-        return profileInteractor.getCurrentBottomSizeIndex();
+        return currentBottomSizeIndex;
     }
 
     LiveData<PagedList<OrderItem>> getPageLiveData() {
@@ -89,13 +90,7 @@ public class CartViewModel extends BaseViewModel {
         cartInteractor.updateList();
     }
 
-    public void removeNoSizeItems(List<OrderItem> orderItemsList) {
-        List<Integer> noSizeOrderItemsIds = new ArrayList<>();
-        for (OrderItem item : orderItemsList) {
-            if (item.getClothe().getSizeInStock() == ClothesItem.SizeInStock.NO) {
-                noSizeOrderItemsIds.add(item.getId());
-            }
-        }
+    public void removeNoSizeItems(List<Integer> noSizeOrderItemsIds) {
         addDisposable(cartInteractor.removeItemsFromOrder(noSizeOrderItemsIds)
                 .subscribe(this::onItemsRemoved, Timber::e));
     }
@@ -104,11 +99,11 @@ public class CartViewModel extends BaseViewModel {
         cartInteractor.invalidateDataSource();
     }
 
-    public LiveData<String> getCurrentTopSize(){
+    public LiveData<String> getCurrentTopSize() {
         return profileInteractor.getCurrentTopSize();
     }
 
-    public LiveData<String> getCurrentBottomSize(){
+    public LiveData<String> getCurrentBottomSize() {
         return profileInteractor.getCurrentBottomSize();
     }
 }

@@ -7,13 +7,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
 import ru.fitsme.android.BR;
 import ru.fitsme.android.R;
 import ru.fitsme.android.databinding.ItemCartBinding;
@@ -24,7 +26,6 @@ import ru.fitsme.android.domain.entities.order.OrderItem;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.InOrderState;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.NoSizeState;
 import ru.fitsme.android.presentation.fragments.cart.orderstate.OrderState;
-import ru.fitsme.android.presentation.fragments.favourites.FavouritesFragment;
 import timber.log.Timber;
 
 public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartViewHolder> {
@@ -72,15 +73,22 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
     }
 
     boolean hasNoSizeItems() {
-        for (int i = 0; i < getItemCount(); i++) {
-            if (getItem(i).getClothe().getSizeInStock() == ClothesItem.SizeInStock.NO)
-                return true;
+        if (getCurrentList() == null) return false;
+        for (OrderItem item : getCurrentList()) {
+            if (item.getClothe().getSizeInStock() == ClothesItem.SizeInStock.NO) return true;
         }
         return false;
     }
 
-    public void removeNoSizeItems() {
-        // TODO: remove no size items
+    List<Integer> getNoSizeItemsIds() {
+        List<Integer> noSizeOrderItemsIds = new ArrayList<>();
+        if (getCurrentList() == null) return noSizeOrderItemsIds;
+        for (OrderItem item : getCurrentList()) {
+            if (item.getClothe().getSizeInStock() == ClothesItem.SizeInStock.NO) {
+                noSizeOrderItemsIds.add(item.getId());
+            }
+        }
+        return noSizeOrderItemsIds;
     }
 
     abstract class CartViewHolder extends RecyclerView.ViewHolder {
@@ -134,7 +142,7 @@ public class CartAdapter extends PagedListAdapter<OrderItem, CartAdapter.CartVie
 
             binding.setVariable(BR.clotheItem, clothesItem);
             binding.executePendingBindings();
-            if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP){
+            if (clothesItem.getClotheType().getType() == ClotheType.Type.TOP) {
                 size.setText(fragment.getTopSize());
             } else {
                 size.setText(fragment.getBottomSize());

@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import io.reactivex.Single;
 import ru.fitsme.android.R;
 import ru.fitsme.android.app.App;
@@ -210,7 +209,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
     public void removeNoSizeItems() {
-        viewModel.removeNoSizeItems(adapter.getCurrentList().snapshot());
+        viewModel.removeNoSizeItems(adapter.getNoSizeItemsIds());
     }
 
     public void setSizeInProfile() {
@@ -238,13 +237,7 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
     private Boolean hasNoSizeItems(PagedList<OrderItem> orderItemsList) {
-        if (orderItemsList == null) return false;
-        for (OrderItem item : orderItemsList.snapshot()) {
-            if (item.getClothe().getSizeInStock() == ClothesItem.SizeInStock.NO) {
-                return true;
-            }
-        }
-        return false;
+        return adapter.hasNoSizeItems();
     }
 
     private void setState(ButtonState buttonState) {
