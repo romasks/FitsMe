@@ -34,4 +34,6 @@
     <color name="resendCodeActive">#8A940235</color>
     <color name="resendCodeInactive">#36000000</color>
     <color name="resendCodeError">#8AFF0000</color>
+
+    <color name="colorPrimaryLight">#36940235</color>
 </resources>

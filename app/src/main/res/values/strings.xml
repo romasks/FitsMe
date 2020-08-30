@@ -41,7 +41,7 @@
     <string name="cart_delivery_cost_label">Доставка:</string>
     <string name="cart_amount_value">%1$s\u20BD</string>
     <string name="cart_user_agreement_1">Нажимая кнопку \"Получить код\", вы соглашаетесь с политикой обработки персональных данных и принимаете публичную оферту. </string>
-    <string name="cart_user_agreement_2"><u>Подробнее.</u></string>
+    <string name="cart_user_agreement_2">Подробнее.</string>
     <string name="cart_fragment_message_for_size_dialog">Вещь может быть заказана только после указания ваших размеров</string>
 
     <!--checkout-->
@@ -204,7 +204,7 @@
 
     <string name="phone_auth_input_phone">Для входа в приложение введите номер телефона</string>
     <string name="phone_auth_code_default">+7</string>
-    <string name="phone_auth_number_hint">(123)456-78-90</string>
+    <string name="phone_auth_number_hint">(123) 456-78-90</string>
     <string name="auth_get_code">Получить код</string>
     <string name="wrong_phone_number">Некорректный номер телефона</string>
     <!--auth-->
