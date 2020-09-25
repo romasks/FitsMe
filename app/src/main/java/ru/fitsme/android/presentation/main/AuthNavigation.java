@@ -35,6 +35,10 @@ public class AuthNavigation {
         getRouter().navigateTo(navigationKey);
     }
 
+    private void replaceWith(String navigationKey) {
+        getRouter().replaceScreen(navigationKey);
+    }
+
     public void setNavigator(Navigator navigator) {
         getNavigatorHolder().setNavigator(navigator);
     }
@@ -56,7 +60,7 @@ public class AuthNavigation {
     }
 
     public void goToCodeInput() {
-        goNavigate(NAV_CODE_INPUT);
+        replaceWith(NAV_CODE_INPUT);
     }
 
     public void goToAgreement() {
