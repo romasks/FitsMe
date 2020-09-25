@@ -113,6 +113,12 @@ public class CodeFragment extends BaseFragment<CodeViewModel> implements BackCli
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.verifyCode("1111");
+    }
+
+    @Override
     public void onDestroy() {
         timer.stopTimer();
 

@@ -12,6 +12,7 @@ import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import org.jetbrains.annotations.NotNull;
 
 import ru.fitsme.android.R;
+import ru.fitsme.android.app.App;
 import ru.fitsme.android.databinding.FragmentAuthByPhoneNumBinding;
 import ru.fitsme.android.presentation.fragments.base.BaseFragment;
 
@@ -40,6 +41,13 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
         setCountyFlag();
         setListeners();
         setUp();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.fragmentPhoneAuthNumberEt.requestFocus();
+        viewModel.sendPhoneNumber(App.getInstance().getDeviceId());
     }
 
     @Override
@@ -96,15 +104,16 @@ public class NumberFragment extends BaseFragment<NumberViewModel> implements Num
     }
 
     private void initPhoneFieldListener(EditText phoneField) {
+        phoneField.requestFocus();
         MaskedTextChangedListener.Companion.installOn(
                 phoneField,
                 PHONE_MASK_WITHOUT_CODE,
                 (maskFilled, extractedValue, formattedValue) -> {
+                    binding.fragmentPhoneAuthWrongNumTv.setText("");
                     phoneField.setTextColor(getContext().getResources().getColor(R.color.black));
                     binding.fragmentPhoneAuthGetCodeBtn.setEnabled(extractedValue.length() == 10);
                 }
         );
-        phoneField.requestFocus();
     }
 
     @NotNull

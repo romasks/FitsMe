@@ -33,9 +33,9 @@
 
         <EditText
             android:id="@+id/fragment_phone_auth_code_et"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/padding_32dp"
             android:background="@drawable/rounded_layout"
             android:drawablePadding="4dp"
             android:enabled="false"
@@ -45,16 +45,16 @@
             android:minWidth="20dp"
             android:padding="4dp"
             android:text="@string/phone_auth_code_default"
-            android:textAlignment="viewEnd"
+            android:textAlignment="center"
             android:textSize="@dimen/text_size_20sp"
             app:layout_constraintBottom_toBottomOf="@+id/fragment_phone_auth_number_et"
             app:layout_constraintEnd_toStartOf="@+id/fragment_phone_auth_number_et"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/fragment_phone_auth_get_code_btn" />
 
         <EditText
             android:id="@+id/fragment_phone_auth_number_et"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
             android:background="@drawable/rounded_layout"
@@ -62,9 +62,10 @@
             android:importantForAutofill="no"
             android:inputType="phone"
             android:padding="4dp"
+            android:textAlignment="center"
             android:textSize="@dimen/text_size_20sp"
             app:layout_constraintBottom_toTopOf="@+id/fragment_phone_auth_get_code_btn"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/fragment_phone_auth_get_code_btn"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/fragment_phone_auth_code_et"
             app:layout_constraintTop_toTopOf="parent"
@@ -72,8 +73,10 @@
 
         <Button
             android:id="@+id/fragment_phone_auth_get_code_btn"
-            android:layout_width="290dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginStart="@dimen/padding_32dp"
+            android:layout_marginEnd="@dimen/padding_32dp"
             android:background="@drawable/bg_get_code_btn"
             android:onClick="@{() -> bindingEvents.onGetCodeClicked()}"
             android:text="@string/auth_get_code"
@@ -103,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_32dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="@dimen/padding_32dp"
             android:clickable="true"
             android:focusable="true"
@@ -112,7 +115,7 @@
             android:textSize="@dimen/text_size_10sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_phone_auth_get_code_btn"
+            app:layout_constraintTop_toBottomOf="@id/fragment_phone_auth_wrong_num_tv"
             tools:text="@string/cart_user_agreement_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

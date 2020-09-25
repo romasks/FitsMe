@@ -1,9 +1,8 @@
 package ru.fitsme.android.presentation.fragments.auth;
 
-import androidx.databinding.ObservableField;
-
 import javax.inject.Inject;
 
+import androidx.databinding.ObservableField;
 import io.reactivex.disposables.Disposable;
 import ru.fitsme.android.domain.entities.exceptions.user.UserException;
 import ru.fitsme.android.domain.interactors.auth.ISignInteractor;
@@ -22,9 +21,9 @@ public class NumberViewModel extends BaseViewModel {
     private boolean numberSendingInProgress = false;
 
     public NumberViewModel() {
-        inject(this);   
+        inject(this);
     }
-    
+
     @Override
     public void onBackPressed() {
         authNavigation.finish();
