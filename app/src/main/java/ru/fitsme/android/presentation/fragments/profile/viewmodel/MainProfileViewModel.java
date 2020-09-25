@@ -25,7 +25,7 @@ public class MainProfileViewModel extends BaseViewModel {
 
     public void logout() {
         authInteractor.clearAuthInfo();
-        authNavigation.goToAuth();
+        authNavigation.finish();
     }
 
     public void goToSizeProfile() {
