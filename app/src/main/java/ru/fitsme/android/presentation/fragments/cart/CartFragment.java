@@ -229,11 +229,11 @@ public class CartFragment extends BaseFragment<CartViewModel>
     }
 
     private boolean isNeededSetSizeTop() {
-        return viewModel.getCurrentTopSizeIndex().get() == SizeObserver.NO_SIZE;
+        return viewModel.getCurrentTopSizeIndex().get() == SizeObserver.NO_SIZE && adapter.hasTopSizeItems();
     }
 
     private boolean isNeededSetSizeBottom() {
-        return viewModel.getCurrentBottomSizeIndex().get() == SizeObserver.NO_SIZE;
+        return viewModel.getCurrentBottomSizeIndex().get() == SizeObserver.NO_SIZE && adapter.hasBottomSizeItems();
     }
 
     private Boolean hasNoSizeItems(PagedList<OrderItem> orderItemsList) {
